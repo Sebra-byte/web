@@ -1,103 +1,93 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leandro Bruno | Editor</title>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;700&display=swap" rel="stylesheet">
-    <style>
-        :root { --bg: #000; --text: #fff; --gray: #888; }
-        body { background-color: var(--bg); color: var(--text); font-family: 'Manrope', sans-serif; margin: 0; overflow-x: hidden; }
-        
-        nav { display: flex; justify-content: space-between; padding: 50px 5%; align-items: center; }
-        .logo { display: flex; align-items: center; line-height: 0; }
-        .logo img { height: 80px; width: auto; display: block; }
-
-        .menu { display: flex; align-items: center; }
-        .menu a { 
-            text-decoration: none; color: var(--gray); margin-left: 30px; 
-            font-size: 0.75rem; letter-spacing: 3px; font-weight: 200; 
-            transition: 0.3s; text-transform: uppercase; 
-        }
-        .menu a:hover { color: #fff; }
-
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(45%, 1fr)); gap: 15px; padding: 0 15px; }
-        @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
-
-        .project-link { text-decoration: none; color: inherit; display: block; }
-        .project { position: relative; cursor: pointer; overflow: hidden; aspect-ratio: 16/9; background: #111; }
-        .project img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s ease; }
-        .project:hover img { opacity: 0.2; }
-
-        .overlay { 
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-            display: flex; flex-direction: column; justify-content: center; align-items: center; 
-            opacity: 0; transition: 0.5s; 
-        }
-        .project:hover .overlay { opacity: 1; }
-        .overlay h2 { font-size: 0.8rem; letter-spacing: 4px; text-transform: uppercase; font-weight: 400; margin: 0; }
-
-        footer { padding: 80px 5%; font-size: 9px; color: #333; letter-spacing: 2px; font-weight: 200; }
-    </style>
-</head>
-<body>
-
-    <nav>
-        <div class="logo">
-            <img src="LOGO_Manrope_v01.png" alt="Leandro Bruno Logo">
-        </div>
-        <div class="menu">
-            <a href="index.html">WORK</a>
-            <a href="#">ABOUT</a>
-            <a href="mailto:leandrobrunoeditor@gmail.com">CONTACT</a>
-        </div>
-    </nav>
-
-    <div class="grid">
+<div class="grid">
         
         <a href="menem.html" class="project-link">
             <div class="project">
                 <img src="Menem_Thumbnail_3.png" alt="Menem">
                 <div class="overlay">
                     <h2>MENEM</h2>
-                    <p style="font-size:9px; margin-top:10px; color:#888;">SERIE DOCUMENTAL / 2024</p>
+                    <p style="font-size:9px; margin-top:10px; color:#888;">SERIE DOCUMENTAL</p>
+                </div>
+            </div>
+        </a>
+
+        <a href="moscas.html" class="project-link">
+            <div class="project">
+                <img src="moscas_thumb.jpg" alt="El tiempo de las moscas">
+                <div class="overlay">
+                    <h2>EL TIEMPO DE LAS MOSCAS</h2>
+                    <p style="font-size:9px; margin-top:10px; color:#888;">NARRATIVE</p>
+                </div>
+            </div>
+        </a>
+
+        <a href="coppola.html" class="project-link">
+            <div class="project">
+                <img src="coppola_thumb.jpg" alt="Coppola">
+                <div class="overlay">
+                    <h2>COPPOLA, EL REPRESENTANTE</h2>
+                    <p style="font-size:9px; margin-top:10px; color:#888;">SERIE</p>
                 </div>
             </div>
         </a>
 
         <a href="blair.html" class="project-link">
             <div class="project">
-                <img src="https://img.youtube.com/vi/ItX5aqhqsmo/maxresdefault.jpg" alt="Blair">
+                <img src="blair_thumb.jpg" alt="Blair">
                 <div class="overlay">
                     <h2>BLAIR - TODO LO QUE TENGO</h2>
-                    <p style="font-size:9px; margin-top:10px; color:#888;">MUSIC VIDEO / 2024</p>
+                    <p style="font-size:9px; margin-top:10px; color:#888;">MUSIC VIDEO</p>
                 </div>
             </div>
         </a>
 
-        <a href="dillom.html" class="project-link">
+        <a href="ratones.html" class="project-link">
             <div class="project">
-                <img src="https://img.youtube.com/vi/O0YvI0E1n6w/maxresdefault.jpg" alt="Dillom">
+                <img src="ratones_thumb.jpg" alt="Ratones Paranoicos">
                 <div class="overlay">
-                    <h2>DILLOM - OLA DE SUICIDIOS</h2>
-                    <p style="font-size:9px; margin-top:10px; color:#888;">MUSIC VIDEO / 2023</p>
+                    <h2>RATONES PARANOICOS</h2>
+                    <p style="font-size:9px; margin-top:10px; color:#888;">DOCUMENTARY</p>
                 </div>
             </div>
         </a>
 
-        <a href="ringo.html" class="project-link">
+        <a href="oreo.html" class="project-link">
             <div class="project">
-                <img src="https://img.youtube.com/vi/n-v-rX_X6m8/maxresdefault.jpg" alt="Ringo">
+                <img src="oreo_thumb.jpg" alt="Oreo">
                 <div class="overlay">
-                    <h2>RINGO: GLORIA Y MUERTE</h2>
-                    <p style="font-size:9px; margin-top:10px; color:#888;">NARRATIVE / 2023</p>
+                    <h2>OREO</h2>
+                    <p style="font-size:9px; margin-top:10px; color:#888;">COMMERCIAL</p>
+                </div>
+            </div>
+        </a>
+
+        <a href="levis.html" class="project-link">
+            <div class="project">
+                <img src="levis_thumb.jpg" alt="Levis x Winona Riders">
+                <div class="overlay">
+                    <h2>LEVIS X WINONA RIDERS</h2>
+                    <p style="font-size:9px; margin-top:10px; color:#888;">FASHION / FILM</p>
+                </div>
+            </div>
+        </a>
+
+        <a href="las-marias.html" class="project-link">
+            <div class="project">
+                <img src="lasmarias_thumb.jpg" alt="Las Marias">
+                <div class="overlay">
+                    <h2>LAS MARIAS</h2>
+                    <p style="font-size:9px; margin-top:10px; color:#888;">COMMERCIAL</p>
+                </div>
+            </div>
+        </a>
+
+        <a href="besos-brujos.html" class="project-link">
+            <div class="project">
+                <img src="besosbrujos_thumb.jpg" alt="Besos Brujos">
+                <div class="overlay">
+                    <h2>BESOS BRUJOS</h2>
+                    <p style="font-size:9px; margin-top:10px; color:#888;">NARRATIVE</p>
                 </div>
             </div>
         </a>
 
     </div>
-
-    <footer>© 2026 LEANDRO BRUNO.</footer>
-
-</body>
-</html>
