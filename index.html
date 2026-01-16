@@ -5,230 +5,123 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leandro Bruno | Editor</title>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    
     <style>
-        :root { --bg: #000; --text: #fff; --gray: #888; --hover-line: #fff; }
-        
-        body { 
-            background-color: var(--bg); 
-            color: var(--text); 
-            font-family: 'Manrope', sans-serif; 
-            margin: 0; 
-            padding: 0;
-            overflow-x: hidden; 
-        }
+        :root { --bg: #000; --text: #fff; --gray: #888; }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Manrope', sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
 
-        /* HEADER & NAV */
+        /* NAV (Estilo Armaleo/Collectiv) */
         nav { 
-            display: flex; 
-            justify-content: space-between; 
-            padding: 40px 5%; 
-            align-items: center;
-            position: fixed; /* Se mantiene arriba al hacer scroll */
-            top: 0;
-            width: 90%;
-            z-index: 1000;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+            display: flex; justify-content: space-between; padding: 40px 5%; align-items: center;
+            position: fixed; top: 0; width: 90%; z-index: 1000;
         }
-        
-        .logo img { height: 60px; width: auto; }
-
-        .menu { display: flex; align-items: center; }
-
-        /* Estilo Links con Subrayado */
-        .menu-item {
-            position: relative;
-            margin-left: 35px;
-            padding-bottom: 5px;
-        }
-
-        .menu-item a { 
-            text-decoration: none; 
-            color: var(--gray); 
-            font-size: 0.7rem; 
-            letter-spacing: 3px; 
-            font-weight: 200; 
-            transition: 0.3s;
-            text-transform: uppercase;
-        }
-
-        .menu-item a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 1px;
-            bottom: 0; left: 0;
-            background-color: var(--hover-line);
-            transition: width 0.3s ease;
-        }
-
+        .logo img { height: 50px; width: auto; }
+        .menu { display: flex; }
+        .menu-item { position: relative; margin-left: 35px; }
+        .menu-item a { text-decoration: none; color: var(--gray); font-size: 0.7rem; letter-spacing: 3px; font-weight: 200; text-transform: uppercase; transition: 0.3s; }
+        .menu-item a::after { content: ''; position: absolute; width: 0; height: 1px; bottom: -5px; left: 0; background: #fff; transition: 0.3s; }
         .menu-item:hover a::after { width: 100%; }
         .menu-item:hover a { color: #fff; }
 
-        /* DROPDOWN (Desplegable) */
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background-color: rgba(0,0,0,0.95);
-            min-width: 180px;
-            padding: 15px 0;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+        /* SLIDER SECTION */
+        .swiper { width: 100%; height: 100vh; background: #000; }
+        .swiper-slide { position: relative; overflow: hidden; }
+        
+        /* Contenedor del video para que ocupe todo */
+        .video-background {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; /* Para que no interfiera con las flechas */
+        }
+        .video-background iframe {
+            width: 100vw; height: 56.25vw; /* 16:9 ratio */
+            min-height: 100vh; min-width: 177.77vh;
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
         }
 
-        .dropdown-content a {
-            padding: 10px 20px;
-            display: block;
-            font-size: 0.6rem;
-            color: var(--gray);
+        /* Overlay de texto sobre el slider */
+        .slide-info {
+            position: absolute; bottom: 100px; left: 5%;
+            z-index: 10;
         }
+        .slide-info h2 { font-size: 1.5rem; letter-spacing: 8px; text-transform: uppercase; font-weight: 400; margin: 0; }
+        .slide-info p { font-size: 0.7rem; color: var(--gray); letter-spacing: 3px; margin-top: 10px; }
 
-        .dropdown-content a:hover { background: #111; color: #fff; }
-        .menu-item:hover .dropdown-content { display: block; }
+        /* Flechas personalizadas */
+        .swiper-button-next, .swiper-button-prev { color: #fff !important; transform: scale(0.5); }
+        .swiper-button-next::after, .swiper-button-prev::after { font-size: 40px; font-weight: 200; }
 
-        /* SECCIÓN HOME (REEL) */
-        .home-hero {
-            width: 100%;
-            height: 100vh; /* Pantalla completa */
-            background: #000;
-            position: relative;
-            margin-bottom: 50px;
-        }
-
-        .hero-video {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        /* GRILLA DE PROYECTOS */
-        .grid { 
-            display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            gap: 10px; 
-            padding: 0 10px; 
-            max-width: 100%;
-        }
-
+        /* Grilla de abajo */
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 10px; }
         @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
-
-        .project-link { text-decoration: none; color: inherit; }
-
-        .project { 
-            position: relative; 
-            overflow: hidden; 
-            aspect-ratio: 16/9; 
-            background: #050505; 
-        }
-
-        .project img { 
-            width: 100%; height: 100%; 
-            object-fit: cover; 
-            transition: transform 0.8s ease, opacity 0.6s ease; 
-        }
-
-        .project:hover img { 
-            opacity: 0.3; 
-            transform: scale(1.05); 
-        }
-
-        .overlay { 
-            position: absolute; top: 0; left: 0; 
-            width: 100%; height: 100%; 
-            display: flex; flex-direction: column; 
-            justify-content: center; align-items: center; 
-            opacity: 0; transition: 0.5s; 
-        }
-
-        .project:hover .overlay { opacity: 1; }
-        .overlay h2 { 
-            font-size: 0.9rem; 
-            letter-spacing: 5px; 
-            text-transform: uppercase; 
-            font-weight: 400; 
-            margin: 0; 
-        }
-        .overlay p { font-size: 0.6rem; letter-spacing: 2px; color: var(--gray); margin-top: 10px; }
-
-        footer { padding: 100px 5% 50px; font-size: 9px; color: #333; letter-spacing: 2px; }
-
+        .project { position: relative; aspect-ratio: 16/9; background: #0a0a0a; overflow: hidden; }
+        .project img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s; }
+        .project:hover img { opacity: 0.3; }
+        
+        footer { padding: 80px 5%; font-size: 9px; color: #333; letter-spacing: 2px; }
     </style>
 </head>
 <body>
 
     <nav>
-        <div class="logo">
-            <a href="index.html"><img src="LOGO_Manrope_v01.png" alt="Leandro Bruno"></a>
-        </div>
+        <div class="logo"><a href="index.html"><img src="LOGO_Manrope_v01.png" alt="Leandro Bruno"></a></div>
         <div class="menu">
             <div class="menu-item"><a href="index.html">HOME</a></div>
-            
-            <div class="menu-item">
-                <a href="#">WORK</a>
-                <div class="dropdown-content">
-                    <a href="#">ADVERTISING</a>
-                    <a href="#">MUSIC</a>
-                    <a href="#">NARRATIVE</a>
-                </div>
-            </div>
-
+            <div class="menu-item"><a href="#">WORK</a></div>
             <div class="menu-item"><a href="about.html">ABOUT</a></div>
             <div class="menu-item"><a href="mailto:leandrobrunoeditor@gmail.com">CONTACT</a></div>
         </div>
     </nav>
 
-    <section class="home-hero">
-        <iframe class="hero-video" 
-            src="https://www.youtube.com/embed/-2AmqmciWXE?autoplay=1&mute=1&loop=1&playlist=-2AmqmciWXE&controls=0&modestbranding=1&rel=0" 
-            allow="autoplay; fullscreen">
-        </iframe>
-    </section>
+    <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+            
+            <div class="swiper-slide">
+                <div class="video-background">
+                    <iframe src="https://www.youtube.com/embed/-2AmqmciWXE?autoplay=1&mute=1&loop=1&playlist=-2AmqmciWXE&controls=0&modestbranding=1&rel=0&showinfo=0" frameborder="0"></iframe>
+                </div>
+                <div class="slide-info">
+                    <h2>MENEM</h2>
+                    <p>SERIE DOCUMENTAL / PRIME VIDEO</p>
+                </div>
+            </div>
+
+            <div class="swiper-slide">
+                <div class="video-background">
+                    <iframe src="https://www.youtube.com/embed/ItX5aqhqsmo?autoplay=1&mute=1&loop=1&playlist=ItX5aqhqsmo&controls=0&modestbranding=1&rel=0&showinfo=0" frameborder="0"></iframe>
+                </div>
+                <div class="slide-info">
+                    <h2>BLAIR</h2>
+                    <p>TODO LO QUE TENGO / MUSIC VIDEO</p>
+                </div>
+            </div>
+
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </div>
 
     <div class="grid">
-        
-        <a href="menem.html" class="project-link">
-            <div class="project">
-                <img src="Menem_Thumbnail_3.png" alt="Menem">
-                <div class="overlay">
-                    <h2>MENEM</h2>
-                    <p>SERIE DOCUMENTAL</p>
-                </div>
-            </div>
-        </a>
-
-        <a href="coppola.html" class="project-link">
-            <div class="project">
-                <img src="https://img.youtube.com/vi/ID_DE_YOUTUBE/maxresdefault.jpg" alt="Coppola">
-                <div class="overlay">
-                    <h2>COPPOLA, EL REPRESENTANTE</h2>
-                    <p>SERIE / DISNEY+</p>
-                </div>
-            </div>
-        </a>
-
-        <a href="blair.html" class="project-link">
-            <div class="project">
-                <img src="https://img.youtube.com/vi/ItX5aqhqsmo/maxresdefault.jpg" alt="Blair">
-                <div class="overlay">
-                    <h2>BLAIR - TODO LO QUE TENGO</h2>
-                    <p>MUSIC VIDEO</p>
-                </div>
-            </div>
-        </a>
-
-        <a href="ratones.html" class="project-link">
-            <div class="project">
-                <img src="https://img.youtube.com/vi/ID_DE_YOUTUBE/maxresdefault.jpg" alt="Ratones Paranoicos">
-                <div class="overlay">
-                    <h2>RATONES PARANOICOS</h2>
-                    <p>DOCUMENTARY</p>
-                </div>
-            </div>
-        </a>
-
-    </div>
+        </div>
 
     <footer>© 2026 LEANDRO BRUNO.</footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        var swiper = new Swiper(".mySwiper", {
+            loop: true,
+            autoplay: {
+                delay: 6000, // Cambia cada 6 segundos
+                disableOnInteraction: false,
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+            effect: "fade", // Transición suave como en la referencia
+            fadeEffect: { crossFade: true }
+        });
+    </script>
 </body>
 </html>
