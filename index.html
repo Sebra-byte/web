@@ -3,78 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nombre | Editor de Video</title>
+    <title>Tu Nombre | Portfolio</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap">
     <style>
-        :root { --bg: #0a0a0a; --text: #ffffff; --gray: #888; }
-        body { background-color: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
+        :root { --bg: #000; --text: #fff; --gray: #666; }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; }
         
-        /* Navegación Estilo Armaleo */
-        nav { 
-            display: flex; justify-content: space-between; align-items: center; 
-            padding: 40px 5%; position: sticky; top: 0; background: rgba(10,10,10,0.9); z-index: 100;
-        }
-        .logo { font-weight: 700; letter-spacing: 3px; font-size: 1.2rem; text-decoration: none; color: white; }
-        .menu a { text-decoration: none; color: var(--gray); margin-left: 30px; font-size: 0.8rem; letter-spacing: 1.5px; transition: 0.3s; }
-        .menu a:hover { color: white; }
+        nav { display: flex; justify-content: space-between; padding: 40px 5%; align-items: center; }
+        .logo { font-weight: 700; letter-spacing: 3px; font-size: 1.1rem; text-transform: uppercase; }
+        .menu a { text-decoration: none; color: var(--gray); margin-left: 25px; font-size: 0.75rem; letter-spacing: 1.5px; }
 
-        /* Grilla de Proyectos */
-        .container { padding: 0 5% 100px 5%; }
-        .grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); 
-            gap: 20px; 
-        }
-        @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(45%, 1fr)); gap: 15px; padding: 0 15px; }
+        @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
 
-        .project { position: relative; overflow: hidden; background: #111; aspect-ratio: 16 / 9; cursor: pointer; }
-        .project img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.5s; }
-        .project:hover img { transform: scale(1.05); opacity: 0.4; }
+        .project { position: relative; cursor: pointer; overflow: hidden; aspect-ratio: 16/9; background: #111; }
+        .project img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s ease; }
+        .project:hover img { opacity: 0.3; transform: scale(1.02); }
 
-        .overlay { 
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-            display: flex; flex-direction: column; justify-content: center; align-items: center; 
-            opacity: 0; transition: 0.5s; 
-        }
+        .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; transition: 0.4s; }
         .project:hover .overlay { opacity: 1; }
-        .overlay h2 { font-size: 0.9rem; letter-spacing: 4px; text-transform: uppercase; font-weight: 400; }
-        .overlay p { font-size: 0.7rem; color: var(--gray); letter-spacing: 2px; margin-top: 10px; }
+        .overlay h2 { font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase; }
 
-        footer { padding: 50px; text-align: center; border-top: 1px solid #222; font-size: 0.7rem; color: #444; letter-spacing: 2px; }
+        /* Estilo para el reproductor de video */
+        .video-container { padding: 56.25% 0 0 0; position: relative; width: 80%; margin: auto; }
+        iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
     </style>
 </head>
 <body>
 
     <nav>
-        <a href="#" class="logo">TU NOMBRE</a>
+        <div class="logo"><!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu Nombre | Portfolio</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap">
+    <style>
+        :root { --bg: #000; --text: #fff; --gray: #666; }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; }
+        
+        nav { display: flex; justify-content: space-between; padding: 40px 5%; align-items: center; }
+        .logo { font-weight: 700; letter-spacing: 3px; font-size: 1.1rem; text-transform: uppercase; }
+        .menu a { text-decoration: none; color: var(--gray); margin-left: 25px; font-size: 0.75rem; letter-spacing: 1.5px; }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(45%, 1fr)); gap: 15px; padding: 0 15px; }
+        @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
+
+        .project { position: relative; cursor: pointer; overflow: hidden; aspect-ratio: 16/9; background: #111; }
+        .project img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s ease; }
+        .project:hover img { opacity: 0.3; transform: scale(1.02); }
+
+        .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; transition: 0.4s; }
+        .project:hover .overlay { opacity: 1; }
+        .overlay h2 { font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase; }
+
+        /* Estilo para el reproductor de video */
+        .video-container { padding: 56.25% 0 0 0; position: relative; width: 80%; margin: auto; }
+        iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">LEANDRO BRUNO / EDITOR</div>
         <div class="menu">
             <a href="#">WORK</a>
             <a href="#">ABOUT</a>
-            <a href="#">CONTACT</a>
+            <a href="mailto:leandrobrunoeditor@gmail.com">CONTACT</a>
         </div>
     </nav>
 
-    <div class="container">
-        <div class="grid">
-            <div class="project">
-                <img src="https://via.placeholder.com/800x450/111/fff?text=Proyecto+01" alt="Trabajo 1">
-                <div class="overlay">
-                    <h2>TITULO PROYECTO</h2>
-                    <p>ADVERTISING / EDITING</p>
-                </div>
-            </div>
-            <div class="project">
-                <img src="https://via.placeholder.com/800x450/111/fff?text=Proyecto+02" alt="Trabajo 2">
-                <div class="overlay">
-                    <h2>MUSIC VIDEO</h2>
-                    <p>COLOR GRADE / EDIT</p>
-                </div>
+    <div class="grid">
+        
+        <div class="project" onclick="window.open('<iframe width="1868" height="974" src="https://www.youtube.com/embed/-2AmqmciWXE" title="Menem - Tráiler Oficial" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>', '_blank')">
+            <img src="Menem_Thumbnail_3.png" alt="Video 1">
+            <div class="overlay">
+                <h2>MENEM</h2>
+                <p style="font-size: 10px; color: #888; letter-spacing: 2px;">COMERCIAL / 2024</p>
             </div>
         </div>
+
+        <div class="project" onclick="window.open('AQUÍ_LINK_DE_VIMEO_O_YOUTUBE', '_blank')">
+            <img src="https://images.unsplash.com/photo-1536240478700-b869070f9279?auto=format&fit=crop&w=800&q=80" alt="Video 2">
+            <div class="overlay">
+                <h2>VIDEO MUSICAL 02</h2>
+                <p style="font-size: 10px; color: #888; letter-spacing: 2px;">MUSIC VIDEO</p>
+            </div>
+        </div>
+
     </div>
 
-    <footer>
-        COPYRIGHT © 2026 TU NOMBRE — TODOS LOS DERECHOS RESERVADOS
+    <footer style="padding: 100px 5%; font-size: 10px; color: #444; letter-spacing: 1px;">
+        © 2026 TU NOMBRE.
+    </footer>
+
+</body>
+</html>/ EDITOR</div>
+        <div class="menu">
+            <a href="#">WORK</a>
+            <a href="#">ABOUT</a>
+            <a href="mailto:tu-correo@gmail.com">CONTACT</a>
+        </div>
+    </nav>
+
+    <div class="grid">
+        
+        <div class="project" onclick="window.open('AQUÍ_LINK_DE_VIMEO_O_YOUTUBE', '_blank')">
+            <img src="https://images.unsplash.com/photo-1492691523567-6170c3295db6?auto=format&fit=crop&w=800&q=80" alt="Video 1">
+            <div class="overlay">
+                <h2>NOMBRE DEL PROYECTO 01</h2>
+                <p style="font-size: 10px; color: #888; letter-spacing: 2px;">COMERCIAL / 2024</p>
+            </div>
+        </div>
+
+        <div class="project" onclick="window.open('AQUÍ_LINK_DE_VIMEO_O_YOUTUBE', '_blank')">
+            <img src="https://images.unsplash.com/photo-1536240478700-b869070f9279?auto=format&fit=crop&w=800&q=80" alt="Video 2">
+            <div class="overlay">
+                <h2>VIDEO MUSICAL 02</h2>
+                <p style="font-size: 10px; color: #888; letter-spacing: 2px;">MUSIC VIDEO</p>
+            </div>
+        </div>
+
+    </div>
+
+    <footer style="padding: 100px 5%; font-size: 10px; color: #444; letter-spacing: 1px;">
+        © 2026 TU NOMBRE.
     </footer>
 
 </body>
