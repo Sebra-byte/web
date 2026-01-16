@@ -26,7 +26,6 @@
             height: 80px; 
             width: auto;
             display: block;
-            filter: brightness(1); 
         }
 
         .menu {
@@ -42,6 +41,7 @@
             letter-spacing: 3px; 
             font-weight: 200; 
             transition: 0.3s;
+            text-transform: uppercase;
         }
 
         .menu a:hover { color: #fff; }
@@ -55,45 +55,23 @@
         }
         @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
 
+        /* Estilo de link para que no subraye el proyecto */
+        .project-link { text-decoration: none; color: inherit; display: block; }
+
         .project { position: relative; cursor: pointer; overflow: hidden; aspect-ratio: 16/9; background: #111; }
         .project img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s ease; }
         .project:hover img { opacity: 0.2; }
 
-        .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; transition: 0.5s; }
-        .project:hover .overlay { opacity: 1; }
-        .overlay h2 { font-size: 0.8rem; letter-spacing: 4px; text-transform: uppercase; font-weight: 400; margin: 0; }
-
-        /* Modal de Video */
-        #videoModal {
-            display: none; 
-            position: fixed; 
-            z-index: 9999; 
+        .overlay { 
+            position: absolute; 
             top: 0; left: 0; 
             width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.98);
+            display: flex; flex-direction: column; 
+            justify-content: center; align-items: center; 
+            opacity: 0; transition: 0.5s; 
         }
-        
-        .modal-content {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 90vw;
-            max-width: 1200px;
-            aspect-ratio: 16/9;
-        }
-
-        .video-wrapper { width: 100%; height: 100%; position: relative; }
-        iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
-
-        .close-btn {
-            position: absolute;
-            top: -60px; right: 0;
-            color: #fff;
-            font-size: 50px;
-            cursor: pointer;
-            font-weight: 200;
-            line-height: 1;
-        }
+        .project:hover .overlay { opacity: 1; }
+        .overlay h2 { font-size: 0.8rem; letter-spacing: 4px; text-transform: uppercase; font-weight: 400; margin: 0; }
 
         footer { padding: 80px 5%; font-size: 9px; color: #333; letter-spacing: 2px; font-weight: 200; }
     </style>
@@ -105,7 +83,7 @@
             <img src="LOGO_Manrope_v01.png" alt="Leandro Bruno Logo">
         </div>
         <div class="menu">
-            <a href="#">WORK</a>
+            <a href="index.html">WORK</a>
             <a href="#">ABOUT</a>
             <a href="mailto:leandrobrunoeditor@gmail.com">CONTACT</a>
         </div>
@@ -113,53 +91,29 @@
 
     <div class="grid">
         
-        <div class="project" onclick="playThis('-2AmqmciWXE')">
-            <img src="Menem_Thumbnail_3.png" alt="Menem">
-            <div class="overlay">
-                <h2>MENEM</h2>
-                <p style="font-size:9px; margin-top:10px; color:#888;">TRAILER OFICIAL / 2024</p>
+        <a href="menem.html" class="project-link">
+            <div class="project">
+                <img src="Menem_Thumbnail_3.png" alt="Menem">
+                <div class="overlay">
+                    <h2>MENEM</h2>
+                    <p style="font-size:9px; margin-top:10px; color:#888;">SERIE DOCUMENTAL / 2024</p>
+                </div>
             </div>
-        </div>
+        </a>
 
-        <div class="project" onclick="playThis('ItX5aqhqsmo')">
-            <img src="TU_IMAGEN_DE_BLAIR.jpg" alt="Blair">
-            <div class="overlay">
-                <h2>BLAIR</h2>
-                <p style="font-size:9px; margin-top:10px; color:#888;">VIDEO OFICIAL / 2024</p>
+        <a href="blair.html" class="project-link">
+            <div class="project">
+                <img src="TU_IMAGEN_DE_BLAIR.jpg" alt="Blair">
+                <div class="overlay">
+                    <h2>BLAIR</h2>
+                    <p style="font-size:9px; margin-top:10px; color:#888;">VIDEO OFICIAL / 2024</p>
+                </div>
             </div>
-        </div>
+        </a>
 
-    </div>
-    <div id="videoModal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="stopVideo()">&times;</span>
-            <div id="player" class="video-wrapper"></div>
-        </div>
     </div>
 
     <footer>© 2026 LEANDRO BRUNO.</footer>
 
-    <script>
-        function playThis(id) {
-            const modal = document.getElementById('videoModal');
-            const player = document.getElementById('player');
-            player.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0&showinfo=0&modestbranding=1" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
-            modal.style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        }
-
-        function stopVideo() {
-            const modal = document.getElementById('videoModal');
-            const player = document.getElementById('player');
-            player.innerHTML = ''; 
-            modal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-
-        window.onclick = function(event) {
-            const modal = document.getElementById('videoModal');
-            if (event.target == modal) { stopVideo(); }
-        }
-    </script>
 </body>
 </html>
