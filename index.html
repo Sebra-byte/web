@@ -11,7 +11,7 @@
         :root { --bg: #000; --text: #fff; --gray: #888; }
         body { background-color: var(--bg); color: var(--text); font-family: 'Manrope', sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
 
-        /* NAV (Estilo Armaleo/Collectiv) */
+        /* NAV PREMIUM */
         nav { 
             display: flex; justify-content: space-between; padding: 40px 5%; align-items: center;
             position: fixed; top: 0; width: 90%; z-index: 1000;
@@ -24,42 +24,44 @@
         .menu-item:hover a::after { width: 100%; }
         .menu-item:hover a { color: #fff; }
 
-        /* SLIDER SECTION */
+        /* SLIDER CON ZOOM PARA OCULTAR LOGOS */
         .swiper { width: 100%; height: 100vh; background: #000; }
         .swiper-slide { position: relative; overflow: hidden; }
         
-        /* Contenedor del video para que ocupe todo */
         .video-background {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; /* Para que no interfiera con las flechas */
+            pointer-events: none;
+            overflow: hidden;
         }
+
         .video-background iframe {
-            width: 100vw; height: 56.25vw; /* 16:9 ratio */
-            min-height: 100vh; min-width: 177.77vh;
-            position: absolute; top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
+            width: 130vw; /* Mucho más ancho que la pantalla */
+            height: 130vh; /* Mucho más alto que la pantalla */
+            position: absolute; 
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(1.3); /* Zoom agresivo para esconder logos */
+            border: none;
         }
 
-        /* Overlay de texto sobre el slider */
+        /* Overlay de texto */
         .slide-info {
-            position: absolute; bottom: 100px; left: 5%;
+            position: absolute; bottom: 80px; left: 5%;
             z-index: 10;
+            pointer-events: none;
         }
-        .slide-info h2 { font-size: 1.5rem; letter-spacing: 8px; text-transform: uppercase; font-weight: 400; margin: 0; }
-        .slide-info p { font-size: 0.7rem; color: var(--gray); letter-spacing: 3px; margin-top: 10px; }
+        .slide-info h2 { font-size: 1.2rem; letter-spacing: 6px; text-transform: uppercase; font-weight: 400; margin: 0; }
+        .slide-info p { font-size: 0.6rem; color: var(--gray); letter-spacing: 3px; margin-top: 8px; }
 
-        /* Flechas personalizadas */
-        .swiper-button-next, .swiper-button-prev { color: #fff !important; transform: scale(0.5); }
-        .swiper-button-next::after, .swiper-button-prev::after { font-size: 40px; font-weight: 200; }
+        /* Flechas Minimalistas */
+        .swiper-button-next, .swiper-button-prev { color: #fff !important; opacity: 0.3; transition: 0.3s; }
+        .swiper-button-next:hover, .swiper-button-prev:hover { opacity: 1; }
+        .swiper-button-next::after, .swiper-button-prev::after { font-size: 25px; font-weight: 200; }
 
-        /* Grilla de abajo */
-        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 10px; }
+        /* Grilla inferior */
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 10px; background: #000; }
         @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
-        .project { position: relative; aspect-ratio: 16/9; background: #0a0a0a; overflow: hidden; }
-        .project img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s; }
-        .project:hover img { opacity: 0.3; }
         
-        footer { padding: 80px 5%; font-size: 9px; color: #333; letter-spacing: 2px; }
+        footer { padding: 60px 5%; font-size: 9px; color: #222; letter-spacing: 2px; text-align: center; }
     </style>
 </head>
 <body>
@@ -79,7 +81,7 @@
             
             <div class="swiper-slide">
                 <div class="video-background">
-                    <iframe src="https://www.youtube.com/embed/-2AmqmciWXE?autoplay=1&mute=1&loop=1&playlist=-2AmqmciWXE&controls=0&modestbranding=1&rel=0&showinfo=0" frameborder="0"></iframe>
+                    <iframe src="https://www.youtube.com/embed/-2AmqmciWXE?autoplay=1&mute=1&loop=1&playlist=-2AmqmciWXE&controls=0&modestbranding=1&rel=0&iv_load_policy=3&disablekb=1" frameborder="0"></iframe>
                 </div>
                 <div class="slide-info">
                     <h2>MENEM</h2>
@@ -89,11 +91,21 @@
 
             <div class="swiper-slide">
                 <div class="video-background">
-                    <iframe src="https://www.youtube.com/embed/ItX5aqhqsmo?autoplay=1&mute=1&loop=1&playlist=ItX5aqhqsmo&controls=0&modestbranding=1&rel=0&showinfo=0" frameborder="0"></iframe>
+                    <iframe src="https://www.youtube.com/embed/ItX5aqhqsmo?autoplay=1&mute=1&loop=1&playlist=ItX5aqhqsmo&controls=0&modestbranding=1&rel=0&iv_load_policy=3&disablekb=1" frameborder="0"></iframe>
                 </div>
                 <div class="slide-info">
                     <h2>BLAIR</h2>
                     <p>TODO LO QUE TENGO / MUSIC VIDEO</p>
+                </div>
+            </div>
+
+            <div class="swiper-slide">
+                <div class="video-background">
+                    <iframe src="https://www.youtube.com/embed/Mms9D8967fM?autoplay=1&mute=1&loop=1&playlist=Mms9D8967fM&controls=0&modestbranding=1&rel=0&iv_load_policy=3&disablekb=1" frameborder="0"></iframe>
+                </div>
+                <div class="slide-info">
+                    <h2>COPPOLA</h2>
+                    <p>EL REPRESENTANTE / STAR+</p>
                 </div>
             </div>
 
@@ -102,8 +114,7 @@
         <div class="swiper-button-prev"></div>
     </div>
 
-    <div class="grid">
-        </div>
+    <div class="grid" id="work-grid"></div>
 
     <footer>© 2026 LEANDRO BRUNO.</footer>
 
@@ -111,15 +122,10 @@
     <script>
         var swiper = new Swiper(".mySwiper", {
             loop: true,
-            autoplay: {
-                delay: 6000, // Cambia cada 6 segundos
-                disableOnInteraction: false,
-            },
-            navigation: {
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
-            },
-            effect: "fade", // Transición suave como en la referencia
+            speed: 1000,
+            autoplay: { delay: 5000, disableOnInteraction: false },
+            navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+            effect: "fade",
             fadeEffect: { crossFade: true }
         });
     </script>
