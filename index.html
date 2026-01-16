@@ -10,7 +10,16 @@
         body { background-color: var(--bg); color: var(--text); font-family: 'Manrope', sans-serif; margin: 0; overflow-x: hidden; }
         
         nav { display: flex; justify-content: space-between; padding: 50px 5%; align-items: center; }
-        .logo { font-weight: 200; letter-spacing: 6px; font-size: 1rem; text-transform: uppercase; }
+        ..logo { 
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 35px;
+    width: auto;
+    filter: brightness(1);
+}
         .menu a { text-decoration: none; color: var(--gray); margin-left: 30px; font-size: 0.7rem; letter-spacing: 3px; font-weight: 200; }
 
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(45%, 1fr)); gap: 15px; padding: 0 15px; }
@@ -72,7 +81,9 @@
 <body>
 
     <nav>
-        <div class="logo">LEANDRO BRUNO / EDITOR</div>
+        <div class="logo">
+    <img src="LOGO_Manrope_v01.png" alt="Leandro Bruno Logo" style="height: 40px; width: auto;">
+</div>
         <div class="menu">
             <a href="#">WORK</a>
             <a href="#">ABOUT</a>
