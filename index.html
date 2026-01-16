@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nombre | Editor de Video</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap">
+    <style>
+        :root { --bg: #0a0a0a; --text: #ffffff; --gray: #888; }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
+        
+        /* Navegación Estilo Armaleo */
+        nav { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 40px 5%; position: sticky; top: 0; background: rgba(10,10,10,0.9); z-index: 100;
+        }
+        .logo { font-weight: 700; letter-spacing: 3px; font-size: 1.2rem; text-decoration: none; color: white; }
+        .menu a { text-decoration: none; color: var(--gray); margin-left: 30px; font-size: 0.8rem; letter-spacing: 1.5px; transition: 0.3s; }
+        .menu a:hover { color: white; }
+
+        /* Grilla de Proyectos */
+        .container { padding: 0 5% 100px 5%; }
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); 
+            gap: 20px; 
+        }
+        @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+
+        .project { position: relative; overflow: hidden; background: #111; aspect-ratio: 16 / 9; cursor: pointer; }
+        .project img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.5s; }
+        .project:hover img { transform: scale(1.05); opacity: 0.4; }
+
+        .overlay { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            display: flex; flex-direction: column; justify-content: center; align-items: center; 
+            opacity: 0; transition: 0.5s; 
+        }
+        .project:hover .overlay { opacity: 1; }
+        .overlay h2 { font-size: 0.9rem; letter-spacing: 4px; text-transform: uppercase; font-weight: 400; }
+        .overlay p { font-size: 0.7rem; color: var(--gray); letter-spacing: 2px; margin-top: 10px; }
+
+        footer { padding: 50px; text-align: center; border-top: 1px solid #222; font-size: 0.7rem; color: #444; letter-spacing: 2px; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#" class="logo">TU NOMBRE</a>
+        <div class="menu">
+            <a href="#">WORK</a>
+            <a href="#">ABOUT</a>
+            <a href="#">CONTACT</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="grid">
+            <div class="project">
+                <img src="https://via.placeholder.com/800x450/111/fff?text=Proyecto+01" alt="Trabajo 1">
+                <div class="overlay">
+                    <h2>TITULO PROYECTO</h2>
+                    <p>ADVERTISING / EDITING</p>
+                </div>
+            </div>
+            <div class="project">
+                <img src="https://via.placeholder.com/800x450/111/fff?text=Proyecto+02" alt="Trabajo 2">
+                <div class="overlay">
+                    <h2>MUSIC VIDEO</h2>
+                    <p>COLOR GRADE / EDIT</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        COPYRIGHT © 2026 TU NOMBRE — TODOS LOS DERECHOS RESERVADOS
+    </footer>
+
+</body>
+</html>
