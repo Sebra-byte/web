@@ -9,22 +9,45 @@
         :root { --bg: #000; --text: #fff; --gray: #888; }
         body { background-color: var(--bg); color: var(--text); font-family: 'Manrope', sans-serif; margin: 0; overflow-x: hidden; }
         
-        nav { display: flex; justify-content: space-between; padding: 50px 5%; align-items: center; }
+        /* Ajuste de navegación para centrado total */
+        nav { 
+            display: flex; 
+            justify-content: space-between; 
+            padding: 50px 5%; 
+            align-items: center; /* Centra verticalmente logo y menú */
+        }
         
-        /* CORREGIDO: Un solo punto para la clase */
         .logo { 
+            display: flex;
+            align-items: center;
+            line-height: 0; /* Elimina espacio extra debajo del PNG */
+        }
+
+        .logo img {
+            height: 80px; /* Tamaño actual de tu logo */
+            width: auto;
+            display: block;
+            filter: brightness(1); 
+        }
+
+        .menu {
             display: flex;
             align-items: center;
         }
 
-        .logo img {
-            height: 80px; /* Controla el tamaño desde aquí */
-            width: auto;
-            filter: brightness(1); 
+        .menu a { 
+            text-decoration: none; 
+            color: var(--gray); 
+            margin-left: 30px; 
+            font-size: 0.75rem; /* Un pelín más grande para equilibrar el logo */
+            letter-spacing: 3px; 
+            font-weight: 200; 
+            transition: 0.3s;
         }
 
-        .menu a { text-decoration: none; color: var(--gray); margin-left: 30px; font-size: 0.7rem; letter-spacing: 3px; font-weight: 200; }
+        .menu a:hover { color: #fff; }
 
+        /* Grilla y Proyectos */
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(45%, 1fr)); gap: 15px; padding: 0 15px; }
         @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
 
@@ -36,6 +59,7 @@
         .project:hover .overlay { opacity: 1; }
         .overlay h2 { font-size: 0.8rem; letter-spacing: 4px; text-transform: uppercase; font-weight: 400; }
 
+        /* Modal de Video */
         #videoModal {
             display: none; 
             position: fixed; 
@@ -55,7 +79,6 @@
         }
 
         .video-wrapper { width: 100%; height: 100%; position: relative; }
-
         iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
         .close-btn {
