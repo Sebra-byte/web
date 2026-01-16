@@ -8,83 +8,45 @@
     <style>
         :root { --bg: #000; --text: #fff; --gray: #888; }
         body { background-color: var(--bg); color: var(--text); font-family: 'Manrope', sans-serif; margin: 0; padding: 0; }
-        
-        nav { display: flex; justify-content: space-between; padding: 40px 5%; align-items: center; }
-        .logo img { height: 50px; width: auto; }
-        .menu a { text-decoration: none; color: var(--gray); margin-left: 30px; font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; }
-        .menu a:hover { color: #fff; }
-
-        .container { padding: 0 5%; max-width: 1400px; margin: 0 auto; }
-
-        /* Video Principal */
-        .video-container { 
-            width: 100%; 
-            aspect-ratio: 16/9; 
-            background: #111; 
-            margin-bottom: 60px;
-        }
-        iframe { width: 100%; height: 100%; border: none; }
-
-        /* Info del Proyecto estilo Armaleo */
-        .project-info { display: flex; flex-direction: column; margin-bottom: 100px; }
-        .project-title { font-size: 1.8rem; letter-spacing: 8px; text-transform: uppercase; margin-bottom: 30px; font-weight: 400; }
-        
-        .details-grid { 
-            display: grid; 
-            grid-template-columns: 1.5fr 1fr; 
-            gap: 80px; 
-            border-top: 1px solid #222; 
-            padding-top: 30px; 
-        }
-
-        .description { font-size: 1rem; color: #ccc; line-height: 1.8; font-weight: 200; }
-        .credits { font-size: 0.75rem; color: var(--gray); text-transform: uppercase; letter-spacing: 2px; line-height: 2.2; }
-        .credits b { color: #fff; font-weight: 400; margin-right: 10px; }
-
-        footer { padding: 80px 0 40px 0; font-size: 9px; color: #333; letter-spacing: 2px; text-transform: uppercase; }
-        
-        @media (max-width: 768px) {
-            .details-grid { grid-template-columns: 1fr; gap: 40px; }
-            .project-title { font-size: 1.2rem; }
-        }
+        nav { display: flex; justify-content: space-between; padding: 40px 5%; align-items: center; position: absolute; top: 0; width: 90%; z-index: 1000; }
+        .logo img { height: 40px; width: auto; }
+        .menu-item a { text-decoration: none; color: var(--gray); font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; transition: 0.3s; }
+        .menu-item:hover a { color: #fff; }
+        .video-container { width: 100%; height: 80vh; background: #000; padding-top: 100px; }
+        .video-wrapper { width: 90%; height: 100%; margin: 0 auto; position: relative; }
+        .video-wrapper iframe { width: 100%; height: 100%; border: none; }
+        .project-details { padding: 60px 5%; display: grid; grid-template-columns: 1fr 2fr; gap: 40px; }
+        .project-title h1 { font-size: 1.5rem; letter-spacing: 5px; font-weight: 400; text-transform: uppercase; margin: 0; }
+        .credits-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
+        .credit-item { border-top: 1px solid #222; padding-top: 15px; }
+        .label { font-size: 0.6rem; color: var(--gray); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+        .value { font-size: 0.85rem; font-weight: 200; letter-spacing: 1px; }
+        @media (max-width: 768px) { .project-details { grid-template-columns: 1fr; } .credits-grid { grid-template-columns: 1fr; } .video-container { height: 50vh; } }
+        footer { padding: 100px 5% 40px; text-align: center; font-size: 9px; color: #222; }
     </style>
 </head>
 <body>
-
     <nav>
-        <div class="logo">
-            <a href="index.html"><img src="LOGO_Manrope_v01.png" alt="Leandro Bruno"></a>
-        </div>
-        <div class="menu">
-            <a href="index.html">WORK</a>
-            <a href="#">ABOUT</a>
-            <a href="mailto:leandrobrunoeditor@gmail.com">CONTACT</a>
-        </div>
+        <div class="logo"><a href="index.html"><img src="LOGO_Manrope_v01.png" alt="Leandro Bruno"></a></div>
+        <div class="menu"><div class="menu-item"><a href="index.html">BACK TO WORK</a></div></div>
     </nav>
-
-    <div class="container">
-        <div class="video-container">
-            <iframe src="https://www.youtube.com/embed/-2AmqmciWXE?autoplay=0&rel=0&showinfo=0" allowfullscreen></iframe>
+    <section class="video-container">
+        <div class="video-wrapper">
+            <iframe src="https://www.youtube.com/embed/-2AmqmciWXE?rel=0&modestbranding=1" allowfullscreen></iframe>
         </div>
-
-        <div class="project-info">
-            <h1 class="project-title">MENEM</h1>
-            
-            <div class="details-grid">
-                <div class="description">
-                    <p>Serie documental que explora el ascenso al poder y el impacto social y económico de la presidencia de Carlos Saúl Menem en la Argentina de los años 90. Un relato visual que combina material de archivo inédito y testimonios clave.</p>
-                </div>
-                <div class="credits">
-                    CLIENT: <b>AMAZON PRIME VIDEO</b><br>
-                    ROLE: <b>EDITOR</b><br>
-                    PRODUCTION: <b>CAPA / CLAXSON</b><br>
-                    YEAR: <b>2024</b>
-                </div>
-            </div>
+    </section>
+    <section class="project-details">
+        <div class="project-title">
+            <h1>MENEM</h1>
+            <p style="color:var(--gray); font-size:0.7rem; letter-spacing:2px; margin-top:10px;">SERIE DOCUMENTAL</p>
         </div>
-
-        <footer>© 2026 LEANDRO BRUNO.</footer>
-    </div>
-
+        <div class="credits-grid">
+            <div class="credit-item"><div class="label">Platform</div><div class="value">Prime Video</div></div>
+            <div class="credit-item"><div class="label">Editor</div><div class="value">Leandro Bruno</div></div>
+            <div class="credit-item"><div class="label">Format</div><div class="value">Docu-series</div></div>
+            <div class="credit-item"><div class="label">Year</div><div class="value">2024</div></div>
+        </div>
+    </section>
+    <footer>© 2026 LEANDRO BRUNO.</footer>
 </body>
 </html>
