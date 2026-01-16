@@ -10,16 +10,19 @@
         body { background-color: var(--bg); color: var(--text); font-family: 'Manrope', sans-serif; margin: 0; overflow-x: hidden; }
         
         nav { display: flex; justify-content: space-between; padding: 50px 5%; align-items: center; }
-        ..logo { 
-    display: flex;
-    align-items: center;
-}
+        
+        /* CORREGIDO: Un solo punto para la clase */
+        .logo { 
+            display: flex;
+            align-items: center;
+        }
 
-.logo img {
-    height: 35px;
-    width: auto;
-    filter: brightness(1);
-}
+        .logo img {
+            height: 40px; /* Controla el tamaño desde aquí */
+            width: auto;
+            filter: brightness(1); 
+        }
+
         .menu a { text-decoration: none; color: var(--gray); margin-left: 30px; font-size: 0.7rem; letter-spacing: 3px; font-weight: 200; }
 
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(45%, 1fr)); gap: 15px; padding: 0 15px; }
@@ -33,37 +36,27 @@
         .project:hover .overlay { opacity: 1; }
         .overlay h2 { font-size: 0.8rem; letter-spacing: 4px; text-transform: uppercase; font-weight: 400; }
 
-        /* MODAL CORREGIDO: PANTALLA COMPLETA */
         #videoModal {
             display: none; 
             position: fixed; 
             z-index: 9999; 
             top: 0; left: 0; 
             width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.98); /* Casi negro total */
+            background: rgba(0,0,0,0.98);
         }
         
         .modal-content {
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 90vw; /* 90% del ancho de pantalla */
+            width: 90vw;
             max-width: 1200px;
-            aspect-ratio: 16/9; /* Mantiene formato cine */
+            aspect-ratio: 16/9;
         }
 
-        .video-wrapper {
-            width: 100%;
-            height: 100%;
-            position: relative;
-        }
+        .video-wrapper { width: 100%; height: 100%; position: relative; }
 
-        iframe { 
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%; 
-            border: none; 
-        }
+        iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
         .close-btn {
             position: absolute;
@@ -82,8 +75,8 @@
 
     <nav>
         <div class="logo">
-    <img src="LOGO_Manrope_v01.png" alt="Leandro Bruno Logo" style="height: 40px; width: auto;">
-</div>
+            <img src="LOGO_Manrope_v01.png" alt="Leandro Bruno Logo">
+        </div>
         <div class="menu">
             <a href="#">WORK</a>
             <a href="#">ABOUT</a>
@@ -114,7 +107,6 @@
         function playThis(id) {
             const modal = document.getElementById('videoModal');
             const player = document.getElementById('player');
-            // Usamos embed de YouTube con parámetros de pantalla completa
             player.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0&showinfo=0&modestbranding=1" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
             modal.style.display = 'block';
             document.body.style.overflow = 'hidden';
