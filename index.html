@@ -6,9 +6,7 @@
     <title>leandro bruno | film editor</title>
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* OPTIMIZACIÓN GLOBAL */
         * { box-sizing: border-box; }
-
         :root { 
             --bg: #121212; 
             --text: #e0e0e0; 
@@ -41,11 +39,7 @@
 
         /* PANEL IZQUIERDO */
         .left-panel { display: flex; flex-direction: column; gap: 40px; }
-        
-        .brand { 
-            font-size: 1.4rem; line-height: 1.2; letter-spacing: -1px; 
-            cursor: pointer; transition: opacity 0.2s;
-        }
+        .brand { font-size: 1.4rem; line-height: 1.2; letter-spacing: -1px; cursor: pointer; transition: opacity 0.2s; }
         .brand:hover { opacity: 0.7; }
         .brand strong { display: block; font-size: 1.6rem; }
         
@@ -73,15 +67,11 @@
         .select-items div:hover { background-color: rgba(255,255,255,0.1); }
         .select-show { display: block; }
 
-        .nav-links a { 
-            text-decoration: none; color: var(--text); 
-            font-size: 0.9rem; font-weight: 700; cursor: pointer; width: fit-content;
-        }
+        .nav-links a { text-decoration: none; color: var(--text); font-size: 0.9rem; font-weight: 700; cursor: pointer; width: fit-content; }
         .nav-links a.active { border-bottom: 1px solid var(--text); padding-bottom: 2px; }
 
         /* CONTENIDO CENTRAL */
         .center-panel { display: flex; flex-direction: column; align-items: center; position: relative; width: 100%; }
-        
         .work-container { width: 100%; display: flex; flex-direction: column; align-items: center; }
         
         .main-viewer {
@@ -89,18 +79,20 @@
             border: 1px solid rgba(255,255,255,0.1); overflow: hidden; position: relative;
             transition: border-color 0.3s;
         }
-        /* Solo mostramos puntero si hay video */
         .main-viewer.has-video { cursor: pointer; }
         .main-viewer.has-video:hover { border-color: var(--text); }
         
-        .main-viewer img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.5s; }
+        .main-viewer img { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            object-fit: cover; transition: opacity 0.8s ease-in-out; opacity: 0;
+        }
+        .main-viewer img.active-slide { opacity: 1; }
         
         .play-indicator {
             position: absolute; top: 20px; right: 20px; background: var(--text);
             padding: 5px 10px; font-weight: 700; font-size: 0.7rem; display: none; color: #000;
             z-index: 10;
         }
-        /* Solo mostramos el indicador si tiene la clase has-video */
         .main-viewer.has-video:hover .play-indicator { display: block; }
 
         .project-details {
@@ -118,37 +110,21 @@
             animation: fadeIn 0.8s ease forwards;
         }
         .profile-container { flex-shrink: 0; position: relative; }
-        .profile-pic { 
-            width: 320px; height: auto; border: 1px solid rgba(255,255,255,0.1); 
-            filter: grayscale(1); transition: all 0.5s ease; opacity: 0.8;
-        }
+        .profile-pic { width: 320px; height: auto; border: 1px solid rgba(255,255,255,0.1); filter: grayscale(1); transition: all 0.5s ease; opacity: 0.8; }
         .profile-pic:hover { filter: grayscale(0); opacity: 1; border-color: var(--text); }
-        
-        .about-content { display: flex; flex-direction: column; gap: 40px; }
         .about-text { font-size: 1.3rem; line-height: 1.6; color: var(--text); font-weight: 400; }
-        .about-text strong { color: #fff; }
-        
-        .about-footer { display: flex; align-items: center; gap: 30px; }
+        .about-footer { display: flex; align-items: center; gap: 30px; margin-top: 40px; }
         .back-btn {
             background: none; border: 1px solid var(--text); color: var(--text);
             padding: 8px 20px; font-family: 'Space Mono'; font-weight: 700;
-            cursor: pointer; text-transform: lowercase; font-size: 0.8rem;
-            transition: all 0.3s;
+            cursor: pointer; text-transform: lowercase; font-size: 0.8rem; transition: all 0.3s;
         }
         .back-btn:hover { background: var(--text); color: #000; }
-        .imdb-link { 
-            font-size: 0.8rem; font-weight: 700; text-decoration: none; 
-            color: var(--text); border-bottom: 1px solid var(--text); padding-bottom: 2px;
-        }
+        .imdb-link { font-size: 0.8rem; font-weight: 700; text-decoration: none; color: var(--text); border-bottom: 1px solid var(--text); padding-bottom: 2px; }
 
         /* PANEL DERECHA */
-        .right-panel { 
-            display: flex; flex-direction: column; gap: 15px; 
-            overflow-y: auto; overflow-x: hidden; 
-            padding-right: 10px; 
-        }
+        .right-panel { display: flex; flex-direction: column; gap: 15px; overflow-y: auto; overflow-x: hidden; padding-right: 10px; }
         .right-panel::-webkit-scrollbar { width: 4px; }
-        .right-panel::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); }
         .right-panel::-webkit-scrollbar-thumb { background: var(--text); border-radius: 2px; }
         .right-panel::-webkit-scrollbar-corner { background: transparent; }
 
@@ -199,8 +175,7 @@
             <div id="work-section" class="work-container">
                 <div class="main-viewer" id="viewer" onclick="openVideo()">
                     <div class="play-indicator">WATCH VIDEO</div>
-                    <img id="main-img" src="" alt="feature">
-                </div>
+                    </div>
                 <div class="project-details">
                     <div>
                         <span class="category-label" id="p-category"></span>
@@ -242,24 +217,50 @@
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
         const projects = [
-            // Nuevos agregados al inicio para que aparezcan primero
-            { title: "las manos de la abuela", category: "serie/film", img: "assets/Manos_Thumbnail.jpg", yt: "", director: "camila migliore", prod: "independiente", desc: "cortometraje (2026). próximamente." },
-            { title: "besos brujos", category: "serie/film", img: "assets/Besos_Thumbnail.jpg", yt: "", director: "ignacio rodo", prod: "festival de mar del plata", desc: "cortometraje (2022). selección oficial." },
-            // Proyectos anteriores
-            { title: "menem", category: "serie/film", img: "assets/Menem_Thumbnail_1.jpg", yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon, yavu, prime video", desc: "serie original de prime video." },
-            { title: "coppola", category: "serie/film", img: "assets/Coppola_Thumbnail_2.jpg", yt: "D1vD9z-E_Yk", director: "ariel winograd", prod: "pampa films, disney+", desc: "serie original de star+ / disney+." },
-            { title: "oreo", category: "advertising", img: "https://img.youtube.com/vi/7Cllu0Rme74/maxresdefault.jpg", yt: "7Cllu0Rme74", director: "primo films", prod: "primo", desc: "campaña publicitaria global." },
-            { title: "el tiempo de las moscas", category: "serie/film", img: "assets/Moscas_Thumbnail_v01.png", yt: "A0d6wnlMRRk", director: "ana katz", prod: "netflix", desc: "largometraje de ficción." },
-            { title: "levis", category: "advertising", img: "assets/Levis_Thumbnail_v01.jpg", yt: "7Cllu0Rme74", director: "lorenzo shakespear", prod: "levis argentina", desc: "501 campaign." },
-            { title: "blair", category: "music video", img: "assets/Blair_Thumbnail_v01.jpg", yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster", desc: "videoclip oficial." },
-            { title: "rp", category: "advertising", img: "assets/RP_Thumnmail.jpg", yt: "", director: "pendiente", prod: "poster", desc: "comercial institucional." },
-            { title: "marias", category: "advertising", img: "assets/Marias_Thumbnail.jpg", yt: "A0d6wnlMRRk", director: "ana katz", prod: "poster", desc: "comercial para galletitas marías." }
+            { 
+                title: "las manos de la abuela", 
+                category: "serie/film", 
+                images: ["assets/MA_Thumbnail_1.png", "assets/MA_Thumbnail_2.png", "assets/MA_Thumbnail_3.png", "assets/MA_Thumbnail_4.png", "assets/MA_Thumbnail_5.png"], 
+                yt: "", 
+                director: "camila migliore", 
+                prod: "independiente", 
+                desc: "cortometraje (2026). próximamente." 
+            },
+            { 
+                title: "besos brujos", 
+                category: "serie/film", 
+                images: ["assets/Besos_Thumbnail.jpg", "https://via.placeholder.com/1280x720/121212/e0e0e0?text=Still+2", "https://via.placeholder.com/1280x720/121212/e0e0e0?text=Still+3"], 
+                yt: "", 
+                director: "ignacio rodo", 
+                prod: "festival de mar del plata", 
+                desc: "cortometraje (2022). selección oficial." 
+            },
+            { 
+                title: "menem", 
+                category: "serie/film", 
+                images: ["assets/Menem_Thumbnail_1.jpg", "https://via.placeholder.com/1280x720/121212/e0e0e0?text=Menem+Still+2", "https://via.placeholder.com/1280x720/121212/e0e0e0?text=Menem+Still+3"], 
+                yt: "-2AmqmciWXE", 
+                director: "ariel winograd", 
+                prod: "claxon, yavu, prime video", 
+                desc: "serie original de prime video." 
+            },
+            { 
+                title: "coppola", 
+                category: "serie/film", 
+                images: ["assets/Coppola_Thumbnail_2.jpg", "https://via.placeholder.com/1280x720/121212/e0e0e0?text=Coppola+Still+2"], 
+                yt: "D1vD9z-E_Yk", 
+                director: "ariel winograd", 
+                prod: "pampa films, disney+", 
+                desc: "serie original de star+ / disney+." 
+            }
         ];
 
         let filteredProjects = [...projects];
         let currentIndex = 0;
+        let slideIndex = 0;
         let player;
         let isAbout = false;
+        let rotation, slideRotation;
 
         function toggleDropdown(e) {
             e.stopPropagation();
@@ -272,7 +273,7 @@
             filteredProjects = (val === 'all') ? [...projects] : projects.filter(p => p.category === val);
             currentIndex = 0;
             updateDisplay();
-            resetInterval();
+            resetIntervals();
         }
 
         window.onclick = function() {
@@ -281,43 +282,49 @@
         }
 
         function updateDisplay() {
-            if(isAbout) return;
+            if(isAbout || filteredProjects.length === 0) return;
+            
             const thumbList = document.getElementById('thumbnail-list');
-            thumbList.innerHTML = '';
-            
-            if(filteredProjects.length === 0) return;
-
-            const current = filteredProjects[currentIndex];
-            const mainImg = document.getElementById('main-img');
             const viewer = document.getElementById('viewer');
+            const current = filteredProjects[currentIndex];
             
-            mainImg.style.opacity = 0;
+            // Limpiar viewer y cargar nuevas imágenes para el carrusel interno
+            viewer.querySelectorAll('img').forEach(img => img.remove());
+            slideIndex = 0;
             
-            setTimeout(() => {
-                mainImg.src = current.img;
-                document.getElementById('p-title').innerText = current.title;
-                document.getElementById('p-category').innerText = current.category;
-                document.getElementById('p-meta-top').innerHTML = `<strong>d.</strong> ${current.director}<br><strong>p.</strong> ${current.prod}`;
-                document.getElementById('p-description').innerText = current.desc;
-                
-                // Lógica inteligente para video vs still
-                if(current.yt !== "") {
-                    viewer.classList.add('has-video');
-                } else {
-                    viewer.classList.remove('has-video');
-                }
-                
-                mainImg.style.opacity = 1;
-            }, 300);
+            current.images.forEach((src, idx) => {
+                const img = document.createElement('img');
+                img.src = src;
+                if(idx === 0) img.classList.add('active-slide');
+                img.onerror = function() { this.src='https://via.placeholder.com/1280x720?text=Still'; };
+                viewer.appendChild(img);
+            });
 
+            document.getElementById('p-title').innerText = current.title;
+            document.getElementById('p-category').innerText = current.category;
+            document.getElementById('p-meta-top').innerHTML = `<strong>d.</strong> ${current.director}<br><strong>p.</strong> ${current.prod}`;
+            document.getElementById('p-description').innerText = current.desc;
+            
+            if(current.yt !== "") viewer.classList.add('has-video');
+            else viewer.classList.remove('has-video');
+
+            // Actualizar miniaturas derecha
+            thumbList.innerHTML = '';
             filteredProjects.forEach((proj, index) => {
                 const item = document.createElement('div');
                 item.className = 'thumb-item' + (index === currentIndex ? ' active-thumb' : '');
-                // Lazy loading añadido para rendimiento
-                item.innerHTML = `<img src="${proj.img}" loading="lazy" onerror="this.src='https://via.placeholder.com/200x125?text=Still'">`;
-                item.onclick = () => { currentIndex = index; updateDisplay(); resetInterval(); };
+                item.innerHTML = `<img src="${proj.images[0]}" loading="lazy">`;
+                item.onclick = () => { currentIndex = index; updateDisplay(); resetIntervals(); };
                 thumbList.appendChild(item);
             });
+        }
+
+        function nextSlide() {
+            const slides = document.querySelectorAll('#viewer img');
+            if(slides.length <= 1) return;
+            slides[slideIndex].classList.remove('active-slide');
+            slideIndex = (slideIndex + 1) % slides.length;
+            slides[slideIndex].classList.add('active-slide');
         }
 
         function showSection(section) {
@@ -329,36 +336,30 @@
 
             if(section === 'about') {
                 isAbout = true;
-                work.style.display = 'none';
-                thumbs.style.display = 'none';
-                workNav.style.display = 'none';
-                about.style.display = 'flex';
-                navAbout.classList.add('active');
-                clearInterval(rotation);
+                work.style.display = 'none'; thumbs.style.display = 'none'; workNav.style.display = 'none';
+                about.style.display = 'flex'; navAbout.classList.add('active');
+                clearInterval(rotation); clearInterval(slideRotation);
             } else {
                 isAbout = false;
-                about.style.display = 'none';
-                work.style.display = 'flex';
-                thumbs.style.display = 'flex';
-                workNav.style.display = 'inline-block';
+                about.style.display = 'none'; work.style.display = 'flex'; thumbs.style.display = 'flex'; workNav.style.display = 'inline-block';
                 navAbout.classList.remove('active');
-                updateDisplay();
-                resetInterval();
+                updateDisplay(); resetIntervals();
             }
         }
 
         function openVideo() {
             const ytId = filteredProjects[currentIndex].yt;
-            // Si no hay ID de youtube, no hace nada (no abre modal roto)
             if(!ytId) return;
-            
             document.getElementById('modal').style.display = 'flex';
             if (player) {
                 player.loadVideoById(ytId);
             } else {
                 player = new YT.Player('video-player', {
                     height: '100%', width: '100%', videoId: ytId,
-                    playerVars: { 'autoplay': 1, 'rel': 0, 'modestbranding': 1 },
+                    playerVars: { 
+                        'autoplay': 1, 'rel': 0, 'modestbranding': 1, 
+                        'showinfo': 0, 'iv_load_policy': 3, 'controls': 1 
+                    },
                     events: { 'onStateChange': (e) => { if(e.data === YT.PlayerState.ENDED) closeVideo(); } }
                 });
             }
@@ -369,24 +370,24 @@
             if (player) player.stopVideo();
         }
 
-        let rotation = setInterval(() => { 
-            if(!isAbout && filteredProjects.length > 1) {
-                currentIndex = (currentIndex + 1) % filteredProjects.length; 
-                updateDisplay(); 
-            }
-        }, 6000);
-
-        function resetInterval() {
+        function resetIntervals() {
             clearInterval(rotation);
-            if(!isAbout && filteredProjects.length > 1) {
+            clearInterval(slideRotation);
+            if(!isAbout) {
+                // Rotación de proyectos (cada 8 seg)
                 rotation = setInterval(() => {
-                    currentIndex = (currentIndex + 1) % filteredProjects.length;
-                    updateDisplay();
-                }, 6000);
+                    if(filteredProjects.length > 1) {
+                        currentIndex = (currentIndex + 1) % filteredProjects.length;
+                        updateDisplay();
+                    }
+                }, 8000);
+                // Rotación de stills dentro del proyecto (cada 3 seg)
+                slideRotation = setInterval(nextSlide, 3000);
             }
         }
 
         updateDisplay();
+        resetIntervals();
     </script>
 </body>
 </html>
