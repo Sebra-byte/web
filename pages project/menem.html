@@ -7,77 +7,52 @@
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;700&display=swap" rel="stylesheet">
     <style>
         :root { --bg: #000000; --text: #ffffff; --gray: #888; --dark-gray: #111; }
-        
-        body { 
-            background-color: var(--bg); color: var(--text); 
-            font-family: 'Manrope', sans-serif; margin: 0; padding: 0; 
-            overflow-x: hidden; text-transform: lowercase; 
-        }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Manrope', sans-serif; margin: 0; padding: 0; overflow-x: hidden; text-transform: lowercase; }
 
-        /* NAVEGACIÓN (CON RUTAS PARA CARPETA INTERNA) */
-        nav { 
-            display: flex; justify-content: space-between; padding: 40px 5%; align-items: center; 
-            position: fixed; top: 0; width: 90%; z-index: 1000; 
-            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); 
-        }
+        nav { display: flex; justify-content: space-between; padding: 40px 5%; align-items: center; position: fixed; top: 0; width: 90%; z-index: 1000; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); }
         .logo img { height: 35px; width: auto; }
         .menu { display: flex; align-items: center; }
         .menu-item { position: relative; margin-left: 30px; }
-        
-        .menu-item a { 
-            text-decoration: none; color: var(--gray); font-size: 0.75rem; 
-            letter-spacing: 2.5px; font-weight: 400; transition: 0.3s; cursor: pointer; 
-        }
+        .menu-item a { text-decoration: none; color: var(--gray); font-size: 0.75rem; letter-spacing: 2.5px; font-weight: 400; transition: 0.3s; cursor: pointer; }
         .menu-item:hover a { color: #fff; }
-
-        .dropdown-content { 
-            display: none; position: absolute; top: 100%; left: 0; 
-            background-color: rgba(0, 0, 0, 0.9); 
-            min-width: 160px; padding: 15px 0; border: 1px solid #222; margin-top: 10px; 
-            backdrop-filter: blur(5px);
-        }
+        .dropdown-content { display: none; position: absolute; top: 100%; left: 0; background-color: rgba(0, 0, 0, 0.9); min-width: 160px; padding: 15px 0; border: 1px solid #222; margin-top: 10px; backdrop-filter: blur(5px); }
         .dropdown-content a { padding: 10px 20px; display: block; font-size: 0.7rem; color: var(--gray); }
         .dropdown-content a:hover { color: #fff; background: rgba(255, 255, 255, 0.05); }
         .menu-item:hover .dropdown-content { display: block; }
 
-        /* CONTENIDO DEL PROYECTO */
-        .project-container { padding: 140px 5% 60px; max-width: 1200px; margin: 0 auto; }
-        
+        /* DISEÑO CLEAN TIPO ARMALEO */
+        .project-layout { 
+            display: flex; padding: 160px 5% 60px; gap: 50px; 
+            max-width: 1400px; margin: 0 auto; min-height: 80vh; 
+        }
+
+        .video-container { flex: 2; }
         .video-wrapper { 
             position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; 
-            background: #050505; margin-bottom: 40px; 
+            background: #050505; 
         }
-        .video-wrapper iframe { 
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; 
-        }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
-        /* INFO DEL PROYECTO (ESTILO ARMALEO) */
-        .project-header { 
-            display: flex; justify-content: space-between; align-items: flex-start; 
-            border-bottom: 1px solid #111; padding-bottom: 30px; margin-bottom: 40px;
-        }
-        .project-title h1 { 
-            font-size: 1.4rem; letter-spacing: 6px; font-weight: 400; margin: 0; color: #fff; 
-        }
+        .info-sidebar { flex: 0.8; padding-top: 20px; }
+        .info-sidebar h1 { font-size: 1.2rem; letter-spacing: 4px; font-weight: 400; margin: 0 0 40px 0; color: #fff; }
         
-        .project-credits { display: flex; gap: 40px; }
-        .credit-group { display: flex; flex-direction: column; }
-        .credit-label { font-size: 0.55rem; color: #444; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
-        .credit-value { font-size: 0.75rem; color: var(--gray); letter-spacing: 1px; }
+        .credit-row { margin-bottom: 25px; }
+        .credit-row strong { display: block; font-size: 0.65rem; color: #fff; letter-spacing: 1.5px; margin-bottom: 5px; }
+        .credit-row span { font-size: 0.75rem; color: var(--gray); letter-spacing: 1px; font-weight: 200; }
 
         .back-link { 
-            display: inline-block; margin-top: 40px; color: var(--gray); 
-            text-decoration: none; font-size: 0.65rem; letter-spacing: 2px; 
-            transition: 0.3s; border-bottom: 1px solid transparent;
+            display: inline-block; margin-top: 60px; color: #444; 
+            text-decoration: none; font-size: 0.6rem; letter-spacing: 2px; 
+            transition: 0.3s; 
         }
-        .back-link:hover { color: #fff; border-bottom: 1px solid #fff; }
+        .back-link:hover { color: #fff; }
 
-        @media (max-width: 768px) {
-            .project-header { flex-direction: column; gap: 30px; }
-            .project-credits { flex-wrap: wrap; gap: 20px; }
+        @media (max-width: 1024px) {
+            .project-layout { flex-direction: column; }
+            .info-sidebar { padding-top: 0; }
         }
 
-        footer { padding: 80px 5% 40px; text-align: center; font-size: 9px; color: #222; letter-spacing: 2px; }
+        footer { padding: 40px 5%; text-align: center; font-size: 9px; color: #222; letter-spacing: 2px; }
     </style>
 </head>
 <body>
@@ -96,38 +71,32 @@
             </div>
             <div class="menu-item"><a href="../about.html">about</a></div>
             <div class="menu-item"><a href="mailto:leandrobrunoeditor@gmail.com">contact</a></div>
-            <div class="menu-item">
-                <a>es | en</a>
-                <div class="dropdown-content">
-                    <a href="#">es</a>
-                    <a href="#">en</a>
-                </div>
-            </div>
+            <div class="menu-item"><a>es | en</a><div class="dropdown-content"><a href="#">es</a><a href="#">en</a></div></div>
         </div>
     </nav>
 
-    <main class="project-container">
-        <div class="video-wrapper">
-            <iframe src="https://www.youtube.com/embed/-2AmqmciWXE?rel=0&showinfo=0&autoplay=0" allowfullscreen></iframe>
-        </div>
-
-        <div class="project-header">
-            <div class="project-title">
-                <h1>menem</h1>
-            </div>
-            <div class="project-credits">
-                <div class="credit-group">
-                    <span class="credit-label">serie d</span>
-                    <span class="credit-value">ariel winograd</span>
-                </div>
-                <div class="credit-group">
-                    <span class="credit-label">p</span>
-                    <span class="credit-value">claxon / yavu / prime video</span>
-                </div>
+    <main class="project-layout">
+        <div class="video-container">
+            <div class="video-wrapper">
+                <iframe src="https://www.youtube.com/embed/-2AmqmciWXE?rel=0&modestbranding=1&autohide=1&showinfo=0&controls=1" allowfullscreen></iframe>
             </div>
         </div>
 
-        <a href="../index.html#work" class="back-link">← back to work</a>
+        <aside class="info-sidebar">
+            <h1>menem</h1>
+            
+            <div class="credit-row">
+                <strong>d.</strong>
+                <span>ariel winograd</span>
+            </div>
+            
+            <div class="credit-row">
+                <strong>p.</strong>
+                <span>claxon / yavu / prime video</span>
+            </div>
+
+            <a href="../index.html#work" class="back-link">← back to work</a>
+        </aside>
     </main>
 
     <footer>© 2026 leandro bruno. all rights reserved.</footer>
