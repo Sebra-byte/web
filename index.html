@@ -11,7 +11,7 @@
         :root { --bg: #000; --text: #fff; --gray: #888; --dark-gray: #0a0a0a; }
         body { background-color: var(--bg); color: var(--text); font-family: 'Manrope', sans-serif; margin: 0; padding: 0; overflow-x: hidden; scroll-behavior: smooth; }
 
-        /* NAV CON DROPWDOWN Y SUBRAYADO */
+        /* NAVEGACIÓN */
         nav { 
             display: flex; justify-content: space-between; padding: 40px 5%; align-items: center;
             position: fixed; top: 0; width: 90%; z-index: 1000;
@@ -21,38 +21,55 @@
         .menu { display: flex; align-items: center; }
         .menu-item { position: relative; margin-left: 35px; padding-bottom: 5px; }
         .menu-item a { text-decoration: none; color: var(--gray); font-size: 0.7rem; letter-spacing: 3px; font-weight: 200; transition: 0.3s; text-transform: uppercase; cursor: pointer; }
+        
+        /* Subrayado animado */
         .menu-item a::after { content: ''; position: absolute; width: 0; height: 1px; bottom: 0; left: 0; background-color: #fff; transition: width 0.3s ease; }
         .menu-item:hover a::after { width: 100%; }
         .menu-item:hover a { color: #fff; }
 
+        /* Dropdown */
         .dropdown-content { display: none; position: absolute; top: 100%; left: 0; background-color: rgba(0,0,0,0.95); min-width: 160px; padding: 15px 0; }
         .dropdown-content a { padding: 10px 20px; display: block; font-size: 0.6rem; letter-spacing: 2px; color: var(--gray); text-decoration: none; }
+        .dropdown-content a::after { display: none; }
         .dropdown-content a:hover { color: #fff; background: #111; }
         .menu-item:hover .dropdown-content { display: block; }
 
-        /* SWIPER */
+        /* SWIPER (HOME) */
         .swiper { width: 100%; height: 100vh; background: #000; }
-        .swiper-slide { position: relative; overflow: hidden; }
+        .swiper-slide { position: relative; overflow: hidden; cursor: pointer; }
         .video-background { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
-        .video-background iframe { width: 140vw; height: 140vh; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(1.35); border: none; }
+        .video-background iframe {
+            width: 140vw; height: 140vh; position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(1.35); border: none;
+        }
         .slide-link { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 50; }
         .slide-info { position: absolute; bottom: 80px; left: 5%; z-index: 60; pointer-events: none; }
         .slide-info h2 { font-size: 1.3rem; letter-spacing: 6px; text-transform: uppercase; font-weight: 400; margin: 0; }
         .slide-info p { font-size: 0.6rem; color: var(--gray); letter-spacing: 3px; margin-top: 10px; }
 
-        /* GRID CON FILTRO ANIMADO */
-        .work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; padding: 2px; background-color: #000; min-height: 400px; }
+        /* GRID DE PROYECTOS (3 COLUMNAS) */
+        .work-grid { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 2px; 
+            padding: 2px; 
+            background-color: #000;
+            min-height: 600px;
+        }
         .project-card { 
             position: relative; aspect-ratio: 16 / 9; overflow: hidden; 
             background: var(--dark-gray); text-decoration: none; color: #fff;
-            transition: transform 0.4s ease, opacity 0.4s ease;
+            transition: transform 0.5s ease, opacity 0.5s ease;
         }
         
-        /* Clase para ocultar proyectos filtrados */
         .project-card.hidden { opacity: 0; transform: scale(0.9); pointer-events: none; display: none; }
 
-        .project-card img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); transition: 0.6s ease; opacity: 0.6; }
+        .project-card img { 
+            width: 100%; height: 100%; object-fit: cover; 
+            filter: grayscale(100%); transition: 0.6s ease; opacity: 0.6;
+        }
         .project-card:hover img { filter: grayscale(0%); transform: scale(1.05); opacity: 1; }
+        
         .card-info { position: absolute; bottom: 20px; left: 20px; z-index: 2; pointer-events: none; }
         .card-info h3 { font-size: 0.8rem; letter-spacing: 3px; margin: 0; text-transform: uppercase; font-weight: 400; }
         .card-info p { font-size: 0.5rem; color: var(--gray); letter-spacing: 2px; margin-top: 5px; text-transform: uppercase; }
@@ -113,51 +130,53 @@
     </div>
 
     <div class="work-grid" id="work">
-        
         <a href="menem.html" class="project-card narrative">
             <img src="https://img.youtube.com/vi/-2AmqmciWXE/hqdefault.jpg">
             <div class="card-info"><h3>MENEM</h3><p>Narrative / Doc</p></div>
         </a>
-
         <a href="moscas.html" class="project-card narrative">
             <img src="https://img.youtube.com/vi/A0d6wnlMRRk/hqdefault.jpg">
-            <div class="card-info"><h3>EL TIEMPO DE LAS MOSCAS</h3><p>Narrative / Netflix</p></div>
+            <div class="card-info"><h3>EL TIEMPO DE LAS MOSCAS</h3><p>Netflix</p></div>
         </a>
-
         <a href="coppola.html" class="project-card narrative">
             <img src="https://img.youtube.com/vi/ecr24akKDbs/hqdefault.jpg">
-            <div class="card-info"><h3>COPPOLA</h3><p>Narrative / Disney+</p></div>
+            <div class="card-info"><h3>COPPOLA</h3><p>Disney+</p></div>
         </a>
-
         <a href="oreo.html" class="project-card advertising">
             <img src="https://img.youtube.com/vi/7Cllu0Rme74/hqdefault.jpg">
             <div class="card-info"><h3>OREO</h3><p>Advertising</p></div>
         </a>
-
         <a href="blair.html" class="project-card music">
             <img src="https://img.youtube.com/vi/ItX5aqhqsmo/hqdefault.jpg">
             <div class="card-info"><h3>BLAIR</h3><p>Music Video</p></div>
         </a>
-
+        <a href="ratones.html" class="project-card advertising">
+            <img src="RP_Thumnmail.png">
+            <div class="card-info"><h3>RATONES PARANOICOS</h3><p>Poster / Advertising</p></div>
+        </a>
+        <a href="marias.html" class="project-card advertising">
+            <img src="Marias_Thumbnail.png">
+            <div class="card-info"><h3>MARÍAS</h3><p>Advertising</p></div>
+        </a>
+        <a href="besos.html" class="project-card narrative">
+            <img src="BesosBrujos-Cover.png">
+            <div class="card-info"><h3>BESOS BRUJOS</h3><p>Narrative</p></div>
+        </a>
     </div>
 
     <footer>© 2026 LEANDRO BRUNO.</footer>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
-        // Swiper Init
         var swiper = new Swiper(".mySwiper", {
             loop: true, speed: 1200,
             autoplay: { delay: 6000, disableOnInteraction: false },
             effect: "fade", fadeEffect: { crossFade: true }
         });
 
-        // FUNCIÓN DE FILTRADO
         function filterProjects(category) {
             const cards = document.querySelectorAll('.project-card');
             const grid = document.querySelector('#work');
-
-            // Scroll suave a la grilla al filtrar
             grid.scrollIntoView({ behavior: 'smooth' });
 
             cards.forEach(card => {
