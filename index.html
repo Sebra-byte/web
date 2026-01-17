@@ -43,7 +43,7 @@
         .slide-info h2 { font-size: 1.3rem; letter-spacing: 6px; text-transform: uppercase; font-weight: 400; margin: 0; color: #fff; }
         .slide-info p { font-size: 0.6rem; color: #fff; opacity: 0.9; letter-spacing: 3px; margin-top: 10px; font-weight: 400; }
 
-        /* BOTÓN UNMUTE (Parlante) */
+        /* BOTÓN UNMUTE (Parlante Clásico) */
         #unmute-btn {
             position: absolute; bottom: 40px; right: 5%; z-index: 100;
             background: none; border: none; cursor: pointer; padding: 10px;
@@ -151,7 +151,6 @@
     <script src="https://www.youtube.com/iframe_api"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
-        // API de YouTube para manejar sonido
         let players = [];
         function onYouTubeIframeAPIReady() {
             const ids = ['-2AmqmciWXE', 'A0d6wnlMRRk', 'ecr24akKDbs', '7Cllu0Rme74', 'ItX5aqhqsmo'];
@@ -169,14 +168,12 @@
             document.getElementById('unmute-btn').style.display = 'none';
         }
 
-        // Inicializar Swiper
         var swiper = new Swiper(".mySwiper", { 
             loop: true, speed: 1200, effect: "fade",
             autoplay: { delay: 6000, disableOnInteraction: false },
             navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" }
         });
 
-        // Filtro de proyectos
         function filterProjects(category) {
             const cards = document.querySelectorAll('.project-card');
             document.querySelector('#work').scrollIntoView({ behavior: 'smooth' });
