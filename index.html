@@ -6,11 +6,11 @@
     <title>leandro bruno | film editor</title>
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* RESET & BASE */
         * { box-sizing: border-box; }
         :root { 
             --bg: #121212; 
             --text: #e0e0e0; 
-            --gray: #a0a0a0; 
             --line-grid: rgba(255, 255, 255, 0.05); 
         }
         
@@ -37,7 +37,7 @@
             position: relative;
         }
 
-        /* PANEL IZQUIERDO */
+        /* LEFT PANEL */
         .left-panel { display: flex; flex-direction: column; gap: 40px; }
         .brand { font-size: 1.4rem; line-height: 1.2; letter-spacing: -1px; cursor: pointer; transition: opacity 0.2s; }
         .brand:hover { opacity: 0.7; }
@@ -45,7 +45,7 @@
         
         .nav-links { display: flex; flex-direction: column; gap: 12px; }
         
-        /* CUSTOM SELECT */
+        /* CUSTOM DROPDOWN */
         .custom-select-container { position: relative; display: inline-block; }
         .select-selected {
             font-size: 0.9rem; font-weight: 700; cursor: pointer;
@@ -70,7 +70,7 @@
         .nav-links a { text-decoration: none; color: var(--text); font-size: 0.9rem; font-weight: 700; cursor: pointer; width: fit-content; }
         .nav-links a.active { border-bottom: 1px solid var(--text); padding-bottom: 2px; }
 
-        /* CONTENIDO CENTRAL */
+        /* CENTER PANEL / VIEWER */
         .center-panel { display: flex; flex-direction: column; align-items: center; position: relative; width: 100%; }
         .work-container { width: 100%; display: flex; flex-direction: column; align-items: center; }
         
@@ -103,26 +103,26 @@
         .category-label { font-size: 0.8rem; font-weight: 700; background: var(--text); color: #000; padding: 2px 6px; }
         .meta { font-size: 0.9rem; line-height: 1.5; color: var(--text); }
 
-        /* VISTA ABOUT */
+        /* ABOUT SECTION */
         #about-section {
             display: none; width: 100%; max-width: 1100px; gap: 80px; 
             align-items: center; justify-content: center; height: 80vh;
             animation: fadeIn 0.8s ease forwards;
         }
-        .profile-container { flex-shrink: 0; position: relative; }
-        .profile-pic { width: 320px; height: auto; border: 1px solid rgba(255,255,255,0.1); filter: grayscale(1); transition: all 0.5s ease; opacity: 0.8; }
+        .profile-container { flex-shrink: 0; }
+        .profile-pic { width: 320px; height: auto; border: 1px solid rgba(255,255,255,0.1); filter: grayscale(1); opacity: 0.8; transition: 0.5s; }
         .profile-pic:hover { filter: grayscale(0); opacity: 1; border-color: var(--text); }
-        .about-text { font-size: 1.3rem; line-height: 1.6; color: var(--text); font-weight: 400; }
+        
+        .about-text { font-size: 1.3rem; line-height: 1.6; color: var(--text); }
         .about-footer { display: flex; align-items: center; gap: 30px; margin-top: 40px; }
         .back-btn {
             background: none; border: 1px solid var(--text); color: var(--text);
             padding: 8px 20px; font-family: 'Space Mono'; font-weight: 700;
-            cursor: pointer; text-transform: lowercase; font-size: 0.8rem; transition: all 0.3s;
+            cursor: pointer; text-transform: lowercase; font-size: 0.8rem; transition: 0.3s;
         }
         .back-btn:hover { background: var(--text); color: #000; }
-        .imdb-link { font-size: 0.8rem; font-weight: 700; text-decoration: none; color: var(--text); border-bottom: 1px solid var(--text); padding-bottom: 2px; }
 
-        /* PANEL DERECHA */
+        /* RIGHT PANEL / THUMBS */
         .right-panel { display: flex; flex-direction: column; gap: 15px; overflow-y: auto; overflow-x: hidden; padding-right: 10px; }
         .right-panel::-webkit-scrollbar { width: 4px; }
         .right-panel::-webkit-scrollbar-thumb { background: var(--text); border-radius: 2px; }
@@ -175,7 +175,7 @@
             <div id="work-section" class="work-container">
                 <div class="main-viewer" id="viewer" onclick="openVideo()">
                     <div class="play-indicator">WATCH VIDEO</div>
-                    </div>
+                </div>
                 <div class="project-details">
                     <div>
                         <span class="category-label" id="p-category"></span>
@@ -200,7 +200,7 @@
                     </div>
                     <div class="about-footer">
                         <button class="back-btn" onclick="showSection('work')">← back to work</button>
-                        <a href="https://www.imdb.com/name/nm11460466/" target="_blank" class="imdb-link">imdb profile</a>
+                        <a href="https://www.imdb.com/name/nm11460466/" target="_blank" class="imdb-link" style="font-size: 0.8rem; font-weight: 700; text-decoration: none; color: var(--text); border-bottom: 1px solid var(--text); padding-bottom: 2px;">imdb profile</a>
                     </div>
                 </div>
             </div>
@@ -218,6 +218,33 @@
     <script>
         const projects = [
             { 
+                title: "menem", 
+                category: "serie/film", 
+                images: ["assets/Menem_Thumbnail_1.jpg"], 
+                yt: "-2AmqmciWXE", 
+                director: "ariel winograd", 
+                prod: "claxon, yavu, prime video", 
+                desc: "serie original de prime video. biografía de la presidencia de carlos menem en los 90." 
+            },
+            { 
+                title: "coppola", 
+                category: "serie/film", 
+                images: ["assets/Coppola_Thumbnail_2.jpg", "assets/Coppola_Thumbnail_3.png", "assets/Coppola_Thumbnail_4.png"], 
+                yt: "D1vD9z-E_Yk", 
+                director: "ariel winograd", 
+                prod: "pampa films, star+ / disney+", 
+                desc: "serie original de ficción. la vida del representante más famoso del mundo." 
+            },
+            { 
+                title: "el tiempo de las moscas", 
+                category: "serie/film", 
+                images: ["assets/Moscas_Thumbnail_v01.png"], 
+                yt: "A0d6wnlMRRk", 
+                director: "ana katz, benjamín naishtat", 
+                prod: "netflix", 
+                desc: "serie original. una mirada ácida y cinematográfica sobre la libertad." 
+            },
+            { 
                 title: "las manos de la abuela", 
                 category: "serie/film", 
                 images: ["assets/MA_Thumbnail_1.png", "assets/MA_Thumbnail_2.png", "assets/MA_Thumbnail_3.png", "assets/MA_Thumbnail_4.png", "assets/MA_Thumbnail_5.png"], 
@@ -229,29 +256,38 @@
             { 
                 title: "besos brujos", 
                 category: "serie/film", 
-                images: ["assets/Besos_Thumbnail.jpg", "https://via.placeholder.com/1280x720/121212/e0e0e0?text=Still+2", "https://via.placeholder.com/1280x720/121212/e0e0e0?text=Still+3"], 
+                images: ["assets/Besos_Thumbnail.jpg"], 
                 yt: "", 
                 director: "ignacio rodo", 
-                prod: "festival de mar del plata", 
-                desc: "cortometraje (2022). selección oficial." 
+                prod: "selección oficial festival de mar del plata", 
+                desc: "cortometraje (2022). exploración visual y narrativa." 
             },
             { 
-                title: "menem", 
-                category: "serie/film", 
-                images: ["assets/Menem_Thumbnail_1.jpg", "https://via.placeholder.com/1280x720/121212/e0e0e0?text=Menem+Still+2", "https://via.placeholder.com/1280x720/121212/e0e0e0?text=Menem+Still+3"], 
-                yt: "-2AmqmciWXE", 
-                director: "ariel winograd", 
-                prod: "claxon, yavu, prime video", 
-                desc: "serie original de prime video." 
+                title: "oreo", 
+                category: "advertising", 
+                images: ["https://img.youtube.com/vi/7Cllu0Rme74/maxresdefault.jpg"], 
+                yt: "7Cllu0Rme74", 
+                director: "primo films", 
+                prod: "primo", 
+                desc: "campaña publicitaria global." 
             },
             { 
-                title: "coppola", 
-                category: "serie/film", 
-                images: ["assets/Coppola_Thumbnail_2.jpg", "https://via.placeholder.com/1280x720/121212/e0e0e0?text=Coppola+Still+2"], 
-                yt: "D1vD9z-E_Yk", 
-                director: "ariel winograd", 
-                prod: "pampa films, disney+", 
-                desc: "serie original de star+ / disney+." 
+                title: "levis", 
+                category: "advertising", 
+                images: ["assets/Levis_Thumbnail_v01.jpg"], 
+                yt: "7Cllu0Rme74", 
+                director: "lorenzo shakespear", 
+                prod: "levis argentina", 
+                desc: "501 campaign." 
+            },
+            { 
+                title: "blair", 
+                category: "music video", 
+                images: ["assets/Blair_Thumbnail_v01.jpg"], 
+                yt: "ItX5aqhqsmo", 
+                director: "dana campanello", 
+                prod: "poster", 
+                desc: "videoclip oficial para blair." 
             }
         ];
 
@@ -288,7 +324,6 @@
             const viewer = document.getElementById('viewer');
             const current = filteredProjects[currentIndex];
             
-            // Limpiar viewer y cargar nuevas imágenes para el carrusel interno
             viewer.querySelectorAll('img').forEach(img => img.remove());
             slideIndex = 0;
             
@@ -308,7 +343,6 @@
             if(current.yt !== "") viewer.classList.add('has-video');
             else viewer.classList.remove('has-video');
 
-            // Actualizar miniaturas derecha
             thumbList.innerHTML = '';
             filteredProjects.forEach((proj, index) => {
                 const item = document.createElement('div');
@@ -374,14 +408,12 @@
             clearInterval(rotation);
             clearInterval(slideRotation);
             if(!isAbout) {
-                // Rotación de proyectos (cada 8 seg)
                 rotation = setInterval(() => {
                     if(filteredProjects.length > 1) {
                         currentIndex = (currentIndex + 1) % filteredProjects.length;
                         updateDisplay();
                     }
                 }, 8000);
-                // Rotación de stills dentro del proyecto (cada 3 seg)
                 slideRotation = setInterval(nextSlide, 3000);
             }
         }
