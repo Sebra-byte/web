@@ -31,7 +31,7 @@
 
         /* SWIPER & ARROWS */
         .swiper { width: 100%; height: 100vh; background: #000; }
-        .swiper-button-next, .swiper-button-prev { color: #fff !important; transform: scale(0.5); opacity: 0.3; transition: 0.3s; }
+        .swiper-button-next, .swiper-button-prev { color: #fff !important; transform: scale(0.5); opacity: 0.4; transition: 0.3s; }
         .swiper-button-next:hover, .swiper-button-prev:hover { opacity: 1; }
         
         .swiper-slide { position: relative; overflow: hidden; }
@@ -40,7 +40,7 @@
         .slide-link { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 50; }
         .slide-info { position: absolute; bottom: 80px; left: 5%; z-index: 60; pointer-events: none; }
         .slide-info h2 { font-size: 1.3rem; letter-spacing: 6px; text-transform: uppercase; font-weight: 400; margin: 0; color: #fff; }
-        .slide-info p { font-size: 0.6rem; color: #fff; opacity: 0.9; letter-spacing: 3px; margin-top: 10px; }
+        .slide-info p { font-size: 0.6rem; color: #fff; opacity: 0.9; letter-spacing: 3px; margin-top: 10px; font-weight: 400; }
 
         /* UNMUTE BUTTON */
         #unmute-btn {
@@ -127,7 +127,9 @@
         <a href="moscas.html" class="project-card narrative"><img src="https://img.youtube.com/vi/A0d6wnlMRRk/hqdefault.jpg"><div class="card-info"><h3>EL TIEMPO DE LAS MOSCAS</h3><div class="director">Dir. Ana Katz</div><div class="production">Netflix</div></div></a>
         <a href="coppola.html" class="project-card narrative"><img src="https://img.youtube.com/vi/ecr24akKDbs/hqdefault.jpg"><div class="card-info"><h3>COPPOLA</h3><div class="director">Dir. Ariel Winograd</div><div class="production">Disney+</div></div></a>
         <a href="oreo.html" class="project-card advertising"><img src="https://img.youtube.com/vi/7Cllu0Rme74/hqdefault.jpg"><div class="card-info"><h3>OREO</h3><div class="director">Dir. Ariel Winograd</div><div class="production">Momento de Diversión</div></div></a>
+        
         <a href="levis.html" class="project-card advertising"><img src="Levis_Thumbnail_v01.png"><div class="card-info"><h3>LEVI'S x WINONA RIDERS</h3><div class="director">Dir. Campaign</div><div class="production">Levi's / Advertising</div></div></a>
+        
         <a href="blair.html" class="project-card music"><img src="https://img.youtube.com/vi/ItX5aqhqsmo/hqdefault.jpg"><div class="card-info"><h3>BLAIR</h3><div class="director">Dir. Todo lo que tengo</div><div class="production">Music Video</div></div></a>
         <a href="ratones.html" class="project-card advertising"><img src="RP_Thumnmail.png"><div class="card-info"><h3>RATONES PARANOICOS</h3><div class="director">Dir. Poster</div><div class="production">Advertising</div></div></a>
         <a href="marias.html" class="project-card advertising"><img src="Marias_Thumbnail.png"><div class="card-info"><h3>MARÍAS</h3><div class="director">Dir. Publicidad</div><div class="production">Advertising</div></div></a>
@@ -145,14 +147,14 @@
             ids.forEach((id, index) => {
                 players[index] = new YT.Player('player' + (index + 1), {
                     videoId: id,
-                    playerVars: { 'autoplay': 1, 'mute': 1, 'loop': 1, 'playlist': id, 'controls': 0, 'showinfo': 0, 'modestbranding': 1 },
+                    playerVars: { 'autoplay': 1, 'mute': 1, 'loop': 1, 'playlist': id, 'controls': 0, 'showinfo': 0, 'modestbranding': 1, 'rel': 0 },
                     events: { 'onReady': (e) => e.target.playVideo() }
                 });
             });
         }
 
         function activateSound() {
-            players.forEach(p => { if(p.unMute) p.unMute(); });
+            players.forEach(p => { if(p && p.unMute) p.unMute(); });
             document.getElementById('unmute-btn').style.display = 'none';
         }
 
