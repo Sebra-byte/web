@@ -8,7 +8,7 @@
     <style>
         :root { 
             --bg: #f0f0f0; --text: #1a1a1a; --gray: #777; 
-            --line-grid: rgba(0, 0, 0, 0.05); --line-accent: rgba(255, 0, 0, 0.15); 
+            --line-grid: rgba(0, 0, 0, 0.05); 
         }
         
         body, html { 
@@ -20,71 +20,70 @@
         .blueprint-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-image: linear-gradient(var(--line-grid) 1px, transparent 1px), linear-gradient(90deg, var(--line-grid) 1px, transparent 1px);
-            background-size: 50px 50px; z-index: -1;
+            background-size: 40px 40px; z-index: -1;
         }
 
         .main-layout {
             display: grid;
-            grid-template-columns: 20% 1fr 20%;
+            grid-template-columns: 250px 1fr 200px;
             height: 100vh;
-            align-items: center;
-            padding: 0 50px;
-            gap: 30px;
+            padding: 40px;
+            gap: 20px;
+            box-sizing: border-box;
         }
 
-        /* IZQUIERDA: LOGO + ABOUT */
-        .side-left { display: flex; flex-direction: column; gap: 20px; }
+        /* IZQUIERDA: MARCA + ABOUT */
+        .left-panel { display: flex; flex-direction: column; gap: 30px; }
         .brand { font-size: 1.2rem; line-height: 1.4; }
-        .brand span { display: block; font-weight: 700; font-size: 1.4rem; }
-        .side-left a { text-decoration: none; color: var(--gray); font-weight: 700; font-size: 1.1rem; letter-spacing: 2px; }
+        .brand strong { display: block; font-size: 1.4rem; }
+        .nav-links a { text-decoration: none; color: var(--text); font-size: 1.1rem; font-weight: 700; display: block; margin-bottom: 10px; }
 
-        /* CENTRO: VISOR ACHICADO */
-        .center-panel { display: flex; flex-direction: column; align-items: center; width: 100%; }
+        /* CENTRO: VISOR Y INFO */
+        .center-panel { display: flex; flex-direction: column; }
         .main-viewer {
-            width: 85%; /* Achicado para subir la info */
-            aspect-ratio: 16 / 9;
-            background: #000;
-            border: 1px solid #aaa;
-            position: relative;
-            cursor: pointer;
-            overflow: hidden;
+            width: 100%; aspect-ratio: 16 / 9; background: #000;
+            border: 1px solid #ddd; overflow: hidden; cursor: pointer; position: relative;
         }
         .main-viewer img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.5s; }
-        .play-overlay {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            font-size: 3rem; color: white; opacity: 0; transition: 0.3s;
+        
+        .project-details {
+            margin-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
         }
-        .main-viewer:hover .play-overlay { opacity: 0.8; }
-
-        /* INFO SUBIDA */
-        .project-info {
-            width: 85%;
-            margin-top: 25px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-        }
-        .project-info h2 { font-size: 3rem; margin: 0; letter-spacing: -2px; font-weight: 700; }
-        .project-info .meta { font-size: 1rem; line-height: 1.6; color: var(--gray); }
+        .project-details h2 { font-size: 3rem; margin: 0; letter-spacing: -2px; font-weight: 700; }
+        .project-details .meta { font-size: 0.9rem; line-height: 1.6; color: var(--gray); }
 
         /* DERECHA: MINIATURAS */
-        .side-right { display: flex; flex-direction: column; gap: 15px; align-items: flex-end; }
-        .thumb-box {
-            width: 180px; aspect-ratio: 16 / 9;
-            background: #000; border: 1px solid #ccc;
-            cursor: pointer; overflow: hidden;
+        .right-panel { display: flex; flex-direction: column; gap: 15px; }
+        .thumb-item {
+            width: 100%; aspect-ratio: 16 / 10; background: #ddd;
+            border: 1px solid #ccc; overflow: hidden; cursor: pointer;
         }
-        .thumb-box img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; transition: 0.3s; }
-        .thumb-box:hover img { opacity: 1; }
+        .thumb-item img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); transition: 0.3s; }
+        .thumb-item:hover img { filter: grayscale(0); }
 
-        /* MODAL VIDEO */
+        /* MODAL VIDEO - TAMAÑO GRANDE */
         .video-modal {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.95); display: none; z-index: 1000;
             justify-content: center; align-items: center;
         }
-        .video-modal iframe { width: 80%; aspect-ratio: 16 / 9; border: none; }
-        .close-modal { position: absolute; top: 30px; right: 50px; color: white; font-size: 2rem; cursor: pointer; }
+        
+        .video-wrapper {
+            width: 90%; 
+            max-width: 1400px; 
+            aspect-ratio: 16 / 9; 
+            position: relative;
+        }
+
+        #video-player { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; 
+        }
+
+        .close-modal { 
+            position: absolute; top: 30px; right: 50px; color: white; 
+            cursor: pointer; font-size: 1.5rem; font-weight: 700; letter-spacing: 2px;
+            z-index: 1010;
+        }
     </style>
 </head>
 <body>
@@ -92,85 +91,166 @@
     <div class="blueprint-bg"></div>
 
     <main class="main-layout">
-        <section class="side-left">
-            <div class="brand"><span>leandro bruno</span>film editor</div>
-            <a href="about.html">about</a>
-            <a href="mailto:leandrobrunoeditor@gmail.com">contact</a>
+        <section class="left-panel">
+            <div class="brand"><strong>leandro bruno</strong>film editor</div>
+            <nav class="nav-links">
+                <a href="about.html">about</a>
+                <a href="mailto:leandrobrunoeditor@gmail.com">contact</a>
+            </nav>
         </section>
 
         <section class="center-panel">
             <div class="main-viewer" onclick="openVideo()">
-                <div class="play-overlay">▶</div>
-                <img id="feat-img" src="" alt="feature">
+                <img id="main-img" src="" alt="feature project">
             </div>
-            <div class="project-info">
+            <div class="project-details">
                 <div>
-                    <h2 id="feat-title"></h2>
+                    <span style="font-size: 0.8rem;">project name</span>
+                    <h2 id="p-title"></h2>
                 </div>
-                <div class="meta" id="feat-meta"></div>
+                <div class="meta">
+                    <div id="p-meta-top"></div>
+                    <div id="p-description" style="margin-top: 15px;"></div>
+                </div>
             </div>
         </section>
 
-        <section class="side-right" id="thumbs-container"></section>
+        <section class="right-panel" id="thumbnail-list"></section>
     </main>
 
     <div class="video-modal" id="modal">
         <span class="close-modal" onclick="closeVideo()">✕ close</span>
-        <div id="video-player"></div>
+        <div class="video-wrapper">
+            <div id="video-player"></div>
+        </div>
     </div>
 
+    <script src="https://www.youtube.com/iframe_api"></script>
     <script>
+        // Nombres de archivos basados en tu estructura de GitHub
         const projects = [
-            { title: "menem", img: "assets/thumb_menem.jpg", yt: "-2AmqmciWXE", credits: "<strong>d.</strong> ariel winograd<br><strong>p.</strong> claxon, yavu, prime video" },
-            { title: "oreo", img: "assets/thumb_oreo.jpg", yt: "7Cllu0Rme74", credits: "<strong>p.</strong> primo films" },
-            { title: "moscas", img: "assets/thumb_moscas.jpg", yt: "A0d6wnlMRRk", credits: "<strong>d.</strong> ana katz<br><strong>p.</strong> netflix" },
-            { title: "coppola", img: "assets/thumb_coppola.jpg", yt: "ecr24akKDbs", credits: "<strong>d.</strong> ariel winograd<br><strong>p.</strong> disney+" }
+            {
+                title: "menem",
+                img: "assets/Menem_Thumbnail_1.jpg",
+                yt: "-2AmqmciWXE",
+                director: "ariel winograd",
+                prod: "claxon, yavu, prime video",
+                desc: "serie original de prime video. montaje cinematográfico enfocado en la narrativa política y dramática de los años 90."
+            },
+            {
+                title: "coppola",
+                img: "assets/Coppola_Thumbnail_2.jpg",
+                yt: "ecr24akKDbs",
+                director: "ariel winograd",
+                prod: "pampa films, disney+",
+                desc: "miniserie biográfica. edición de ritmo frenético y reconstrucción de época."
+            },
+            {
+                title: "blair",
+                img: "assets/Blair_Thumbnail_v01.jpg",
+                yt: "ItX5aqhqsmo",
+                director: "dana campanello",
+                prod: "poster",
+                desc: "proyecto documental con enfoque en la textura de imagen y narrativa no lineal."
+            },
+            {
+                title: "levis",
+                img: "assets/Levis_Thumbnail_v01.jpg",
+                yt: "7Cllu0Rme74",
+                director: "lorenzo shakespear",
+                prod: "levis",
+                desc: "campaña comercial con estética lo-fi y montaje rítmico."
+            }
         ];
 
-        let currentIdx = 0;
+        let currentIndex = 0;
+        let player;
 
-        function render() {
-            const p = projects[currentIdx];
-            const img = document.getElementById('feat-img');
-            img.style.opacity = 0;
+        function updateDisplay() {
+            const current = projects[currentIndex];
+            const mainImg = document.getElementById('main-img');
+            
+            mainImg.style.opacity = 0;
             
             setTimeout(() => {
-                img.src = p.img;
-                document.getElementById('feat-title').innerText = p.title;
-                document.getElementById('feat-meta').innerHTML = p.credits;
-                img.style.opacity = 1;
+                mainImg.src = current.img;
+                document.getElementById('p-title').innerText = current.title;
+                document.getElementById('p-meta-top').innerHTML = `<strong>d.</strong> ${current.director}<br><strong>p.</strong> ${current.prod}`;
+                document.getElementById('p-description').innerText = current.desc;
+                mainImg.style.opacity = 1;
             }, 300);
 
-            const container = document.getElementById('thumbs-container');
-            container.innerHTML = '';
-            projects.forEach((proj, i) => {
-                if(i !== currentIdx) {
-                    const box = document.createElement('div');
-                    box.className = 'thumb-box';
-                    box.innerHTML = `<img src="${proj.img}" onerror="this.src='https://via.placeholder.com/180x101?text=Error+Path'">`;
-                    box.onclick = () => { currentIdx = i; render(); resetTimer(); };
-                    container.appendChild(box);
+            const thumbList = document.getElementById('thumbnail-list');
+            thumbList.innerHTML = '';
+            
+            projects.forEach((proj, index) => {
+                if(index !== currentIndex) {
+                    const item = document.createElement('div');
+                    item.className = 'thumb-item';
+                    item.innerHTML = `<img src="${proj.img}">`;
+                    item.onclick = () => {
+                        currentIndex = index;
+                        updateDisplay();
+                        resetInterval();
+                    };
+                    thumbList.appendChild(item);
                 }
             });
         }
 
+        // Función para abrir el video y detectar el final
         function openVideo() {
             const modal = document.getElementById('modal');
-            const player = document.getElementById('video-player');
-            const p = projects[currentIdx];
+            const ytId = projects[currentIndex].yt;
             modal.style.display = 'flex';
-            player.innerHTML = `<iframe src="https://www.youtube.com/embed/${p.yt}?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+
+            if (player) {
+                player.loadVideoById(ytId);
+            } else {
+                player = new YT.Player('video-player', {
+                    height: '100%',
+                    width: '100%',
+                    videoId: ytId,
+                    playerVars: {
+                        'autoplay': 1,
+                        'rel': 0,
+                        'modestbranding': 1
+                    },
+                    events: {
+                        'onStateChange': onPlayerStateChange
+                    }
+                });
+            }
+        }
+
+        // Cerrar al terminar
+        function onPlayerStateChange(event) {
+            if (event.data === YT.PlayerState.ENDED) {
+                closeVideo();
+            }
         }
 
         function closeVideo() {
             document.getElementById('modal').style.display = 'none';
-            document.getElementById('video-player').innerHTML = '';
+            if (player) {
+                player.stopVideo();
+            }
         }
 
-        let timer = setInterval(() => { currentIdx = (currentIdx + 1) % projects.length; render(); }, 6000);
-        function resetTimer() { clearInterval(timer); timer = setInterval(() => { currentIdx = (currentIdx + 1) % projects.length; render(); }, 6000); }
+        let rotation = setInterval(() => {
+            currentIndex = (currentIndex + 1) % projects.length;
+            updateDisplay();
+        }, 5000);
 
-        window.onload = render;
+        function resetInterval() {
+            clearInterval(rotation);
+            rotation = setInterval(() => {
+                currentIndex = (currentIndex + 1) % projects.length;
+                updateDisplay();
+            }, 5000);
+        }
+
+        updateDisplay();
     </script>
 </body>
 </html>
