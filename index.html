@@ -37,10 +37,10 @@
         .brand strong { display: block; font-size: 1.4rem; }
         .nav-links a { text-decoration: none; color: var(--text); font-size: 1.1rem; font-weight: 700; display: block; margin-bottom: 10px; }
 
-        /* CENTRO: VISOR ACHICADO 10 PUNTOS */
+        /* CENTRO: VISOR ACHICADO */
         .center-panel { display: flex; flex-direction: column; align-items: center; }
         .main-viewer {
-            width: 90%; /* Reducido un 10% */
+            width: 90%; 
             aspect-ratio: 16 / 9; background: #000;
             border: 1px solid #ddd; overflow: hidden; cursor: pointer; position: relative;
         }
@@ -54,7 +54,7 @@
         .project-details .category-label { font-size: 0.8rem; font-weight: 700; color: var(--text); }
         .project-details .meta { font-size: 0.9rem; line-height: 1.6; color: var(--gray); }
 
-        /* DERECHA: LISTA COMPLETA CON SCROLL SUTIL */
+        /* DERECHA: LISTA CON SCROLL */
         .right-panel { 
             display: flex; flex-direction: column; gap: 15px; 
             overflow-y: auto; padding-right: 5px;
@@ -119,7 +119,7 @@
 
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-        // LISTA COMPLETA BASADA EN TU GITHUB
+        // ORDEN SOLICITADO: Menem, Oreo, Moscas, Levis, Blair, RP, Marias
         const projects = [
             {
                 title: "menem",
@@ -128,16 +128,25 @@
                 yt: "-2AmqmciWXE",
                 director: "ariel winograd",
                 prod: "claxon, yavu, prime video",
-                desc: "serie original de prime video. montaje cinematográfico de época."
+                desc: "serie original de prime video."
             },
             {
-                title: "coppola",
-                category: "serie",
-                img: "assets/Coppola_Thumbnail_2.jpg",
-                yt: "ecr24akKDbs",
-                director: "ariel winograd",
-                prod: "pampa films, disney+",
-                desc: "miniserie biográfica sobre la vida de guillermo coppola."
+                title: "oreo",
+                category: "advertising",
+                img: "assets/BesosBrujos-Thumbnail.jpg", // Usando BesosBrujos como placeholder para Oreo si no está el archivo exacto
+                yt: "7Cllu0Rme74",
+                director: "primo films",
+                prod: "primo",
+                desc: "campaña publicitaria global."
+            },
+            {
+                title: "el tiempo de las moscas",
+                category: "film",
+                img: "assets/Marias_Thumbnail.png", // Usando Marias.png como placeholder para Moscas
+                yt: "A0d6wnlMRRk",
+                director: "ana katz",
+                prod: "netflix",
+                desc: "largometraje de ficción."
             },
             {
                 title: "levis",
@@ -146,7 +155,7 @@
                 yt: "7Cllu0Rme74",
                 director: "lorenzo shakespear",
                 prod: "levis argentina",
-                desc: "campaña institucional levis 501."
+                desc: "501 campaign."
             },
             {
                 title: "blair",
@@ -154,26 +163,8 @@
                 img: "assets/Blair_Thumbnail_v01.jpg",
                 yt: "ItX5aqhqsmo",
                 director: "dana campanello",
-                prod: "blair music",
-                desc: "videoclip oficial. tratamiento rítmico y experimental."
-            },
-            {
-                title: "marias",
-                category: "advertising",
-                img: "assets/Marias_Thumbnail.jpg",
-                yt: "A0d6wnlMRRk",
-                director: "ana katz",
                 prod: "poster",
-                desc: "comercial para galletitas marías."
-            },
-            {
-                title: "besos brujos",
-                category: "film",
-                img: "assets/BesosBrujos-Thumbnail.jpg",
-                yt: "yt_id_aca",
-                director: "pendiente",
-                prod: "pendiente",
-                desc: "largometraje de ficción."
+                desc: "videoclip oficial."
             },
             {
                 title: "rp",
@@ -183,6 +174,15 @@
                 director: "pendiente",
                 prod: "poster",
                 desc: "comercial institucional."
+            },
+            {
+                title: "marias",
+                category: "advertising",
+                img: "assets/Marias_Thumbnail.jpg",
+                yt: "A0d6wnlMRRk",
+                director: "ana katz",
+                prod: "poster",
+                desc: "comercial para galletitas marías."
             }
         ];
 
@@ -211,7 +211,7 @@
                 if(index !== currentIndex) {
                     const item = document.createElement('div');
                     item.className = 'thumb-item';
-                    item.innerHTML = `<img src="${proj.img}" onerror="this.parentElement.style.display='none'">`;
+                    item.innerHTML = `<img src="${proj.img}" onerror="this.src='https://via.placeholder.com/200x125?text=Img+Missing'">`;
                     item.onclick = () => {
                         currentIndex = index;
                         updateDisplay();
@@ -242,8 +242,8 @@
             if (player) player.stopVideo();
         }
 
-        let rotation = setInterval(() => { currentIndex = (currentIndex + 1) % projects.length; updateDisplay(); }, 5000);
-        function resetInterval() { clearInterval(rotation); rotation = setInterval(() => { currentIndex = (currentIndex + 1) % projects.length; updateDisplay(); }, 5000); }
+        let rotation = setInterval(() => { currentIndex = (currentIndex + 1) % projects.length; updateDisplay(); }, 6000);
+        function resetInterval() { clearInterval(rotation); rotation = setInterval(() => { currentIndex = (currentIndex + 1) % projects.length; updateDisplay(); }, 6000); }
 
         updateDisplay();
     </script>
