@@ -11,12 +11,14 @@
             --bg: #121212; 
             --text: #e0e0e0; 
             --line-grid: rgba(255, 255, 255, 0.05); 
+            --accent: #ffffff;
         }
         
         body, html { 
             margin: 0; padding: 0; width: 100%; height: 100%; 
             background: var(--bg); color: var(--text); 
             font-family: 'Space Mono', monospace; text-transform: lowercase;
+            overflow: hidden; /* Desktop fijo */
         }
 
         .blueprint-bg {
@@ -33,14 +35,16 @@
             grid-template-columns: 320px 1fr 200px;
             height: 100vh;
             padding: 40px;
-            gap: 20px;
+            gap: 30px;
             position: relative;
         }
 
-        .left-panel { display: flex; flex-direction: column; gap: 40px; }
-        .brand { font-size: 1.4rem; line-height: 1.2; letter-spacing: -1px; cursor: pointer; }
+        .left-panel { display: flex; flex-direction: column; gap: 40px; z-index: 10; }
+        .brand { font-size: 1.4rem; line-height: 1.2; letter-spacing: -1px; cursor: pointer; transition: 0.3s; }
+        .brand:hover { opacity: 0.7; }
         .brand strong { display: block; font-size: 1.6rem; }
-        .nav-links { display: flex; flex-direction: column; gap: 12px; }
+        
+        .nav-links { display: flex; flex-direction: column; gap: 15px; }
 
         /* DROPDOWN FILTRO */
         .custom-select-container { position: relative; display: inline-block; }
@@ -48,17 +52,22 @@
             font-size: 0.9rem; font-weight: 700; cursor: pointer;
             border-bottom: 1px solid var(--text); padding-bottom: 2px;
             display: flex; align-items: center; gap: 8px; width: fit-content;
+            transition: 0.3s;
         }
+        .select-selected:hover { letter-spacing: 1px; }
+        
         .select-items {
-            position: absolute; background-color: var(--bg);
+            position: absolute; background-color: #1a1a1a;
             top: 100%; left: 0; z-index: 99; border: 1px solid rgba(255,255,255,0.1);
-            margin-top: 5px; display: none; min-width: 180px;
+            margin-top: 10px; display: none; min-width: 200px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-        .select-items div { padding: 8px 12px; cursor: pointer; font-size: 0.8rem; }
-        .select-items div:hover { background-color: rgba(255,255,255,0.1); }
-        .select-show { display: block; }
+        .select-items div { padding: 10px 15px; cursor: pointer; font-size: 0.8rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .select-items div:hover { background-color: var(--text); color: #000; }
+        .select-show { display: block; animation: fadeIn 0.3s ease; }
 
-        .nav-links a { text-decoration: none; color: var(--text); font-size: 0.9rem; font-weight: 700; cursor: pointer; }
+        .nav-links a { text-decoration: none; color: var(--text); font-size: 0.9rem; font-weight: 700; cursor: pointer; transition: 0.3s; width: fit-content; }
+        .nav-links a:hover { opacity: 0.6; padding-left: 5px; }
 
         /* VIEWER CENTRAL */
         .center-panel { width: 100%; position: relative; overflow-y: auto; scrollbar-width: none; }
@@ -67,60 +76,69 @@
         .main-viewer {
             width: 100%; aspect-ratio: 16 / 9; background: #000;
             border: 1px solid rgba(255,255,255,0.1); overflow: hidden; position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
         }
         .main-viewer.has-video { cursor: pointer; }
         .main-viewer img { 
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-            object-fit: cover; transition: opacity 0.8s ease-in-out; opacity: 0;
+            object-fit: cover; transition: opacity 0.8s ease-in-out, transform 1.2s ease; opacity: 0;
         }
+        .main-viewer:hover img.active-slide { transform: scale(1.03); }
         .main-viewer img.active-slide { opacity: 1; }
         
         .play-indicator {
             position: absolute; top: 20px; right: 20px; background: var(--text);
-            padding: 5px 10px; font-weight: 700; font-size: 0.7rem; display: none; color: #000; z-index: 10;
+            padding: 6px 12px; font-weight: 700; font-size: 0.7rem; display: none; color: #000; z-index: 10;
         }
         .main-viewer.has-video:hover .play-indicator { display: block; }
 
         .project-details {
-            width: 100%; margin-top: 30px; 
-            display: grid; grid-template-columns: 1fr 1fr; gap: 40px; padding-bottom: 40px;
+            width: 100%; margin-top: 35px; 
+            display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 40px; padding-bottom: 60px;
         }
-        .project-details h2 { font-size: 3.5rem; margin: 0; letter-spacing: -3px; font-weight: 700; line-height: 0.9; }
-        .category-label { font-size: 0.7rem; font-weight: 700; background: var(--text); color: #000; padding: 2px 6px; }
-        .meta { font-size: 0.9rem; line-height: 1.5; }
+        .project-details h2 { font-size: 3.8rem; margin: 0; letter-spacing: -3px; font-weight: 700; line-height: 0.85; animation: slideUp 0.6s ease; }
+        .category-label { font-size: 0.65rem; font-weight: 700; background: var(--text); color: #000; padding: 2px 8px; margin-bottom: 10px; display: inline-block; }
+        .meta { font-size: 0.9rem; line-height: 1.6; animation: slideUp 0.8s ease; }
+        .meta strong { color: #888; margin-right: 5px; }
 
         /* RIGHT PANEL MINIATURAS */
-        .right-panel { display: flex; flex-direction: column; gap: 15px; overflow-y: auto; padding-right: 10px; }
-        .thumb-item { width: 100%; aspect-ratio: 16 / 9; background: #000; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; cursor: pointer; flex-shrink: 0; }
-        .thumb-item img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); opacity: 0.4; transition: 0.3s; }
+        .right-panel { 
+            display: flex; flex-direction: column; gap: 15px; overflow-y: auto; padding-right: 5px;
+            scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.2) transparent;
+        }
+        .right-panel::-webkit-scrollbar { width: 3px; }
+        .right-panel::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); }
+
+        .thumb-item { width: 100%; aspect-ratio: 16 / 9; background: #000; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; cursor: pointer; flex-shrink: 0; transition: 0.4s; }
+        .thumb-item img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); opacity: 0.3; transition: 0.4s; }
         .thumb-item:hover img, .thumb-item.active-thumb img { filter: grayscale(0); opacity: 1; }
-        .thumb-item.active-thumb { border: 1px solid var(--text); }
+        .thumb-item.active-thumb { border: 1px solid var(--text); transform: translateX(-5px); }
 
         /* ABOUT */
         #about-section { display: none; width: 100%; gap: 60px; align-items: center; justify-content: center; min-height: 70vh; animation: fadeIn 0.8s ease; }
-        .profile-pic { width: 280px; filter: grayscale(1); border: 1px solid rgba(255,255,255,0.1); transition: 0.5s; }
+        .profile-pic { width: 300px; filter: grayscale(1); border: 1px solid rgba(255,255,255,0.1); transition: 0.8s; }
         .profile-pic:hover { filter: grayscale(0); border-color: var(--text); }
-        .about-text { font-size: 1.1rem; line-height: 1.6; max-width: 500px; }
+        .about-text { font-size: 1.15rem; line-height: 1.7; max-width: 500px; }
 
-        /* VIDEO MODAL OPTIMIZADO */
+        /* VIDEO MODAL FINAL */
         .video-modal { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: rgba(0,0,0,0.98); display: none; z-index: 1000; 
             justify-content: center; align-items: center; 
         }
         .video-wrapper { 
-            width: 92%; 
-            max-width: 1400px; 
-            aspect-ratio: 16 / 9; 
-            position: relative;
-            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            width: 94%; max-width: 1500px; aspect-ratio: 16 / 9; 
+            position: relative; animation: zoomIn 0.4s ease;
         }
         #video-player { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
-        .close-modal { 
-            position: absolute; top: -40px; right: 0; 
-            color: #fff; cursor: pointer; font-weight: 700; 
-            font-size: 0.8rem; letter-spacing: 1px;
+        
+        .close-btn { 
+            position: fixed; top: 30px; right: 40px; 
+            color: #000; background: #fff; padding: 8px 15px; 
+            cursor: pointer; font-weight: 700; font-size: 0.7rem; 
+            z-index: 1010; transition: 0.3s; border-radius: 2px;
         }
+        .close-btn:hover { background: #ff0000; color: #fff; }
 
         /* MOBILE OPTIMIZATION */
         @media (max-width: 900px) {
@@ -128,18 +146,17 @@
             .main-layout { display: flex; flex-direction: column; padding: 20px; height: auto; gap: 30px; }
             .left-panel { gap: 20px; }
             .project-details { grid-template-columns: 1fr; gap: 20px; }
-            .project-details h2 { font-size: 2.2rem; letter-spacing: -1px; }
-            .right-panel { flex-direction: row; overflow-x: auto; height: 110px; padding-bottom: 10px; border-top: 1px solid var(--line-grid); padding-top: 15px; }
-            .thumb-item { width: 160px; }
+            .project-details h2 { font-size: 2.5rem; }
+            .right-panel { flex-direction: row; overflow-x: auto; height: 130px; padding: 15px 0; border-top: 1px solid var(--line-grid); }
+            .thumb-item { width: 180px; transform: none !important; }
             #about-section { flex-direction: column; text-align: center; gap: 30px; }
-            .play-indicator { display: block; top: auto; bottom: 10px; right: 10px; }
-            
-            /* Ajuste video en mobile */
             .video-wrapper { width: 100%; }
-            .close-modal { top: -30px; right: 10px; }
+            .close-btn { top: 15px; right: 15px; padding: 5px 10px; }
         }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes zoomIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
     </style>
 </head>
 <body>
@@ -169,26 +186,26 @@
                 <div class="main-viewer" id="viewer" onclick="openVideo()">
                     <div class="play-indicator">WATCH VIDEO</div>
                 </div>
-                <div class="project-details">
+                <div class="project-details" id="project-info">
                     <div>
                         <span class="category-label" id="p-category"></span>
                         <h2 id="p-title"></h2>
                     </div>
                     <div class="meta">
                         <div id="p-meta-top"></div>
-                        <div id="p-description" style="margin-top: 15px;"></div>
+                        <div id="p-description" style="margin-top: 15px; color: #aaa;"></div>
                     </div>
                 </div>
             </div>
 
             <div id="about-section">
-                <img src="assets/Perfil_LMB.png" class="profile-pic" alt="Leandro Bruno" onerror="this.src='https://via.placeholder.com/280x350'">
+                <img src="assets/Perfil_LMB.png" class="profile-pic" alt="Leandro Bruno" onerror="this.src='https://via.placeholder.com/300x400'">
                 <div class="about-content">
                     <div class="about-text">
-                        <strong>leandro bruno</strong> es un editor de cine y publicidad con base en buenos aires. especializado en montaje rítmico y narrativa cinematográfica para plataformas globales.
+                        <strong>leandro bruno</strong> es un editor de cine y publicidad con base en buenos aires. especializado en montaje rítmico y narrativa cinematográfica para plataformas globales como netflix, disney+ y prime video.
                     </div>
-                    <div style="margin-top:30px;">
-                        <button style="background:none; border:1px solid var(--text); color:var(--text); padding:8px 20px; cursor:pointer; font-family: inherit; font-size: 0.8rem;" onclick="showSection('work')">← back</button>
+                    <div style="margin-top:40px;">
+                        <button style="background:none; border:1px solid var(--text); color:var(--text); padding:10px 25px; cursor:pointer; font-family: inherit; font-size: 0.8rem; transition: 0.3s;" onclick="showSection('work')">← back</button>
                     </div>
                 </div>
             </div>
@@ -198,8 +215,8 @@
     </main>
 
     <div class="video-modal" id="modal">
+        <div class="close-btn" onclick="closeVideo()">✕ CLOSE</div>
         <div class="video-wrapper">
-            <span class="close-modal" onclick="closeVideo()">✕ close</span>
             <div id="video-player"></div>
         </div>
     </div>
@@ -244,7 +261,7 @@
                 title: "las manos de la abuela", category: "serie/film", 
                 images: ["assets/MA_Thumbnail_1.png", "assets/MA_Thumbnail_2.png", "assets/MA_Thumbnail_3.png", "assets/MA_Thumbnail_4.png", "assets/MA_Thumbnail_5.png"], 
                 yt: "", director: "camila migliore", prod: "independiente", 
-                desc: "cortometraje (2026). próximamente." 
+                desc: "cortometraje (2026). selección oficial." 
             },
             { 
                 title: "marias", category: "advertising", 
@@ -286,6 +303,12 @@
             const viewer = document.getElementById('viewer');
             const current = filteredProjects[currentIndex];
             
+            // Re-lanzar animaciones de texto
+            const info = document.getElementById('project-info');
+            info.style.animation = 'none';
+            info.offsetHeight; /* trigger reflow */
+            info.style.animation = null;
+
             viewer.querySelectorAll('img').forEach(img => img.remove());
             slideIndex = 0;
             
@@ -330,7 +353,7 @@
                     currentIndex = (currentIndex + 1) % filteredProjects.length;
                     updateDisplay();
                 }
-            }, 8000);
+            }, 9000);
             slideRotation = setInterval(nextSlide, 3500);
         }
 
@@ -355,7 +378,7 @@
             } else {
                 player = new YT.Player('video-player', {
                     videoId: ytId,
-                    playerVars: { 'autoplay': 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0 }
+                    playerVars: { 'autoplay': 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 1 }
                 });
             }
         }
