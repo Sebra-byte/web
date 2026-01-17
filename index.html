@@ -6,7 +6,7 @@
     <title>leandro bruno | film editor</title>
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* CORRECCIÓN 1: Box-sizing global para evitar desbordes por bordes */
+        /* OPTIMIZACIÓN GLOBAL */
         * { box-sizing: border-box; }
 
         :root { 
@@ -87,8 +87,12 @@
         .main-viewer {
             width: 100%; aspect-ratio: 16 / 9; background: #000;
             border: 1px solid rgba(255,255,255,0.1); overflow: hidden; position: relative;
+            transition: border-color 0.3s;
         }
+        /* Solo mostramos puntero si hay video */
         .main-viewer.has-video { cursor: pointer; }
+        .main-viewer.has-video:hover { border-color: var(--text); }
+        
         .main-viewer img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.5s; }
         
         .play-indicator {
@@ -96,6 +100,7 @@
             padding: 5px 10px; font-weight: 700; font-size: 0.7rem; display: none; color: #000;
             z-index: 10;
         }
+        /* Solo mostramos el indicador si tiene la clase has-video */
         .main-viewer.has-video:hover .play-indicator { display: block; }
 
         .project-details {
@@ -142,8 +147,6 @@
             overflow-y: auto; overflow-x: hidden; 
             padding-right: 10px; 
         }
-        
-        /* CORRECCIÓN 2: Eliminar esquinas y scrollbars fantasmas */
         .right-panel::-webkit-scrollbar { width: 4px; }
         .right-panel::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); }
         .right-panel::-webkit-scrollbar-thumb { background: var(--text); border-radius: 2px; }
@@ -239,6 +242,10 @@
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
         const projects = [
+            // Nuevos agregados al inicio para que aparezcan primero
+            { title: "las manos de la abuela", category: "serie/film", img: "assets/Manos_Thumbnail.jpg", yt: "", director: "camila migliore", prod: "independiente", desc: "cortometraje (2026). próximamente." },
+            { title: "besos brujos", category: "serie/film", img: "assets/Besos_Thumbnail.jpg", yt: "", director: "ignacio rodo", prod: "festival de mar del plata", desc: "cortometraje (2022). selección oficial." },
+            // Proyectos anteriores
             { title: "menem", category: "serie/film", img: "assets/Menem_Thumbnail_1.jpg", yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon, yavu, prime video", desc: "serie original de prime video." },
             { title: "coppola", category: "serie/film", img: "assets/Coppola_Thumbnail_2.jpg", yt: "D1vD9z-E_Yk", director: "ariel winograd", prod: "pampa films, disney+", desc: "serie original de star+ / disney+." },
             { title: "oreo", category: "advertising", img: "https://img.youtube.com/vi/7Cllu0Rme74/maxresdefault.jpg", yt: "7Cllu0Rme74", director: "primo films", prod: "primo", desc: "campaña publicitaria global." },
@@ -277,26 +284,37 @@
             if(isAbout) return;
             const thumbList = document.getElementById('thumbnail-list');
             thumbList.innerHTML = '';
+            
+            if(filteredProjects.length === 0) return;
+
             const current = filteredProjects[currentIndex];
             const mainImg = document.getElementById('main-img');
             const viewer = document.getElementById('viewer');
             
             mainImg.style.opacity = 0;
+            
             setTimeout(() => {
                 mainImg.src = current.img;
                 document.getElementById('p-title').innerText = current.title;
                 document.getElementById('p-category').innerText = current.category;
                 document.getElementById('p-meta-top').innerHTML = `<strong>d.</strong> ${current.director}<br><strong>p.</strong> ${current.prod}`;
                 document.getElementById('p-description').innerText = current.desc;
-                if(current.yt !== "") viewer.classList.add('has-video');
-                else viewer.classList.remove('has-video');
+                
+                // Lógica inteligente para video vs still
+                if(current.yt !== "") {
+                    viewer.classList.add('has-video');
+                } else {
+                    viewer.classList.remove('has-video');
+                }
+                
                 mainImg.style.opacity = 1;
             }, 300);
 
             filteredProjects.forEach((proj, index) => {
                 const item = document.createElement('div');
                 item.className = 'thumb-item' + (index === currentIndex ? ' active-thumb' : '');
-                item.innerHTML = `<img src="${proj.img}" onerror="this.src='https://via.placeholder.com/200x125?text=Still'">`;
+                // Lazy loading añadido para rendimiento
+                item.innerHTML = `<img src="${proj.img}" loading="lazy" onerror="this.src='https://via.placeholder.com/200x125?text=Still'">`;
                 item.onclick = () => { currentIndex = index; updateDisplay(); resetInterval(); };
                 thumbList.appendChild(item);
             });
@@ -331,7 +349,9 @@
 
         function openVideo() {
             const ytId = filteredProjects[currentIndex].yt;
+            // Si no hay ID de youtube, no hace nada (no abre modal roto)
             if(!ytId) return;
+            
             document.getElementById('modal').style.display = 'flex';
             if (player) {
                 player.loadVideoById(ytId);
