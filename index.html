@@ -8,11 +8,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <style>
         :root { 
-            --bg: #f0f0f0; /* Color cemento claro / papel técnico */
+            --bg: #f0f0f0; 
             --text: #1a1a1a; 
-            --gray: #999; 
+            --gray: #777; 
             --line-grid: rgba(0, 0, 0, 0.05); 
-            --line-accent: rgba(255, 0, 0, 0.2); /* Línea guía técnica roja */
+            --line-accent: rgba(255, 0, 0, 0.2); 
         }
         
         body, html { 
@@ -22,7 +22,6 @@
             overflow: hidden; text-transform: lowercase; 
         }
 
-        /* FONDO BLUEPRINT */
         .blueprint-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-image: 
@@ -31,90 +30,92 @@
             background-size: 50px 50px; z-index: -1;
         }
 
-        /* LÍNEAS TÉCNICAS ROJAS */
         .guide-h { position: absolute; top: 50%; left: 0; width: 100%; height: 1px; background: var(--line-accent); z-index: -1; }
 
-        /* NAVEGACIÓN SUPERIOR */
         nav {
             position: fixed; top: 40px; width: 100%;
             display: flex; justify-content: center; gap: 50px;
             z-index: 100;
         }
-        nav a { text-decoration: none; color: var(--gray); font-size: 0.7rem; letter-spacing: 2px; transition: 0.3s; }
+        /* FUENTES +5 PUNTOS (0.7rem -> 1.2rem aprox) */
+        nav a { text-decoration: none; color: var(--gray); font-size: 1.1rem; letter-spacing: 2px; transition: 0.3s; font-weight: 700; }
         nav a:hover, nav a.active { color: var(--text); }
 
-        /* ESTRUCTURA PRINCIPAL */
         .main-layout {
             display: grid;
-            grid-template-columns: 20% 1fr 20%;
+            grid-template-columns: 22% 1fr 22%;
             height: 100vh;
             align-items: center;
-            padding: 0 40px;
+            padding: 0 50px;
         }
 
-        /* LOGO TEXTO (IZQUIERDA - HORIZONTAL) */
         .side-left { 
-            font-size: 0.65rem; 
+            font-size: 1rem; 
             letter-spacing: 1px; 
             line-height: 1.4;
             color: var(--text);
-            font-weight: 400;
         }
-        .side-left span { display: block; font-weight: 700; font-size: 0.75rem; margin-bottom: 4px; }
+        .side-left span { display: block; font-weight: 700; font-size: 1.2rem; margin-bottom: 5px; }
 
-        /* NOMBRE PROYECTO (DERECHA - HORIZONTAL) */
         .side-right { 
             text-align: right;
-            font-size: 0.75rem; 
-            letter-spacing: 3px; 
+            font-size: 1.2rem; 
+            letter-spacing: 2px; 
             font-weight: 700;
         }
 
-        /* CARRUSEL CENTRADO */
         .center-frame {
             width: 100%;
-            max-width: 850px;
+            max-width: 950px;
             aspect-ratio: 16 / 9;
             margin: 0 auto;
-            border: 1px solid #ccc;
+            border: 1px solid #bbb;
             position: relative;
-            background: transparent; /* Eliminado el fondo negro */
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            background: #000; /* Fondo negro para que el video destaque */
+            box-shadow: 0 15px 45px rgba(0,0,0,0.1);
+            overflow: hidden;
         }
 
         .swiper { width: 100%; height: 100%; }
-        .video-wrapper { width: 100%; height: 100%; background: #000; } /* El video mantiene su fondo */
-        .video-wrapper iframe { width: 100%; height: 100%; border: none; }
+        .video-wrapper { width: 100%; height: 100%; position: relative; overflow: hidden; }
+        
+        /* Escalar el iframe para ocultar logos de YouTube en los bordes */
+        .video-wrapper iframe { 
+            position: absolute; 
+            top: 50%; left: 50%; 
+            width: 115%; height: 115%; 
+            transform: translate(-50%, -50%);
+            border: none; 
+            pointer-events: none; 
+        }
 
-        /* INFO ABAJO CENTRO */
         .bottom-info {
             position: absolute;
-            bottom: 60px;
+            bottom: 50px;
             left: 50%;
             transform: translateX(-50%);
             text-align: center;
             width: 100%;
         }
         .credits-box { 
-            font-size: 0.6rem; 
+            font-size: 0.95rem; 
             letter-spacing: 1px; 
             color: var(--gray); 
-            line-height: 1.6;
+            line-height: 1.8;
         }
-        .credits-box strong { color: var(--text); }
+        .credits-box strong { color: var(--text); font-weight: 700; }
 
-        /* SCAN LINE */
         .scan-line {
-            position: absolute; top: 0; left: 0; width: 100%; height: 1px;
-            background: rgba(0,0,0,0.2); z-index: 10; pointer-events: none;
+            position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+            background: rgba(255,255,255,0.3); z-index: 10; pointer-events: none;
         }
-        .scanning { animation: scan 0.8s ease-out; }
-        @keyframes scan { from { top: 0; } to { top: 100%; } }
+        .scanning { animation: scan 0.8s ease-in-out; }
+        @keyframes scan { from { top: 0; opacity: 1; } to { top: 100%; opacity: 0; } }
 
         @media (max-width: 1024px) {
-            .main-layout { grid-template-columns: 1fr; gap: 20px; text-align: center; padding-top: 100px; }
-            .side-left, .side-right { text-align: center; }
-            .bottom-info { position: relative; bottom: 0; padding: 40px 0; }
+            .main-layout { grid-template-columns: 1fr; padding-top: 100px; }
+            .side-left, .side-right { text-align: center; margin: 20px 0; }
+            .bottom-info { position: relative; bottom: 0; padding: 40px 20px; }
         }
     </style>
 </head>
@@ -181,16 +182,24 @@
                     videoId: id,
                     playerVars: { 
                         'autoplay': 1, 'mute': 1, 'loop': 1, 'playlist': id, 
-                        'controls': 0, 'modestbranding': 1, 'rel': 0, 'iv_load_policy': 3 
+                        'controls': 0, 'modestbranding': 1, 'rel': 0, 
+                        'iv_load_policy': 3, 'showinfo': 0, 'disablekb': 1
                     },
-                    events: { 'onReady': (e) => e.target.playVideo() }
+                    events: { 
+                        'onReady': (e) => {
+                            e.target.playVideo();
+                            // Asegurar que el video llene el contenedor
+                            e.target.getIframe().style.width = '115%';
+                            e.target.getIframe().style.height = '115%';
+                        } 
+                    }
                 });
             });
         }
 
         const swiper = new Swiper(".mySwiper", {
             loop: true,
-            speed: 1000,
+            speed: 1200,
             effect: "fade",
             fadeEffect: { crossFade: true },
             autoplay: { delay: 6000, disableOnInteraction: false },
