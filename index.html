@@ -42,36 +42,37 @@
         .brand strong { display: block; font-size: 1.6rem; }
         
         .nav-links { display: flex; flex-direction: column; gap: 15px; }
-        .nav-item-wrapper { display: flex; align-items: center; gap: 8px; }
+        
+        /* CUSTOM SELECT DESIGN */
+        .custom-select-container { position: relative; display: inline-block; }
+        
+        .select-selected {
+            font-size: 1.2rem; font-weight: 700; cursor: pointer;
+            border-bottom: 2px solid var(--text); padding-bottom: 2px;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .select-selected::after {
+            content: ''; width: 0; height: 0;
+            border-left: 5px solid transparent; border-right: 5px solid transparent;
+            border-top: 6px solid var(--text); transition: transform 0.3s;
+        }
+        .select-selected.select-arrow-active::after { transform: rotate(180deg); }
+
+        .select-items {
+            position: absolute; background-color: var(--bg);
+            top: 100%; left: 0; right: 0; z-index: 99;
+            border: 1px solid rgba(255,255,255,0.1);
+            margin-top: 5px; display: none; min-width: 200px;
+        }
+        .select-items div {
+            color: var(--text); padding: 8px 12px; cursor: pointer;
+            font-size: 0.9rem; border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .select-items div:hover { background-color: rgba(255,255,255,0.1); }
+        .select-show { display: block; }
+
         .nav-links a { text-decoration: none; color: var(--text); font-size: 1.2rem; font-weight: 700; cursor: pointer; }
         .nav-links a.active { text-decoration: underline; }
-
-        /* ESTILO DEL DESPLEGABLE CON FLECHA PERSONALIZADA */
-        .filter-select {
-            background: var(--bg); 
-            border: none; 
-            border-bottom: 2px solid var(--text);
-            font-family: 'Space Mono', monospace; 
-            font-size: 0.9rem; 
-            font-weight: 700; 
-            cursor: pointer; 
-            text-transform: lowercase; 
-            color: var(--text);
-            padding: 2px 25px 2px 5px; 
-            outline: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            /* Flecha SVG personalizada */
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%23e0e0e0' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 5px center;
-        }
-
-        .filter-select option {
-            background-color: #1a1a1a;
-            color: var(--text);
-        }
 
         /* CONTENIDO CENTRAL */
         .center-panel { display: flex; flex-direction: column; align-items: center; position: relative; }
@@ -155,14 +156,14 @@
         <section class="left-panel">
             <div class="brand"><strong>leandro bruno</strong>film editor</div>
             <nav class="nav-links">
-                <div class="nav-item-wrapper">
-                    <a id="nav-work" class="active" onclick="showSection('work')">work</a>
-                    <select class="filter-select" id="cat-filter" onchange="changeFilter()">
-                        <option value="all">/ all</option>
-                        <option value="serie/film">/ serie & film</option>
-                        <option value="advertising">/ advertising</option>
-                        <option value="music video">/ music video</option>
-                    </select>
+                <div class="custom-select-container" id="work-nav-container">
+                    <div class="select-selected" id="current-filter-text" onclick="toggleDropdown(event)">work / all</div>
+                    <div class="select-items" id="filter-options">
+                        <div onclick="filterBy('all', 'work / all')">/ all</div>
+                        <div onclick="filterBy('serie/film', 'work / serie & film')">/ serie & film</div>
+                        <div onclick="filterBy('advertising', 'work / advertising')">/ advertising</div>
+                        <div onclick="filterBy('music video', 'work / music video')">/ music video</div>
+                    </div>
                 </div>
                 <a id="nav-about" onclick="showSection('about')">about</a>
                 <a href="mailto:leandrobrunoeditor@gmail.com">contact</a>
@@ -216,7 +217,7 @@
             { title: "menem", category: "serie/film", img: "assets/Menem_Thumbnail_1.jpg", yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon, yavu, prime video", desc: "serie original de prime video." },
             { title: "coppola", category: "serie/film", img: "assets/Coppola_Thumbnail_2.jpg", yt: "D1vD9z-E_Yk", director: "ariel winograd", prod: "pampa films, disney+", desc: "serie original de star+ / disney+." },
             { title: "oreo", category: "advertising", img: "https://img.youtube.com/vi/7Cllu0Rme74/maxresdefault.jpg", yt: "7Cllu0Rme74", director: "primo films", prod: "primo", desc: "campaña publicitaria global." },
-            { title: "el tiempo de las moscas", category: "serie/film", img: "https://img.youtube.com/vi/A0d6wnlMRRk/maxresdefault.jpg", yt: "A0d6wnlMRRk", director: "ana katz", prod: "netflix", desc: "largometraje de ficción." },
+            { title: "el tiempo de las moscas", category: "serie/film", img: "assets/Moscas_Thumbnail_v01.png", yt: "A0d6wnlMRRk", director: "ana katz", prod: "netflix", desc: "largometraje de ficción." },
             { title: "levis", category: "advertising", img: "assets/Levis_Thumbnail_v01.jpg", yt: "7Cllu0Rme74", director: "lorenzo shakespear", prod: "levis argentina", desc: "501 campaign." },
             { title: "blair", category: "music video", img: "assets/Blair_Thumbnail_v01.jpg", yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster", desc: "videoclip oficial." },
             { title: "rp", category: "advertising", img: "assets/RP_Thumnmail.jpg", yt: "", director: "pendiente", prod: "poster", desc: "comercial institucional." },
@@ -228,12 +229,24 @@
         let player;
         let isAbout = false;
 
-        function changeFilter() {
-            const val = document.getElementById('cat-filter').value;
+        function toggleDropdown(e) {
+            e.stopPropagation();
+            document.getElementById("filter-options").classList.toggle("select-show");
+            document.getElementById("current-filter-text").classList.toggle("select-arrow-active");
+        }
+
+        function filterBy(val, label) {
+            document.getElementById("current-filter-text").innerText = label;
             filteredProjects = (val === 'all') ? [...projects] : projects.filter(p => p.category === val);
             currentIndex = 0;
             updateDisplay();
             resetInterval();
+        }
+
+        // Cerrar dropdown si se hace click fuera
+        window.onclick = function() {
+            document.getElementById("filter-options").classList.remove("select-show");
+            document.getElementById("current-filter-text").classList.remove("select-arrow-active");
         }
 
         function updateDisplay() {
@@ -274,26 +287,23 @@
             const work = document.getElementById('work-section');
             const about = document.getElementById('about-section');
             const thumbs = document.getElementById('thumbnail-list');
-            const filter = document.getElementById('cat-filter');
-            const navWork = document.getElementById('nav-work');
+            const workNav = document.getElementById('work-nav-container');
             const navAbout = document.getElementById('nav-about');
 
             if(section === 'about') {
                 isAbout = true;
                 work.style.display = 'none';
                 thumbs.style.display = 'none';
-                filter.style.display = 'none';
+                workNav.style.display = 'none';
                 about.style.display = 'flex';
                 navAbout.classList.add('active');
-                navWork.classList.remove('active');
                 clearInterval(rotation);
             } else {
                 isAbout = false;
                 about.style.display = 'none';
                 work.style.display = 'flex';
                 thumbs.style.display = 'flex';
-                filter.style.display = 'inline-block';
-                navWork.classList.add('active');
+                workNav.style.display = 'inline-block';
                 navAbout.classList.remove('active');
                 updateDisplay();
                 resetInterval();
@@ -341,4 +351,3 @@
     </script>
 </body>
 </html>
-
