@@ -32,44 +32,55 @@
             box-sizing: border-box;
         }
 
+        /* PANEL IZQUIERDO FIJO */
         .left-panel { display: flex; flex-direction: column; gap: 30px; }
         .brand { font-size: 1.2rem; line-height: 1.4; }
         .brand strong { display: block; font-size: 1.4rem; }
-        .nav-links a { text-decoration: none; color: var(--text); font-size: 1.1rem; font-weight: 700; display: block; margin-bottom: 10px; }
+        .nav-links a { text-decoration: none; color: var(--text); font-size: 1.1rem; font-weight: 700; display: block; margin-bottom: 10px; cursor: pointer; }
+        .nav-links a.active { text-decoration: underline; }
 
-        /* CENTRO: VISOR ACHICADO */
-        .center-panel { display: flex; flex-direction: column; align-items: center; }
+        /* CONTENIDO CENTRAL */
+        .center-panel { display: flex; flex-direction: column; align-items: center; position: relative; }
+        
+        /* Visor de proyectos */
         .main-viewer {
-            width: 90%; 
-            aspect-ratio: 16 / 9; background: #000;
-            border: 1px solid #ddd; overflow: hidden; cursor: pointer; position: relative;
+            width: 90%; aspect-ratio: 16 / 9; background: #000;
+            border: 1px solid #ddd; overflow: hidden; position: relative;
         }
+        .main-viewer.has-video { cursor: pointer; }
         .main-viewer img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.5s; }
         
+        .play-indicator {
+            position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.9);
+            padding: 5px 10px; font-weight: 700; font-size: 0.7rem; display: none;
+        }
+        .main-viewer.has-video:hover .play-indicator { display: block; }
+
         .project-details {
             width: 90%; margin-top: 20px; 
             display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
         }
         .project-details h2 { font-size: 3rem; margin: 0; letter-spacing: -2px; font-weight: 700; }
-        .project-details .category-label { font-size: 0.8rem; font-weight: 700; color: var(--text); }
-        .project-details .meta { font-size: 0.9rem; line-height: 1.6; color: var(--gray); }
+        .category-label { font-size: 0.8rem; font-weight: 700; color: var(--text); }
+        .meta { font-size: 0.9rem; line-height: 1.6; color: var(--gray); }
 
-        /* DERECHA: LISTA CON SCROLL */
-        .right-panel { 
-            display: flex; flex-direction: column; gap: 15px; 
-            overflow-y: auto; padding-right: 5px;
+        /* SECCIÓN ABOUT (Oculta por defecto) */
+        #about-section {
+            display: none; width: 90%; flex-direction: column; align-items: flex-start;
+            text-align: left; animation: fadeIn 0.5s ease;
         }
-        .right-panel::-webkit-scrollbar { width: 2px; }
-        .right-panel::-webkit-scrollbar-thumb { background: #ccc; }
+        .about-text { font-size: 1.5rem; line-height: 1.4; max-width: 800px; font-weight: 400; }
 
+        /* DERECHA: MINIATURAS */
+        .right-panel { display: flex; flex-direction: column; gap: 15px; overflow-y: auto; }
         .thumb-item {
             width: 100%; aspect-ratio: 16 / 10; background: #000;
             border: 1px solid #ccc; overflow: hidden; cursor: pointer; flex-shrink: 0;
         }
-        .thumb-item img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); transition: 0.3s; opacity: 0.8; }
-        .thumb-item:hover img { filter: grayscale(0); opacity: 1; }
+        .thumb-item img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); transition: 0.3s; }
+        .thumb-item:hover img { filter: grayscale(0); }
 
-        /* MODAL VIDEO */
+        /* MODAL */
         .video-modal {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.95); display: none; z-index: 1000;
@@ -78,6 +89,8 @@
         .video-wrapper { width: 90%; max-width: 1400px; aspect-ratio: 16 / 9; position: relative; }
         #video-player { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
         .close-modal { position: absolute; top: 30px; right: 50px; color: white; cursor: pointer; font-size: 1.5rem; font-weight: 700; z-index: 1010; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
@@ -88,25 +101,41 @@
         <section class="left-panel">
             <div class="brand"><strong>leandro bruno</strong>film editor</div>
             <nav class="nav-links">
-                <a href="about.html">about</a>
+                <a id="nav-work" class="active" onclick="showSection('work')">work</a>
+                <a id="nav-about" onclick="showSection('about')">about</a>
                 <a href="mailto:leandrobrunoeditor@gmail.com">contact</a>
             </nav>
         </section>
 
-        <section class="center-panel">
-            <div class="main-viewer" onclick="openVideo()">
-                <img id="main-img" src="" alt="feature project">
-            </div>
-            <div class="project-details">
-                <div>
-                    <span class="category-label" id="p-category"></span>
-                    <h2 id="p-title"></h2>
+        <section class="center-panel" id="main-content">
+            
+            <div id="work-section" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+                <div class="main-viewer" id="viewer" onclick="openVideo()">
+                    <div class="play-indicator">WATCH VIDEO</div>
+                    <img id="main-img" src="" alt="feature">
                 </div>
-                <div class="meta">
-                    <div id="p-meta-top"></div>
-                    <div id="p-description" style="margin-top: 15px;"></div>
+                <div class="project-details">
+                    <div>
+                        <span class="category-label" id="p-category"></span>
+                        <h2 id="p-title"></h2>
+                    </div>
+                    <div class="meta">
+                        <div id="p-meta-top"></div>
+                        <div id="p-description" style="margin-top: 15px;"></div>
+                    </div>
                 </div>
             </div>
+
+            <div id="about-section">
+                <div class="about-text">
+                    leandro bruno es un editor de cine y publicidad con base en buenos aires. 
+                    <br><br>
+                    especializado en narrativa cinematográfica y montaje rítmico, ha trabajado en proyectos para netflix, disney+, amazon prime video y las principales productoras de la región como primo, poster y pampa films.
+                    <br><br>
+                    su enfoque combina la técnica de montaje tradicional con una sensibilidad contemporánea hacia la imagen y el sonido.
+                </div>
+            </div>
+
         </section>
 
         <section class="right-panel" id="thumbnail-list"></section>
@@ -119,7 +148,6 @@
 
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-        // ORDEN SOLICITADO: Menem, Oreo, Moscas, Levis, Blair, RP, Marias
         const projects = [
             {
                 title: "menem",
@@ -128,12 +156,12 @@
                 yt: "-2AmqmciWXE",
                 director: "ariel winograd",
                 prod: "claxon, yavu, prime video",
-                desc: "serie original de prime video."
+                desc: "serie original de prime video. montaje cinematográfico de época."
             },
             {
                 title: "oreo",
                 category: "advertising",
-                img: "assets/BesosBrujos-Thumbnail.jpg", // Usando BesosBrujos como placeholder para Oreo si no está el archivo exacto
+                img: "assets/BesosBrujos-Thumbnail.jpg", 
                 yt: "7Cllu0Rme74",
                 director: "primo films",
                 prod: "primo",
@@ -142,7 +170,7 @@
             {
                 title: "el tiempo de las moscas",
                 category: "film",
-                img: "assets/Marias_Thumbnail.png", // Usando Marias.png como placeholder para Moscas
+                img: "assets/Marias_Thumbnail.png", 
                 yt: "A0d6wnlMRRk",
                 director: "ana katz",
                 prod: "netflix",
@@ -170,7 +198,7 @@
                 title: "rp",
                 category: "advertising",
                 img: "assets/RP_Thumnmail.jpg",
-                yt: "yt_id_aca",
+                yt: "", // Sin video por ahora
                 director: "pendiente",
                 prod: "poster",
                 desc: "comercial institucional."
@@ -188,10 +216,13 @@
 
         let currentIndex = 0;
         let player;
+        let isAbout = false;
 
         function updateDisplay() {
+            if(isAbout) return;
             const current = projects[currentIndex];
             const mainImg = document.getElementById('main-img');
+            const viewer = document.getElementById('viewer');
             
             mainImg.style.opacity = 0;
             
@@ -201,28 +232,59 @@
                 document.getElementById('p-category').innerText = current.category;
                 document.getElementById('p-meta-top').innerHTML = `<strong>d.</strong> ${current.director}<br><strong>p.</strong> ${current.prod}`;
                 document.getElementById('p-description').innerText = current.desc;
+                
+                // Lógica de video vacío
+                if(current.yt !== "") {
+                    viewer.classList.add('has-video');
+                } else {
+                    viewer.classList.remove('has-video');
+                }
+                
                 mainImg.style.opacity = 1;
             }, 300);
 
             const thumbList = document.getElementById('thumbnail-list');
             thumbList.innerHTML = '';
-            
             projects.forEach((proj, index) => {
                 if(index !== currentIndex) {
                     const item = document.createElement('div');
                     item.className = 'thumb-item';
-                    item.innerHTML = `<img src="${proj.img}" onerror="this.src='https://via.placeholder.com/200x125?text=Img+Missing'">`;
-                    item.onclick = () => {
-                        currentIndex = index;
-                        updateDisplay();
-                        resetInterval();
-                    };
+                    item.innerHTML = `<img src="${proj.img}" onerror="this.src='https://via.placeholder.com/200x125?text=Still'">`;
+                    item.onclick = () => { currentIndex = index; updateDisplay(); resetInterval(); };
                     thumbList.appendChild(item);
                 }
             });
         }
 
+        function showSection(section) {
+            const work = document.getElementById('work-section');
+            const about = document.getElementById('about-section');
+            const thumbs = document.getElementById('thumbnail-list');
+            const navWork = document.getElementById('nav-work');
+            const navAbout = document.getElementById('nav-about');
+
+            if(section === 'about') {
+                isAbout = true;
+                work.style.display = 'none';
+                thumbs.style.display = 'none';
+                about.style.display = 'flex';
+                navAbout.classList.add('active');
+                navWork.classList.remove('active');
+                clearInterval(rotation);
+            } else {
+                isAbout = false;
+                about.style.display = 'none';
+                work.style.display = 'flex';
+                thumbs.style.display = 'flex';
+                navWork.classList.add('active');
+                navAbout.classList.remove('active');
+                updateDisplay();
+                resetInterval();
+            }
+        }
+
         function openVideo() {
+            if(projects[currentIndex].yt === "") return;
             const modal = document.getElementById('modal');
             const ytId = projects[currentIndex].yt;
             modal.style.display = 'flex';
@@ -243,7 +305,7 @@
         }
 
         let rotation = setInterval(() => { currentIndex = (currentIndex + 1) % projects.length; updateDisplay(); }, 6000);
-        function resetInterval() { clearInterval(rotation); rotation = setInterval(() => { currentIndex = (currentIndex + 1) % projects.length; updateDisplay(); }, 6000); }
+        function resetInterval() { clearInterval(rotation); if(!isAbout) rotation = setInterval(() => { currentIndex = (currentIndex + 1) % projects.length; updateDisplay(); }, 6000); }
 
         updateDisplay();
     </script>
