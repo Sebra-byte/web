@@ -5,68 +5,191 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>leandro bruno | film editor</title>
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <style>
         :root { 
-            --bg: #f0f0f0; --text: #1a1a1a; --gray: #777; 
-            --line-grid: rgba(0, 0, 0, 0.05); --line-accent: rgba(255, 0, 0, 0.15); 
+            --bg: #f0f0f0; 
+            --text: #1a1a1a; 
+            --gray: #777; 
+            --line-grid: rgba(0, 0, 0, 0.05); 
+            --line-accent: rgba(255, 0, 0, 0.15); 
         }
+        
         body, html { 
             margin: 0; padding: 0; width: 100%; height: 100%; 
             background: var(--bg); color: var(--text); 
-            font-family: 'Space Mono', monospace; overflow: hidden; text-transform: lowercase; 
+            font-family: 'Space Mono', monospace; 
+            text-transform: lowercase; 
         }
+
+        /* FONDO BLUEPRINT */
         .blueprint-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: linear-gradient(var(--line-grid) 1px, transparent 1px), linear-gradient(90deg, var(--line-grid) 1px, transparent 1px);
+            background-image: 
+                linear-gradient(var(--line-grid) 1px, transparent 1px), 
+                linear-gradient(90deg, var(--line-grid) 1px, transparent 1px);
             background-size: 50px 50px; z-index: -1;
         }
-        .guide-h { position: absolute; top: 50%; left: 0; width: 100%; height: 1px; background: var(--line-accent); z-index: -1; }
 
+        /* ESTRUCTURA PRINCIPAL */
         .main-layout {
-            display: grid; grid-template-columns: 18% 1fr 18%; height: 100vh; align-items: center; padding: 0 40px;
+            display: grid;
+            grid-template-columns: 18% 1fr 18%;
+            min-height: 100vh;
+            padding: 60px 40px;
+            box-sizing: border-box;
         }
-        .side-left { font-size: 1.2rem; letter-spacing: 1px; line-height: 1.5; }
+
+        /* IZQUIERDA: LOGO FIJO */
+        .side-left { 
+            position: sticky;
+            top: 60px;
+            height: fit-content;
+            font-size: 1.2rem; 
+            letter-spacing: 1px; 
+            line-height: 1.5;
+        }
         .side-left span { display: block; font-weight: 700; font-size: 1.4rem; margin-bottom: 5px; }
 
-        .center-frame {
-            grid-column: 2; width: 100%; max-width: 1150px; aspect-ratio: 16 / 9; margin: 0 auto;
-            border: 1px solid #aaa; position: relative; background: #000; box-shadow: 0 25px 55px rgba(0,0,0,0.12);
+        /* CENTRO: GRILLA DE THUMBNAILS (ESTILO CARGO) */
+        .center-content {
+            grid-column: 2;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 2 columnas como el template */
+            gap: 40px;
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
         }
-        .swiper { width: 100%; height: 100%; }
-        .video-wrapper { width: 100%; height: 100%; background: #000; }
-        .video-wrapper iframe { width: 100%; height: 100%; border: none; }
 
-        .side-right { display: flex; flex-direction: column; justify-content: space-around; height: 60%; align-items: flex-end; }
-        .swiper-button-next-custom { cursor: pointer; font-size: 3rem; color: var(--text); transition: 0.3s; margin-bottom: 50px; }
-        .nav-links { display: flex; flex-direction: column; gap: 15px; align-items: flex-end; }
-        .nav-links a { text-decoration: none; color: var(--gray); font-size: 1.2rem; font-weight: 700; letter-spacing: 2px; }
-        .nav-links a.active { color: var(--text); }
+        .project-card {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #ddd;
+            border: 1px solid #aaa;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
 
-        .bottom-info { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); text-align: center; width: 100%; }
-        #p-name { font-size: 1.6rem; font-weight: 700; letter-spacing: 5px; margin-bottom: 10px; }
-        .credits-box { font-size: 1.1rem; color: var(--gray); }
+        .project-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%);
+            transition: 0.5s ease;
+        }
+
+        .project-card:hover img {
+            filter: grayscale(0%);
+            transform: scale(1.05);
+        }
+
+        /* INFO HOVER SOBRE EL THUMBNAIL */
+        .project-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(240, 240, 240, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: 0.3s ease;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .project-card:hover .project-overlay {
+            opacity: 1;
+        }
+
+        .overlay-title { font-weight: 700; font-size: 1.3rem; margin-bottom: 10px; }
+        .overlay-credits { font-size: 0.9rem; color: var(--gray); }
+
+        /* DERECHA: NAV FIJA */
+        .side-right { 
+            position: sticky;
+            top: 60px;
+            height: fit-content;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: flex-end;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: flex-end;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--gray);
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            transition: 0.3s;
+        }
+        .nav-links a:hover, .nav-links a.active { color: var(--text); }
+
+        @media (max-width: 1024px) {
+            .main-layout { grid-template-columns: 1fr; padding: 40px 20px; }
+            .side-left, .side-right { position: relative; top: 0; text-align: center; align-items: center; margin-bottom: 40px; }
+            .center-content { grid-template-columns: 1fr; }
+            .nav-links { flex-direction: row; gap: 20px; }
+        }
     </style>
 </head>
 <body>
+
     <div class="blueprint-bg"></div>
-    <div class="guide-h"></div>
+
     <main class="main-layout">
-        <div class="side-left"><span>leandro bruno</span>film editor</div>
-        <div class="center-frame">
-            <div class="swiper mySwiper">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide" data-title="menem" data-credits="<strong>d.</strong> ariel winograd | <strong>p.</strong> claxon, yavu, prime video">
-                        <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/-2AmqmciWXE?autoplay=1&mute=1&loop=1&playlist=-2AmqmciWXE&controls=0&modestbranding=1" allow="autoplay"></iframe></div>
-                    </div>
-                    <div class="swiper-slide" data-title="oreo" data-credits="<strong>p.</strong> primo films">
-                        <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/7Cllu0Rme74?autoplay=1&mute=1&loop=1&playlist=7Cllu0Rme74&controls=0&modestbranding=1" allow="autoplay"></iframe></div>
-                    </div>
+        <div class="side-left">
+            <span>leandro bruno</span>
+            film editor
+        </div>
+
+        <div class="center-content">
+            
+            <div class="project-card">
+                <img src="assets/thumb_menem.jpg" alt="menem">
+                <div class="project-overlay">
+                    <div class="overlay-title">menem</div>
+                    <div class="overlay-credits">d. ariel winograd | p. claxon, yavu</div>
                 </div>
             </div>
+
+            <div class="project-card">
+                <img src="assets/thumb_oreo.jpg" alt="oreo">
+                <div class="project-overlay">
+                    <div class="overlay-title">oreo</div>
+                    <div class="overlay-credits">p. primo films</div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <img src="assets/thumb_moscas.jpg" alt="el tiempo de las moscas">
+                <div class="project-overlay">
+                    <div class="overlay-title">el tiempo de las moscas</div>
+                    <div class="overlay-credits">d. benjamín naishtat, ana katz</div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <img src="assets/thumb_coppola.jpg" alt="coppola">
+                <div class="project-overlay">
+                    <div class="overlay-title">coppola</div>
+                    <div class="overlay-credits">d. ariel winograd | p. disney</div>
+                </div>
+            </div>
+
         </div>
+
         <div class="side-right">
-            <div class="swiper-button-next-custom">→</div>
             <div class="nav-links">
                 <a href="index.html" class="active">work</a>
                 <a href="about.html">about</a>
@@ -74,25 +197,6 @@
             </div>
         </div>
     </main>
-    <div class="bottom-info">
-        <div id="p-name">menem</div>
-        <div class="credits-box" id="p-credits"><strong>d.</strong> ariel winograd | <strong>p.</strong> claxon, yavu, prime video</div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script>
-        const swiper = new Swiper(".mySwiper", {
-            loop: true, speed: 600,
-            navigation: { nextEl: ".swiper-button-next-custom" },
-            on: {
-                slideChange: function () {
-                    const activeSlide = this.slides[this.activeIndex];
-                    if(activeSlide) {
-                        document.getElementById('p-name').innerText = activeSlide.getAttribute('data-title');
-                        document.getElementById('p-credits').innerHTML = activeSlide.getAttribute('data-credits');
-                    }
-                }
-            }
-        });
-    </script>
+
 </body>
 </html>
