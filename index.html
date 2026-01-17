@@ -8,103 +8,96 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     
     <style>
-        :root { --bg: #ffffff; --text: #000000; --gray: #f4f4f4; --dark-gray: #1a1a1a; }
+        :root { --bg: #000000; --text: #ffffff; --gray: #fff; --dark-gray: #0a0a0a; }
+        
+        body.loading { overflow: hidden; }
         body { background-color: var(--bg); color: var(--text); font-family: 'Manrope', sans-serif; margin: 0; padding: 0; overflow-x: hidden; scroll-behavior: smooth; }
+
+        /* INTRO ANIMATION (LOADER) */
+        #loader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background-color: #000; z-index: 9999;
+            display: flex; justify-content: center; align-items: center;
+            transition: transform 1s cubic-bezier(0.85, 0, 0.15, 1);
+        }
+        .loader-text { overflow: hidden; height: 50px; }
+        .loader-text span {
+            display: block; font-size: 1.5rem; letter-spacing: 10px; font-weight: 200;
+            text-transform: uppercase; animation: slideUp 1.5s ease forwards;
+            transform: translateY(100%);
+        }
+        @keyframes slideUp { to { transform: translateY(0); } }
+        #loader.fade-out { transform: translateY(-100%); }
 
         /* NAVEGACIÓN */
         nav { 
-            display: flex; justify-content: space-between; padding: 30px 5%; align-items: center;
+            display: flex; justify-content: space-between; padding: 40px 5%; align-items: center;
             position: fixed; top: 0; width: 90%; z-index: 1000;
-            background: rgba(255, 255, 255, 0.9);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
+            opacity: 0; transform: translateY(-20px); transition: 1s ease 1.2s;
         }
-        .logo img { height: 40px; width: auto; filter: invert(1); } /* Invertido para que sea negro sobre blanco si el logo original es blanco */
+        body.loaded nav { opacity: 1; transform: translateY(0); }
+
+        .logo img { height: 45px; width: auto; }
         .menu { display: flex; align-items: center; }
         .menu-item { position: relative; margin-left: 35px; padding-bottom: 5px; }
-        .menu-item a { text-decoration: none; color: var(--text); font-size: 0.75rem; letter-spacing: 4px; font-weight: 400; transition: 0.3s; text-transform: uppercase; cursor: pointer; }
-        .menu-item a::after { content: ''; position: absolute; width: 0; height: 1px; bottom: 0; left: 0; background-color: var(--text); transition: width 0.3s ease; }
+        .menu-item a { text-decoration: none; color: #fff; font-size: 0.75rem; letter-spacing: 4px; font-weight: 400; transition: 0.3s; text-transform: uppercase; cursor: pointer; }
+        .menu-item a::after { content: ''; position: absolute; width: 0; height: 1px; bottom: 0; left: 0; background-color: #fff; transition: width 0.3s ease; }
         .menu-item:hover a::after { width: 100%; }
 
         /* Dropdown Categorías */
-        .dropdown-content { display: none; position: absolute; top: 100%; left: 0; background-color: #fff; min-width: 180px; padding: 20px 0; border: 1px solid #eee; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-        .dropdown-content a { padding: 12px 25px; display: block; font-size: 0.65rem; letter-spacing: 3px; color: var(--text); text-decoration: none; opacity: 0.6; }
-        .dropdown-content a:hover { opacity: 1; background: #f9f9f9; }
+        .dropdown-content { display: none; position: absolute; top: 100%; left: 0; background-color: rgba(0,0,0,0.98); min-width: 180px; padding: 20px 0; border: 1px solid #111; }
+        .dropdown-content a { padding: 12px 25px; display: block; font-size: 0.65rem; letter-spacing: 3px; color: #fff; text-decoration: none; opacity: 0.6; }
+        .dropdown-content a:hover { opacity: 1; background: #111; }
         .menu-item:hover .dropdown-content { display: block; }
 
         /* CAROUSEL */
-        .swiper { width: 100%; height: 90vh; background: #000; }
-        .swiper-button-next, .swiper-button-prev { color: #fff !important; transform: scale(0.7); opacity: 0.5; transition: 0.5s; }
+        .swiper { width: 100%; height: 100vh; background: #000; opacity: 0; transition: 1.5s ease 1s; }
+        body.loaded .swiper { opacity: 1; }
+        .swiper-button-next, .swiper-button-prev { color: #fff !important; transform: scale(0.8); opacity: 0.3; transition: 0.5s; }
         
         .swiper-slide { position: relative; overflow: hidden; }
         .video-background { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
-        .video-background iframe { width: 150vw; height: 150vh; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(1.4); border: none; }
+        .video-background iframe { width: 150vw; height: 150vh; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(1.4); border: none; filter: brightness(0.8); }
         .slide-link { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 50; }
-        .slide-info { position: absolute; bottom: 80px; left: 6%; z-index: 60; pointer-events: none; color: #fff; }
-        .slide-info h2 { font-size: 2.2rem; letter-spacing: 10px; text-transform: uppercase; font-weight: 400; margin: 0; line-height: 1; }
-        .slide-info p { font-size: 0.7rem; opacity: 0.8; letter-spacing: 4px; margin-top: 15px; font-weight: 200; }
+        .slide-info { position: absolute; bottom: 100px; left: 6%; z-index: 60; pointer-events: none; }
+        .slide-info h2 { font-size: 2.5rem; letter-spacing: 12px; text-transform: uppercase; font-weight: 400; margin: 0; color: #fff; line-height: 1; }
+        .slide-info p { font-size: 0.75rem; color: #fff; opacity: 0.7; letter-spacing: 5px; margin-top: 20px; font-weight: 200; }
 
         /* BOTÓN UNMUTE */
         #unmute-btn {
-            position: absolute; bottom: 40px; right: 6%; z-index: 100;
-            background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); 
-            border-radius: 50%; width: 45px; height: 45px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s;
+            position: absolute; bottom: 50px; right: 6%; z-index: 100;
+            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); 
+            border-radius: 50%; width: 50px; height: 50px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s;
         }
-        #unmute-btn svg { width: 18px; height: 18px; fill: #fff; }
+        #unmute-btn svg { width: 20px; height: 20px; fill: #fff; }
 
-        /* GRID DE TRABAJOS (Blanco y Espacio Reducido) */
-        .work-grid { 
-            display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            gap: 10px; /* Espacio reducido entre thumbnails */
-            padding: 10px; /* Margen mínimo */
-            background-color: var(--bg); 
-        }
-        .project-card { 
-            position: relative; 
-            aspect-ratio: 16 / 9; 
-            overflow: hidden; 
-            background: #eee; 
-            text-decoration: none; 
-            transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .project-card.hidden { display: none; }
-        
-        .project-card img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; 
-            filter: grayscale(100%); 
-            transition: 1s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        
-        .project-card:hover img { 
-            filter: grayscale(0%); 
-            transform: scale(1.04); 
-        }
+        /* GRID DE TRABAJOS */
+        .work-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 10px; background-color: #000; }
+        .project-card { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: #0a0a0a; text-decoration: none; color: #fff; }
+        .project-card img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%) brightness(0.6); transition: 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
+        .project-card:hover img { filter: grayscale(0%) brightness(1); transform: scale(1.05); }
         
         .card-info { 
             position: absolute; bottom: 0; left: 0; width: 100%; height: 100%;
             display: flex; flex-direction: column; justify-content: flex-end;
             padding: 30px; box-sizing: border-box;
-            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 40%);
-            opacity: 0; /* Oculto por defecto para un look más limpio */
-            transition: 0.4s ease;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 50%);
+            opacity: 0; transition: 0.5s ease;
         }
-        
         .project-card:hover .card-info { opacity: 1; }
-        
-        .card-info h3 { font-size: 1rem; letter-spacing: 3px; margin: 0 0 5px 0; text-transform: uppercase; font-weight: 400; color: #fff; }
-        .card-info .director { font-size: 0.6rem; color: #fff; letter-spacing: 2px; text-transform: uppercase; opacity: 0.9; }
+        .card-info h3 { font-size: 1.1rem; letter-spacing: 4px; margin: 0 0 10px 0; text-transform: uppercase; font-weight: 400; }
 
-        /* RESPONSIVE */
-        @media (max-width: 1024px) { 
-            .work-grid { grid-template-columns: 1fr; gap: 10px; } 
-        }
+        @media (max-width: 1024px) { .work-grid { grid-template-columns: 1fr; } }
         
-        footer { padding: 80px 5%; font-size: 9px; color: #999; letter-spacing: 2px; text-align: center; background: #fff; text-transform: uppercase; }
+        footer { padding: 100px 5%; font-size: 10px; color: #333; letter-spacing: 3px; text-align: center; background: #000; }
     </style>
 </head>
-<body>
+<body class="loading">
+
+    <div id="loader">
+        <div class="loader-text"><span>Leandro Bruno</span></div>
+    </div>
 
     <nav>
         <div class="logo"><a href="index.html"><img src="LOGO_Manrope_v01.png" alt="Leandro Bruno"></a></div>
@@ -148,15 +141,15 @@
     </div>
 
     <div class="work-grid" id="work">
-        <a href="menem.html" class="project-card narrative"><img src="https://img.youtube.com/vi/-2AmqmciWXE/maxresdefault.jpg"><div class="card-info"><h3>MENEM</h3><div class="director">Dir. Federico Cassinelli</div></div></a>
-        <a href="moscas.html" class="project-card narrative"><img src="https://img.youtube.com/vi/A0d6wnlMRRk/maxresdefault.jpg"><div class="card-info"><h3>EL TIEMPO DE LAS MOSCAS</h3><div class="director">Dir. Ana Katz</div></div></a>
-        <a href="coppola.html" class="project-card narrative"><img src="https://img.youtube.com/vi/ecr24akKDbs/maxresdefault.jpg"><div class="card-info"><h3>COPPOLA</h3><div class="director">Dir. Ariel Winograd</div></div></a>
-        <a href="oreo.html" class="project-card advertising"><img src="https://img.youtube.com/vi/7Cllu0Rme74/maxresdefault.jpg"><div class="card-info"><h3>OREO</h3><div class="director">Dir. Ariel Winograd</div></div></a>
-        <a href="levis.html" class="project-card advertising"><img src="Levis_Thumbnail_v01.png"><div class="card-info"><h3>LEVI'S x WINONA RIDERS</h3><div class="director">Dir. Campaign</div></div></a>
-        <a href="blair.html" class="project-card music"><img src="https://img.youtube.com/vi/ItX5aqhqsmo/maxresdefault.jpg"><div class="card-info"><h3>BLAIR</h3><div class="director">Dir. Todo lo que tengo</div></div></a>
-        <a href="ratones.html" class="project-card advertising"><img src="RP_Thumnmail.png"><div class="card-info"><h3>RATONES PARANOICOS</h3><div class="director">Dir. Poster</div></div></a>
-        <a href="marias.html" class="project-card advertising"><img src="Marias_Thumbnail.png"><div class="card-info"><h3>MARÍAS</h3><div class="director">Dir. Publicidad</div></div></a>
-        <a href="besos.html" class="project-card narrative"><img src="BesosBrujos-Thumbnail.png"><div class="card-info"><h3>BESOS BRUJOS</h3><div class="director">Dir. Narrative</div></div></a>
+        <a href="menem.html" class="project-card narrative"><img src="https://img.youtube.com/vi/-2AmqmciWXE/hqdefault.jpg"><div class="card-info"><h3>MENEM</h3></div></a>
+        <a href="moscas.html" class="project-card narrative"><img src="https://img.youtube.com/vi/A0d6wnlMRRk/maxresdefault.jpg"><div class="card-info"><h3>EL TIEMPO DE LAS MOSCAS</h3></div></a>
+        <a href="coppola.html" class="project-card narrative"><img src="https://img.youtube.com/vi/ecr24akKDbs/maxresdefault.jpg"><div class="card-info"><h3>COPPOLA</h3></div></a>
+        <a href="oreo.html" class="project-card advertising"><img src="https://img.youtube.com/vi/7Cllu0Rme74/maxresdefault.jpg"><div class="card-info"><h3>OREO</h3></div></a>
+        <a href="levis.html" class="project-card advertising"><img src="Levis_Thumbnail_v01.png"><div class="card-info"><h3>LEVI'S x WINONA RIDERS</h3></div></a>
+        <a href="blair.html" class="project-card music"><img src="https://img.youtube.com/vi/ItX5aqhqsmo/maxresdefault.jpg"><div class="card-info"><h3>BLAIR</h3></div></a>
+        <a href="ratones.html" class="project-card advertising"><img src="RP_Thumnmail.png"><div class="card-info"><h3>RATONES PARANOICOS</h3></div></a>
+        <a href="marias.html" class="project-card advertising"><img src="Marias_Thumbnail.png"><div class="card-info"><h3>MARÍAS</h3></div></a>
+        <a href="besos.html" class="project-card narrative"><img src="BesosBrujos-Thumbnail.png"><div class="card-info"><h3>BESOS BRUJOS</h3></div></a>
     </div>
 
     <footer>© 2026 LEANDRO BRUNO.</footer>
@@ -164,6 +157,14 @@
     <script src="https://www.youtube.com/iframe_api"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('fade-out');
+                document.body.classList.remove('loading');
+                document.body.classList.add('loaded');
+            }, 2000);
+        });
+
         let players = [];
         function onYouTubeIframeAPIReady() {
             const ids = ['-2AmqmciWXE', 'A0d6wnlMRRk', 'ecr24akKDbs'];
@@ -182,8 +183,13 @@
         }
 
         var swiper = new Swiper(".mySwiper", { 
-            loop: true, speed: 1200, effect: "fade",
-            autoplay: { delay: 6000, disableOnInteraction: false },
+            loop: true, 
+            speed: 1000, 
+            effect: "fade",
+            autoplay: { 
+                delay: 3000, /* 3 Segundos por slide */
+                disableOnInteraction: false 
+            },
             navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" }
         });
 
