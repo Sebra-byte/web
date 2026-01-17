@@ -6,174 +6,117 @@
     <title>About | Leandro Bruno</title>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #000; --text: #fff; --gray: #888; }
-        
-        body { 
-            background-color: var(--bg); 
-            color: var(--text); 
-            font-family: 'Manrope', sans-serif; 
-            margin: 0; 
-            padding: 0; 
-            overflow-x: hidden; 
-        }
+        :root { --bg: #000; --text: #fff; }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Manrope', sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
 
-        /* NAVEGACIÓN CONSISTENTE */
+        /* NAVEGACIÓN (Igual a la Home) */
         nav { 
-            display: flex; 
-            justify-content: space-between; 
-            padding: 40px 5%; 
-            align-items: center;
-            position: fixed; 
-            top: 0; 
-            width: 90%; 
-            z-index: 1000;
+            display: flex; justify-content: space-between; padding: 40px 5%; align-items: center;
+            position: fixed; top: 0; width: 90%; z-index: 1000;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
         }
-        
-        .logo img { height: 50px; width: auto; }
+        .logo img { height: 45px; width: auto; }
         .menu { display: flex; align-items: center; }
-        .menu-item { position: relative; margin-left: 35px; padding-bottom: 5px; }
-        .menu-item a { 
-            text-decoration: none; 
-            color: var(--gray); 
-            font-size: 0.7rem; 
-            letter-spacing: 3px; 
-            font-weight: 200; 
-            text-transform: uppercase;
-            transition: 0.3s;
-        }
-        .menu-item a::after {
-            content: ''; position: absolute; width: 0; height: 1px;
-            bottom: 0; left: 0; background-color: #fff; transition: 0.3s;
-        }
+        .menu-item { position: relative; margin-left: 30px; padding-bottom: 5px; }
+        .menu-item a { text-decoration: none; color: #fff; font-size: 0.7rem; letter-spacing: 3px; font-weight: 400; transition: 0.3s; text-transform: uppercase; cursor: pointer; }
+        .menu-item a::after { content: ''; position: absolute; width: 0; height: 1px; bottom: 0; left: 0; background-color: #fff; transition: width 0.3s ease; }
         .menu-item:hover a::after { width: 100%; }
-        .menu-item:hover a { color: #fff; }
 
         /* CONTENIDO ABOUT */
-        .about-container {
-            display: flex;
-            margin-top: 160px;
-            padding: 0 10%;
-            gap: 80px;
-            align-items: flex-start;
-            min-height: 80vh;
+        .about-container { 
+            padding: 180px 5% 100px; 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 80px; 
+            max-width: 1200px; 
+            margin: 0 auto; 
         }
 
-        .about-image {
-            flex: 1;
-            max-width: 450px;
+        .about-image img { 
+            width: 100%; 
+            filter: grayscale(100%); 
+            transition: 0.5s; 
         }
+        .about-image img:hover { filter: grayscale(0%); }
 
-        .about-image img {
-            width: 100%;
-            height: auto;
-            filter: grayscale(100%);
-            transition: 0.8s ease;
+        .about-text h1 { 
+            font-size: 1.5rem; 
+            letter-spacing: 5px; 
+            font-weight: 400; 
+            text-transform: uppercase; 
+            margin-bottom: 40px; 
         }
         
-        .about-image img:hover {
-            filter: grayscale(0%);
+        .about-text p { 
+            font-size: 0.9rem; 
+            line-height: 1.8; 
+            font-weight: 200; 
+            color: rgba(255,255,255,0.8); 
+            margin-bottom: 30px; 
+            text-align: justify;
         }
 
-        .about-text {
-            flex: 1;
-            max-width: 600px;
-        }
-
-        .about-text p {
-            font-size: 0.95rem;
-            line-height: 1.8;
-            font-weight: 200;
-            color: #ccc;
-            letter-spacing: 0.5px;
-            margin-bottom: 25px;
-        }
-
-        .contact-info {
-            margin-top: 50px;
-        }
-
-        .contact-info h3 {
-            font-size: 0.7rem;
-            letter-spacing: 3px;
-            color: var(--gray);
-            text-transform: uppercase;
-            margin-bottom: 15px;
-        }
-
-        .contact-info a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 0.9rem;
-            border-bottom: 1px solid #333;
+        .links-social { margin-top: 50px; }
+        .social-link { 
+            display: inline-block; 
+            margin-right: 30px; 
+            color: #fff; 
+            text-decoration: none; 
+            font-size: 0.7rem; 
+            letter-spacing: 2px; 
+            text-transform: uppercase; 
+            border-bottom: 1px solid rgba(255,255,255,0.2);
             padding-bottom: 5px;
             transition: 0.3s;
         }
+        .social-link:hover { border-bottom: 1px solid #fff; opacity: 0.7; }
 
-        .contact-info a:hover {
-            border-bottom: 1px solid #fff;
-        }
-
-        /* MOBILE OPTIMIZATION */
         @media (max-width: 900px) {
-            .about-container {
-                flex-direction: column;
-                margin-top: 120px;
-                padding: 0 8%;
-                gap: 40px;
-            }
-            .about-image {
-                max-width: 100%;
-            }
+            .about-container { grid-template-columns: 1fr; padding-top: 120px; }
+            .about-image { order: 2; }
+            .about-text { order: 1; }
         }
 
-        footer { 
-            padding: 80px 5% 40px; 
-            font-size: 9px; 
-            color: #222; 
-            letter-spacing: 2px; 
-            text-align: center;
-        }
+        footer { padding: 60px 5%; font-size: 9px; color: #444; letter-spacing: 2px; text-align: center; }
     </style>
 </head>
 <body>
 
     <nav>
-        <div class="logo">
-            <a href="index.html"><img src="LOGO_Manrope_v01.png" alt="Leandro Bruno"></a>
-        </div>
+        <div class="logo"><a href="index.html"><img src="LOGO_Manrope_v01.png" alt="Leandro Bruno"></a></div>
         <div class="menu">
-            <div class="menu-item"><a href="index.html">HOME</a></div>
             <div class="menu-item"><a href="index.html">WORK</a></div>
-            <div class="menu-item"><a href="about.html" style="color: #fff;">ABOUT</a></div>
+            <div class="menu-item"><a href="about.html" style="font-weight: 700;">ABOUT</a></div>
             <div class="menu-item"><a href="mailto:leandrobrunoeditor@gmail.com">CONTACT</a></div>
+            <div class="menu-item"><a href="https://www.imdb.com/name/nm11460466/" target="_blank">IMDb</a></div>
         </div>
     </nav>
 
-    <div class="about-container">
+    <main class="about-container">
         <div class="about-image">
-            <img src="Perfil_LMB.png" alt="Leandro Bruno - Editor de Cine y Publicidad">
+            <img src="https://via.placeholder.com/800x1000/0a0a0a/fff?text=LEANDRO+BRUNO" alt="Leandro Bruno">
         </div>
-
+        
         <div class="about-text">
+            <h1>Leandro Bruno</h1>
             <p>
-                Nacido en 1994, Leandro Bruno es editor de cine, series, publicidad y videoclips. 
-                Egresado de la carrera de Dirección de Montaje en la ENERC, profundizó su formación 
-                en Estructura Dramática con Miguel Pérez.
+                Soy un editor enfocado en narrativa cinematográfica, series documentales y publicidad de alto impacto. 
+                Mi trabajo se centra en encontrar el ritmo y la emoción precisa para cada historia, colaborando con 
+                directores y productoras líderes de la industria como Netflix, Prime Video y Disney+.
             </p>
             <p>
-                Cuenta con experiencia en la edición de cortometrajes y documentales con recorrido 
-                en festivales como el de Mar del Plata. Actualmente desarrolla su trabajo en el 
-                ámbito publicitario y musical para productoras como Primo y Poster, y en la edición 
-                de series para plataformas como Netflix, Amazon y Disney+, colaborando con directores 
-                como Ariel Winograd, Ana Katz y Benjamín Naishtat.
+                A lo largo de mi carrera, he tenido el privilegio de editar proyectos destacados como "Menem", 
+                "El Tiempo de las Moscas" y "Coppola", buscando siempre una estética visual moderna y una 
+                estructura narrativa sólida que conecte con la audiencia.
             </p>
 
-            <div class="contact-info">
-                <h3>Contact</h3>
-                <a href="mailto:leandrobrunoeditor@gmail.com">leandrobrunoeditor@gmail.com</a>
+            <div class="links-social">
+                <a href="mailto:leandrobrunoeditor@gmail.com" class="social-link">Email</a>
+                <a href="https://www.imdb.com/name/nm11460466/" target="_blank" class="social-link">IMDb Profile</a>
+                <a href="https://www.instagram.com/tu_usuario" target="_blank" class="social-link">Instagram</a>
             </div>
         </div>
-    </div>
+    </main>
 
     <footer>© 2026 LEANDRO BRUNO.</footer>
 
