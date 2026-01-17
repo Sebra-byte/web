@@ -38,20 +38,21 @@
         .brand strong { display: block; font-size: 1.4rem; }
         
         .nav-links { display: flex; flex-direction: column; gap: 10px; }
-        .nav-item-wrapper { display: flex; align-items: center; gap: 10px; }
+        .nav-item-wrapper { display: flex; align-items: center; gap: 5px; }
         .nav-links a { text-decoration: none; color: var(--text); font-size: 1.1rem; font-weight: 700; cursor: pointer; }
         .nav-links a.active { text-decoration: underline; }
 
+        /* ESTILO DESPLEGABLE IGUAL A LA LETRA DEL SITIO */
         .filter-select {
             background: transparent; border: none; border-bottom: 1px solid var(--text);
-            font-family: 'Space Mono'; font-size: 0.8rem; font-weight: 400; cursor: pointer;
-            text-transform: lowercase; color: var(--gray); padding: 0 5px; outline: none;
+            font-family: 'Space Mono', monospace; font-size: 0.9rem; font-weight: 700; 
+            cursor: pointer; text-transform: lowercase; color: var(--text);
+            padding: 0 5px; outline: none; -webkit-appearance: none;
         }
 
         /* CONTENIDO CENTRAL */
         .center-panel { display: flex; flex-direction: column; align-items: center; position: relative; }
         
-        /* WORK SECTION */
         .main-viewer {
             width: 90%; aspect-ratio: 16 / 9; background: #000;
             border: 1px solid #ddd; overflow: hidden; position: relative;
@@ -73,7 +74,7 @@
         .category-label { font-size: 0.8rem; font-weight: 700; color: var(--text); }
         .meta { font-size: 0.9rem; line-height: 1.6; color: var(--gray); }
 
-        /* ABOUT SECTION ACTUALIZADA CON Perfil_LMB.jpg */
+        /* VISTA ABOUT */
         #about-section {
             display: none; width: 90%; gap: 40px; align-items: flex-start;
             animation: fadeIn 0.5s ease;
@@ -120,7 +121,7 @@
                 <div class="nav-item-wrapper">
                     <a id="nav-work" class="active" onclick="showSection('work')">work</a>
                     <select class="filter-select" id="cat-filter" onchange="changeFilter()">
-                        <option value="all">/ all projects</option>
+                        <option value="all">/ all</option>
                         <option value="serie/film">/ serie & film</option>
                         <option value="advertising">/ advertising</option>
                         <option value="music video">/ music video</option>
@@ -150,7 +151,7 @@
             </div>
 
             <div id="about-section">
-                <img src="assets/Perfil_LMB.jpg" alt="leandro bruno profile" class="profile-pic" onerror="this.src='https://via.placeholder.com/300x400?text=LMB+Profile'">
+                <img src="assets/Perfil_LMB.jpg" alt="leandro bruno" class="profile-pic" onerror="this.src='https://via.placeholder.com/300x400?text=Profile+Pic'">
                 <div class="about-content">
                     <div class="about-text">
                         leandro bruno es un editor de cine y publicidad con base en buenos aires. 
@@ -158,7 +159,7 @@
                         especializado en narrativa cinematográfica y montaje rítmico, ha trabajado en proyectos para netflix, disney+, amazon prime video y las principales productoras de la región.
                     </div>
                     <div class="about-links">
-                        <a href="https://www.imdb.com/name/nm10555319/" target="_blank">imdb profile</a>
+                        <a href="https://www.imdb.com/name/nm11460466/" target="_blank">imdb profile</a>
                     </div>
                 </div>
             </div>
@@ -176,6 +177,7 @@
     <script>
         const projects = [
             { title: "menem", category: "serie/film", img: "assets/Menem_Thumbnail_1.jpg", yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon, yavu, prime video", desc: "serie original de prime video." },
+            { title: "coppola", category: "serie/film", img: "assets/Coppola_Thumbnail.jpg", yt: "D1vD9z-E_Yk", director: "ariel winograd", prod: "pampa films, disney+", desc: "serie original de star+ / disney+." },
             { title: "oreo", category: "advertising", img: "assets/BesosBrujos-Thumbnail.jpg", yt: "7Cllu0Rme74", director: "primo films", prod: "primo", desc: "campaña publicitaria global." },
             { title: "el tiempo de las moscas", category: "serie/film", img: "assets/Marias_Thumbnail.png", yt: "A0d6wnlMRRk", director: "ana katz", prod: "netflix", desc: "largometraje de ficción." },
             { title: "levis", category: "advertising", img: "assets/Levis_Thumbnail_v01.jpg", yt: "7Cllu0Rme74", director: "lorenzo shakespear", prod: "levis argentina", desc: "501 campaign." },
