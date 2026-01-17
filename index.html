@@ -4,93 +4,104 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>leandro bruno | editor</title>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Manrope:wght@200;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <style>
-        :root { --bg: #000; --text: #fff; --gray: #555; --line: #1a1a1a; --accent: #333; }
-        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: var(--bg); color: var(--text); font-family: 'Manrope', sans-serif; overflow: hidden; text-transform: lowercase; }
-
-        /* FONDO ESTRUCTURAL (GRID) */
-        .blueprint-bg {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
-            background-size: 60px 60px; z-index: -1;
+        :root { 
+            --bg: #f4f4f4; /* Blanco hueso como la referencia */
+            --text: #111; 
+            --gray: #888; 
+            --line-blue: rgba(100, 150, 255, 0.2); /* Líneas azules tenues */
+            --line-red: rgba(255, 100, 100, 0.3);  /* Línea guía roja */
+            --accent: #ddd; 
+        }
+        
+        body, html { 
+            margin: 0; padding: 0; width: 100%; height: 100%; 
+            background: var(--bg); color: var(--text); 
+            font-family: 'Space Mono', monospace; /* Tipografía técnica */
+            overflow: hidden; text-transform: uppercase; /* Todo en mayúsculas para look blueprint */
         }
 
-        /* LAYOUT PRINCIPAL */
+        /* FONDO DE GRILLA (BLUEPRINT BLANCO) */
+        .blueprint-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(var(--line-blue) 1px, transparent 1px), 
+                linear-gradient(90deg, var(--line-blue) 1px, transparent 1px);
+            background-size: 40px 40px; z-index: -1;
+        }
+
+        /* LÍNEAS GUÍA ROJAS (COMO EN TU IMAGEN) */
+        .guide-v { position: absolute; left: 50%; top: 0; height: 100%; width: 1px; background: var(--line-red); z-index: -1; }
+        .guide-h { position: absolute; top: 50%; left: 0; width: 100%; height: 1px; background: var(--line-red); z-index: -1; }
+
         .main-layout {
             display: grid;
-            grid-template-columns: 12% 1fr 12%;
+            grid-template-columns: 15% 1fr 15%;
             grid-template-rows: 1fr auto 1fr;
             height: 100vh;
             align-items: center;
         }
 
-        /* LOGO (CENTRO IZQUIERDA) */
+        /* LOGO IZQUIERDA (ROTADO) */
         .side-left { grid-column: 1; grid-row: 2; text-align: center; transform: rotate(-90deg); }
-        .side-left img { height: 22px; opacity: 0.8; }
+        .side-left img { height: 20px; filter: invert(1); } /* Invertimos para que sea negro */
 
-        /* NOMBRE PROYECTO (CENTRO DERECHA) */
+        /* NOMBRE PROYECTO DERECHA (ROTADO) */
         .side-right { grid-column: 3; grid-row: 2; text-align: center; transform: rotate(90deg); white-space: nowrap; }
-        .project-title { font-size: 0.75rem; letter-spacing: 6px; color: var(--text); font-weight: 200; transition: opacity 0.5s; }
+        .project-title { font-size: 0.7rem; letter-spacing: 4px; color: var(--text); font-weight: 700; }
 
-        /* CARRUSEL CENTRADO */
+        /* CONTENEDOR VIDEO CENTRADO */
         .center-frame {
             grid-column: 2; grid-row: 2;
-            width: 100%; max-width: 960px;
+            width: 100%; max-width: 900px;
             aspect-ratio: 16 / 9;
-            border: 1px solid var(--accent);
+            border: 1px solid #000;
             position: relative;
             background: #000;
             margin: 0 auto;
-            overflow: hidden;
-        }
-
-        /* EFECTO DE ESCANEO AL CAMBIAR SLIDE */
-        .scan-line {
-            position: absolute; top: 0; left: 0; width: 100%; height: 2px;
-            background: rgba(255,255,255,0.2);
-            box-shadow: 0 0 10px rgba(255,255,255,0.1);
-            z-index: 10; pointer-events: none; opacity: 0;
-        }
-        .scanning { animation: scan 0.8s ease-in-out; }
-        @keyframes scan {
-            0% { top: 0%; opacity: 0; }
-            50% { opacity: 0.5; }
-            100% { top: 100%; opacity: 0; }
+            box-shadow: 20px 20px 0px rgba(0,0,0,0.05); /* Sombra técnica */
         }
 
         .swiper { width: 100%; height: 100%; }
-        .video-wrapper { width: 100%; height: 100%; }
-        .video-wrapper iframe { width: 100%; height: 100%; border: none; filter: brightness(0.9); }
+        .video-wrapper { width: 100%; height: 100%; position: relative; }
+        .video-wrapper iframe { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            border: none; pointer-events: none; 
+        }
 
-        /* INFORMACIÓN (ABAJO CENTRO) */
+        /* INFO ABAJO */
         .bottom-info {
             grid-column: 2; grid-row: 3;
             text-align: center;
             align-self: start;
-            padding-top: 50px;
+            padding-top: 40px;
         }
-        .credits-box { font-size: 0.6rem; letter-spacing: 2.5px; color: var(--gray); line-height: 2; transition: opacity 0.5s; }
-        .credits-box strong { color: #888; font-weight: 400; margin-right: 4px; }
+        .credits-box { font-size: 0.6rem; letter-spacing: 1.5px; color: var(--text); line-height: 1.8; max-width: 600px; margin: 0 auto; }
+        .credits-box strong { border-bottom: 1px solid var(--text); padding-bottom: 1px; margin-right: 5px; }
 
-        /* NAVEGACIÓN SUPERIOR */
+        /* NAVEGACIÓN */
         nav {
-            position: fixed; top: 50px; width: 100%;
-            display: flex; justify-content: center; gap: 50px;
+            position: fixed; top: 40px; width: 100%;
+            display: flex; justify-content: center; gap: 60px;
             z-index: 100;
         }
-        nav a { text-decoration: none; color: var(--gray); font-size: 0.65rem; letter-spacing: 4px; transition: 0.4s; }
-        nav a:hover, nav a.active { color: #fff; }
+        nav a { text-decoration: none; color: var(--gray); font-size: 0.65rem; letter-spacing: 3px; font-weight: 700; transition: 0.3s; }
+        nav a:hover, nav a.active { color: #000; border-bottom: 1px solid #000; }
 
-        /* LÍNEAS DE REFERENCIA TÉCNICA */
-        .guide-h { position: absolute; width: 100%; height: 1px; background: var(--line); top: 50%; z-index: -1; }
-        .guide-v { position: absolute; height: 100%; width: 1px; background: var(--line); left: 50%; z-index: -1; }
+        /* SCAN LINE */
+        .scan-line {
+            position: absolute; top: 0; left: 0; width: 100%; height: 1px;
+            background: rgba(255,255,255,0.4); z-index: 10; pointer-events: none;
+        }
+        .scanning { animation: scan 0.7s linear; }
+        @keyframes scan { from { top: 0; } to { top: 100%; } }
 
         @media (max-width: 1024px) {
             .main-layout { grid-template-columns: 1fr; grid-template-rows: auto 1fr auto auto; padding: 20px; }
-            .side-left, .side-right { transform: none; grid-column: 1; margin: 30px 0; }
-            .center-frame { grid-column: 1; grid-row: 2; width: 100%; }
+            .side-left, .side-right { transform: none; grid-column: 1; margin: 20px 0; }
+            .center-frame { grid-column: 1; grid-row: 2; }
             .bottom-info { grid-column: 1; grid-row: 4; }
         }
     </style>
@@ -98,8 +109,8 @@
 <body>
 
     <div class="blueprint-bg"></div>
-    <div class="guide-h"></div>
     <div class="guide-v"></div>
+    <div class="guide-h"></div>
 
     <nav>
         <a href="index.html" class="active">work</a>
@@ -116,19 +127,19 @@
             <div class="scan-line" id="scanner"></div>
             <div class="swiper mySwiper">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide" data-title="menem" data-credits="<strong>d.</strong> ariel winograd | <strong>p.</strong> claxon, yavu, prime video">
+                    <div class="swiper-slide" data-title="menem" data-credits="<strong>d.</strong> ariel winograd <br> <strong>p.</strong> claxon, yavu, prime video">
                         <div class="video-wrapper"><div id="player1"></div></div>
                     </div>
-                    <div class="swiper-slide" data-title="oreo" data-credits="<strong>p.</strong> primo">
+                    <div class="swiper-slide" data-title="oreo" data-credits="<strong>p.</strong> primo films">
                         <div class="video-wrapper"><div id="player2"></div></div>
                     </div>
-                    <div class="swiper-slide" data-title="el tiempo de las moscas" data-credits="<strong>d.</strong> benjamín naishtat, ana katz | <strong>p.</strong> netflix, zona audiovisual">
+                    <div class="swiper-slide" data-title="el tiempo de las moscas" data-credits="<strong>d.</strong> benjamín naishtat, ana katz <br> <strong>p.</strong> netflix, zona audiovisual">
                         <div class="video-wrapper"><div id="player3"></div></div>
                     </div>
-                    <div class="swiper-slide" data-title="coppola" data-credits="<strong>d.</strong> ariel winograd | <strong>p.</strong> disney, pampa films">
+                    <div class="swiper-slide" data-title="coppola" data-credits="<strong>d.</strong> ariel winograd <br> <strong>p.</strong> disney, pampa films">
                         <div class="video-wrapper"><div id="player4"></div></div>
                     </div>
-                    <div class="swiper-slide" data-title="blair" data-credits="<strong>d.</strong> dana campanello | <strong>p.</strong> poster">
+                    <div class="swiper-slide" data-title="blair" data-credits="<strong>d.</strong> dana campanello <br> <strong>p.</strong> poster">
                         <div class="video-wrapper"><div id="player5"></div></div>
                     </div>
                 </div>
@@ -141,7 +152,7 @@
 
         <div class="bottom-info">
             <div class="credits-box" id="p-credits">
-                <strong>d.</strong> ariel winograd | <strong>p.</strong> claxon, yavu, prime video
+                <strong>d.</strong> ariel winograd <br> <strong>p.</strong> claxon, yavu, prime video
             </div>
         </div>
     </main>
@@ -150,14 +161,28 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
         let players = [];
+        // Estos son tus IDs originales
         const videoIds = ['-2AmqmciWXE', '7Cllu0Rme74', 'A0d6wnlMRRk', 'ecr24akKDbs', 'ItX5aqhqsmo'];
 
         function onYouTubeIframeAPIReady() {
             videoIds.forEach((id, index) => {
                 players[index] = new YT.Player('player' + (index + 1), {
                     videoId: id,
-                    playerVars: { 'autoplay': 1, 'mute': 1, 'loop': 1, 'playlist': id, 'controls': 0, 'modestbranding': 1, 'rel': 0 },
-                    events: { 'onReady': (e) => e.target.playVideo() }
+                    playerVars: { 
+                        'autoplay': 1, 
+                        'mute': 1, 
+                        'loop': 1, 
+                        'playlist': id, 
+                        'controls': 0, 
+                        'modestbranding': 1, 
+                        'rel': 0,
+                        'iv_load_policy': 3
+                    },
+                    events: {
+                        'onReady': (event) => {
+                            event.target.playVideo();
+                        }
+                    }
                 });
             });
         }
@@ -170,26 +195,17 @@
             autoplay: { delay: 6000, disableOnInteraction: false },
             on: {
                 slideChangeTransitionStart: function () {
-                    // Trigger Scan Line
                     const scanner = document.getElementById('scanner');
                     scanner.classList.remove('scanning');
-                    void scanner.offsetWidth; // Reset animation
+                    void scanner.offsetWidth; 
                     scanner.classList.add('scanning');
-
-                    // Fade out texts
-                    document.getElementById('p-name').style.opacity = 0;
-                    document.getElementById('p-credits').style.opacity = 0;
                 },
-                slideChangeTransitionEnd: function () {
+                slideChange: function () {
                     const activeSlide = this.slides[this.activeIndex];
-                    
-                    // Update texts
-                    document.getElementById('p-name').innerText = activeSlide.getAttribute('data-title');
-                    document.getElementById('p-credits').innerHTML = activeSlide.getAttribute('data-credits');
-                    
-                    // Fade in texts
-                    document.getElementById('p-name').style.opacity = 1;
-                    document.getElementById('p-credits').style.opacity = 1;
+                    if(activeSlide) {
+                        document.getElementById('p-name').innerText = activeSlide.getAttribute('data-title');
+                        document.getElementById('p-credits').innerHTML = activeSlide.getAttribute('data-credits');
+                    }
                 }
             }
         });
