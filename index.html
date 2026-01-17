@@ -24,33 +24,34 @@
         .menu-item a::after { content: ''; position: absolute; width: 0; height: 1px; bottom: 0; left: 0; background-color: #fff; transition: width 0.3s ease; }
         .menu-item:hover a::after { width: 100%; }
 
-        /* Dropdown */
+        /* Dropdown Categorías */
         .dropdown-content { display: none; position: absolute; top: 100%; left: 0; background-color: rgba(0,0,0,0.95); min-width: 160px; padding: 15px 0; }
         .dropdown-content a { padding: 10px 20px; display: block; font-size: 0.6rem; letter-spacing: 2px; color: #fff; text-decoration: none; opacity: 0.7; }
         .dropdown-content a:hover { opacity: 1; background: #111; }
         .menu-item:hover .dropdown-content { display: block; }
 
-        /* SWIPER */
+        /* CAROUSEL (SWIPER) */
         .swiper { width: 100%; height: 100vh; background: #000; }
-        .swiper-button-next, .swiper-button-prev { color: #fff !important; transform: scale(0.5); opacity: 0.3; transition: 0.3s; }
+        .swiper-button-next, .swiper-button-prev { color: #fff !important; transform: scale(0.6); opacity: 0.4; transition: 0.3s; }
         .swiper-button-next:hover, .swiper-button-prev:hover { opacity: 1; }
+        
         .swiper-slide { position: relative; overflow: hidden; }
         .video-background { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
         .video-background iframe { width: 140vw; height: 140vh; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(1.35); border: none; }
         .slide-link { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 50; }
         .slide-info { position: absolute; bottom: 80px; left: 5%; z-index: 60; pointer-events: none; }
-        .slide-info h2 { font-size: 1.3rem; letter-spacing: 6px; text-transform: uppercase; font-weight: 400; margin: 0; }
+        .slide-info h2 { font-size: 1.3rem; letter-spacing: 6px; text-transform: uppercase; font-weight: 400; margin: 0; color: #fff; }
         .slide-info p { font-size: 0.6rem; color: #fff; opacity: 0.9; letter-spacing: 3px; margin-top: 10px; font-weight: 400; }
 
-        /* UNMUTE ICON */
+        /* BOTÓN UNMUTE (Parlante) */
         #unmute-btn {
             position: absolute; bottom: 40px; right: 5%; z-index: 100;
             background: none; border: none; cursor: pointer; padding: 10px;
         }
-        #unmute-btn svg { width: 24px; height: 24px; fill: #fff; opacity: 0.6; transition: 0.3s; }
+        #unmute-btn svg { width: 25px; height: 25px; fill: #fff; opacity: 0.6; transition: 0.3s; }
         #unmute-btn:hover svg { opacity: 1; }
 
-        /* GRID */
+        /* GRID DE TRABAJOS */
         .work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; padding: 2px; background-color: #000; }
         .project-card { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: var(--dark-gray); text-decoration: none; color: #fff; transition: 0.5s ease; }
         .project-card.hidden { display: none; }
@@ -141,7 +142,8 @@
         <a href="blair.html" class="project-card music"><img src="https://img.youtube.com/vi/ItX5aqhqsmo/hqdefault.jpg"><div class="card-info"><h3>BLAIR</h3><div class="director">Dir. Todo lo que tengo</div><div class="production">Music Video</div></div></a>
         <a href="ratones.html" class="project-card advertising"><img src="RP_Thumnmail.png"><div class="card-info"><h3>RATONES PARANOICOS</h3><div class="director">Dir. Poster</div><div class="production">Advertising</div></div></a>
         <a href="marias.html" class="project-card advertising"><img src="Marias_Thumbnail.png"><div class="card-info"><h3>MARÍAS</h3><div class="director">Dir. Publicidad</div><div class="production">Advertising</div></div></a>
-        <a href="besos.html" class="project-card narrative"><img src="BesosBrujos-Cover.png"><div class="card-info"><h3>BESOS BRUJOS</h3><div class="director">Dir. Narrative</div><div class="production">Short Film</div></div></a>
+        
+        <a href="besos.html" class="project-card narrative"><img src="BesosBrujos-Thumbnail.png"><div class="card-info"><h3>BESOS BRUJOS</h3><div class="director">Dir. Narrative</div><div class="production">Short Film</div></div></a>
     </div>
 
     <footer>© 2026 LEANDRO BRUNO.</footer>
@@ -149,6 +151,7 @@
     <script src="https://www.youtube.com/iframe_api"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
+        // API de YouTube para manejar sonido
         let players = [];
         function onYouTubeIframeAPIReady() {
             const ids = ['-2AmqmciWXE', 'A0d6wnlMRRk', 'ecr24akKDbs', '7Cllu0Rme74', 'ItX5aqhqsmo'];
@@ -166,12 +169,14 @@
             document.getElementById('unmute-btn').style.display = 'none';
         }
 
+        // Inicializar Swiper
         var swiper = new Swiper(".mySwiper", { 
             loop: true, speed: 1200, effect: "fade",
             autoplay: { delay: 6000, disableOnInteraction: false },
             navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" }
         });
 
+        // Filtro de proyectos
         function filterProjects(category) {
             const cards = document.querySelectorAll('.project-card');
             document.querySelector('#work').scrollIntoView({ behavior: 'smooth' });
