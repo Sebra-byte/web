@@ -25,7 +25,7 @@
 
         .main-layout {
             display: grid;
-            grid-template-columns: 250px 1fr 200px;
+            grid-template-columns: 320px 1fr 200px;
             height: 100vh;
             padding: 40px;
             gap: 20px;
@@ -36,13 +36,22 @@
         .left-panel { display: flex; flex-direction: column; gap: 30px; }
         .brand { font-size: 1.2rem; line-height: 1.4; }
         .brand strong { display: block; font-size: 1.4rem; }
-        .nav-links a { text-decoration: none; color: var(--text); font-size: 1.1rem; font-weight: 700; display: block; margin-bottom: 10px; cursor: pointer; }
+        
+        .nav-links { display: flex; flex-direction: column; gap: 10px; }
+        .nav-item-wrapper { display: flex; align-items: center; gap: 10px; }
+        .nav-links a { text-decoration: none; color: var(--text); font-size: 1.1rem; font-weight: 700; cursor: pointer; }
         .nav-links a.active { text-decoration: underline; }
+
+        .filter-select {
+            background: transparent; border: none; border-bottom: 1px solid var(--text);
+            font-family: 'Space Mono'; font-size: 0.8rem; font-weight: 400; cursor: pointer;
+            text-transform: lowercase; color: var(--gray); padding: 0 5px; outline: none;
+        }
 
         /* CONTENIDO CENTRAL */
         .center-panel { display: flex; flex-direction: column; align-items: center; position: relative; }
         
-        /* VISTA WORK */
+        /* WORK SECTION */
         .main-viewer {
             width: 90%; aspect-ratio: 16 / 9; background: #000;
             border: 1px solid #ddd; overflow: hidden; position: relative;
@@ -64,32 +73,22 @@
         .category-label { font-size: 0.8rem; font-weight: 700; color: var(--text); }
         .meta { font-size: 0.9rem; line-height: 1.6; color: var(--gray); }
 
-        /* VISTA ABOUT */
+        /* ABOUT SECTION ACTUALIZADA CON Perfil_LMB.jpg */
         #about-section {
             display: none; width: 90%; gap: 40px; align-items: flex-start;
             animation: fadeIn 0.5s ease;
         }
-        .profile-pic { width: 300px; border: 1px solid #ccc; filter: grayscale(1); }
+        .profile-pic { width: 300px; border: 1px solid #ccc; filter: grayscale(1); transition: 0.5s; }
+        .profile-pic:hover { filter: grayscale(0); }
         .about-content { display: flex; flex-direction: column; gap: 20px; }
         .about-text { font-size: 1.4rem; line-height: 1.4; max-width: 600px; font-weight: 400; }
-        .about-links { display: flex; gap: 20px; margin-top: 20px; }
         .about-links a { 
-            color: var(--text); text-decoration: none; font-weight: 700; border-bottom: 2px solid var(--text);
-            padding-bottom: 2px; transition: 0.3s;
-        }
-        .about-links a:hover { color: var(--gray); border-color: var(--gray); }
-
-        /* PANEL DERECHA + FILTRO */
-        .right-panel { display: flex; flex-direction: column; gap: 15px; overflow: hidden; }
-        .filter-container { margin-bottom: 10px; }
-        .filter-label { font-size: 0.7rem; font-weight: 700; margin-bottom: 5px; display: block; color: var(--gray); }
-        .filter-select {
-            width: 100%; background: transparent; border: 1px solid #ccc; 
-            font-family: 'Space Mono'; padding: 5px; font-weight: 700; cursor: pointer;
-            text-transform: lowercase;
+            color: var(--text); text-decoration: none; font-weight: 700; 
+            border-bottom: 2px solid var(--text); padding-bottom: 2px; 
         }
 
-        .thumb-scroll { display: flex; flex-direction: column; gap: 15px; overflow-y: auto; flex-grow: 1; }
+        /* PANEL DERECHA */
+        .right-panel { display: flex; flex-direction: column; gap: 15px; overflow-y: auto; }
         .thumb-item {
             width: 100%; aspect-ratio: 16 / 10; background: #000;
             border: 1px solid #ccc; overflow: hidden; cursor: pointer; flex-shrink: 0;
@@ -118,7 +117,15 @@
         <section class="left-panel">
             <div class="brand"><strong>leandro bruno</strong>film editor</div>
             <nav class="nav-links">
-                <a id="nav-work" class="active" onclick="showSection('work')">work</a>
+                <div class="nav-item-wrapper">
+                    <a id="nav-work" class="active" onclick="showSection('work')">work</a>
+                    <select class="filter-select" id="cat-filter" onchange="changeFilter()">
+                        <option value="all">/ all projects</option>
+                        <option value="serie/film">/ serie & film</option>
+                        <option value="advertising">/ advertising</option>
+                        <option value="music video">/ music video</option>
+                    </select>
+                </div>
                 <a id="nav-about" onclick="showSection('about')">about</a>
                 <a href="mailto:leandrobrunoeditor@gmail.com">contact</a>
             </nav>
@@ -143,14 +150,12 @@
             </div>
 
             <div id="about-section">
-                <img src="assets/profile.jpg" alt="leandro bruno" class="profile-pic" onerror="this.src='https://via.placeholder.com/300x400?text=Profile+Pic'">
+                <img src="assets/Perfil_LMB.jpg" alt="leandro bruno profile" class="profile-pic" onerror="this.src='https://via.placeholder.com/300x400?text=LMB+Profile'">
                 <div class="about-content">
                     <div class="about-text">
                         leandro bruno es un editor de cine y publicidad con base en buenos aires. 
                         <br><br>
                         especializado en narrativa cinematográfica y montaje rítmico, ha trabajado en proyectos para netflix, disney+, amazon prime video y las principales productoras de la región.
-                        <br><br>
-                        su enfoque combina la técnica de montaje tradicional con una sensibilidad contemporánea hacia la imagen y el sonido.
                     </div>
                     <div class="about-links">
                         <a href="https://www.imdb.com/name/nm10555319/" target="_blank">imdb profile</a>
@@ -159,18 +164,7 @@
             </div>
         </section>
 
-        <section class="right-panel" id="right-side">
-            <div class="filter-container">
-                <span class="filter-label">filter by</span>
-                <select class="filter-select" id="cat-filter" onchange="changeFilter()">
-                    <option value="all">all projects</option>
-                    <option value="serie/film">serie/film</option>
-                    <option value="advertising">advertising</option>
-                    <option value="music video">music video</option>
-                </select>
-            </div>
-            <div class="thumb-scroll" id="thumbnail-list"></div>
-        </section>
+        <section class="right-panel" id="thumbnail-list"></section>
     </main>
 
     <div class="video-modal" id="modal">
@@ -239,14 +233,16 @@
         function showSection(section) {
             const work = document.getElementById('work-section');
             const about = document.getElementById('about-section');
-            const rightSide = document.getElementById('right-side');
+            const thumbs = document.getElementById('thumbnail-list');
+            const filter = document.getElementById('cat-filter');
             const navWork = document.getElementById('nav-work');
             const navAbout = document.getElementById('nav-about');
 
             if(section === 'about') {
                 isAbout = true;
                 work.style.display = 'none';
-                rightSide.style.display = 'none';
+                thumbs.style.display = 'none';
+                filter.style.display = 'none';
                 about.style.display = 'flex';
                 navAbout.classList.add('active');
                 navWork.classList.remove('active');
@@ -255,7 +251,8 @@
                 isAbout = false;
                 about.style.display = 'none';
                 work.style.display = 'flex';
-                rightSide.style.display = 'flex';
+                thumbs.style.display = 'flex';
+                filter.style.display = 'inline-block';
                 navWork.classList.add('active');
                 navAbout.classList.remove('active');
                 updateDisplay();
