@@ -8,68 +8,88 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     
     <style>
-        :root { --bg: #000000; --text: #ffffff; --gray: #fff; --dark-gray: #0a0a0a; }
+        :root { --bg: #000000; --text: #ffffff; --gray: #888; --dark-gray: #111; }
         
         body { background-color: var(--bg); color: var(--text); font-family: 'Manrope', sans-serif; margin: 0; padding: 0; overflow-x: hidden; scroll-behavior: smooth; }
 
-        /* NAVEGACIÓN */
+        /* NAVEGACIÓN ESTILO LEVI'S */
         nav { 
             display: flex; justify-content: space-between; padding: 40px 5%; align-items: center;
             position: fixed; top: 0; width: 90%; z-index: 1000;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
         }
-        .logo img { height: 45px; width: auto; }
+        .logo img { height: 35px; width: auto; }
         .menu { display: flex; align-items: center; }
-        .menu-item { position: relative; margin-left: 35px; padding-bottom: 5px; }
-        .menu-item a { text-decoration: none; color: #fff; font-size: 0.75rem; letter-spacing: 4px; font-weight: 400; transition: 0.3s; text-transform: uppercase; cursor: pointer; }
-        .menu-item a::after { content: ''; position: absolute; width: 0; height: 1px; bottom: 0; left: 0; background-color: #fff; transition: width 0.3s ease; }
-        .menu-item:hover a::after { width: 100%; }
+        .menu-item { position: relative; margin-left: 30px; }
+        .menu-item a { 
+            text-decoration: none; color: var(--gray); font-size: 0.65rem; 
+            letter-spacing: 2px; font-weight: 400; transition: 0.3s; 
+            text-transform: uppercase; cursor: pointer; 
+        }
+        .menu-item:hover a { color: #fff; }
 
-        /* Dropdown Categorías e Idioma */
-        .dropdown-content { display: none; position: absolute; top: 100%; left: 0; background-color: rgba(0,0,0,0.98); min-width: 180px; padding: 20px 0; border: 1px solid #111; }
-        .dropdown-content a { padding: 12px 25px; display: block; font-size: 0.65rem; letter-spacing: 3px; color: #fff; text-decoration: none; opacity: 0.6; }
-        .dropdown-content a:hover { opacity: 1; background: #111; }
+        /* Dropdown Estilizado */
+        .dropdown-content { 
+            display: none; position: absolute; top: 100%; left: 0; 
+            background-color: #000; min-width: 150px; padding: 15px 0; 
+            border: 1px solid #222; margin-top: 10px;
+        }
+        .dropdown-content a { padding: 10px 20px; display: block; font-size: 0.6rem; opacity: 1; color: var(--gray); }
+        .dropdown-content a:hover { color: #fff; background: #111; }
         .menu-item:hover .dropdown-content { display: block; }
 
-        /* CAROUSEL */
+        /* CAROUSEL AJUSTADO */
         .swiper { width: 100%; height: 100vh; background: #000; }
-        .swiper-button-next, .swiper-button-prev { color: #fff !important; transform: scale(0.8); opacity: 0.3; transition: 0.5s; }
+        .swiper-button-next, .swiper-button-prev { color: #fff !important; transform: scale(0.6); opacity: 0.2; }
         
         .swiper-slide { position: relative; overflow: hidden; }
         .video-background { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
-        .video-background iframe { width: 150vw; height: 150vh; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(1.4); border: none; filter: brightness(0.8); }
+        .video-background iframe { width: 150vw; height: 150vh; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(1.4); border: none; filter: brightness(0.7); }
         .slide-link { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 50; }
-        .slide-info { position: absolute; bottom: 100px; left: 6%; z-index: 60; pointer-events: none; }
-        .slide-info h2 { font-size: 2.5rem; letter-spacing: 12px; text-transform: uppercase; font-weight: 400; margin: 0; color: #fff; line-height: 1; }
-        .slide-info p { font-size: 0.75rem; color: #fff; opacity: 0.7; letter-spacing: 5px; margin-top: 20px; font-weight: 200; }
+        
+        .slide-info { position: absolute; bottom: 80px; left: 5%; z-index: 60; pointer-events: none; }
+        .slide-info h2 { font-size: 1.8rem; letter-spacing: 8px; text-transform: uppercase; font-weight: 400; margin: 0; color: #fff; }
+        .slide-info p { font-size: 0.65rem; color: var(--gray); letter-spacing: 3px; margin-top: 12px; text-transform: uppercase; }
 
-        /* BOTÓN UNMUTE */
+        /* BOTÓN UNMUTE DISCRETO */
         #unmute-btn {
-            position: absolute; bottom: 50px; right: 6%; z-index: 100;
-            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); 
-            border-radius: 50%; width: 50px; height: 50px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s;
+            position: absolute; bottom: 40px; right: 5%; z-index: 100;
+            background: none; border: 1px solid #333; 
+            border-radius: 50%; width: 40px; height: 40px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s;
         }
-        #unmute-btn svg { width: 20px; height: 20px; fill: #fff; }
+        #unmute-btn:hover { border-color: #fff; }
+        #unmute-btn svg { width: 15px; height: 15px; fill: #fff; }
 
-        /* GRID DE TRABAJOS */
-        .work-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 10px; background-color: #000; }
-        .project-card { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: #0a0a0a; text-decoration: none; color: #fff; }
-        .project-card img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%) brightness(0.6); transition: 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
-        .project-card:hover img { filter: grayscale(0%) brightness(1); transform: scale(1.05); }
+        /* GRID DE TRABAJOS ESTILO TÉCNICO */
+        .work-grid { 
+            display: grid; grid-template-columns: repeat(2, 1fr); 
+            gap: 10px; padding: 10px; background-color: #000; 
+        }
+        .project-card { 
+            position: relative; aspect-ratio: 16 / 9; overflow: hidden; 
+            background: #000; text-decoration: none; 
+        }
+        .project-card img { 
+            width: 100%; height: 100%; object-fit: cover; 
+            filter: grayscale(100%) brightness(0.5); transition: 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .project-card:hover img { filter: grayscale(0%) brightness(1); transform: scale(1.03); }
         
         .card-info { 
             position: absolute; bottom: 0; left: 0; width: 100%; height: 100%;
             display: flex; flex-direction: column; justify-content: flex-end;
-            padding: 30px; box-sizing: border-box;
-            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 50%);
-            opacity: 0; transition: 0.5s ease;
+            padding: 25px; box-sizing: border-box;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 40%);
+            opacity: 0; transition: 0.4s ease;
         }
         .project-card:hover .card-info { opacity: 1; }
-        .card-info h3 { font-size: 1.1rem; letter-spacing: 4px; margin: 0 0 10px 0; text-transform: uppercase; font-weight: 400; }
+        
+        .card-info h3 { font-size: 0.85rem; letter-spacing: 3px; margin: 0; text-transform: uppercase; font-weight: 400; color: #fff; }
+        .card-info .category { font-size: 0.55rem; color: var(--gray); letter-spacing: 2px; text-transform: uppercase; margin-top: 5px; }
 
         @media (max-width: 1024px) { .work-grid { grid-template-columns: 1fr; } }
         
-        footer { padding: 100px 5%; font-size: 10px; color: #333; letter-spacing: 3px; text-align: center; background: #000; }
+        footer { padding: 60px 5%; text-align: center; font-size: 9px; color: #222; letter-spacing: 2px; }
     </style>
 </head>
 <body>
@@ -117,22 +137,20 @@
                 <div class="slide-info"><h2>COPPOLA, EL REPRESENTANTE</h2><p>SERIE / DISNEY+</p></div>
             </div>
         </div>
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
     </div>
 
     <div class="work-grid" id="work">
-        <a href="menem.html" class="project-card narrative"><img src="https://img.youtube.com/vi/-2AmqmciWXE/hqdefault.jpg"><div class="card-info"><h3>MENEM</h3></div></a>
-        <a href="moscas.html" class="project-card narrative"><img src="https://img.youtube.com/vi/A0d6wnlMRRk/maxresdefault.jpg"><div class="card-info"><h3>EL TIEMPO DE LAS MOSCAS</h3></div></a>
-        <a href="coppola.html" class="project-card narrative"><img src="https://img.youtube.com/vi/ecr24akKDbs/maxresdefault.jpg"><div class="card-info"><h3>COPPOLA, EL REPRESENTANTE</h3></div></a>
-        <a href="todo-lo-que-recuerdo.html" class="project-card narrative"><img src="TodoRecuerdo_Thumbnail.png"><div class="card-info"><h3>TODO LO QUE RECUERDO</h3></div></a>
-        <a href="las-manos-de-la-abuela.html" class="project-card narrative"><img src="ManosAbuela_Thumbnail.png"><div class="card-info"><h3>LAS MANOS DE LA ABUELA</h3></div></a>
-        <a href="oreo.html" class="project-card advertising"><img src="https://img.youtube.com/vi/7Cllu0Rme74/maxresdefault.jpg"><div class="card-info"><h3>OREO - MOMENTO DE DIVERSIÓN</h3></div></a>
-        <a href="levis.html" class="project-card advertising"><img src="Levis_Thumbnail_v01.png"><div class="card-info"><h3>LEVI'S x WINONA RIDERS</h3></div></a>
-        <a href="blair.html" class="project-card music"><img src="https://img.youtube.com/vi/ItX5aqhqsmo/maxresdefault.jpg"><div class="card-info"><h3>BLAIR - TODO LO QUE TENGO</h3></div></a>
-        <a href="ratones.html" class="project-card advertising"><img src="RP_Thumnmail.png"><div class="card-info"><h3>RATONES PARANOICOS</h3></div></a>
-        <a href="marias.html" class="project-card advertising"><img src="Marias_Thumbnail.png"><div class="card-info"><h3>MARÍAS</h3></div></a>
-        <a href="besos.html" class="project-card narrative"><img src="BesosBrujos-Thumbnail.png"><div class="card-info"><h3>BESOS BRUJOS</h3></div></a>
+        <a href="menem.html" class="project-card narrative"><img src="https://img.youtube.com/vi/-2AmqmciWXE/hqdefault.jpg"><div class="card-info"><h3>MENEM</h3><div class="category">Narrativo / Serie</div></div></a>
+        <a href="moscas.html" class="project-card narrative"><img src="https://img.youtube.com/vi/A0d6wnlMRRk/maxresdefault.jpg"><div class="card-info"><h3>EL TIEMPO DE LAS MOSCAS</h3><div class="category">Narrativo / Serie</div></div></a>
+        <a href="coppola.html" class="project-card narrative"><img src="https://img.youtube.com/vi/ecr24akKDbs/maxresdefault.jpg"><div class="card-info"><h3>COPPOLA, EL REPRESENTANTE</h3><div class="category">Narrativo / Serie</div></div></a>
+        <a href="todo-lo-que-recuerdo.html" class="project-card narrative"><img src="TodoRecuerdo_Thumbnail.png"><div class="card-info"><h3>TODO LO QUE RECUERDO</h3><div class="category">Narrativo / Cortometraje</div></div></a>
+        <a href="las-manos-de-la-abuela.html" class="project-card narrative"><img src="ManosAbuela_Thumbnail.png"><div class="card-info"><h3>LAS MANOS DE LA ABUELA</h3><div class="category">Narrativo / Cortometraje</div></div></a>
+        <a href="oreo.html" class="project-card advertising"><img src="https://img.youtube.com/vi/7Cllu0Rme74/maxresdefault.jpg"><div class="card-info"><h3>OREO - MOMENTO DE DIVERSIÓN</h3><div class="category">Publicidad</div></div></a>
+        <a href="levis.html" class="project-card advertising"><img src="Levis_Thumbnail_v01.png"><div class="card-info"><h3>LEVI'S x WINONA RIDERS</h3><div class="category">Publicidad / Campaña</div></div></a>
+        <a href="blair.html" class="project-card music"><img src="https://img.youtube.com/vi/ItX5aqhqsmo/maxresdefault.jpg"><div class="card-info"><h3>BLAIR - TODO LO QUE TENGO</h3><div class="category">Música / Videoclip</div></div></a>
+        <a href="ratones.html" class="project-card advertising"><img src="RP_Thumnmail.png"><div class="card-info"><h3>RATONES PARANOICOS</h3><div class="category">Publicidad / Documental</div></div></a>
+        <a href="marias.html" class="project-card advertising"><img src="Marias_Thumbnail.png"><div class="card-info"><h3>MARÍAS</h3><div class="category">Publicidad</div></div></a>
+        <a href="besos.html" class="project-card narrative"><img src="BesosBrujos-Thumbnail.png"><div class="card-info"><h3>BESOS BRUJOS</h3><div class="category">Narrativo</div></div></a>
     </div>
 
     <footer>© 2026 LEANDRO BRUNO. TODOS LOS DERECHOS RESERVADOS.</footer>
@@ -158,14 +176,8 @@
         }
 
         var swiper = new Swiper(".mySwiper", { 
-            loop: true, 
-            speed: 1000, 
-            effect: "fade",
-            autoplay: { 
-                delay: 3000, 
-                disableOnInteraction: false 
-            },
-            navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" }
+            loop: true, speed: 1000, effect: "fade",
+            autoplay: { delay: 3000, disableOnInteraction: false }
         });
 
         function filterProjects(category) {
@@ -173,7 +185,7 @@
             document.querySelector('#work').scrollIntoView({ behavior: 'smooth' });
             cards.forEach(card => {
                 if (category === 'all' || card.classList.contains(category)) card.classList.remove('hidden');
-                else card.classList.add('hidden');
+                else card.style.display = 'none'; 
             });
         }
     </script>
