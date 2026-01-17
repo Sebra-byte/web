@@ -8,168 +8,63 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <style>
         :root { 
-            --bg: #f0f0f0; 
-            --text: #1a1a1a; 
-            --gray: #777; 
-            --line-grid: rgba(0, 0, 0, 0.05); 
-            --line-accent: rgba(255, 0, 0, 0.15); 
+            --bg: #f0f0f0; --text: #1a1a1a; --gray: #777; 
+            --line-grid: rgba(0, 0, 0, 0.05); --line-accent: rgba(255, 0, 0, 0.15); 
         }
-        
         body, html { 
             margin: 0; padding: 0; width: 100%; height: 100%; 
             background: var(--bg); color: var(--text); 
-            font-family: 'Space Mono', monospace; 
-            overflow: hidden; text-transform: lowercase; 
+            font-family: 'Space Mono', monospace; overflow: hidden; text-transform: lowercase; 
         }
-
-        /* FONDO BLUEPRINT SEGÚN REFERENCIA */
         .blueprint-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: 
-                linear-gradient(var(--line-grid) 1px, transparent 1px), 
-                linear-gradient(90deg, var(--line-grid) 1px, transparent 1px);
+            background-image: linear-gradient(var(--line-grid) 1px, transparent 1px), linear-gradient(90deg, var(--line-grid) 1px, transparent 1px);
             background-size: 50px 50px; z-index: -1;
         }
-
         .guide-h { position: absolute; top: 50%; left: 0; width: 100%; height: 1px; background: var(--line-accent); z-index: -1; }
 
-        /* LAYOUT PRINCIPAL */
         .main-layout {
-            display: grid;
-            grid-template-columns: 18% 1fr 18%;
-            height: 100vh;
-            align-items: center;
-            padding: 0 40px;
+            display: grid; grid-template-columns: 18% 1fr 18%; height: 100vh; align-items: center; padding: 0 40px;
         }
-
-        /* IZQUIERDA: LOGO */
-        .side-left { 
-            font-size: 1.2rem; 
-            letter-spacing: 1px; 
-            line-height: 1.5;
-        }
+        .side-left { font-size: 1.2rem; letter-spacing: 1px; line-height: 1.5; }
         .side-left span { display: block; font-weight: 700; font-size: 1.4rem; margin-bottom: 5px; }
 
-        /* CENTRO: CARROUSEL GRANDE */
         .center-frame {
-            grid-column: 2;
-            width: 100%;
-            max-width: 1150px; /* Tamaño máximo para resaltar el trabajo */
-            aspect-ratio: 16 / 9;
-            margin: 0 auto;
-            border: 1px solid #aaa;
-            position: relative;
-            background: #000;
-            box-shadow: 0 25px 55px rgba(0,0,0,0.12);
+            grid-column: 2; width: 100%; max-width: 1150px; aspect-ratio: 16 / 9; margin: 0 auto;
+            border: 1px solid #aaa; position: relative; background: #000; box-shadow: 0 25px 55px rgba(0,0,0,0.12);
         }
-
         .swiper { width: 100%; height: 100%; }
-        .video-wrapper { width: 100%; height: 100%; position: relative; background: #000; }
-        .video-wrapper iframe { 
-            position: absolute; top: 0; left: 0; 
-            width: 100%; height: 100%; border: none; 
-            pointer-events: auto; /* Permitir interacción si es necesario */
-        }
+        .video-wrapper { width: 100%; height: 100%; background: #000; }
+        .video-wrapper iframe { width: 100%; height: 100%; border: none; }
 
-        /* DERECHA: NAVEGACIÓN Y FLECHA */
-        .side-right { 
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-            height: 60%;
-            align-items: flex-end;
-        }
+        .side-right { display: flex; flex-direction: column; justify-content: space-around; height: 60%; align-items: flex-end; }
+        .swiper-button-next-custom { cursor: pointer; font-size: 3rem; color: var(--text); transition: 0.3s; margin-bottom: 50px; }
+        .nav-links { display: flex; flex-direction: column; gap: 15px; align-items: flex-end; }
+        .nav-links a { text-decoration: none; color: var(--gray); font-size: 1.2rem; font-weight: 700; letter-spacing: 2px; }
+        .nav-links a.active { color: var(--text); }
 
-        .swiper-button-next-custom {
-            cursor: pointer;
-            font-size: 3rem;
-            color: var(--text);
-            transition: 0.3s;
-            user-select: none;
-            margin-bottom: 50px;
-        }
-
-        .nav-links {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            align-items: flex-end;
-        }
-        .nav-links a {
-            text-decoration: none;
-            color: var(--gray);
-            font-size: 1.2rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            transition: 0.3s;
-        }
-        .nav-links a:hover, .nav-links a.active { color: var(--text); }
-
-        /* INFO ABAJO: TITULOS Y CRÉDITOS */
-        .bottom-info {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            text-align: center;
-            width: 100%;
-        }
-        #p-name {
-            font-size: 1.6rem;
-            font-weight: 700;
-            letter-spacing: 5px;
-            margin-bottom: 10px;
-            color: var(--text);
-        }
-        .credits-box { 
-            font-size: 1.1rem; 
-            letter-spacing: 1px; 
-            color: var(--gray); 
-            line-height: 1.8;
-        }
-        .credits-box strong { color: var(--text); font-weight: 700; }
-
-        @media (max-width: 1024px) {
-            .main-layout { grid-template-columns: 1fr; height: auto; padding: 40px 20px; }
-            .side-left, .side-right { text-align: center; align-items: center; margin: 20px 0; }
-            .nav-links { flex-direction: row; gap: 20px; }
-            .bottom-info { position: relative; bottom: 0; padding: 40px 0; }
-        }
+        .bottom-info { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); text-align: center; width: 100%; }
+        #p-name { font-size: 1.6rem; font-weight: 700; letter-spacing: 5px; margin-bottom: 10px; }
+        .credits-box { font-size: 1.1rem; color: var(--gray); }
     </style>
 </head>
 <body>
-
     <div class="blueprint-bg"></div>
     <div class="guide-h"></div>
-
     <main class="main-layout">
-        <div class="side-left">
-            <span>leandro bruno</span>
-            film editor
-        </div>
-
+        <div class="side-left"><span>leandro bruno</span>film editor</div>
         <div class="center-frame">
             <div class="swiper mySwiper">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide" data-title="menem" data-credits="<strong>d.</strong> ariel winograd | <strong>p.</strong> claxon, yavu, prime video">
-                        <div class="video-wrapper"><div id="player1"></div></div>
+                        <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/-2AmqmciWXE?autoplay=1&mute=1&loop=1&playlist=-2AmqmciWXE&controls=0&modestbranding=1" allow="autoplay"></iframe></div>
                     </div>
                     <div class="swiper-slide" data-title="oreo" data-credits="<strong>p.</strong> primo films">
-                        <div class="video-wrapper"><div id="player2"></div></div>
-                    </div>
-                    <div class="swiper-slide" data-title="el tiempo de las moscas" data-credits="<strong>d.</strong> benjamín naishtat, ana katz | <strong>p.</strong> netflix, zona audiovisual">
-                        <div class="video-wrapper"><div id="player3"></div></div>
-                    </div>
-                    <div class="swiper-slide" data-title="coppola" data-credits="<strong>d.</strong> ariel winograd | <strong>p.</strong> disney, pampa films">
-                        <div class="video-wrapper"><div id="player4"></div></div>
-                    </div>
-                    <div class="swiper-slide" data-title="blair" data-credits="<strong>d.</strong> dana campanello | <strong>p.</strong> poster">
-                        <div class="video-wrapper"><div id="player5"></div></div>
+                        <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/7Cllu0Rme74?autoplay=1&mute=1&loop=1&playlist=7Cllu0Rme74&controls=0&modestbranding=1" allow="autoplay"></iframe></div>
                     </div>
                 </div>
             </div>
         </div>
-
         <div class="side-right">
             <div class="swiper-button-next-custom">→</div>
             <div class="nav-links">
@@ -179,52 +74,15 @@
             </div>
         </div>
     </main>
-
     <div class="bottom-info">
         <div id="p-name">menem</div>
-        <div class="credits-box" id="p-credits">
-            <strong>d.</strong> ariel winograd | <strong>p.</strong> claxon, yavu, prime video
-        </div>
+        <div class="credits-box" id="p-credits"><strong>d.</strong> ariel winograd | <strong>p.</strong> claxon, yavu, prime video</div>
     </div>
-
-    <script src="https://www.youtube.com/iframe_api"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
-        let players = [];
-        const videoIds = ['-2AmqmciWXE', '7Cllu0Rme74', 'A0d6wnlMRRk', 'ecr24akKDbs', 'ItX5aqhqsmo'];
-
-        function onYouTubeIframeAPIReady() {
-            const currentOrigin = window.location.origin;
-            videoIds.forEach((id, index) => {
-                players[index] = new YT.Player('player' + (index + 1), {
-                    videoId: id,
-                    playerVars: { 
-                        'autoplay': 1, 
-                        'mute': 1, 
-                        'loop': 1, 
-                        'playlist': id, 
-                        'controls': 0, 
-                        'modestbranding': 1, 
-                        'rel': 0,
-                        'enablejsapi': 1,
-                        'origin': currentOrigin
-                    },
-                    events: { 
-                        'onReady': (event) => {
-                            event.target.playVideo();
-                        }
-                    }
-                });
-            });
-        }
-
         const swiper = new Swiper(".mySwiper", {
-            loop: true,
-            speed: 600,
-            allowTouchMove: true,
-            navigation: {
-                nextEl: ".swiper-button-next-custom",
-            },
+            loop: true, speed: 600,
+            navigation: { nextEl: ".swiper-button-next-custom" },
             on: {
                 slideChange: function () {
                     const activeSlide = this.slides[this.activeIndex];
@@ -235,15 +93,6 @@
                 }
             }
         });
-
-        // Solución definitiva para el "cuadro negro": Intentar reproducir al tocar cualquier parte
-        window.addEventListener('click', function() {
-            players.forEach(player => {
-                if (player && player.playVideo) {
-                    player.playVideo();
-                }
-            });
-        }, { once: true });
     </script>
 </body>
 </html>
