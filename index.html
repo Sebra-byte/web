@@ -11,7 +11,7 @@
         :root { --bg: #000; --text: #fff; --gray: #fff; --dark-gray: #0a0a0a; }
         body { background-color: var(--bg); color: var(--text); font-family: 'Manrope', sans-serif; margin: 0; padding: 0; overflow-x: hidden; scroll-behavior: smooth; }
 
-        /* NAV */
+        /* NAVEGACIÓN */
         nav { 
             display: flex; justify-content: space-between; padding: 40px 5%; align-items: center;
             position: fixed; top: 0; width: 90%; z-index: 1000;
@@ -19,35 +19,35 @@
         }
         .logo img { height: 45px; width: auto; }
         .menu { display: flex; align-items: center; }
-        .menu-item { position: relative; margin-left: 35px; padding-bottom: 5px; }
+        .menu-item { position: relative; margin-left: 30px; padding-bottom: 5px; }
         .menu-item a { text-decoration: none; color: #fff; font-size: 0.7rem; letter-spacing: 3px; font-weight: 400; transition: 0.3s; text-transform: uppercase; cursor: pointer; }
         .menu-item a::after { content: ''; position: absolute; width: 0; height: 1px; bottom: 0; left: 0; background-color: #fff; transition: width 0.3s ease; }
         .menu-item:hover a::after { width: 100%; }
 
+        /* Dropdown */
         .dropdown-content { display: none; position: absolute; top: 100%; left: 0; background-color: rgba(0,0,0,0.95); min-width: 160px; padding: 15px 0; }
         .dropdown-content a { padding: 10px 20px; display: block; font-size: 0.6rem; letter-spacing: 2px; color: #fff; text-decoration: none; opacity: 0.7; }
         .dropdown-content a:hover { opacity: 1; background: #111; }
         .menu-item:hover .dropdown-content { display: block; }
 
-        /* SWIPER & ARROWS */
+        /* SWIPER */
         .swiper { width: 100%; height: 100vh; background: #000; }
-        .swiper-button-next, .swiper-button-prev { color: #fff !important; transform: scale(0.5); opacity: 0.4; transition: 0.3s; }
+        .swiper-button-next, .swiper-button-prev { color: #fff !important; transform: scale(0.5); opacity: 0.3; transition: 0.3s; }
         .swiper-button-next:hover, .swiper-button-prev:hover { opacity: 1; }
-        
         .swiper-slide { position: relative; overflow: hidden; }
         .video-background { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
         .video-background iframe { width: 140vw; height: 140vh; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(1.35); border: none; }
         .slide-link { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 50; }
         .slide-info { position: absolute; bottom: 80px; left: 5%; z-index: 60; pointer-events: none; }
-        .slide-info h2 { font-size: 1.3rem; letter-spacing: 6px; text-transform: uppercase; font-weight: 400; margin: 0; color: #fff; }
+        .slide-info h2 { font-size: 1.3rem; letter-spacing: 6px; text-transform: uppercase; font-weight: 400; margin: 0; }
         .slide-info p { font-size: 0.6rem; color: #fff; opacity: 0.9; letter-spacing: 3px; margin-top: 10px; font-weight: 400; }
 
-        /* UNMUTE BUTTON */
+        /* UNMUTE ICON */
         #unmute-btn {
             position: absolute; bottom: 40px; right: 5%; z-index: 100;
             background: none; border: none; cursor: pointer; padding: 10px;
         }
-        #unmute-btn svg { width: 25px; height: 25px; fill: #fff; opacity: 0.6; transition: 0.3s; }
+        #unmute-btn svg { width: 24px; height: 24px; fill: #fff; opacity: 0.6; transition: 0.3s; }
         #unmute-btn:hover svg { opacity: 1; }
 
         /* GRID */
@@ -57,13 +57,20 @@
         .project-card img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); transition: 0.6s ease; opacity: 0.4; }
         .project-card:hover img { filter: grayscale(0%); transform: scale(1.03); opacity: 0.7; }
         
-        .card-info { position: absolute; bottom: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; padding: 30px; box-sizing: border-box; background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%); pointer-events: none; }
+        .card-info { 
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column; justify-content: flex-end;
+            padding: 30px; box-sizing: border-box;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);
+            pointer-events: none;
+        }
         .card-info h3 { font-size: 0.85rem; letter-spacing: 3px; margin: 0 0 5px 0; text-transform: uppercase; font-weight: 700; }
         .card-info .director { font-size: 0.55rem; color: #fff; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 3px; }
         .card-info .production { font-size: 0.55rem; color: #fff; opacity: 0.6; letter-spacing: 2px; text-transform: uppercase; }
 
         @media (max-width: 1024px) { .work-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 768px) { .work-grid { grid-template-columns: 1fr; } }
+        
         footer { padding: 80px 5%; font-size: 9px; color: #444; letter-spacing: 2px; text-align: center; background: #000; }
     </style>
 </head>
@@ -83,6 +90,7 @@
             </div>
             <div class="menu-item"><a href="about.html">ABOUT</a></div>
             <div class="menu-item"><a href="mailto:leandrobrunoeditor@gmail.com">CONTACT</a></div>
+            <div class="menu-item"><a href="https://www.imdb.com/name/nm11460466/" target="_blank">IMDb</a></div>
         </div>
     </nav>
 
