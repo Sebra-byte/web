@@ -11,135 +11,101 @@
             --text: #1a1a1a; 
             --gray: #777; 
             --line-grid: rgba(0, 0, 0, 0.05); 
-            --line-accent: rgba(255, 0, 0, 0.15); 
         }
         
         body, html { 
             margin: 0; padding: 0; width: 100%; height: 100%; 
             background: var(--bg); color: var(--text); 
-            font-family: 'Space Mono', monospace; 
-            text-transform: lowercase; 
+            font-family: 'Space Mono', monospace; text-transform: lowercase;
+            overflow: hidden;
         }
 
         /* FONDO BLUEPRINT */
         .blueprint-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: 
-                linear-gradient(var(--line-grid) 1px, transparent 1px), 
-                linear-gradient(90deg, var(--line-grid) 1px, transparent 1px);
-            background-size: 50px 50px; z-index: -1;
+            background-image: linear-gradient(var(--line-grid) 1px, transparent 1px), linear-gradient(90deg, var(--line-grid) 1px, transparent 1px);
+            background-size: 40px 40px; z-index: -1;
         }
 
-        /* ESTRUCTURA PRINCIPAL */
-        .main-layout {
+        /* GRID PRINCIPAL */
+        .main-container {
             display: grid;
-            grid-template-columns: 18% 1fr 18%;
-            min-height: 100vh;
-            padding: 60px 40px;
+            grid-template-columns: 250px 1fr 200px; /* Estructura según tu imagen */
+            height: 100vh;
+            padding: 40px;
             box-sizing: border-box;
+            gap: 20px;
         }
 
-        /* IZQUIERDA: LOGO FIJO */
-        .side-left { 
-            position: sticky;
-            top: 60px;
-            height: fit-content;
-            font-size: 1.2rem; 
-            letter-spacing: 1px; 
-            line-height: 1.5;
+        /* IZQUIERDA: MARCA + ABOUT */
+        .left-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
         }
-        .side-left span { display: block; font-weight: 700; font-size: 1.4rem; margin-bottom: 5px; }
-
-        /* CENTRO: GRILLA DE THUMBNAILS (ESTILO CARGO) */
-        .center-content {
-            grid-column: 2;
-            display: grid;
-            grid-template-columns: repeat(2, 1fr); /* 2 columnas como el template */
-            gap: 40px;
-            width: 100%;
-            max-width: 1100px;
-            margin: 0 auto;
+        .brand { font-size: 1.2rem; line-height: 1.4; }
+        .brand strong { display: block; font-size: 1.4rem; }
+        
+        .nav-links a {
+            text-decoration: none; color: var(--text);
+            font-size: 1.1rem; font-weight: 700;
+            display: block; margin-bottom: 10px;
         }
+        .nav-links a:hover { color: var(--gray); }
 
-        .project-card {
-            position: relative;
+        /* CENTRO: VISOR PRINCIPAL */
+        .center-panel {
+            display: flex;
+            flex-direction: column;
+        }
+        .main-viewer {
             width: 100%;
             aspect-ratio: 16 / 9;
+            background: #000;
+            overflow: hidden;
+            border: 1px solid #ddd;
+        }
+        .main-viewer img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: opacity 0.8s ease-in-out;
+        }
+
+        /* INFO DEL PROYECTO (Debajo de la imagen central) */
+        .project-details {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        .project-details h2 { 
+            font-size: 3rem; margin: 0; letter-spacing: -2px; font-weight: 700; 
+        }
+        .project-details .meta { 
+            font-size: 0.9rem; line-height: 1.6; color: var(--gray);
+        }
+        .project-details .meta strong { color: var(--text); }
+
+        /* DERECHA: THUMBNAILS */
+        .right-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .thumb-item {
+            width: 100%;
+            aspect-ratio: 16 / 10;
             background: #ddd;
-            border: 1px solid #aaa;
+            border: 1px solid #ccc;
             overflow: hidden;
             cursor: pointer;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s;
         }
-
-        .project-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: grayscale(100%);
-            transition: 0.5s ease;
-        }
-
-        .project-card:hover img {
-            filter: grayscale(0%);
-            transform: scale(1.05);
-        }
-
-        /* INFO HOVER SOBRE EL THUMBNAIL */
-        .project-overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(240, 240, 240, 0.9);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transition: 0.3s ease;
-            text-align: center;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .project-card:hover .project-overlay {
-            opacity: 1;
-        }
-
-        .overlay-title { font-weight: 700; font-size: 1.3rem; margin-bottom: 10px; }
-        .overlay-credits { font-size: 0.9rem; color: var(--gray); }
-
-        /* DERECHA: NAV FIJA */
-        .side-right { 
-            position: sticky;
-            top: 60px;
-            height: fit-content;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            align-items: flex-end;
-        }
-
-        .nav-links {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            align-items: flex-end;
-        }
-        .nav-links a {
-            text-decoration: none;
-            color: var(--gray);
-            font-size: 1.2rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            transition: 0.3s;
-        }
-        .nav-links a:hover, .nav-links a.active { color: var(--text); }
+        .thumb-item img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); }
+        .thumb-item:hover img { filter: grayscale(0); }
 
         @media (max-width: 1024px) {
-            .main-layout { grid-template-columns: 1fr; padding: 40px 20px; }
-            .side-left, .side-right { position: relative; top: 0; text-align: center; align-items: center; margin-bottom: 40px; }
-            .center-content { grid-template-columns: 1fr; }
-            .nav-links { flex-direction: row; gap: 20px; }
+            .main-container { grid-template-columns: 1fr; overflow-y: auto; height: auto; }
+            .right-panel { flex-direction: row; }
         }
     </style>
 </head>
@@ -147,56 +113,122 @@
 
     <div class="blueprint-bg"></div>
 
-    <main class="main-layout">
-        <div class="side-left">
-            <span>leandro bruno</span>
-            film editor
-        </div>
-
-        <div class="center-content">
-            
-            <div class="project-card">
-                <img src="assets/thumb_menem.jpg" alt="menem">
-                <div class="project-overlay">
-                    <div class="overlay-title">menem</div>
-                    <div class="overlay-credits">d. ariel winograd | p. claxon, yavu</div>
-                </div>
+    <main class="main-container">
+        <section class="left-panel">
+            <div class="brand">
+                <strong>leandro bruno</strong>
+                film editor
             </div>
-
-            <div class="project-card">
-                <img src="assets/thumb_oreo.jpg" alt="oreo">
-                <div class="project-overlay">
-                    <div class="overlay-title">oreo</div>
-                    <div class="overlay-credits">p. primo films</div>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <img src="assets/thumb_moscas.jpg" alt="el tiempo de las moscas">
-                <div class="project-overlay">
-                    <div class="overlay-title">el tiempo de las moscas</div>
-                    <div class="overlay-credits">d. benjamín naishtat, ana katz</div>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <img src="assets/thumb_coppola.jpg" alt="coppola">
-                <div class="project-overlay">
-                    <div class="overlay-title">coppola</div>
-                    <div class="overlay-credits">d. ariel winograd | p. disney</div>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="side-right">
-            <div class="nav-links">
-                <a href="index.html" class="active">work</a>
+            <nav class="nav-links">
                 <a href="about.html">about</a>
                 <a href="mailto:leandrobrunoeditor@gmail.com">contact</a>
+            </nav>
+        </section>
+
+        <section class="center-panel">
+            <div class="main-viewer">
+                <img id="main-img" src="" alt="feature project">
             </div>
-        </div>
+            <div class="project-details">
+                <div>
+                    <span style="font-size: 0.8rem;">project name</span>
+                    <h2 id="p-title"></h2>
+                </div>
+                <div class="meta">
+                    <div id="p-meta-top"></div>
+                    <div id="p-description" style="margin-top: 15px;"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="right-panel" id="thumbnail-list">
+            </section>
     </main>
 
+    <script>
+        const projects = [
+            {
+                title: "menem",
+                img: "assets/thumb_menem.jpg",
+                director: "ariel winograd",
+                prod: "claxon, yavu, prime video",
+                desc: "serie original de prime video. montaje cinematográfico enfocado en la narrativa política y dramática de los años 90."
+            },
+            {
+                title: "oreo",
+                img: "assets/thumb_oreo.jpg",
+                director: "primo films",
+                prod: "primo",
+                desc: "campaña publicitaria de alto impacto visual. ritmo rítmico y montaje dinámico."
+            },
+            {
+                title: "moscas",
+                img: "assets/thumb_moscas.jpg",
+                director: "ana katz",
+                prod: "netflix",
+                desc: "largometraje de ficción. exploración de tiempos narrativos y clima dramático."
+            },
+            {
+                title: "coppola",
+                img: "assets/thumb_coppola.jpg",
+                director: "ariel winograd",
+                prod: "disney+",
+                desc: "miniserie biográfica. edición de ritmo frenético y reconstrucción de época."
+            }
+        ];
+
+        let currentIndex = 0;
+
+        function updateDisplay() {
+            const current = projects[currentIndex];
+            
+            // Actualizar imagen central con transición simple
+            const mainImg = document.getElementById('main-img');
+            mainImg.style.opacity = 0;
+            
+            setTimeout(() => {
+                mainImg.src = current.img;
+                document.getElementById('p-title').innerText = current.title;
+                document.getElementById('p-meta-top').innerHTML = `<strong>d.</strong> ${current.director}<br><strong>p.</strong> ${current.prod}`;
+                document.getElementById('p-description').innerText = current.desc;
+                mainImg.style.opacity = 1;
+            }, 400);
+
+            // Actualizar lista de miniaturas de la derecha (los que NO están en el centro)
+            const thumbList = document.getElementById('thumbnail-list');
+            thumbList.innerHTML = '';
+            
+            projects.forEach((proj, index) => {
+                if(index !== currentIndex) {
+                    const item = document.createElement('div');
+                    item.className = 'thumb-item';
+                    item.innerHTML = `<img src="${proj.img}">`;
+                    item.onclick = () => {
+                        currentIndex = index;
+                        updateDisplay();
+                        resetInterval();
+                    };
+                    thumbList.appendChild(item);
+                }
+            });
+        }
+
+        // Rotación automática cada 5 segundos
+        let rotation = setInterval(() => {
+            currentIndex = (currentIndex + 1) % projects.length;
+            updateDisplay();
+        }, 5000);
+
+        function resetInterval() {
+            clearInterval(rotation);
+            rotation = setInterval(() => {
+                currentIndex = (currentIndex + 1) % projects.length;
+                updateDisplay();
+            }, 5000);
+        }
+
+        // Iniciar
+        updateDisplay();
+    </script>
 </body>
 </html>
