@@ -4,184 +4,75 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leandro Bruno | Editor</title>
-    
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     
     <style>
-        :root { --bg: #000; --text: #fff; --gray: #888; }
-        
-        body { 
-            background-color: var(--bg); 
-            color: var(--text); 
-            font-family: 'Manrope', sans-serif; 
-            margin: 0; 
-            padding: 0; 
-            overflow-x: hidden; 
-        }
+        :root { --bg: #000; --text: #fff; --gray: #888; --dark-gray: #0a0a0a; }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Manrope', sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
 
-        /* NAVEGACIÓN ESTILO PREMIUM */
+        /* NAV */
         nav { 
-            display: flex; 
-            justify-content: space-between; 
-            padding: 40px 5%; 
-            align-items: center;
-            position: fixed; 
-            top: 0; 
-            width: 90%; 
-            z-index: 1000;
+            display: flex; justify-content: space-between; padding: 40px 5%; align-items: center;
+            position: fixed; top: 0; width: 90%; z-index: 1000;
             background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
         }
-        
-        .logo img { height: 50px; width: auto; transition: 0.3s; }
-        .logo img:hover { opacity: 0.7; }
-
-        .menu { display: flex; align-items: center; }
-
-        .menu-item {
-            position: relative;
-            margin-left: 35px;
-            padding-bottom: 5px;
-        }
-
-        .menu-item a { 
-            text-decoration: none; 
-            color: var(--gray); 
-            font-size: 0.7rem; 
-            letter-spacing: 3px; 
-            font-weight: 200; 
-            transition: 0.3s;
-            text-transform: uppercase;
-        }
-
-        /* Subrayado animado */
-        .menu-item a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 1px;
-            bottom: 0; 
-            left: 0;
-            background-color: #fff;
-            transition: width 0.3s ease;
-        }
-
-        .menu-item:hover a::after { width: 100%; }
+        .logo img { height: 45px; width: auto; }
+        .menu { display: flex; }
+        .menu-item { position: relative; margin-left: 35px; }
+        .menu-item a { text-decoration: none; color: var(--gray); font-size: 0.7rem; letter-spacing: 3px; font-weight: 200; text-transform: uppercase; transition: 0.3s; }
         .menu-item:hover a { color: #fff; }
 
-        /* DROPDOWN PARA WORK */
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background-color: rgba(0,0,0,0.95);
-            min-width: 180px;
-            padding: 15px 0;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-        }
-
-        .dropdown-content a {
-            padding: 10px 20px;
-            display: block;
-            font-size: 0.6rem;
-            letter-spacing: 2px;
-            color: var(--gray);
-        }
-
-        .dropdown-content a:hover { color: #fff; background: #111; }
-        .menu-item:hover .dropdown-content { display: block; }
-
-        /* CARRUSEL DE VIDEOS (HOME) */
+        /* SWIPER */
         .swiper { width: 100%; height: 100vh; background: #000; }
         .swiper-slide { position: relative; overflow: hidden; cursor: pointer; }
-        
-        /* Capa invisible para el click */
-        .slide-link {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 50; text-decoration: none;
-        }
-
-        /* Contenedor de Video con Zoom para ocultar logos */
-        .video-background {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 1; pointer-events: none;
-        }
-
+        .video-background { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
         .video-background iframe {
-            width: 140vw; 
-            height: 140vh;
-            position: absolute; 
-            top: 50%; 
-            left: 50%;
-            transform: translate(-50%, -50%) scale(1.4);
-            border: none;
+            width: 140vw; height: 140vh; position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(1.4); border: none;
         }
+        .slide-link { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 50; }
+        .slide-info { position: absolute; bottom: 80px; left: 5%; z-index: 60; pointer-events: none; }
+        .slide-info h2 { font-size: 1.3rem; letter-spacing: 6px; text-transform: uppercase; font-weight: 400; margin: 0; }
+        .slide-info p { font-size: 0.6rem; color: var(--gray); letter-spacing: 3px; margin-top: 10px; }
 
-        /* Información del Proyecto sobre el Slide */
-        .slide-info {
-            position: absolute; 
-            bottom: 100px; 
-            left: 5%;
-            z-index: 60;
+        /* GRID DE PROYECTOS (3 COLUMNAS) */
+        .work-grid { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 2px; 
+            padding: 2px; 
+            background-color: #000;
+        }
+        .project-card { 
+            position: relative; aspect-ratio: 16 / 9; overflow: hidden; 
+            background: var(--dark-gray); text-decoration: none; color: #fff;
+        }
+        .project-card img { 
+            width: 100%; height: 100%; object-fit: cover; 
+            filter: grayscale(100%); transition: 0.6s ease; opacity: 0.6;
+        }
+        .project-card:hover img { filter: grayscale(0%); transform: scale(1.05); opacity: 1; }
+        
+        .card-info { 
+            position: absolute; bottom: 20px; left: 20px; z-index: 2; 
             pointer-events: none;
         }
+        .card-info h3 { font-size: 0.8rem; letter-spacing: 3px; margin: 0; text-transform: uppercase; font-weight: 400; }
+        .card-info p { font-size: 0.5rem; color: var(--gray); letter-spacing: 2px; margin-top: 5px; text-transform: uppercase; }
 
-        .slide-info h2 { 
-            font-size: 1.4rem; 
-            letter-spacing: 8px; 
-            text-transform: uppercase; 
-            font-weight: 400; 
-            margin: 0; 
-            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-        }
-
-        .slide-info p { 
-            font-size: 0.7rem; 
-            color: var(--gray); 
-            letter-spacing: 3px; 
-            margin-top: 10px; 
-            text-transform: uppercase;
-        }
-
-        /* Botones de navegación */
-        .swiper-button-next, .swiper-button-prev { 
-            color: #fff !important; 
-            z-index: 100; 
-            transform: scale(0.6);
-            opacity: 0.3;
-            transition: 0.3s;
-        }
-        .swiper-button-next:hover, .swiper-button-prev:hover { opacity: 1; }
-
-        footer { 
-            padding: 50px 5%; 
-            font-size: 9px; 
-            color: #333; 
-            letter-spacing: 2px; 
-            text-align: center;
-            background: #000;
-        }
+        @media (max-width: 1024px) { .work-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) { .work-grid { grid-template-columns: 1fr; } }
+        
+        footer { padding: 80px 5%; font-size: 9px; color: #444; letter-spacing: 2px; text-align: center; }
     </style>
 </head>
 <body>
 
     <nav>
-        <div class="logo">
-            <a href="index.html"><img src="LOGO_Manrope_v01.png" alt="Leandro Bruno Logo"></a>
-        </div>
+        <div class="logo"><a href="index.html"><img src="LOGO_Manrope_v01.png" alt="Leandro Bruno"></a></div>
         <div class="menu">
-            <div class="menu-item"><a href="index.html">HOME</a></div>
-            
-            <div class="menu-item">
-                <a href="#">WORK</a>
-                <div class="dropdown-content">
-                    <a href="#">ADVERTISING</a>
-                    <a href="#">MUSIC</a>
-                    <a href="#">NARRATIVE</a>
-                </div>
-            </div>
-
+            <div class="menu-item"><a href="#work">WORK</a></div>
             <div class="menu-item"><a href="about.html">ABOUT</a></div>
             <div class="menu-item"><a href="mailto:leandrobrunoeditor@gmail.com">CONTACT</a></div>
         </div>
@@ -189,66 +80,75 @@
 
     <div class="swiper mySwiper">
         <div class="swiper-wrapper">
-            
             <div class="swiper-slide">
                 <a href="menem.html" class="slide-link"></a>
                 <div class="video-background">
-                    <iframe src="https://www.youtube.com/embed/-2AmqmciWXE?autoplay=1&mute=1&loop=1&playlist=-2AmqmciWXE&controls=0&modestbranding=1&rel=0&iv_load_policy=3&disablekb=1" frameborder="0"></iframe>
+                    <iframe src="https://www.youtube.com/embed/-2AmqmciWXE?autoplay=1&loop=1&playlist=-2AmqmciWXE&controls=0&modestbranding=1&rel=0" frameborder="0"></iframe>
                 </div>
-                <div class="slide-info">
-                    <h2>MENEM</h2>
-                    <p>SERIE DOCUMENTAL / PRIME VIDEO</p>
-                </div>
-            </div>
-
-            <div class="swiper-slide">
-                <a href="oreo.html" class="slide-link"></a>
-                <div class="video-background">
-                    <iframe src="https://www.youtube.com/embed/7Cllu0Rme74?autoplay=1&mute=1&loop=1&playlist=7Cllu0Rme74&controls=0&modestbranding=1&rel=0&iv_load_policy=3&disablekb=1" frameborder="0"></iframe>
-                </div>
-                <div class="slide-info">
-                    <h2>OREO</h2>
-                    <p>ADVERTISING / MOMENTO DE DIVERSIÓN</p>
-                </div>
+                <div class="slide-info"><h2>MENEM</h2><p>SERIE DOCUMENTAL / PRIME VIDEO</p></div>
             </div>
 
             <div class="swiper-slide">
                 <a href="moscas.html" class="slide-link"></a>
                 <div class="video-background">
-                    <iframe src="https://www.youtube.com/embed/A0d6wnlMRRk?autoplay=1&mute=1&loop=1&playlist=A0d6wnlMRRk&controls=0&modestbranding=1&rel=0&iv_load_policy=3&disablekb=1" frameborder="0"></iframe>
+                    <iframe src="https://www.youtube.com/embed/A0d6wnlMRRk?autoplay=1&loop=1&playlist=A0d6wnlMRRk&controls=0&modestbranding=1&rel=0" frameborder="0"></iframe>
                 </div>
-                <div class="slide-info">
-                    <h2>EL TIEMPO DE LAS MOSCAS</h2>
-                    <p>SERIE / NETFLIX</p>
-                </div>
+                <div class="slide-info"><h2>EL TIEMPO DE LAS MOSCAS</h2><p>SERIE / NETFLIX</p></div>
             </div>
 
             <div class="swiper-slide">
                 <a href="coppola.html" class="slide-link"></a>
                 <div class="video-background">
-                    <iframe src="https://www.youtube.com/embed/ecr24akKDbs?autoplay=1&mute=1&loop=1&playlist=ecr24akKDbs&controls=0&modestbranding=1&rel=0&iv_load_policy=3&disablekb=1" frameborder="0"></iframe>
+                    <iframe src="https://www.youtube.com/embed/ecr24akKDbs?autoplay=1&loop=1&playlist=ecr24akKDbs&controls=0&modestbranding=1&rel=0" frameborder="0"></iframe>
                 </div>
-                <div class="slide-info">
-                    <h2>COPPOLA, EL REPRESENTANTE</h2>
-                    <p>SERIE / DISNEY+</p>
+                <div class="slide-info"><h2>COPPOLA</h2><p>SERIE / DISNEY+</p></div>
+            </div>
+
+            <div class="swiper-slide">
+                <a href="oreo.html" class="slide-link"></a>
+                <div class="video-background">
+                    <iframe src="https://www.youtube.com/embed/7Cllu0Rme74?autoplay=1&loop=1&playlist=7Cllu0Rme74&controls=0&modestbranding=1&rel=0" frameborder="0"></iframe>
                 </div>
+                <div class="slide-info"><h2>OREO</h2><p>ADVERTISING / MOMENTO DE DIVERSIÓN</p></div>
             </div>
 
             <div class="swiper-slide">
                 <a href="blair.html" class="slide-link"></a>
                 <div class="video-background">
-                    <iframe src="https://www.youtube.com/embed/ItX5aqhqsmo?autoplay=1&mute=1&loop=1&playlist=ItX5aqhqsmo&controls=0&modestbranding=1&rel=0&iv_load_policy=3&disablekb=1" frameborder="0"></iframe>
+                    <iframe src="https://www.youtube.com/embed/ItX5aqhqsmo?autoplay=1&loop=1&playlist=ItX5aqhqsmo&controls=0&modestbranding=1&rel=0" frameborder="0"></iframe>
                 </div>
-                <div class="slide-info">
-                    <h2>BLAIR</h2>
-                    <p>TODO LO QUE TENGO / MUSIC VIDEO</p>
-                </div>
+                <div class="slide-info"><h2>BLAIR</h2><p>MUSIC VIDEO</p></div>
             </div>
-
         </div>
+    </div>
+
+    <div class="work-grid" id="work">
         
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
+        <a href="menem.html" class="project-card">
+            <img src="https://img.youtube.com/vi/-2AmqmciWXE/maxresdefault.jpg" alt="Menem">
+            <div class="card-info"><h3>MENEM</h3><p>Serie Documental</p></div>
+        </a>
+
+        <a href="moscas.html" class="project-card">
+            <img src="https://img.youtube.com/vi/A0d6wnlMRRk/maxresdefault.jpg" alt="Moscas">
+            <div class="card-info"><h3>EL TIEMPO DE LAS MOSCAS</h3><p>Netflix</p></div>
+        </a>
+
+        <a href="coppola.html" class="project-card">
+            <img src="https://img.youtube.com/vi/ecr24akKDbs/maxresdefault.jpg" alt="Coppola">
+            <div class="card-info"><h3>COPPOLA</h3><p>Disney+</p></div>
+        </a>
+
+        <a href="oreo.html" class="project-card">
+            <img src="https://img.youtube.com/vi/7Cllu0Rme74/maxresdefault.jpg" alt="Oreo">
+            <div class="card-info"><h3>OREO</h3><p>Advertising</p></div>
+        </a>
+
+        <a href="blair.html" class="project-card">
+            <img src="https://img.youtube.com/vi/ItX5aqhqsmo/maxresdefault.jpg" alt="Blair">
+            <div class="card-info"><h3>BLAIR</h3><p>Music Video</p></div>
+        </a>
+
     </div>
 
     <footer>© 2026 LEANDRO BRUNO.</footer>
@@ -256,20 +156,9 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
         var swiper = new Swiper(".mySwiper", {
-            loop: true,
-            speed: 1200,
-            autoplay: {
-                delay: 5000,
-                disableOnInteraction: false,
-            },
-            navigation: {
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
-            },
-            effect: "fade",
-            fadeEffect: {
-                crossFade: true
-            }
+            loop: true, speed: 1200,
+            autoplay: { delay: 6000, disableOnInteraction: false },
+            effect: "fade", fadeEffect: { crossFade: true }
         });
     </script>
 </body>
