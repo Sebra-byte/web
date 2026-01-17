@@ -10,32 +10,41 @@
     <style>
         :root { --bg: #000000; --text: #ffffff; --gray: #888; --dark-gray: #111; }
         body { background-color: var(--bg); color: var(--text); font-family: 'Manrope', sans-serif; margin: 0; padding: 0; overflow-x: hidden; scroll-behavior: smooth; text-transform: lowercase; }
+        
+        /* NAVEGACIÓN */
         nav { display: flex; justify-content: space-between; padding: 40px 5%; align-items: center; position: fixed; top: 0; width: 90%; z-index: 1000; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); }
         .logo img { height: 35px; width: auto; }
         .menu { display: flex; align-items: center; }
         .menu-item { position: relative; margin-left: 30px; }
         .menu-item a { text-decoration: none; color: var(--gray); font-size: 0.75rem; letter-spacing: 2.5px; font-weight: 400; transition: 0.3s; cursor: pointer; }
         .menu-item:hover a { color: #fff; }
-        .dropdown-content { display: none; position: absolute; top: 100%; left: 0; background-color: rgba(0, 0, 0, 0.9); min-width: 160px; padding: 15px 0; border: 1px solid #222; margin-top: 10px; backdrop-filter: blur(5px); }
+        
+        .dropdown-content { 
+            display: none; position: absolute; top: 100%; left: 0; 
+            background-color: rgba(0, 0, 0, 0.9); min-width: 160px; padding: 15px 0; 
+            border: 1px solid #222; margin-top: 10px; backdrop-filter: blur(5px); 
+        }
         .dropdown-content a { padding: 10px 20px; display: block; font-size: 0.7rem; color: var(--gray); }
         .dropdown-content a:hover { color: #fff; background: rgba(255, 255, 255, 0.05); }
         .menu-item:hover .dropdown-content { display: block; }
 
+        /* CARRUSEL */
         .swiper { width: 100%; height: 100vh; background: #000; }
         .swiper-slide { position: relative; overflow: hidden; }
         .video-background { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
-        .video-background iframe { width: 150vw; height: 150vh; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(1.4); border: none; filter: brightness(0.7); }
+        .video-background iframe { width: 150vw; height: 150vh; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(1.4); border: none; filter: brightness(0.6); }
         .slide-link { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 50; }
         
-        /* INFO SLIDE ACTUALIZADA */
         .slide-info { position: absolute; bottom: 80px; left: 5%; z-index: 60; pointer-events: none; }
         .slide-info h2 { font-size: 1.8rem; letter-spacing: 8px; font-weight: 400; margin: 0; color: #fff; }
-        .slide-info .credits-sub { font-size: 0.6rem; color: var(--gray); letter-spacing: 2px; margin-top: 10px; line-height: 1.6; }
-        .slide-info .category-tag { font-size: 0.5rem; color: #444; letter-spacing: 3px; margin-top: 15px; text-transform: uppercase; }
+        .slide-credits { margin-top: 15px; }
+        .slide-credits p { font-size: 0.65rem; color: var(--gray); letter-spacing: 2px; margin: 4px 0; line-height: 1.4; }
+        .category-tag { font-size: 0.5rem; color: #444; letter-spacing: 3px; margin-top: 20px; text-transform: uppercase; border-left: 1px solid #333; padding-left: 10px; }
 
         #unmute-btn { position: absolute; bottom: 40px; right: 5%; z-index: 100; background: none; border: 1px solid #333; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
         #unmute-btn svg { width: 15px; height: 15px; fill: #fff; }
 
+        /* GRID DE TRABAJOS */
         .work-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 10px; background-color: #000; }
         .project-card { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: #000; text-decoration: none; }
         .project-card img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%) brightness(0.5); transition: 1s cubic-bezier(0.16, 1, 0.3, 1); }
@@ -76,7 +85,10 @@
                 <div class="video-background"><div id="player1"></div></div>
                 <div class="slide-info">
                     <h2>menem</h2>
-                    <div class="credits-sub">d. ariel winograd<br>p. claxon, yavu, prime video</div>
+                    <div class="slide-credits">
+                        <p><strong>d.</strong> ariel winograd</p>
+                        <p><strong>p.</strong> claxon, yavu, prime video</p>
+                    </div>
                     <div class="category-tag">narrative / series</div>
                 </div>
                 <button id="unmute-btn" onclick="activateSound()"><svg viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zM3 9v6h4l5 5V4L7 9H3z"/></svg></button>
@@ -86,7 +98,9 @@
                 <div class="video-background"><div id="player2"></div></div>
                 <div class="slide-info">
                     <h2>oreo - moment of fun</h2>
-                    <div class="credits-sub">d. name here<br>p. production co</div>
+                    <div class="slide-credits">
+                        <p><strong>p.</strong> primo</p>
+                    </div>
                     <div class="category-tag">advertising</div>
                 </div>
             </div>
@@ -95,7 +109,10 @@
                 <div class="video-background"><div id="player3"></div></div>
                 <div class="slide-info">
                     <h2>el tiempo de las moscas</h2>
-                    <div class="credits-sub">d. name here<br>p. netflix</div>
+                    <div class="slide-credits">
+                        <p><strong>d.</strong> benjamín naishtat, ana katz</p>
+                        <p><strong>p.</strong> netflix, zona audiovisual</p>
+                    </div>
                     <div class="category-tag">narrative / series</div>
                 </div>
             </div>
@@ -104,7 +121,10 @@
                 <div class="video-background"><div id="player4"></div></div>
                 <div class="slide-info">
                     <h2>levi's x winona riders</h2>
-                    <div class="credits-sub">d. name here<br>p. campaign</div>
+                    <div class="slide-credits">
+                        <p><strong>d.</strong> tomas terzano</p>
+                        <p><strong>p.</strong> levi's</p>
+                    </div>
                     <div class="category-tag">advertising</div>
                 </div>
             </div>
@@ -113,7 +133,10 @@
                 <div class="video-background"><div id="player5"></div></div>
                 <div class="slide-info">
                     <h2>coppola, el representante</h2>
-                    <div class="credits-sub">d. ariel winograd<br>p. disney+</div>
+                    <div class="slide-credits">
+                        <p><strong>d.</strong> ariel winograd</p>
+                        <p><strong>p.</strong> disney, pampa films</p>
+                    </div>
                     <div class="category-tag">narrative / series</div>
                 </div>
             </div>
@@ -122,7 +145,10 @@
                 <div class="video-background"><div id="player6"></div></div>
                 <div class="slide-info">
                     <h2>blair - everything i have</h2>
-                    <div class="credits-sub">d. name here<br>p. music video</div>
+                    <div class="slide-credits">
+                        <p><strong>d.</strong> dana campanello</p>
+                        <p><strong>p.</strong> poster</p>
+                    </div>
                     <div class="category-tag">music video</div>
                 </div>
             </div>
@@ -130,14 +156,14 @@
     </div>
 
     <div class="work-grid" id="work">
-        <a href="pages project/menem.html" class="project-card narrative"><img src="https://img.youtube.com/vi/-2AmqmciWXE/hqdefault.jpg"><div class="card-info"><h3>menem</h3><div class="category">narrative / series</div></div></a>
-        <a href="pages project/moscas.html" class="project-card narrative"><img src="https://img.youtube.com/vi/A0d6wnlMRRk/maxresdefault.jpg"><div class="card-info"><h3>el tiempo de las moscas</h3><div class="category">narrative / series</div></div></a>
-        <a href="pages project/coppola.html" class="project-card narrative"><img src="https://img.youtube.com/vi/ecr24akKDbs/maxresdefault.jpg"><div class="card-info"><h3>coppola, el representante</h3><div class="category">narrative / series</div></div></a>
+        <a href="pages project/menem.html" class="project-card narrative"><img src="http://googleusercontent.com/image_collection/image_retrieval/10485347641643600857_0"><div class="card-info"><h3>menem</h3><div class="category">narrative / series</div></div></a>
+        <a href="pages project/moscas.html" class="project-card narrative"><img src="http://googleusercontent.com/image_collection/image_retrieval/6232733411188043026_0"><div class="card-info"><h3>el tiempo de las moscas</h3><div class="category">narrative / series</div></div></a>
+        <a href="pages project/coppola.html" class="project-card narrative"><img src="http://googleusercontent.com/image_collection/image_retrieval/15550844426059195745_2"><div class="card-info"><h3>coppola, el representante</h3><div class="category">narrative / series</div></div></a>
         <a href="pages project/todo-lo-que-recuerdo.html" class="project-card narrative"><img src="assets/TodoRecuerdo_Thumbnail.png"><div class="card-info"><h3>everything i remember</h3><div class="category">narrative / short film</div></div></a>
         <a href="pages project/las-manos-de-la-abuela.html" class="project-card narrative"><img src="assets/ManosAbuela_Thumbnail.png"><div class="card-info"><h3>grandmother's hands</h3><div class="category">narrative / short film</div></div></a>
-        <a href="pages project/oreo.html" class="project-card advertising"><img src="https://img.youtube.com/vi/7Cllu0Rme74/maxresdefault.jpg"><div class="card-info"><h3>oreo - moment of fun</h3><div class="category">advertising</div></div></a>
+        <a href="pages project/oreo.html" class="project-card advertising"><img src="http://googleusercontent.com/image_collection/image_retrieval/17680678229300991827_0"><div class="card-info"><h3>oreo - moment of fun</h3><div class="category">advertising</div></div></a>
         <a href="pages project/levis.html" class="project-card advertising"><img src="assets/Levis_Thumbnail_v01.png"><div class="card-info"><h3>levi's x winona riders</h3><div class="category">advertising / campaign</div></div></a>
-        <a href="pages project/blair.html" class="project-card music"><img src="assets/Blair_Thumbnail_v01.png"><div class="card-info"><h3>blair - everything i have</h3><div class="category">music / music video</div></div></a>
+        <a href="pages project/blair.html" class="project-card music"><img src="http://googleusercontent.com/image_collection/image_retrieval/5811416191579962341_0"><div class="card-info"><h3>blair - everything i have</h3><div class="category">music / music video</div></div></a>
         <a href="pages project/ratones.html" class="project-card advertising"><img src="assets/RP_Thumnmail.png"><div class="card-info"><h3>ratones paranoicos</h3><div class="category">advertising / documentary</div></div></a>
         <a href="pages project/marias.html" class="project-card advertising"><img src="assets/Marias_Thumbnail.png"><div class="card-info"><h3>marías</h3><div class="category">advertising</div></div></a>
         <a href="pages project/besos.html" class="project-card narrative"><img src="assets/BesosBrujos-Thumbnail.png"><div class="card-info"><h3>besos brujos</h3><div class="category">narrative</div></div></a>
@@ -160,7 +186,7 @@
             });
         }
         function activateSound() { players.forEach(p => { if(p && p.unMute) p.unMute(); }); document.getElementById('unmute-btn').style.display = 'none'; }
-        var swiper = new Swiper(".mySwiper", { loop: true, speed: 1000, effect: "fade", autoplay: { delay: 4000, disableOnInteraction: false } });
+        var swiper = new Swiper(".mySwiper", { loop: true, speed: 1200, effect: "fade", autoplay: { delay: 5000, disableOnInteraction: false } });
         function filterProjects(category) {
             const cards = document.querySelectorAll('.project-card');
             document.querySelector('#work').scrollIntoView({ behavior: 'smooth' });
