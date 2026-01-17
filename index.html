@@ -22,7 +22,7 @@
             overflow: hidden; text-transform: lowercase; 
         }
 
-        /* FONDO BLUEPRINT */
+        /* FONDO BLUEPRINT SEGÚN REFERENCIA */
         .blueprint-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-image: 
@@ -31,50 +31,62 @@
             background-size: 50px 50px; z-index: -1;
         }
 
-        /* LÍNEA GUÍA CENTRAL */
         .guide-h { position: absolute; top: 50%; left: 0; width: 100%; height: 1px; background: var(--line-accent); z-index: -1; }
 
-        /* ESTRUCTURA DE LA PÁGINA */
+        /* LAYOUT PRINCIPAL */
         .main-layout {
             display: grid;
-            grid-template-columns: 15% 1fr 15%;
+            grid-template-columns: 18% 1fr 18%;
             height: 100vh;
             align-items: center;
-            padding: 0 30px;
+            padding: 0 40px;
         }
 
         /* IZQUIERDA: LOGO */
         .side-left { 
-            font-size: 1.1rem; 
+            font-size: 1.2rem; 
             letter-spacing: 1px; 
-            line-height: 1.4;
+            line-height: 1.5;
         }
-        .side-left span { display: block; font-weight: 700; font-size: 1.3rem; margin-bottom: 5px; }
+        .side-left span { display: block; font-weight: 700; font-size: 1.4rem; margin-bottom: 5px; }
 
-        /* CENTRO: RECUADRO GRANDE */
+        /* CENTRO: CARROUSEL GRANDE */
         .center-frame {
             grid-column: 2;
             width: 100%;
-            max-width: 1100px; /* Recuadro más grande */
+            max-width: 1150px; /* Tamaño máximo para resaltar el trabajo */
             aspect-ratio: 16 / 9;
             margin: 0 auto;
             border: 1px solid #aaa;
             position: relative;
             background: #000;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            box-shadow: 0 25px 55px rgba(0,0,0,0.12);
         }
 
         .swiper { width: 100%; height: 100%; }
         .video-wrapper { width: 100%; height: 100%; position: relative; background: #000; }
-        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        .video-wrapper iframe { 
+            position: absolute; top: 0; left: 0; 
+            width: 100%; height: 100%; border: none; 
+            pointer-events: auto; /* Permitir interacción si es necesario */
+        }
 
-        /* DERECHA: NAV + FLECHA */
+        /* DERECHA: NAVEGACIÓN Y FLECHA */
         .side-right { 
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            height: 40%; /* Altura para separar flecha de menú */
+            justify-content: space-around;
+            height: 60%;
             align-items: flex-end;
+        }
+
+        .swiper-button-next-custom {
+            cursor: pointer;
+            font-size: 3rem;
+            color: var(--text);
+            transition: 0.3s;
+            user-select: none;
+            margin-bottom: 50px;
         }
 
         .nav-links {
@@ -86,24 +98,14 @@
         .nav-links a {
             text-decoration: none;
             color: var(--gray);
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 700;
             letter-spacing: 2px;
             transition: 0.3s;
         }
         .nav-links a:hover, .nav-links a.active { color: var(--text); }
 
-        /* FLECHA DE NAVEGACIÓN */
-        .swiper-button-next-custom {
-            cursor: pointer;
-            font-size: 2.5rem;
-            color: var(--text);
-            transition: 0.3s;
-            user-select: none;
-        }
-        .swiper-button-next-custom:hover { transform: translateX(5px); color: var(--gray); }
-
-        /* INFO ABAJO: NOMBRE PROYECTO + CRÉDITOS */
+        /* INFO ABAJO: TITULOS Y CRÉDITOS */
         .bottom-info {
             position: absolute;
             bottom: 40px;
@@ -113,25 +115,25 @@
             width: 100%;
         }
         #p-name {
-            font-size: 1.4rem;
+            font-size: 1.6rem;
             font-weight: 700;
-            letter-spacing: 4px;
-            margin-bottom: 8px;
+            letter-spacing: 5px;
+            margin-bottom: 10px;
             color: var(--text);
         }
         .credits-box { 
-            font-size: 1rem; 
+            font-size: 1.1rem; 
             letter-spacing: 1px; 
             color: var(--gray); 
-            line-height: 1.6;
+            line-height: 1.8;
         }
         .credits-box strong { color: var(--text); font-weight: 700; }
 
         @media (max-width: 1024px) {
-            .main-layout { grid-template-columns: 1fr; height: auto; padding: 60px 20px; }
-            .side-left, .side-right { text-align: center; align-items: center; margin: 30px 0; }
+            .main-layout { grid-template-columns: 1fr; height: auto; padding: 40px 20px; }
+            .side-left, .side-right { text-align: center; align-items: center; margin: 20px 0; }
             .nav-links { flex-direction: row; gap: 20px; }
-            .bottom-info { position: relative; bottom: 0; margin-top: 40px; }
+            .bottom-info { position: relative; bottom: 0; padding: 40px 0; }
         }
     </style>
 </head>
@@ -192,21 +194,33 @@
         const videoIds = ['-2AmqmciWXE', '7Cllu0Rme74', 'A0d6wnlMRRk', 'ecr24akKDbs', 'ItX5aqhqsmo'];
 
         function onYouTubeIframeAPIReady() {
+            const currentOrigin = window.location.origin;
             videoIds.forEach((id, index) => {
                 players[index] = new YT.Player('player' + (index + 1), {
                     videoId: id,
                     playerVars: { 
-                        'autoplay': 1, 'mute': 1, 'loop': 1, 'playlist': id, 
-                        'controls': 0, 'modestbranding': 1, 'rel': 0, 'enablejsapi': 1
+                        'autoplay': 1, 
+                        'mute': 1, 
+                        'loop': 1, 
+                        'playlist': id, 
+                        'controls': 0, 
+                        'modestbranding': 1, 
+                        'rel': 0,
+                        'enablejsapi': 1,
+                        'origin': currentOrigin
                     },
-                    events: { 'onReady': (e) => e.target.playVideo() }
+                    events: { 
+                        'onReady': (event) => {
+                            event.target.playVideo();
+                        }
+                    }
                 });
             });
         }
 
         const swiper = new Swiper(".mySwiper", {
             loop: true,
-            speed: 800,
+            speed: 600,
             allowTouchMove: true,
             navigation: {
                 nextEl: ".swiper-button-next-custom",
@@ -222,9 +236,13 @@
             }
         });
 
-        // Play forzado al interactuar
-        document.body.addEventListener('mousedown', () => {
-            players.forEach(p => { if(p && p.playVideo) p.playVideo(); });
+        // Solución definitiva para el "cuadro negro": Intentar reproducir al tocar cualquier parte
+        window.addEventListener('click', function() {
+            players.forEach(player => {
+                if (player && player.playVideo) {
+                    player.playVideo();
+                }
+            });
         }, { once: true });
     </script>
 </body>
