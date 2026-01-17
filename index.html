@@ -25,7 +25,7 @@
         .menu-item a::after { content: ''; position: absolute; width: 0; height: 1px; bottom: 0; left: 0; background-color: #fff; transition: width 0.3s ease; }
         .menu-item:hover a::after { width: 100%; }
 
-        /* Dropdown Categorías */
+        /* Dropdown Categorías e Idioma */
         .dropdown-content { display: none; position: absolute; top: 100%; left: 0; background-color: rgba(0,0,0,0.98); min-width: 180px; padding: 20px 0; border: 1px solid #111; }
         .dropdown-content a { padding: 12px 25px; display: block; font-size: 0.65rem; letter-spacing: 3px; color: #fff; text-decoration: none; opacity: 0.6; }
         .dropdown-content a:hover { opacity: 1; background: #111; }
@@ -78,17 +78,23 @@
         <div class="logo"><a href="index.html"><img src="LOGO_Manrope_v01.png" alt="Leandro Bruno"></a></div>
         <div class="menu">
             <div class="menu-item">
-                <a onclick="filterProjects('all')">WORK</a>
+                <a onclick="filterProjects('all')">PROYECTOS</a>
                 <div class="dropdown-content">
-                    <a onclick="filterProjects('all')">ALL</a>
-                    <a onclick="filterProjects('advertising')">ADVERTISING</a>
-                    <a onclick="filterProjects('music')">MUSIC</a>
-                    <a onclick="filterProjects('narrative')">NARRATIVE</a>
+                    <a onclick="filterProjects('all')">TODOS</a>
+                    <a onclick="filterProjects('advertising')">PUBLICIDAD</a>
+                    <a onclick="filterProjects('music')">MÚSICA</a>
+                    <a onclick="filterProjects('narrative')">NARRATIVO</a>
                 </div>
             </div>
-            <div class="menu-item"><a href="about.html">ABOUT</a></div>
-            <div class="menu-item"><a href="mailto:leandrobrunoeditor@gmail.com">CONTACT</a></div>
-            <div class="menu-item"><a href="https://www.imdb.com/name/nm11460466/" target="_blank">IMDb</a></div>
+            <div class="menu-item"><a href="about.html">INFO</a></div>
+            <div class="menu-item"><a href="mailto:leandrobrunoeditor@gmail.com">CONTACTO</a></div>
+            <div class="menu-item">
+                <a>ES</a>
+                <div class="dropdown-content">
+                    <a href="#">EN</a>
+                    <a href="#">ES</a>
+                </div>
+            </div>
         </div>
     </nav>
 
@@ -129,7 +135,7 @@
         <a href="besos.html" class="project-card narrative"><img src="BesosBrujos-Thumbnail.png"><div class="card-info"><h3>BESOS BRUJOS</h3></div></a>
     </div>
 
-    <footer>© 2026 LEANDRO BRUNO.</footer>
+    <footer>© 2026 LEANDRO BRUNO. TODOS LOS DERECHOS RESERVADOS.</footer>
 
     <script src="https://www.youtube.com/iframe_api"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
