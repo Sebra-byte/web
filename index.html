@@ -8,9 +8,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     
     <style>
-        :root { --bg: #000; --text: #fff; --gray: #888; --dark-gray: #0a0a0a; }
+        :root { --bg: #000; --text: #fff; --gray: #fff; --dark-gray: #0a0a0a; }
         body { background-color: var(--bg); color: var(--text); font-family: 'Manrope', sans-serif; margin: 0; padding: 0; overflow-x: hidden; scroll-behavior: smooth; }
 
+        /* NAVEGACIÓN */
         nav { 
             display: flex; justify-content: space-between; padding: 40px 5%; align-items: center;
             position: fixed; top: 0; width: 90%; z-index: 1000;
@@ -19,20 +20,17 @@
         .logo img { height: 45px; width: auto; }
         .menu { display: flex; align-items: center; }
         .menu-item { position: relative; margin-left: 35px; padding-bottom: 5px; }
-        .menu-item a { text-decoration: none; color: var(--gray); font-size: 0.7rem; letter-spacing: 3px; font-weight: 200; transition: 0.3s; text-transform: uppercase; cursor: pointer; }
+        .menu-item a { text-decoration: none; color: #fff; font-size: 0.7rem; letter-spacing: 3px; font-weight: 400; transition: 0.3s; text-transform: uppercase; cursor: pointer; }
         .menu-item a::after { content: ''; position: absolute; width: 0; height: 1px; bottom: 0; left: 0; background-color: #fff; transition: width 0.3s ease; }
         .menu-item:hover a::after { width: 100%; }
-        .menu-item:hover a { color: #fff; }
 
-        /* Estilo para el selector de idioma */
-        .lang-selector { margin-left: 35px; font-size: 0.6rem; letter-spacing: 2px; color: var(--gray); }
-        .lang-selector span { cursor: pointer; transition: 0.3s; }
-        .lang-selector span.active { color: #fff; font-weight: 700; }
-        .lang-selector span:hover { color: #fff; }
+        .lang-selector { margin-left: 35px; font-size: 0.6rem; letter-spacing: 2px; color: #fff; opacity: 0.6; }
+        .lang-selector span { cursor: pointer; }
+        .lang-selector span.active { opacity: 1; font-weight: 700; }
 
         .dropdown-content { display: none; position: absolute; top: 100%; left: 0; background-color: rgba(0,0,0,0.95); min-width: 160px; padding: 15px 0; }
-        .dropdown-content a { padding: 10px 20px; display: block; font-size: 0.6rem; letter-spacing: 2px; color: var(--gray); text-decoration: none; }
-        .dropdown-content a:hover { color: #fff; background: #111; }
+        .dropdown-content a { padding: 10px 20px; display: block; font-size: 0.6rem; letter-spacing: 2px; color: #fff; text-decoration: none; opacity: 0.7; }
+        .dropdown-content a:hover { opacity: 1; background: #111; }
         .menu-item:hover .dropdown-content { display: block; }
 
         /* SWIPER */
@@ -42,15 +40,24 @@
         .video-background iframe { width: 140vw; height: 140vh; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(1.35); border: none; }
         .slide-link { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 50; }
         .slide-info { position: absolute; bottom: 80px; left: 5%; z-index: 60; pointer-events: none; }
-        .slide-info h2 { font-size: 1.3rem; letter-spacing: 6px; text-transform: uppercase; font-weight: 400; margin: 0; }
-        .slide-info p { font-size: 0.6rem; color: var(--gray); letter-spacing: 3px; margin-top: 10px; }
+        .slide-info h2 { font-size: 1.3rem; letter-spacing: 6px; text-transform: uppercase; font-weight: 400; margin: 0; color: #fff; }
+        .slide-info p { font-size: 0.6rem; color: #fff; opacity: 0.9; letter-spacing: 3px; margin-top: 10px; font-weight: 400; }
+
+        /* BOTÓN DE SONIDO */
+        #sound-control {
+            position: absolute; bottom: 40px; right: 5%; z-index: 100;
+            background: none; border: 1px solid #fff; color: #fff;
+            padding: 10px 15px; font-size: 0.6rem; letter-spacing: 2px;
+            cursor: pointer; text-transform: uppercase; transition: 0.3s;
+        }
+        #sound-control:hover { background: #fff; color: #000; }
 
         /* GRID */
         .work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; padding: 2px; background-color: #000; }
         .project-card { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: var(--dark-gray); text-decoration: none; color: #fff; transition: 0.5s ease; }
         .project-card.hidden { display: none; }
-        .project-card img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); transition: 0.6s ease; opacity: 0.5; }
-        .project-card:hover img { filter: grayscale(0%); transform: scale(1.03); opacity: 0.8; }
+        .project-card img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); transition: 0.6s ease; opacity: 0.4; }
+        .project-card:hover img { filter: grayscale(0%); transform: scale(1.03); opacity: 0.7; }
         
         .card-info { 
             position: absolute; bottom: 0; left: 0; width: 100%; height: 100%;
@@ -60,8 +67,8 @@
             pointer-events: none;
         }
         .card-info h3 { font-size: 0.85rem; letter-spacing: 3px; margin: 0 0 5px 0; text-transform: uppercase; font-weight: 700; }
-        .card-info .director { font-size: 0.55rem; color: #fff; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 3px; opacity: 0.9; }
-        .card-info .production { font-size: 0.55rem; color: var(--gray); letter-spacing: 2px; text-transform: uppercase; }
+        .card-info .director { font-size: 0.55rem; color: #fff; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 3px; }
+        .card-info .production { font-size: 0.55rem; color: #fff; opacity: 0.6; letter-spacing: 2px; text-transform: uppercase; }
 
         @media (max-width: 1024px) { .work-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 768px) { .work-grid { grid-template-columns: 1fr; } }
@@ -84,90 +91,62 @@
             </div>
             <div class="menu-item"><a href="about.html">ABOUT</a></div>
             <div class="menu-item"><a href="mailto:leandrobrunoeditor@gmail.com">CONTACT</a></div>
-            
-            <div class="lang-selector">
-                <span class="active">ES</span> | <span>EN</span>
-            </div>
+            <div class="lang-selector"><span class="active">ES</span> | <span>EN</span></div>
         </div>
     </nav>
+
+    <button id="sound-control" onclick="toggleMute()">Enable Sound</button>
 
     <div class="swiper mySwiper">
         <div class="swiper-wrapper">
             <div class="swiper-slide">
                 <a href="menem.html" class="slide-link"></a>
-                <div class="video-background"><iframe src="https://www.youtube.com/embed/-2AmqmciWXE?autoplay=1&mute=1&loop=1&playlist=-2AmqmciWXE&controls=0&modestbranding=1&rel=0" frameborder="0"></iframe></div>
+                <div class="video-background"><iframe id="video1" src="https://www.youtube.com/embed/-2AmqmciWXE?autoplay=1&mute=1&loop=1&playlist=-2AmqmciWXE&controls=0&enablejsapi=1" frameborder="0"></iframe></div>
                 <div class="slide-info"><h2>MENEM</h2><p>SERIE DOCUMENTAL / PRIME VIDEO</p></div>
+            </div>
+            <div class="swiper-slide">
+                <a href="moscas.html" class="slide-link"></a>
+                <div class="video-background"><iframe id="video2" src="https://www.youtube.com/embed/A0d6wnlMRRk?autoplay=1&mute=1&loop=1&playlist=A0d6wnlMRRk&controls=0&enablejsapi=1" frameborder="0"></iframe></div>
+                <div class="slide-info"><h2>EL TIEMPO DE LAS MOSCAS</h2><p>SERIE / NETFLIX</p></div>
             </div>
             </div>
     </div>
 
     <div class="work-grid" id="work">
+        <a href="menem.html" class="project-card narrative"><img src="https://img.youtube.com/vi/-2AmqmciWXE/hqdefault.jpg"><div class="card-info"><h3>MENEM</h3><div class="director">Dir. Federico Cassinelli</div><div class="production">Prime Video</div></div></a>
+        <a href="moscas.html" class="project-card narrative"><img src="https://img.youtube.com/vi/A0d6wnlMRRk/hqdefault.jpg"><div class="card-info"><h3>EL TIEMPO DE LAS MOSCAS</h3><div class="director">Dir. Ana Katz</div><div class="production">Netflix</div></div></a>
+        <a href="coppola.html" class="project-card narrative"><img src="https://img.youtube.com/vi/ecr24akKDbs/hqdefault.jpg"><div class="card-info"><h3>COPPOLA</h3><div class="director">Dir. Ariel Winograd</div><div class="production">Disney+</div></div></a>
+        <a href="oreo.html" class="project-card advertising"><img src="https://img.youtube.com/vi/7Cllu0Rme74/hqdefault.jpg"><div class="card-info"><h3>OREO</h3><div class="director">Dir. Ariel Winograd</div><div class="production">Momento de Diversión</div></div></a>
         
-        <a href="levis.html" class="project-card advertising">
-            <img src="Levis_Thumbnail.png">
-            <div class="card-info">
-                <h3>LEVI'S x WINONA RIDERS</h3>
-                <div class="director">Dir. Campaign</div>
-                <div class="production">Levi's / Advertising</div>
-            </div>
-        </a>
-
-        <a href="menem.html" class="project-card narrative">
-            <img src="https://img.youtube.com/vi/-2AmqmciWXE/hqdefault.jpg">
-            <div class="card-info"><h3>MENEM</h3><div class="director">Dir. Federico Cassinelli</div><div class="production">Prime Video</div></div>
-        </a>
-        <a href="moscas.html" class="project-card narrative">
-            <img src="https://img.youtube.com/vi/A0d6wnlMRRk/hqdefault.jpg">
-            <div class="card-info"><h3>EL TIEMPO DE LAS MOSCAS</h3><div class="director">Dir. Ana Katz</div><div class="production">Netflix</div></div>
-        </a>
-        <a href="coppola.html" class="project-card narrative">
-            <img src="https://img.youtube.com/vi/ecr24akKDbs/hqdefault.jpg">
-            <div class="card-info"><h3>COPPOLA</h3><div class="director">Dir. Ariel Winograd</div><div class="production">Disney+</div></div>
-        </a>
-        <a href="oreo.html" class="project-card advertising">
-            <img src="https://img.youtube.com/vi/7Cllu0Rme74/hqdefault.jpg">
-            <div class="card-info"><h3>OREO</h3><div class="director">Dir. Ariel Winograd</div><div class="production">Momento de Diversión</div></div>
-        </a>
-        <a href="blair.html" class="project-card music">
-            <img src="https://img.youtube.com/vi/ItX5aqhqsmo/hqdefault.jpg">
-            <div class="card-info"><h3>BLAIR</h3><div class="director">Dir. Todo lo que tengo</div><div class="production">Music Video</div></div>
-        </a>
-        <a href="ratones.html" class="project-card advertising">
-            <img src="RP_Thumnmail.png">
-            <div class="card-info"><h3>RATONES PARANOICOS</h3><div class="director">Dir. Poster</div><div class="production">Advertising</div></div>
-        </a>
-        <a href="marias.html" class="project-card advertising">
-            <img src="Marias_Thumbnail.png">
-            <div class="card-info"><h3>MARÍAS</h3><div class="director">Dir. Publicidad</div><div class="production">Advertising</div></div>
-        </a>
-        <a href="besos.html" class="project-card narrative">
-            <img src="BesosBrujos-Cover.png">
-            <div class="card-info"><h3>BESOS BRUJOS</h3><div class="director">Dir. Narrative</div><div class="production">Short Film</div></div>
-        </a>
-
+        <a href="levis.html" class="project-card advertising"><img src="Levis_Thumbnail.png"><div class="card-info"><h3>LEVI'S x WINONA RIDERS</h3><div class="director">Dir. Campaign</div><div class="production">Levi's / Advertising</div></div></a>
+        
+        <a href="blair.html" class="project-card music"><img src="https://img.youtube.com/vi/ItX5aqhqsmo/hqdefault.jpg"><div class="card-info"><h3>BLAIR</h3><div class="director">Dir. Todo lo que tengo</div><div class="production">Music Video</div></div></a>
+        <a href="ratones.html" class="project-card advertising"><img src="RP_Thumnmail.png"><div class="card-info"><h3>RATONES PARANOICOS</h3><div class="director">Dir. Poster</div><div class="production">Advertising</div></div></a>
+        <a href="marias.html" class="project-card advertising"><img src="Marias_Thumbnail.png"><div class="card-info"><h3>MARÍAS</h3><div class="director">Dir. Publicidad</div><div class="production">Advertising</div></div></a>
+        <a href="besos.html" class="project-card narrative"><img src="BesosBrujos-Cover.png"><div class="card-info"><h3>BESOS BRUJOS</h3><div class="director">Dir. Narrative</div><div class="production">Short Film</div></div></a>
     </div>
 
     <footer>© 2026 LEANDRO BRUNO.</footer>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
-        var swiper = new Swiper(".mySwiper", {
-            loop: true, speed: 1200,
-            autoplay: { delay: 6000, disableOnInteraction: false },
-            effect: "fade", fadeEffect: { crossFade: true }
-        });
+        var swiper = new Swiper(".mySwiper", { loop: true, speed: 1200, autoplay: { delay: 6000 }, effect: "fade" });
+
+        function toggleMute() {
+            const iframes = document.querySelectorAll('iframe');
+            const btn = document.getElementById('sound-control');
+            iframes.forEach(iframe => {
+                iframe.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
+            });
+            btn.style.display = 'none'; // Se oculta tras activar el sonido
+        }
 
         function filterProjects(category) {
             const cards = document.querySelectorAll('.project-card');
-            const grid = document.querySelector('#work');
-            grid.scrollIntoView({ behavior: 'smooth' });
-
+            document.querySelector('#work').scrollIntoView({ behavior: 'smooth' });
             cards.forEach(card => {
-                if (category === 'all' || card.classList.contains(category)) {
-                    card.classList.remove('hidden');
-                } else {
-                    card.classList.add('hidden');
-                }
+                if (category === 'all' || card.classList.contains(category)) card.classList.remove('hidden');
+                else card.classList.add('hidden');
             });
         }
     </script>
