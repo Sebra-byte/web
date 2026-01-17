@@ -4,778 +4,211 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leandro Bruno | Editor</title>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     
     <style>
-        :root {
-            --bg-color: #000;
-            --text-color: #fff;
-            --primary-gray: #1a1a1a;
-            --secondary-gray: #333;
-            --light-gray-text: rgba(255,255,255,0.6);
-            --border-color: #333;
-            --font-family: 'Manrope', sans-serif;
-            --header-height: 100px;
-        }
+        :root { --bg: #000; --text: #fff; --gray: #fff; --dark-gray: #0a0a0a; }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Manrope', sans-serif; margin: 0; padding: 0; overflow-x: hidden; scroll-behavior: smooth; }
 
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: var(--font-family);
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            overflow-x: hidden;
-            scroll-behavior: smooth;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+        /* NAVEGACIÓN */
+        nav { 
+            display: flex; justify-content: space-between; padding: 40px 5%; align-items: center;
+            position: fixed; top: 0; width: 90%; z-index: 1000;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
         }
+        .logo img { height: 45px; width: auto; }
+        .menu { display: flex; align-items: center; }
+        .menu-item { position: relative; margin-left: 35px; padding-bottom: 5px; }
+        .menu-item a { text-decoration: none; color: #fff; font-size: 0.75rem; letter-spacing: 4px; font-weight: 400; transition: 0.3s; text-transform: uppercase; cursor: pointer; }
+        .menu-item a::after { content: ''; position: absolute; width: 0; height: 1px; bottom: 0; left: 0; background-color: #fff; transition: width 0.3s ease; }
+        .menu-item:hover a::after { width: 100%; }
 
-        /* --- Header / Navigation --- */
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: var(--header-height);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 4vw;
-            z-index: 1000;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
-            transition: background-color 0.3s ease;
-        }
-        header.scrolled {
-            background-color: var(--bg-color);
-            border-bottom: 1px solid var(--border-color);
-        }
+        /* Dropdown Categorías */
+        .dropdown-content { display: none; position: absolute; top: 100%; left: 0; background-color: rgba(0,0,0,0.98); min-width: 180px; padding: 20px 0; border: 1px solid #111; }
+        .dropdown-content a { padding: 12px 25px; display: block; font-size: 0.65rem; letter-spacing: 3px; color: #fff; text-decoration: none; opacity: 0.6; }
+        .dropdown-content a:hover { opacity: 1; background: #111; }
+        .menu-item:hover .dropdown-content { display: block; }
 
-        .logo a {
-            display: block;
-        }
-        .logo img {
-            height: 40px;
-            width: auto;
-            display: block;
-        }
+        /* CAROUSEL (Impacto Total) */
+        .swiper { width: 100%; height: 100vh; background: #000; }
+        .swiper-button-next, .swiper-button-prev { color: #fff !important; transform: scale(0.8); opacity: 0.3; transition: 0.5s; }
+        .swiper-button-next:hover, .swiper-button-prev:hover { opacity: 1; }
+        
+        .swiper-slide { position: relative; overflow: hidden; }
+        .video-background { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+        .video-background iframe { width: 150vw; height: 150vh; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(1.4); border: none; filter: brightness(0.8); }
+        .slide-link { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 50; }
+        .slide-info { position: absolute; bottom: 100px; left: 6%; z-index: 60; pointer-events: none; }
+        .slide-info h2 { font-size: 2.5rem; letter-spacing: 12px; text-transform: uppercase; font-weight: 400; margin: 0; color: #fff; line-height: 1; }
+        .slide-info p { font-size: 0.75rem; color: #fff; opacity: 0.7; letter-spacing: 5px; margin-top: 20px; font-weight: 200; }
 
-        nav {
-            display: flex;
-            gap: 30px;
+        /* BOTÓN UNMUTE */
+        #unmute-btn {
+            position: absolute; bottom: 50px; right: 6%; z-index: 100;
+            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); 
+            border-radius: 50%; width: 50px; height: 50px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s;
         }
-        nav a {
-            color: var(--text-color);
-            text-decoration: none;
-            font-size: 0.8rem;
-            font-weight: 300;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            position: relative;
-            opacity: 0.7;
-            transition: opacity 0.3s ease;
-        }
-        nav a:hover {
-            opacity: 1;
-        }
-        nav a.active {
-            opacity: 1;
-            font-weight: 500;
-        }
+        #unmute-btn:hover { background: rgba(255,255,255,0.2); transform: scale(1.1); }
+        #unmute-btn svg { width: 20px; height: 20px; fill: #fff; }
 
-        .dropdown {
-            position: relative;
+        /* GRID DE TRABAJOS (Aumentamos Volumen y Espaciado) */
+        .work-grid { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); /* Dos columnas dan más impacto y tamaño a cada video */
+            gap: 40px; 
+            padding: 80px 6%; 
+            background-color: #000; 
         }
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: var(--bg-color);
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.6);
-            z-index: 1;
-            top: 100%;
-            left: -20px; /* Ajuste para que el dropdown se alinee */
-            padding: 10px 0;
-            border: 1px solid var(--border-color);
+        .project-card { 
+            position: relative; 
+            aspect-ratio: 16 / 9; 
+            overflow: hidden; 
+            background: var(--dark-gray); 
+            text-decoration: none; 
+            color: #fff; 
+            transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .dropdown:hover .dropdown-content {
-            display: block;
+        .project-card.hidden { display: none; }
+        
+        .project-card img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            filter: grayscale(100%) brightness(0.6); 
+            transition: 1.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .dropdown-content a {
-            color: var(--text-color);
-            padding: 12px 20px;
-            text-decoration: none;
-            display: block;
-            text-align: left;
-            font-size: 0.75rem;
-            letter-spacing: 0.08em;
-            opacity: 0.8;
+        
+        .project-card:hover img { 
+            filter: grayscale(0%) brightness(1); 
+            transform: scale(1.08); 
         }
-        .dropdown-content a:hover {
-            background-color: var(--primary-gray);
-            opacity: 1;
+        
+        .card-info { 
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column; justify-content: flex-end;
+            padding: 40px; box-sizing: border-box;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 50%);
+            transition: 0.5s ease;
         }
+        
+        .card-info h3 { font-size: 1.2rem; letter-spacing: 4px; margin: 0 0 10px 0; text-transform: uppercase; font-weight: 400; }
+        .card-info .director { font-size: 0.65rem; color: #fff; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 5px; opacity: 0.8; }
+        .card-info .production { font-size: 0.6rem; color: #fff; opacity: 0.4; letter-spacing: 2px; text-transform: uppercase; }
 
-        /* --- Hero Section / Swiper --- */
-        .hero-swiper {
-            width: 100%;
-            height: 100vh;
-            background-color: var(--bg-color);
-            position: relative;
+        /* RESPONSIVE */
+        @media (max-width: 1024px) { 
+            .work-grid { grid-template-columns: 1fr; gap: 30px; padding: 60px 4%; } 
+            .slide-info h2 { font-size: 1.8rem; letter-spacing: 8px; }
         }
-        .hero-swiper .swiper-slide {
-            position: relative;
-            display: flex;
-            align-items: flex-end; /* Alinea el texto a la parte inferior */
-            padding: 0 4vw 80px; /* Padding para el texto */
-            box-sizing: border-box;
-            background-color: var(--primary-gray); /* Fallback */
-            overflow: hidden;
-        }
-        .hero-swiper .video-background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            overflow: hidden;
-        }
-        .hero-swiper .video-background iframe {
-            width: 150vw; /* Más grande para cubrir bien */
-            height: 150vh; /* Más grande para cubrir bien */
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(1.4); /* Escalar para zoom out sutil */
-            border: none;
-            filter: brightness(0.7); /* Oscurecer un poco el video */
-        }
-        .hero-swiper .slide-content {
-            position: relative;
-            z-index: 10;
-            color: var(--text-color);
-            max-width: 60%; /* Limita el ancho del texto */
-            text-shadow: 0 0 10px rgba(0,0,0,0.5); /* Sombra para mejor lectura */
-        }
-        .hero-swiper .slide-content h2 {
-            font-size: 2.5rem;
-            font-weight: 500;
-            margin-bottom: 10px;
-            letter-spacing: -0.02em;
-            line-height: 1.2;
-        }
-        .hero-swiper .slide-content p {
-            font-size: 1rem;
-            font-weight: 300;
-            opacity: 0.9;
-            letter-spacing: 0.05em;
-        }
-        .hero-swiper .swiper-button-next,
-        .hero-swiper .swiper-button-prev {
-            color: var(--text-color);
-            opacity: 0.3;
-            transition: opacity 0.3s ease;
-            transform: scale(0.6); /* Reducir el tamaño de las flechas */
-        }
-        .hero-swiper .swiper-button-next:hover,
-        .hero-swiper .swiper-button-prev:hover {
-            opacity: 1;
-        }
-
-        /* --- Play/Pause Button --- */
-        .play-pause-btn {
-            position: fixed;
-            bottom: 4vw;
-            right: 4vw;
-            z-index: 1010;
-            background-color: var(--primary-gray);
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            transition: background-color 0.3s ease;
-        }
-        .play-pause-btn:hover {
-            background-color: var(--secondary-gray);
-        }
-        .play-pause-btn svg {
-            fill: var(--text-color);
-            width: 24px;
-            height: 24px;
-        }
-
-        /* --- About Section (for index, similar to collectiv.paris) --- */
-        .about-section {
-            padding: 80px 4vw;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 40px;
-            background-color: var(--bg-color);
-            border-bottom: 1px solid var(--border-color);
-        }
-        .about-section h2 {
-            font-size: 1.8rem;
-            font-weight: 400;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        .about-section-content {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 80px;
-            max-width: 1200px;
-            width: 100%;
-        }
-        .about-image-bio {
-            text-align: center;
-        }
-        .about-image-bio img {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            object-fit: cover;
-            filter: grayscale(100%);
-            transition: filter 0.5s ease;
-        }
-        .about-image-bio img:hover {
-            filter: grayscale(0%);
-        }
-        .about-text-bio p {
-            font-size: 1rem;
-            line-height: 1.8;
-            font-weight: 300;
-            color: var(--light-gray-text);
-            margin-bottom: 20px;
-        }
-        .about-text-bio .social-links a {
-            color: var(--text-color);
-            text-decoration: none;
-            font-size: 0.75rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            margin-right: 25px;
-            opacity: 0.7;
-            transition: opacity 0.3s ease;
-        }
-        .about-text-bio .social-links a:hover {
-            opacity: 1;
-        }
-
-        /* --- Work Grid --- */
-        .work-section {
-            padding: 80px 4vw;
-            background-color: var(--bg-color);
-        }
-        .filter-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-bottom: 60px;
-            flex-wrap: wrap;
-        }
-        .filter-buttons button {
-            background: none;
-            border: none;
-            color: var(--light-gray-text);
-            font-family: var(--font-family);
-            font-size: 0.8rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            cursor: pointer;
-            padding: 10px 0;
-            position: relative;
-            transition: color 0.3s ease;
-        }
-        .filter-buttons button::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 1px;
-            background-color: var(--text-color);
-            transition: width 0.3s ease;
-        }
-        .filter-buttons button:hover,
-        .filter-buttons button.active {
-            color: var(--text-color);
-        }
-        .filter-buttons button.active::after {
-            width: 100%;
-        }
-
-        .project-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .project-card {
-            display: block;
-            text-decoration: none;
-            color: var(--text-color);
-            position: relative;
-            overflow: hidden;
-            background-color: var(--primary-gray);
-        }
-        .project-card img {
-            width: 100%;
-            height: auto;
-            display: block;
-            filter: grayscale(100%);
-            opacity: 0.7;
-            transition: transform 0.6s ease, filter 0.6s ease, opacity 0.6s ease;
-        }
-        .project-card:hover img {
-            transform: scale(1.05);
-            filter: grayscale(0%);
-            opacity: 1;
-        }
-        .project-info {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            padding: 20px;
-            box-sizing: border-box;
-            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        .project-card:hover .project-info {
-            opacity: 1;
-        }
-        .project-info h3 {
-            font-size: 1rem;
-            font-weight: 500;
-            margin: 0 0 5px 0;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-        }
-        .project-info p {
-            font-size: 0.75rem;
-            color: var(--light-gray-text);
-            margin: 0;
-            letter-spacing: 0.05em;
-        }
-        .project-card.hidden {
-            display: none;
-        }
-
-        /* --- Footer --- */
-        footer {
-            padding: 40px 4vw;
-            text-align: center;
-            font-size: 0.7rem;
-            color: var(--light-gray-text);
-            letter-spacing: 0.05em;
-            background-color: var(--bg-color);
-            border-top: 1px solid var(--border-color);
-        }
-
-        /* --- Media Queries --- */
-        @media (max-width: 1024px) {
-            .about-section-content {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-            .about-image-bio {
-                order: 2; /* Imagen abajo */
-            }
-            .about-text-bio {
-                order: 1; /* Texto arriba */
-            }
-            .project-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .hero-swiper .slide-content h2 {
-                font-size: 2rem;
-            }
-            .hero-swiper .slide-content p {
-                font-size: 0.9rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            header {
-                height: 80px;
-                padding: 0 5vw;
-            }
-            .logo img {
-                height: 35px;
-            }
-            nav {
-                gap: 20px;
-            }
-            nav a {
-                font-size: 0.7rem;
-            }
-            .hero-swiper .swiper-slide {
-                padding: 0 5vw 60px;
-            }
-            .hero-swiper .slide-content {
-                max-width: 90%;
-            }
-            .hero-swiper .slide-content h2 {
-                font-size: 1.8rem;
-            }
-            .hero-swiper .slide-content p {
-                font-size: 0.8rem;
-            }
-            .play-pause-btn {
-                width: 50px;
-                height: 50px;
-                bottom: 5vw;
-                right: 5vw;
-            }
-            .play-pause-btn svg {
-                width: 20px;
-                height: 20px;
-            }
-            .about-section {
-                padding: 60px 5vw;
-            }
-            .about-section h2 {
-                font-size: 1.5rem;
-            }
-            .about-text-bio p {
-                font-size: 0.85rem;
-            }
-            .about-image-bio img {
-                width: 150px;
-                height: 150px;
-            }
-            .filter-buttons {
-                gap: 20px;
-                margin-bottom: 40px;
-            }
-            .filter-buttons button {
-                font-size: 0.7rem;
-            }
-            .project-grid {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-            .project-info {
-                padding: 15px;
-            }
-            .project-info h3 {
-                font-size: 0.9rem;
-            }
-            .project-info p {
-                font-size: 0.7rem;
-            }
-            footer {
-                padding: 30px 5vw;
-            }
-        }
+        
+        footer { padding: 100px 5%; font-size: 10px; color: #333; letter-spacing: 3px; text-align: center; background: #000; text-transform: uppercase; }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="logo">
-            <a href="index.html"><img src="LOGO_Manrope_v01.png" alt="Leandro Bruno"></a>
-        </div>
-        <nav>
-            <div class="dropdown">
-                <a href="#" class="active">WORK</a>
+    <nav>
+        <div class="logo"><a href="index.html"><img src="LOGO_Manrope_v01.png" alt="Leandro Bruno"></a></div>
+        <div class="menu">
+            <div class="menu-item">
+                <a onclick="filterProjects('all')">WORK</a>
                 <div class="dropdown-content">
-                    <a href="#" data-filter="all">All</a>
-                    <a href="#" data-filter="advertising">Advertising</a>
-                    <a href="#" data-filter="music">Music</a>
-                    <a href="#" data-filter="narrative">Narrative</a>
+                    <a onclick="filterProjects('all')">ALL</a>
+                    <a onclick="filterProjects('advertising')">ADVERTISING</a>
+                    <a onclick="filterProjects('music')">MUSIC</a>
+                    <a onclick="filterProjects('narrative')">NARRATIVE</a>
                 </div>
             </div>
-            <a href="about.html">ABOUT</a>
-            <a href="mailto:leandrobrunoeditor@gmail.com">CONTACT</a>
-            <a href="https://www.imdb.com/name/nm11460466/" target="_blank">IMDb</a>
-        </nav>
-    </header>
+            <div class="menu-item"><a href="about.html">ABOUT</a></div>
+            <div class="menu-item"><a href="mailto:leandrobrunoeditor@gmail.com">CONTACT</a></div>
+            <div class="menu-item"><a href="https://www.imdb.com/name/nm11460466/" target="_blank">IMDb</a></div>
+        </div>
+    </nav>
 
-    <div class="hero-swiper">
+    <button id="unmute-btn" onclick="activateSound()">
+        <svg viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zM3 9v6h4l5 5V4L7 9H3z"/></svg>
+    </button>
+
+    <div class="swiper mySwiper">
         <div class="swiper-wrapper">
-            <div class="swiper-slide" data-video-id="-2AmqmciWXE">
-                <div class="video-background"></div>
-                <div class="slide-content">
-                    <h2>MENEM</h2>
-                    <p>SERIE DOCUMENTAL / PRIME VIDEO</p>
-                </div>
+            <div class="swiper-slide">
+                <a href="menem.html" class="slide-link"></a>
+                <div class="video-background"><div id="player1"></div></div>
+                <div class="slide-info"><h2>MENEM</h2><p>SERIE DOCUMENTAL / PRIME VIDEO</p></div>
             </div>
-            <div class="swiper-slide" data-video-id="A0d6wnlMRRk">
-                <div class="video-background"></div>
-                <div class="slide-content">
-                    <h2>EL TIEMPO DE LAS MOSCAS</h2>
-                    <p>SERIE / NETFLIX</p>
-                </div>
+            <div class="swiper-slide">
+                <a href="moscas.html" class="slide-link"></a>
+                <div class="video-background"><div id="player2"></div></div>
+                <div class="slide-info"><h2>MOSCAS</h2><p>SERIE / NETFLIX</p></div>
             </div>
-            <div class="swiper-slide" data-video-id="ecr24akKDbs">
-                <div class="video-background"></div>
-                <div class="slide-content">
-                    <h2>COPPOLA</h2>
-                    <p>SERIE / DISNEY+</p>
-                </div>
+            <div class="swiper-slide">
+                <a href="coppola.html" class="slide-link"></a>
+                <div class="video-background"><div id="player3"></div></div>
+                <div class="slide-info"><h2>COPPOLA</h2><p>SERIE / DISNEY+</p></div>
             </div>
-            <div class="swiper-slide" data-video-id="7Cllu0Rme74">
-                <div class="video-background"></div>
-                <div class="slide-content">
-                    <h2>OREO</h2>
-                    <p>ADVERTISING / MOMENTO DE DIVERSIÓN</p>
-                </div>
+            <div class="swiper-slide">
+                <a href="oreo.html" class="slide-link"></a>
+                <div class="video-background"><div id="player4"></div></div>
+                <div class="slide-info"><h2>OREO</h2><p>ADVERTISING / WINOGRAD</p></div>
             </div>
-            <div class="swiper-slide" data-video-id="ItX5aqhqsmo">
-                <div class="video-background"></div>
-                <div class="slide-content">
-                    <h2>BLAIR</h2>
-                    <p>MUSIC VIDEO</p>
-                </div>
+            <div class="swiper-slide">
+                <a href="blair.html" class="slide-link"></a>
+                <div class="video-background"><div id="player5"></div></div>
+                <div class="slide-info"><h2>BLAIR</h2><p>MUSIC VIDEO / TODO LO QUE TENGO</p></div>
             </div>
         </div>
         <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div>
     </div>
 
-    <div class="play-pause-btn" id="play-pause-btn">
-        <svg class="play-icon" viewBox="0 0 24 24" style="display: none;">
-            <path d="M8 5v14l11-7z"/>
-        </svg>
-        <svg class="pause-icon" viewBox="0 0 24 24">
-            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
-        </svg>
+    <div class="work-grid" id="work">
+        <a href="menem.html" class="project-card narrative"><img src="https://img.youtube.com/vi/-2AmqmciWXE/maxresdefault.jpg"><div class="card-info"><h3>MENEM</h3><div class="director">Dir. Federico Cassinelli</div><div class="production">Prime Video</div></div></a>
+        <a href="moscas.html" class="project-card narrative"><img src="https://img.youtube.com/vi/A0d6wnlMRRk/maxresdefault.jpg"><div class="card-info"><h3>EL TIEMPO DE LAS MOSCAS</h3><div class="director">Dir. Ana Katz</div><div class="production">Netflix</div></div></a>
+        <a href="coppola.html" class="project-card narrative"><img src="https://img.youtube.com/vi/ecr24akKDbs/maxresdefault.jpg"><div class="card-info"><h3>COPPOLA</h3><div class="director">Dir. Ariel Winograd</div><div class="production">Disney+</div></div></a>
+        <a href="oreo.html" class="project-card advertising"><img src="https://img.youtube.com/vi/7Cllu0Rme74/maxresdefault.jpg"><div class="card-info"><h3>OREO</h3><div class="director">Dir. Ariel Winograd</div><div class="production">Momento de Diversión</div></div></a>
+        <a href="levis.html" class="project-card advertising"><img src="Levis_Thumbnail_v01.png"><div class="card-info"><h3>LEVI'S x WINONA RIDERS</h3><div class="director">Dir. Campaign</div><div class="production">Levi's / Advertising</div></div></a>
+        <a href="blair.html" class="project-card music"><img src="https://img.youtube.com/vi/ItX5aqhqsmo/maxresdefault.jpg"><div class="card-info"><h3>BLAIR</h3><div class="director">Dir. Todo lo que tengo</div><div class="production">Music Video</div></div></a>
+        <a href="ratones.html" class="project-card advertising"><img src="RP_Thumnmail.png"><div class="card-info"><h3>RATONES PARANOICOS</h3><div class="director">Dir. Poster</div><div class="production">Advertising</div></div></a>
+        <a href="marias.html" class="project-card advertising"><img src="Marias_Thumbnail.png"><div class="card-info"><h3>MARÍAS</h3><div class="director">Dir. Publicidad</div><div class="production">Advertising</div></div></a>
+        <a href="besos.html" class="project-card narrative"><img src="BesosBrujos-Thumbnail.png"><div class="card-info"><h3>BESOS BRUJOS</h3><div class="director">Dir. Narrative</div><div class="production">Short Film</div></div></a>
     </div>
 
-    <section class="about-section">
-        <h2>About</h2>
-        <div class="about-section-content">
-            <div class="about-image-bio">
-                <img src="https://via.placeholder.com/400x400/0a0a0a/fff?text=LEANDRO+BRUNO" alt="Leandro Bruno">
-            </div>
-            <div class="about-text-bio">
-                <p>
-                    Soy un editor enfocado en narrativa cinematográfica, series documentales y publicidad de alto impacto. 
-                    Mi trabajo se centra en encontrar el ritmo y la emoción precisa para cada historia, colaborando con 
-                    directores y productoras líderes de la industria como Netflix, Prime Video y Disney+.
-                </p>
-                <p>
-                    A lo largo de mi carrera, he tenido el privilegio de editar proyectos destacados como "Menem", 
-                    "El Tiempo de las Moscas" y "Coppola", buscando siempre una estética visual moderna y una 
-                    estructura narrativa sólida que conecte con la audiencia.
-                </p>
-                <div class="social-links">
-                    <a href="mailto:leandrobrunoeditor@gmail.com">Email</a>
-                    <a href="https://www.imdb.com/name/nm11460466/" target="_blank">IMDb</a>
-                    <a href="https://www.instagram.com/tu_usuario" target="_blank">Instagram</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="work-section">
-        <div class="filter-buttons">
-            <button class="active" data-filter="all">All</button>
-            <button data-filter="advertising">Advertising</button>
-            <button data-filter="music">Music</button>
-            <button data-filter="narrative">Narrative</button>
-        </div>
-
-        <div class="project-grid">
-            <a href="menem.html" class="project-card narrative">
-                <img src="https://img.youtube.com/vi/-2AmqmciWXE/hqdefault.jpg" alt="MENEM">
-                <div class="project-info">
-                    <h3>MENEM</h3>
-                    <p>SERIE DOCUMENTAL</p>
-                </div>
-            </a>
-            <a href="moscas.html" class="project-card narrative">
-                <img src="https://img.youtube.com/vi/A0d6wnlMRRk/hqdefault.jpg" alt="EL TIEMPO DE LAS MOSCAS">
-                <div class="project-info">
-                    <h3>EL TIEMPO DE LAS MOSCAS</h3>
-                    <p>SERIE</p>
-                </div>
-            </a>
-            <a href="coppola.html" class="project-card narrative">
-                <img src="https://img.youtube.com/vi/ecr24akKDbs/hqdefault.jpg" alt="COPPOLA">
-                <div class="project-info">
-                    <h3>COPPOLA</h3>
-                    <p>SERIE</p>
-                </div>
-            </a>
-            <a href="oreo.html" class="project-card advertising">
-                <img src="https://img.youtube.com/vi/7Cllu0Rme74/hqdefault.jpg" alt="OREO">
-                <div class="project-info">
-                    <h3>OREO</h3>
-                    <p>ADVERTISING</p>
-                </div>
-            </a>
-            <a href="levis.html" class="project-card advertising">
-                <img src="Levis_Thumbnail_v01.png" alt="LEVI'S x WINONA RIDERS">
-                <div class="project-info">
-                    <h3>LEVI'S x WINONA RIDERS</h3>
-                    <p>ADVERTISING</p>
-                </div>
-            </a>
-            <a href="blair.html" class="project-card music">
-                <img src="https://img.youtube.com/vi/ItX5aqhqsmo/hqdefault.jpg" alt="BLAIR">
-                <div class="project-info">
-                    <h3>BLAIR</h3>
-                    <p>MUSIC VIDEO</p>
-                </div>
-            </a>
-            <a href="ratones.html" class="project-card advertising">
-                <img src="RP_Thumnmail.png" alt="RATONES PARANOICOS">
-                <div class="project-info">
-                    <h3>RATONES PARANOICOS</h3>
-                    <p>ADVERTISING</p>
-                </div>
-            </a>
-            <a href="marias.html" class="project-card advertising">
-                <img src="Marias_Thumbnail.png" alt="MARÍAS">
-                <div class="project-info">
-                    <h3>MARÍAS</h3>
-                    <p>ADVERTISING</p>
-                </div>
-            </a>
-            <a href="besos.html" class="project-card narrative">
-                <img src="BesosBrujos-Thumbnail.png" alt="BESOS BRUJOS">
-                <div class="project-info">
-                    <h3>BESOS BRUJOS</h3>
-                    <p>SHORT FILM</p>
-                </div>
-            </a>
-        </div>
-    </section>
-
-    <footer>
-        © 2026 LEANDRO BRUNO. All rights reserved.
-    </footer>
+    <footer>© 2026 LEANDRO BRUNO. TODOS LOS DERECHOS RESERVADOS.</footer>
 
     <script src="https://www.youtube.com/iframe_api"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
-        // --- YouTube API and Swiper for Hero Section ---
-        let heroPlayers = []; // Almacena los objetos de reproductor de YouTube
-        let currentPlayingVideo = null;
-        let isVideoPaused = false;
-
+        let players = [];
         function onYouTubeIframeAPIReady() {
-            const slides = document.querySelectorAll('.hero-swiper .swiper-slide');
-            slides.forEach((slide, index) => {
-                const videoId = slide.dataset.videoId;
-                const playerDiv = document.createElement('div');
-                playerDiv.id = `heroPlayer${index}`;
-                slide.querySelector('.video-background').appendChild(playerDiv);
-
-                heroPlayers[index] = new YT.Player(playerDiv.id, {
-                    videoId: videoId,
-                    playerVars: {
-                        autoplay: 1,
-                        mute: 1,
-                        loop: 1,
-                        playlist: videoId, // Necesario para loop con autoplay
-                        controls: 0,
-                        showinfo: 0,
-                        modestbranding: 1,
-                        rel: 0,
-                        iv_load_policy: 3, // Oculta anotaciones
-                        fs: 0 // Deshabilita pantalla completa (si es posible con controls:0)
-                    },
-                    events: {
-                        'onReady': (event) => {
-                            event.target.playVideo();
-                            if (index !== swiper.activeIndex) {
-                                event.target.pauseVideo(); // Pausa si no es el slide activo inicial
-                            }
-                        },
-                        'onStateChange': (event) => {
-                            // Reasegura el mute si se desmutea por algún motivo
-                            if (event.data === YT.PlayerState.PLAYING && event.target.isMuted()) {
-                                event.target.mute();
-                            }
-                        }
-                    }
+            const ids = ['-2AmqmciWXE', 'A0d6wnlMRRk', 'ecr24akKDbs', '7Cllu0Rme74', 'ItX5aqhqsmo'];
+            ids.forEach((id, index) => {
+                players[index] = new YT.Player('player' + (index + 1), {
+                    videoId: id,
+                    playerVars: { 'autoplay': 1, 'mute': 1, 'loop': 1, 'playlist': id, 'controls': 0, 'showinfo': 0, 'modestbranding': 1, 'rel': 0 },
+                    events: { 'onReady': (e) => e.target.playVideo() }
                 });
             });
-
-            // Inicializar Swiper después de que los jugadores estén listos
-            initSwiper();
         }
 
-        let swiper;
-        function initSwiper() {
-            swiper = new Swiper(".hero-swiper", {
-                loop: true,
-                speed: 1000,
-                effect: "fade",
-                fadeEffect: {
-                    crossFade: true,
-                },
-                autoplay: {
-                    delay: 7000,
-                    disableOnInteraction: false,
-                },
-                navigation: {
-                    nextEl: ".swiper-button-next",
-                    prevEl: ".swiper-button-prev",
-                },
-                on: {
-                    slideChangeTransitionStart: function () {
-                        // Pausa el video anterior
-                        if (currentPlayingVideo !== null && heroPlayers[currentPlayingVideo]) {
-                            heroPlayers[currentPlayingVideo].pauseVideo();
-                        }
-                    },
-                    slideChangeTransitionEnd: function () {
-                        // Reproduce el nuevo video
-                        const realIndex = this.realIndex;
-                        currentPlayingVideo = realIndex;
-                        if (heroPlayers[realIndex] && !isVideoPaused) {
-                            heroPlayers[realIndex].playVideo();
-                        }
-                    },
-                    init: function () {
-                        // Establece el video inicial en reproducción
-                        const initialRealIndex = this.realIndex;
-                        currentPlayingVideo = initialRealIndex;
-                        if (heroPlayers[initialRealIndex]) {
-                            heroPlayers[initialRealIndex].playVideo();
-                        }
-                    }
-                }
+        function activateSound() {
+            players.forEach(p => { if(p && p.unMute) p.unMute(); });
+            document.getElementById('unmute-btn').style.display = 'none';
+        }
+
+        var swiper = new Swiper(".mySwiper", { 
+            loop: true, speed: 1500, effect: "fade",
+            autoplay: { delay: 6000, disableOnInteraction: false },
+            navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" }
+        });
+
+        function filterProjects(category) {
+            const cards = document.querySelectorAll('.project-card');
+            document.querySelector('#work').scrollIntoView({ behavior: 'smooth' });
+            cards.forEach(card => {
+                if (category === 'all' || card.classList.contains(category)) card.classList.remove('hidden');
+                else card.classList.add('hidden');
             });
         }
-
-
-        // --- Play/Pause Button Logic ---
-        const playPauseBtn = document.getElementById('play-pause-btn');
-        const playIcon = playPauseBtn.querySelector('.play-icon');
-        const pauseIcon = playPauseBtn.querySelector('.pause-icon');
-
-        playPauseBtn.addEventListener('click', () => {
-            if (swiper) { // Asegúrate de que Swiper esté inicializado
-                if (isVideoPaused) {
-                    // Si está pausado, reanudar
-                    swiper.autoplay.start();
-                    if (heroPlayers[currentPlayingVideo]) {
-                        heroPlayers[currentPlayingVideo].playVideo();
-                    }
-                    playIcon.style.display = 'none';
-                    pauseIcon.style.display = 'block';
-                    isVideoPaused = false;
-                } else {
-                    // Si está reproduciendo, pausar
-                    swiper.autoplay.stop();
-                    if (heroPlayers[currentPlayingVideo]) {
-                        heroPlayers[currentPlayingVideo].pauseVideo();
-                    }
-                    playIcon.style.display = 'block';
-                    pauseIcon.style.display =
+    </script>
+</body>
+</html>
