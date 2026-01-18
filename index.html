@@ -3,451 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>leandro bruno | film editor</title>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;500;700;800&display=swap" rel="stylesheet">
+    <title>Leandro Bruno | Film Editor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;800&display=swap" rel="stylesheet">
     <style>
-        * { box-sizing: border-box; }
-        :root { 
-            --bg: #0b0b0b; 
-            --text: #ffffff; 
-            --line-grid: rgba(255, 255, 255, 0.03); 
-            --font-main: 'Manrope', sans-serif;
-        }
-        
-        body, html { 
-            margin: 0; padding: 0; width: 100%; height: 100%; 
-            background: var(--bg); color: var(--text); 
-            font-family: var(--font-main); text-transform: lowercase;
-            overflow: hidden; letter-spacing: -0.01em;
+        /* Reset de estilos */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        .blueprint-bg {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: 
-                linear-gradient(var(--line-grid) 1px, transparent 1px), 
-                linear-gradient(90deg, var(--line-grid) 1px, transparent 1px);
-            background-size: 40px 40px; z-index: -1;
-        }
-
-        .main-layout {
-            display: grid;
-            grid-template-columns: 320px 1fr 240px;
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
             height: 100vh;
-            padding: 50px;
-            gap: 40px;
-            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            background-color: #000000; /* Fondo negro */
+            font-family: 'Manrope', sans-serif;
+            color: #ffffff;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* NAVEGACIÓN IZQUIERDA */
-        .left-panel { display: flex; flex-direction: column; gap: 60px; z-index: 10; }
-        
-        /* LOGO AJUSTADO */
-        .brand { 
-            font-weight: 300; 
-            font-size: 1.1rem; 
-            line-height: 1.2; 
-            cursor: pointer; 
-            text-transform: none; /* Quita el forzado de minúsculas general */
+        /* Contenedor del logo */
+        .brand-logo {
+            text-align: left;
+            display: flex;
+            flex-direction: column;
         }
-        .brand strong { 
-            display: block; 
-            font-size: 2.2rem; 
-            font-weight: 800; 
-            letter-spacing: -0.02em;
+
+        /* LEANDRO BRUNO */
+        .name {
+            font-size: 4.5rem;
+            font-weight: 800; /* ExtraBold */
+            text-transform: uppercase;
+            line-height: 0.85;
+            letter-spacing: -0.04em; /* Interletrado ajustado para look premium */
+            margin: 0;
         }
-        
-        .nav-links { display: flex; flex-direction: column; gap: 25px; }
 
-        .lang-switch {
-            font-size: 0.7rem; font-weight: 700; display: flex; gap: 10px;
-            margin-bottom: -10px; opacity: 0.6;
+        /* FILM EDITOR */
+        .subtitle {
+            font-size: 1rem;
+            font-weight: 200; /* ExtraLight para contraste */
+            text-transform: uppercase;
+            letter-spacing: 0.6em; /* Espaciado amplio */
+            margin-top: 10px;
+            padding-left: 5px; /* Alineación visual con el nombre */
+            color: #a0a0a0; /* Gris sutil para jerarquía */
         }
-        .lang-switch span { cursor: pointer; padding-bottom: 2px; }
-        .lang-switch span.active-lang { border-bottom: 1px solid #fff; opacity: 1; }
 
-        .custom-select-container { position: relative; }
-        .select-selected {
-            font-size: 0.9rem; font-weight: 700; cursor: pointer;
-            border-bottom: 1px solid rgba(255,255,255,0.3); 
-            padding-bottom: 4px; display: inline-block; transition: 0.3s;
-        }
-        .select-selected.is-active { font-style: italic; border-bottom-color: #fff; }
-        
-        .select-items {
-            position: absolute; background-color: #111;
-            top: 100%; left: 0; z-index: 99; border: 1px solid rgba(255,255,255,0.05);
-            margin-top: 10px; display: none; min-width: 200px;
-        }
-        .select-items div { padding: 12px 15px; cursor: pointer; font-size: 0.8rem; }
-        .select-items div:hover { background-color: #fff; color: #000; }
-        .select-show { display: block; }
-
-        .nav-links a { text-decoration: none; color: var(--text); font-size: 0.9rem; font-weight: 500; cursor: pointer; opacity: 0.5; transition: 0.3s; }
-        .nav-links a:hover { opacity: 1; }
-
-        /* VISOR CENTRAL */
-        .center-panel { width: 100%; position: relative; overflow-y: auto; scrollbar-width: none; }
-        .main-viewer {
-            width: 100%; aspect-ratio: 16 / 9; background: #000;
-            border: 1px solid rgba(255,255,255,0.05); overflow: hidden; position: relative;
-        }
-        .main-viewer img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity 0.8s ease; opacity: 0; }
-        .main-viewer img.active-slide { opacity: 1; z-index: 2; }
-        
-        .slide-nav {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            display: flex; justify-content: space-between; align-items: center;
-            z-index: 15; pointer-events: none;
-        }
-        .nav-arrow {
-            pointer-events: auto; width: 60px; height: 100%; 
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; font-size: 1.2rem; opacity: 0; transition: 0.3s;
-            color: rgba(255,255,255,0.5); user-select: none;
-        }
-        .main-viewer:hover .nav-arrow { opacity: 1; }
-        .nav-arrow:hover { color: #fff; background: rgba(255,255,255,0.02); }
-
-        .play-indicator {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: #fff; color: #000; padding: 12px 24px; font-weight: 800; 
-            font-size: 0.7rem; display: none; z-index: 20; text-transform: uppercase; 
-            letter-spacing: 0.1em; cursor: pointer;
-        }
-        .main-viewer.has-video:hover .play-indicator { display: block; }
-
-        .project-details { width: 100%; margin-top: 45px; display: grid; grid-template-columns: 1.4fr 0.6fr; gap: 60px; padding-bottom: 100px; transition: opacity 0.4s; }
-        .project-details.fading { opacity: 0; }
-        .project-details h2 { font-size: 5rem; margin: 0; font-weight: 800; line-height: 0.85; text-transform: uppercase; letter-spacing: -0.05em; }
-        
-        .category-label { font-size: 0.7rem; font-weight: 700; color: #666; margin-bottom: 15px; display: block; text-transform: uppercase; letter-spacing: 0.15em; }
-        .meta { font-size: 0.9rem; line-height: 1.8; color: #999; }
-        .meta strong { color: #fff; font-weight: 700; margin-right: 5px; text-transform: uppercase; font-size: 0.75rem; }
-
-        .right-panel { 
-            display: flex; 
-            flex-direction: column; 
-            gap: 25px; 
-            overflow-y: auto; 
-            padding-right: 10px;
-        }
-        .right-panel::-webkit-scrollbar { width: 4px; }
-        .right-panel::-webkit-scrollbar-track { background: transparent; }
-        .right-panel::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 2px; }
-        .right-panel::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.3); }
-
-        .thumb-item { width: 100%; aspect-ratio: 16 / 9; background: #000; border: 1px solid rgba(255,255,255,0.05); overflow: hidden; cursor: pointer; transition: 0.5s; flex-shrink: 0; }
-        .thumb-item img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); opacity: 0.2; transition: 0.5s; }
-        .thumb-item:hover img, .thumb-item.active-thumb img { filter: grayscale(0); opacity: 1; }
-        .thumb-item.active-thumb { border-color: rgba(255,255,255,0.4); }
-
-        #about-section { display: none; width: 100%; gap: 100px; align-items: flex-start; animation: fadeIn 0.8s ease; }
-        .profile-pic { width: 400px; filter: grayscale(0.2); border: 1px solid rgba(255,255,255,0.05); }
-        .about-text { font-size: 1.3rem; line-height: 1.4; margin-bottom: 40px; font-weight: 300; }
-        .imdb-link { display: inline-flex; align-items: center; gap: 15px; color: #fff; text-decoration: none; font-weight: 700; font-size: 0.9rem; border: 1px solid #fff; padding: 12px 25px; transition: 0.3s; }
-        .imdb-link:hover { background: #fff; color: #000; }
-
-        .video-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; display: none; z-index: 1000; justify-content: center; align-items: center; }
-        .video-wrapper { width: 92%; max-width: 1600px; aspect-ratio: 16 / 9; position: relative; }
-        #video-player { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-        .close-btn { position: fixed; top: 40px; right: 40px; color: #fff; cursor: pointer; font-size: 0.8rem; z-index: 1010; font-weight: 700; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        @media (max-width: 1100px) {
-            .main-layout { grid-template-columns: 1fr; padding: 30px; height: auto; overflow-y: auto; }
-            .right-panel { flex-direction: row; height: 140px; overflow-x: auto; overflow-y: hidden; }
-            .thumb-item { width: 220px; }
-            .nav-arrow { opacity: 1 !important; width: 40px; }
+        /* Ajustes para dispositivos móviles */
+        @media (max-width: 768px) {
+            .name {
+                font-size: 2.5rem;
+                letter-spacing: -0.02em;
+            }
+            .subtitle {
+                font-size: 0.7rem;
+                letter-spacing: 0.4em;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="blueprint-bg"></div>
-
-    <main class="main-layout" id="main-grid">
-        <section class="left-panel">
-            <div class="brand" onclick="showSection('work')"><strong>Leandro Bruno</strong>film editor</div>
-            
-            <nav class="nav-links">
-                <div class="lang-switch">
-                    <span id="btn-es" class="active-lang" onclick="setLanguage('es')">ES</span>
-                    <span id="btn-en" onclick="setLanguage('en')">EN</span>
-                </div>
-
-                <div class="custom-select-container">
-                    <div class="select-selected" id="current-filter-text" onclick="toggleDropdown(event)">proyectos / todos</div>
-                    <div class="select-items" id="filter-options">
-                        <div onclick="filterBy('all', 'all_projects')">/ todos</div>
-                        <div onclick="filterBy('fiction', 'narrative')">/ ficción</div>
-                        <div onclick="filterBy('advertising', 'advertising')">/ publicidad</div>
-                        <div onclick="filterBy('music video', 'music_video')">/ videoclips</div>
-                    </div>
-                </div>
-
-                <a id="nav-bio" onclick="showSection('about')">/ biografía</a>
-                <a id="nav-contact" href="mailto:leandrobrunoeditor@gmail.com">/ contacto</a>
-            </nav>
-        </section>
-
-        <section class="center-panel">
-            <div id="work-section">
-                <div class="main-viewer" id="viewer">
-                    <div class="slide-nav">
-                        <div class="nav-arrow" onclick="manualSlide(-1)">‹</div>
-                        <div class="nav-arrow" onclick="manualSlide(1)">›</div>
-                    </div>
-                    <div class="play-indicator" id="txt-play" onclick="openVideo()">reproducir_contenido</div>
-                    <div id="image-container"></div>
-                </div>
-
-                <div class="project-details" id="p-details">
-                    <div>
-                        <span class="category-label" id="p-category"></span>
-                        <h2 id="p-title"></h2>
-                    </div>
-                    <div class="meta">
-                        <div id="p-meta-top"></div>
-                        <div id="p-description" style="margin-top: 25px; color: #777; font-weight: 300;"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="about-section">
-                <img src="assets/Perfil_LMB.png" class="profile-pic" alt="Leandro Bruno" onerror="this.src='https://via.placeholder.com/500x600'">
-                <div class="about-content">
-                    <div class="about-text" id="txt-about-body"></div>
-                    <div style="margin-bottom: 50px;">
-                        <a href="https://www.imdb.com/name/nm10600109/" target="_blank" class="imdb-link" id="txt-imdb">CRÉDITOS_IMDB ↗</a>
-                    </div>
-                    <a style="cursor:pointer; font-size: 0.75rem; color: #444; font-weight: 700;" onclick="showSection('work')" id="txt-back">[ volver al índice ]</a>
-                </div>
-            </div>
-        </section>
-
-        <section class="right-panel" id="thumbnail-list"></section>
-    </main>
-
-    <div class="video-modal" id="modal">
-        <div class="close-btn" onclick="closeVideo()">[ CERRAR ]</div>
-        <div class="video-wrapper">
-            <div id="video-player"></div>
-        </div>
+    <div class="brand-logo">
+        <h1 class="name">Leandro Bruno</h1>
+        <span class="subtitle">Film Editor</span>
     </div>
 
-    <script src="https://www.youtube.com/iframe_api"></script>
-    <script>
-        let currentLang = 'es';
-        let currentFilterKey = 'all_projects';
-        
-        const texts = {
-            es: {
-                all_projects: "proyectos / todos",
-                narrative: "proyectos / ficción",
-                advertising: "proyectos / publicidad",
-                music_video: "proyectos / videoclips",
-                bio: "/ biografía",
-                contact: "/ contacto",
-                play: "reproducir_contenido",
-                close: "[ CERRAR ]",
-                back: "[ volver al índice ]",
-                imdb: "CRÉDITOS_IMDB ↗",
-                dir: "dir",
-                prod: "prod",
-                about: "leandro bruno es un editor de cine y publicidad con base en buenos aires. especializado en montaje rítmico y narrativa para plataformas globales como netflix, disney+ y prime video.",
-                categories: { serie: "serie", cortometraje: "cortometraje", advertising: "publicidad", music_video: "videoclip" }
-            },
-            en: {
-                all_projects: "projects / all",
-                narrative: "projects / fiction",
-                advertising: "projects / advertising",
-                music_video: "projects / music videos",
-                bio: "/ bio",
-                contact: "/ contact",
-                play: "play_content",
-                close: "[ CLOSE ]",
-                back: "[ back to index ]",
-                imdb: "IMDB_CREDITS ↗",
-                dir: "dir",
-                prod: "prod",
-                about: "leandro bruno is a film and advertising editor based in buenos aires. specialized in rhythmic editing and storytelling for global platforms such as netflix, disney+ and prime video.",
-                categories: { serie: "series", cortometraje: "short film", advertising: "advertising", music_video: "music video" }
-            }
-        };
-
-        const projects = [
-            { title: "menem", category: "serie", images: ["assets/Menem_Thumbnail_1.jpg", "assets/Menem_Thumbnail_2.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", 
-                desc_es: "Biopic satírico que narra el vertiginoso ascenso al poder de Carlos Menem en los años 90, explorando el carisma, la controversia y los excesos de una era marcada por la convertibilidad y la tragedia social.", 
-                desc_en: "A satirical biopic charting Carlos Menem's meteoric rise to power in the 1990s, exploring the charisma, controversy, and excesses of an era marked by economic convertibility and social tragedy." },
-            
-            { title: "oreo", category: "advertising", images: ["https://img.youtube.com/vi/7Cllu0Rme74/maxresdefault.jpg"], yt: "7Cllu0Rme74", director: "primo films", prod: "primo", desc_es: "campaña publicitaria global para oreo.", desc_en: "global advertising campaign for oreo." },
-            
-            { title: "el tiempo de las moscas", category: "serie", images: ["assets/Moscas_Thumbnail_v01.png"], yt: "A0d6wnlMRRk", director: "ana katz", prod: "netflix", 
-                desc_es: "Dos ex presidiarias intentan reconstruir sus vidas con un negocio de fumigación, hasta que una clienta inesperada las arrastra de nuevo hacia el mundo criminal, poniendo a prueba su amistad y su libertad.", 
-                desc_en: "Two ex-convicts try to rebuild their lives with a fumigation business, until an unexpected client drags them back into the criminal world, testing their friendship and their freedom." },
-            
-            { title: "levis", category: "advertising", images: ["assets/Levis_Thumbnail_v01.jpg"], yt: "7Cllu0Rme74", director: "lorenzo shakespear", prod: "levis argentina", desc_es: "campaña aniversario 501.", desc_en: "501 anniversary campaign." },
-            
-            { title: "coppola", category: "serie", images: ["assets/Coppola_Thumbnail_2.jpg", "assets/Coppola_Thumbnail_3.png"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films / disney+", 
-                desc_es: "La agitada y polémica vida de Guillermo Coppola, el manager del mejor futbolista del mundo, quien intenta equilibrar el éxito profesional con las consecuencias de una vida privada desenfrenada en la Buenos Aires de los 90.", 
-                desc_en: "The hectic and controversial life of Guillermo Coppola, the manager of the world's greatest football player, as he attempts to balance professional success with the consequences of a wild private life in 90s Buenos Aires." },
-            
-            { title: "blair", category: "music video", images: ["assets/Blair_Thumbnail_v01.jpg"], yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster", desc_es: "videoclip oficial para blair.", desc_en: "official music video for blair." },
-            
-            { title: "las manos de la abuela", category: "cortometraje", images: ["assets/MA_Thumbnail_1.png", "assets/MA_Thumbnail_2.png"], yt: "", director: "camila mediocre", prod: "", 
-                desc_es: "Una exploración íntima y táctil sobre el legado familiar y el paso del tiempo, narrada a través del vínculo físico y las historias grabadas en las manos de una abuela.", 
-                desc_en: "An intimate and tactile exploration of family legacy and the passage of time, told through the physical bond and the stories etched into a grandmother's hands." },
-            
-            { title: "ratones paranoicos", category: "music video", images: ["assets/RP_Thumnmail.jpg"], yt: "", director: "alex roux", prod: "poster", desc_es: "video intro oficial para la gira 2024.", desc_en: "official intro video for 2024 tour." },
-            
-            { title: "besos brujos", category: "cortometraje", images: ["assets/BesosBrujos-Thumbnail.jpg"], yt: "", director: "karina flonembaum", prod: "", 
-                desc_es: "En la intimidad de su hogar, una ex diva del cine nacional se enfrenta a los ecos de su pasado y a la fragilidad de su presente, en una exploración poética sobre la fama y el olvido.", 
-                desc_en: "In the privacy of her home, a former national cinema diva faces the echoes of her past and the fragility of her present, in a poetic exploration of fame and oblivion." },
-            
-            { title: "las marias", category: "advertising", images: ["assets/Marias_Thumbnail_1.png"], yt: "", director: "alejandro berger parrado", prod: "navajo films", desc_es: "documental establecimiento las marías.", desc_en: "las marias estate documentary." },
-            
-            { title: "todo lo que recuerdo", category: "cortometraje", images: ["assets/TodoLoQueRecuerdo_Thumbnail_1.png"], yt: "", director: "nicolas fernandez melian", prod: "", 
-                desc_es: "En el pueblo rural de La Limpia, Norberto lucha por preservar su memoria escribiendo sus recuerdos en un cuaderno, hasta que la decadencia del entorno y un problema de salud amenazan con borrar el rastro de toda una vida. Selección Oficial del Festival Internacional de Cine de Mar del Plata.", 
-                desc_en: "In the rural town of La Limpia, Norberto struggles to preserve his memory by writing in a notebook, until the decay of his surroundings and a health issue threaten to erase the trace of a lifetime. Official Selection at the Mar del Plata International Film Festival." }
-        ];
-
-        let filteredProjects = [...projects];
-        let currentIndex = 0;
-        let slideIndex = 0;
-        let rotation, slideRotation;
-        let player;
-
-        function setLanguage(lang) {
-            currentLang = lang;
-            document.getElementById('btn-es').classList.toggle('active-lang', lang === 'es');
-            document.getElementById('btn-en').classList.toggle('active-lang', lang === 'en');
-            document.getElementById("current-filter-text").innerText = texts[lang][currentFilterKey];
-            document.getElementById('nav-bio').innerText = texts[lang].bio;
-            document.getElementById('nav-contact').innerText = texts[lang].contact;
-            document.getElementById('txt-play').innerText = texts[lang].play;
-            document.getElementById('txt-imdb').innerText = texts[lang].imdb;
-            document.getElementById('txt-back').innerText = texts[lang].back;
-            document.getElementById('txt-about-body').innerText = texts[lang].about;
-            document.querySelector('.close-btn').innerText = texts[lang].close;
-            updateDisplay(true);
-        }
-
-        function toggleDropdown(e) {
-            e.stopPropagation();
-            document.getElementById("filter-options").classList.toggle("select-show");
-            document.getElementById("current-filter-text").classList.toggle("is-active");
-        }
-
-        function filterBy(val, key) {
-            currentFilterKey = key;
-            document.getElementById("current-filter-text").innerText = texts[currentLang][key];
-            if(val === 'all') {
-                filteredProjects = [...projects];
-            } else if (val === 'fiction') {
-                filteredProjects = projects.filter(p => p.category === 'serie' || p.category === 'cortometraje');
-            } else {
-                filteredProjects = projects.filter(p => p.category === val);
-            }
-            currentIndex = 0;
-            updateDisplay();
-            resetIntervals();
-        }
-
-        window.onclick = () => {
-            document.getElementById("filter-options").classList.remove("select-show");
-            document.getElementById("current-filter-text").classList.remove("is-active");
-        };
-
-        function updateDisplay(onlyText = false) {
-            const thumbList = document.getElementById('thumbnail-list');
-            const container = document.getElementById('image-container');
-            const details = document.getElementById('p-details');
-            const current = filteredProjects[currentIndex];
-            if(!current || document.getElementById('work-section').style.display === 'none') return;
-
-            if(!onlyText) {
-                details.classList.add('fading');
-                container.innerHTML = '';
-                slideIndex = 0;
-                current.images.forEach((src, idx) => {
-                    const img = document.createElement('img');
-                    img.src = src;
-                    if(idx === 0) img.classList.add('active-slide');
-                    container.appendChild(img);
-                });
-            }
-
-            setTimeout(() => {
-                document.getElementById('p-title').innerText = current.title;
-                document.getElementById('p-category').innerText = texts[currentLang].categories[current.category] || current.category;
-                const prodHtml = (current.prod && current.prod !== "") ? `<br><strong>${texts[currentLang].prod}</strong> ${current.prod}` : "";
-                document.getElementById('p-meta-top').innerHTML = `<strong>${texts[currentLang].dir}</strong> ${current.director}${prodHtml}`;
-                document.getElementById('p-description').innerText = currentLang === 'es' ? current.desc_es : current.desc_en;
-                details.classList.remove('fading');
-            }, onlyText ? 0 : 300);
-            
-            document.getElementById('viewer').classList.toggle('has-video', current.yt !== "");
-
-            thumbList.innerHTML = '';
-            filteredProjects.forEach((proj, index) => {
-                const item = document.createElement('div');
-                item.className = 'thumb-item' + (index === currentIndex ? ' active-thumb' : '');
-                item.innerHTML = `<img src="${proj.images[0]}">`;
-                item.onclick = () => { if(currentIndex !== index) { currentIndex = index; updateDisplay(); resetIntervals(); } };
-                thumbList.appendChild(item);
-            });
-        }
-
-        function manualSlide(dir) {
-            const slides = document.querySelectorAll('#image-container img');
-            if(slides.length <= 1) return;
-            slides[slideIndex].classList.remove('active-slide');
-            slideIndex = (slideIndex + dir + slides.length) % slides.length;
-            slides[slideIndex].classList.add('active-slide');
-            clearInterval(slideRotation);
-            slideRotation = setInterval(() => manualSlide(1), 3500);
-        }
-
-        function resetIntervals() {
-            clearInterval(rotation); clearInterval(slideRotation);
-            rotation = setInterval(() => { if(filteredProjects.length > 1) { currentIndex = (currentIndex + 1) % filteredProjects.length; updateDisplay(); } }, 8500);
-            slideRotation = setInterval(() => manualSlide(1), 3500);
-        }
-
-        function showSection(section) {
-            const work = document.getElementById('work-section');
-            const about = document.getElementById('about-section');
-            const rightPanel = document.getElementById('thumbnail-list');
-            const mainGrid = document.getElementById('main-grid');
-
-            if(section === 'about') {
-                work.style.display = 'none'; about.style.display = 'flex'; rightPanel.style.display = 'none';
-                mainGrid.style.gridTemplateColumns = "320px 1fr";
-                clearInterval(rotation); clearInterval(slideRotation);
-            } else {
-                about.style.display = 'none'; work.style.display = 'block'; rightPanel.style.display = 'flex';
-                mainGrid.style.gridTemplateColumns = "320px 1fr 240px";
-                updateDisplay(); resetIntervals();
-            }
-        }
-
-        function openVideo() {
-            const ytId = filteredProjects[currentIndex].yt;
-            if(!ytId) return;
-            document.getElementById('modal').style.display = 'flex';
-            if (player) player.loadVideoById(ytId);
-            else player = new YT.Player('video-player', { videoId: ytId, playerVars: { 'autoplay': 1, 'rel': 0 } });
-        }
-
-        function closeVideo() { document.getElementById('modal').style.display = 'none'; if (player) player.stopVideo(); }
-
-        // Inicialización corregida para evitar pantalla negra
-        window.onload = () => {
-            setLanguage('es');
-            updateDisplay(); // Forzamos carga completa de la primera imagen
-            resetIntervals();
-        };
-    </script>
 </body>
 </html>
