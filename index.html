@@ -202,12 +202,12 @@
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
         let currentLang = 'es';
-        let currentFilterKey = 'all_projects'; // Rastrear qué filtro está activo
+        let currentFilterKey = 'all_projects';
         
         const texts = {
             es: {
                 all_projects: "proyectos / todos",
-                narrative: "proyectos / narrativa",
+                narrative: "proyectos / cine & series",
                 advertising: "proyectos / publicidad",
                 music_video: "proyectos / videoclips",
                 bio: "/ biografía",
@@ -222,7 +222,7 @@
             },
             en: {
                 all_projects: "projects / all",
-                narrative: "projects / narrative",
+                narrative: "projects / cine & series",
                 advertising: "projects / advertising",
                 music_video: "projects / music videos",
                 bio: "/ bio",
@@ -239,6 +239,7 @@
 
         const projects = [
             { title: "menem", category: "serie/film", images: ["assets/Menem_Thumbnail_1.jpg", "assets/Menem_Thumbnail_2.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", desc_es: "biopic que narra el ascenso al poder de carlos menem y la trama de tragedia y corrupción.", desc_en: "biopic charting carlos menem's rise to power and the web of tragedy and corruption." },
+            { title: "ratones paranoicos", category: "music video", images: ["assets/Ratones_Thumbnail_01.jpg"], yt: "", director: "alex roux", prod: "poster", desc_es: "video intro oficial para la gira 2024 de ratones paranoicos.", desc_en: "official intro video for ratones paranoicos 2024 tour." },
             { title: "oreo", category: "advertising", images: ["https://img.youtube.com/vi/7Cllu0Rme74/maxresdefault.jpg"], yt: "7Cllu0Rme74", director: "primo films", prod: "primo", desc_es: "campaña publicitaria global para oreo.", desc_en: "global advertising campaign for oreo." },
             { title: "el tiempo de las moscas", category: "serie/film", images: ["assets/Moscas_Thumbnail_v01.png"], yt: "A0d6wnlMRRk", director: "ana katz", prod: "netflix", desc_es: "la historia de inés buscando reconstruir su vida tras 15 años de prisión.", desc_en: "the story of inés seeking to rebuild her life after 15 years in prison." },
             { title: "levis", category: "advertising", images: ["assets/Levis_Thumbnail_v01.jpg"], yt: "7Cllu0Rme74", director: "lorenzo shakespear", prod: "levis argentina", desc_es: "campaña aniversario 501.", desc_en: "501 anniversary campaign." },
@@ -246,7 +247,7 @@
             { title: "blair", category: "music video", images: ["assets/Blair_Thumbnail_v01.jpg"], yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster", desc_es: "videoclip oficial para blair.", desc_en: "official music video for blair." },
             { title: "las manos de la abuela", category: "serie/film", images: ["assets/MA_Thumbnail_1.png"], yt: "", director: "camila mediocre", prod: "independiente", desc_es: "exploración íntima sobre el legado familiar y la memoria.", desc_en: "intimate exploration of family legacy and memory." },
             { title: "besos brujos", category: "serie/film", images: ["assets/BesosBrujos-Thumbnail.jpg"], yt: "", director: "karina flonembaum", prod: "tba", desc_es: "cortometraje de ficción. largometraje en rodaje.", desc_en: "fiction short film. feature film currently shooting." },
-            { title: "las marias", category: "serie/film", images: ["assets/Marias_Thumbnail_1.png"], yt: "", director: "alejandro berger parrado", prod: "navajo films", desc_es: "documental sobre los 100 años del establecimiento las marías.", desc_en: "documentary about the 100th anniversary of las marías estate." }
+            { title: "las marias", category: "advertising", images: ["assets/Marias_Thumbnail_1.png"], yt: "", director: "alejandro berger parrado", prod: "navajo films", desc_es: "documental sobre los 100 años del establecimiento las marías.", desc_en: "documentary about the 100th anniversary of las marías estate." }
         ];
 
         let filteredProjects = [...projects];
@@ -259,11 +260,7 @@
             currentLang = lang;
             document.getElementById('btn-es').classList.toggle('active-lang', lang === 'es');
             document.getElementById('btn-en').classList.toggle('active-lang', lang === 'en');
-            
-            // Actualizar etiqueta del filtro actual
             document.getElementById("current-filter-text").innerText = texts[lang][currentFilterKey];
-            
-            // Actualizar interfaz
             document.getElementById('nav-bio').innerText = texts[lang].bio;
             document.getElementById('nav-contact').innerText = texts[lang].contact;
             document.getElementById('txt-play').innerText = texts[lang].play;
@@ -271,8 +268,7 @@
             document.getElementById('txt-back').innerText = texts[lang].back;
             document.getElementById('txt-about-body').innerText = texts[lang].about;
             document.querySelector('.close-btn').innerText = texts[lang].close;
-            
-            updateDisplay(true); // Pasar true para evitar que las fotos se reinicien al cambiar idioma
+            updateDisplay(true);
         }
 
         function toggleDropdown(e) {
@@ -308,7 +304,6 @@
                     img.style.opacity = '0';
                     setTimeout(() => img.remove(), 1000);
                 });
-
                 slideIndex = 0;
                 current.images.forEach((src, idx) => {
                     const img = document.createElement('img');
