@@ -120,7 +120,6 @@
             padding-right: 10px;
         }
 
-        /* Estilo de la barra de scroll */
         .right-panel::-webkit-scrollbar { width: 4px; }
         .right-panel::-webkit-scrollbar-track { background: transparent; }
         .right-panel::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 2px; }
@@ -276,7 +275,17 @@
             { title: "las manos de la abuela", category: "serie/film", images: ["assets/MA_Thumbnail_1.png", "assets/MA_Thumbnail_2.png"], yt: "", director: "camila mediocre", prod: "independiente", desc_es: "exploración íntima sobre el legado familiar.", desc_en: "intimate exploration of family legacy." },
             { title: "ratones paranoicos", category: "music video", images: ["assets/RP_Thumbnail.jpg"], yt: "", director: "alex roux", prod: "poster", desc_es: "video intro oficial para la gira 2024.", desc_en: "official intro video for 2024 tour." },
             { title: "besos brujos", category: "serie/film", images: ["assets/BesosBrujos-Thumbnail.jpg", "https://via.placeholder.com/1280x720?text=Still+02"], yt: "", director: "karina flonembaum", prod: "tba", desc_es: "cortometraje de ficción.", desc_en: "fiction short film." },
-            { title: "las marias", category: "advertising", images: ["assets/Marias_Thumbnail_1.png"], yt: "", director: "alejandro berger parrado", prod: "navajo films", desc_es: "documental establecimiento las marías.", desc_en: "las marias estate documentary." }
+            { title: "las marias", category: "advertising", images: ["assets/Marias_Thumbnail_1.png"], yt: "", director: "alejandro berger parrado", prod: "navajo films", desc_es: "documental establecimiento las marías.", desc_en: "las marias estate documentary." },
+            { 
+                title: "todo lo que recuerdo", 
+                category: "serie/film", 
+                images: ["assets/TodoLoQueRecuerdo_Thumbnail_1.png"], 
+                yt: "", 
+                director: "nicolas fernandez melian", 
+                prod: "-", 
+                desc_es: "la deriva existencial de un hombre mayor extraviado en los restos de un pueblo fantasma, donde el silencio y la decadencia son los únicos testigos de su memoria.", 
+                desc_en: "the existential drift of an elderly man lost in the remains of a ghost town, where silence and decay are the only witnesses to his memory." 
+            }
         ];
 
         let filteredProjects = [...projects];
@@ -342,7 +351,9 @@
             setTimeout(() => {
                 document.getElementById('p-title').innerText = current.title;
                 document.getElementById('p-category').innerText = current.category;
-                document.getElementById('p-meta-top').innerHTML = `<strong>${texts[currentLang].dir}</strong> ${current.director}<br><strong>${texts[currentLang].prod}</strong> ${current.prod}`;
+                // Ocultar fila de prod si está vacío o es "-"
+                const prodHtml = (current.prod && current.prod !== "-") ? `<br><strong>${texts[currentLang].prod}</strong> ${current.prod}` : "";
+                document.getElementById('p-meta-top').innerHTML = `<strong>${texts[currentLang].dir}</strong> ${current.director}${prodHtml}`;
                 document.getElementById('p-description').innerText = currentLang === 'es' ? current.desc_es : current.desc_en;
                 details.classList.remove('fading');
             }, 300);
