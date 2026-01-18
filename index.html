@@ -35,6 +35,7 @@
             height: 100vh;
             padding: 40px;
             gap: 30px;
+            transition: grid-template-columns 0.5s ease;
             position: relative;
         }
 
@@ -108,7 +109,7 @@
         .thumb-item:hover img, .thumb-item.active-thumb img { filter: grayscale(0); opacity: 1; }
         .thumb-item.active-thumb { border: 1px solid var(--text); }
 
-        /* ABOUT SECTION CORREGIDA */
+        /* ABOUT SECTION */
         #about-section { 
             display: none; 
             width: 100%; 
@@ -125,7 +126,23 @@
             transition: 0.5s; 
         }
         .about-content { max-width: 500px; }
-        .about-text { font-size: 1rem; line-height: 1.6; }
+        .about-text { font-size: 1rem; line-height: 1.6; margin-bottom: 20px; }
+        .imdb-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            border: 1px solid var(--text);
+            padding: 8px 15px;
+            transition: 0.3s;
+        }
+        .imdb-link:hover {
+            background: var(--text);
+            color: #000;
+        }
 
         /* VIDEO MODAL */
         .video-modal { 
@@ -195,7 +212,7 @@
                     </div>
                     <div class="meta">
                         <div id="p-meta-top"></div>
-                        <div id="p-description" style="margin-top: 15px; color: #aaa;"></div>
+                        <div id="p-description" style="margin-top: 15px; color: #aaa; font-style: italic;"></div>
                     </div>
                 </div>
             </div>
@@ -206,8 +223,13 @@
                     <div class="about-text">
                         <strong>leandro bruno</strong> es un editor de cine y publicidad con base en buenos aires. especializado en montaje rítmico y narrativa cinematográfica para plataformas globales como netflix, disney+ y prime video.
                     </div>
-                    <div style="margin-top:30px;">
-                        <button style="background:none; border:1px solid var(--text); color:var(--text); padding:8px 20px; cursor:pointer; font-family: inherit;" onclick="showSection('work')">← back</button>
+                    <div style="margin-bottom: 30px;">
+                        <a href="https://www.imdb.com/name/nm10600109/" target="_blank" class="imdb-link">
+                            IMDb profile ↗
+                        </a>
+                    </div>
+                    <div>
+                        <button style="background:none; border:1px solid rgba(255,255,255,0.2); color:var(--text); padding:8px 20px; cursor:pointer; font-family: inherit;" onclick="showSection('work')">← back to work</button>
                     </div>
                 </div>
             </div>
@@ -231,52 +253,40 @@
                 images: ["assets/Menem_Thumbnail_3.jpg", "assets/Menem_Thumbnail_2.jpg", "assets/Menem_Thumbnail_4.jpg", "assets/Menem_Thumbnail_1.jpg"], 
                 yt: "-2AmqmciWXE", 
                 director: "ariel winograd", prod: "claxon / prime video", 
-                desc: "serie original de prime video." 
+                desc: "biopic que narra el ascenso al poder de carlos menem y la trama de tragedia, dinero y corrupción que rodeó a su gobierno en los años 90." 
             },
             { 
                 title: "oreo", category: "advertising", 
                 images: ["https://img.youtube.com/vi/7Cllu0Rme74/maxresdefault.jpg"], yt: "7Cllu0Rme74", 
-                director: "primo films", prod: "primo", desc: "campaña global." 
+                director: "primo films", prod: "primo", desc: "campaña publicitaria global para oreo." 
             },
             { 
                 title: "el tiempo de las moscas", category: "serie/film", 
                 images: ["assets/Moscas_Thumbnail_v01.png"], yt: "A0d6wnlMRRk", 
                 director: "ana katz", prod: "netflix", 
-                desc: "serie original netflix." 
+                desc: "la historia de inés, quien tras salir de prisión después de 15 años por asesinar a la amante de su exmarido, busca reconstruir su vida en un mundo que ya no reconoce." 
             },
             { 
                 title: "levis", category: "advertising", 
                 images: ["assets/Levis_Thumbnail_v01.jpg"], yt: "7Cllu0Rme74", 
-                director: "lorenzo shakespear", prod: "levis argentina", desc: "501 campaign." 
+                director: "lorenzo shakespear", prod: "levis argentina", desc: "501 anniversary campaign." 
             },
             { 
                 title: "coppola, el representante", category: "serie/film", 
                 images: ["assets/Coppola_Thumbnail_2.jpg", "assets/Coppola_Thumbnail_3.png", "assets/Coppola_Thumbnail_4.png"], 
                 yt: "D1vD9z-E_Yk", director: "ariel winograd", prod: "pampa films / disney+", 
-                desc: "serie original de star+ / disney+." 
+                desc: "guillermo coppola, el representante del jugador de fútbol más famoso del mundo, intenta equilibrar su agitada vida privada con un trabajo a tiempo completo." 
             },
             { 
                 title: "blair - todo lo que recuerdo", category: "music video", 
                 images: ["assets/Blair_Thumbnail_v01.jpg"], yt: "ItX5aqhqsmo", 
-                director: "dana campanello", prod: "poster", desc: "videoclip oficial." 
+                director: "dana campanello", prod: "poster", desc: "videoclip oficial para blair." 
             },
             { 
                 title: "las manos de la abuela", category: "serie/film", 
                 images: ["assets/MA_Thumbnail_1.png", "assets/MA_Thumbnail_2.png", "assets/MA_Thumbnail_3.png", "assets/MA_Thumbnail_4.png", "assets/MA_Thumbnail_5.png"], 
                 yt: "", director: "camila migliore", prod: "independiente", 
-                desc: "cortometraje (2026). próximamente." 
-            },
-            { 
-                title: "marias", category: "advertising", 
-                images: ["assets/Marias_Thumbnail.jpg"], yt: "", 
-                director: "tba", prod: "tba", 
-                desc: "campaña publicitaria." 
-            },
-            { 
-                title: "besos brujos", category: "serie/film", 
-                images: ["assets/BesosBrujos-Thumbnail.jpg"], yt: "", 
-                director: "karina flonembaum", prod: "tba", 
-                desc: "cortometraje (largometraje actualmente en rodaje)." 
+                desc: "una exploración íntima sobre el legado familiar y la memoria a través de los gestos cotidianos." 
             }
         ];
 
@@ -382,15 +392,15 @@
             if(section === 'about') {
                 work.style.display = 'none'; 
                 about.style.display = 'flex';
-                rightPanel.style.display = 'none'; // Ocultamos miniaturas
-                mainGrid.style.gridTemplateColumns = "320px 1fr"; // Expandimos el centro
+                rightPanel.style.display = 'none';
+                mainGrid.style.gridTemplateColumns = "320px 1fr";
                 clearInterval(rotation); 
                 clearInterval(slideRotation);
             } else {
                 about.style.display = 'none'; 
                 work.style.display = 'block';
-                rightPanel.style.display = 'flex'; // Mostramos miniaturas
-                mainGrid.style.gridTemplateColumns = "320px 1fr 200px"; // Volvemos al grid original
+                rightPanel.style.display = 'flex';
+                mainGrid.style.gridTemplateColumns = "320px 1fr 200px";
                 updateDisplay(); 
                 resetIntervals();
             }
