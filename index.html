@@ -38,7 +38,6 @@
             transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
-        /* NAVEGACIÓN IZQUIERDA */
         .left-panel { display: flex; flex-direction: column; gap: 60px; z-index: 10; }
         .brand { font-weight: 800; font-size: 1.1rem; line-height: 1.1; cursor: pointer; }
         .brand strong { display: block; font-size: 2.2rem; text-transform: uppercase; }
@@ -72,7 +71,6 @@
         .nav-links a { text-decoration: none; color: var(--text); font-size: 0.9rem; font-weight: 500; cursor: pointer; opacity: 0.5; transition: 0.3s; }
         .nav-links a:hover { opacity: 1; }
 
-        /* VISOR CENTRAL */
         .center-panel { width: 100%; position: relative; overflow-y: auto; scrollbar-width: none; }
         .main-viewer {
             width: 100%; aspect-ratio: 16 / 9; background: #000;
@@ -111,7 +109,6 @@
         .meta { font-size: 0.9rem; line-height: 1.8; color: #999; }
         .meta strong { color: #fff; font-weight: 700; margin-right: 5px; text-transform: uppercase; font-size: 0.75rem; }
 
-        /* PANEL DERECHO CON SCROLLBAR */
         .right-panel { 
             display: flex; 
             flex-direction: column; 
@@ -119,7 +116,6 @@
             overflow-y: auto; 
             padding-right: 10px;
         }
-
         .right-panel::-webkit-scrollbar { width: 4px; }
         .right-panel::-webkit-scrollbar-track { background: transparent; }
         .right-panel::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 2px; }
@@ -130,14 +126,12 @@
         .thumb-item:hover img, .thumb-item.active-thumb img { filter: grayscale(0); opacity: 1; }
         .thumb-item.active-thumb { border-color: rgba(255,255,255,0.4); }
 
-        /* ABOUT */
         #about-section { display: none; width: 100%; gap: 100px; align-items: flex-start; animation: fadeIn 0.8s ease; }
         .profile-pic { width: 400px; filter: grayscale(0.2); border: 1px solid rgba(255,255,255,0.05); }
         .about-text { font-size: 1.3rem; line-height: 1.4; margin-bottom: 40px; font-weight: 300; }
         .imdb-link { display: inline-flex; align-items: center; gap: 15px; color: #fff; text-decoration: none; font-weight: 700; font-size: 0.9rem; border: 1px solid #fff; padding: 12px 25px; transition: 0.3s; }
         .imdb-link:hover { background: #fff; color: #000; }
 
-        /* MODAL VIDEO */
         .video-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; display: none; z-index: 1000; justify-content: center; align-items: center; }
         .video-wrapper { width: 92%; max-width: 1600px; aspect-ratio: 16 / 9; position: relative; }
         #video-player { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
@@ -171,7 +165,7 @@
                     <div class="select-selected" id="current-filter-text" onclick="toggleDropdown(event)">proyectos / todos</div>
                     <div class="select-items" id="filter-options">
                         <div onclick="filterBy('all', 'all_projects')">/ todos</div>
-                        <div onclick="filterBy('serie/film', 'narrative')">/ cine & series</div>
+                        <div onclick="filterBy('ficción', 'narrative')">/ ficción</div>
                         <div onclick="filterBy('advertising', 'advertising')">/ publicidad</div>
                         <div onclick="filterBy('music video', 'music_video')">/ videoclips</div>
                     </div>
@@ -235,7 +229,7 @@
         const texts = {
             es: {
                 all_projects: "proyectos / todos",
-                narrative: "proyectos / cine & series",
+                narrative: "proyectos / ficción",
                 advertising: "proyectos / publicidad",
                 music_video: "proyectos / videoclips",
                 bio: "/ biografía",
@@ -250,7 +244,7 @@
             },
             en: {
                 all_projects: "projects / all",
-                narrative: "projects / cine & series",
+                narrative: "projects / fiction",
                 advertising: "projects / advertising",
                 music_video: "projects / music videos",
                 bio: "/ bio",
@@ -266,25 +260,25 @@
         };
 
         const projects = [
-            { title: "menem", category: "serie/film", images: ["assets/Menem_Thumbnail_1.jpg", "assets/Menem_Thumbnail_2.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", desc_es: "biopic que narra el ascenso al poder de carlos menem.", desc_en: "biopic charting carlos menem's rise to power." },
+            { title: "menem", category: "serie", images: ["assets/Menem_Thumbnail_1.jpg", "assets/Menem_Thumbnail_2.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", desc_es: "biopic que narra el ascenso al poder de carlos menem.", desc_en: "biopic charting carlos menem's rise to power." },
             { title: "oreo", category: "advertising", images: ["https://img.youtube.com/vi/7Cllu0Rme74/maxresdefault.jpg"], yt: "7Cllu0Rme74", director: "primo films", prod: "primo", desc_es: "campaña publicitaria global para oreo.", desc_en: "global advertising campaign for oreo." },
-            { title: "el tiempo de las moscas", category: "serie/film", images: ["assets/Moscas_Thumbnail_v01.png"], yt: "A0d6wnlMRRk", director: "ana katz", prod: "netflix", desc_es: "serie original de netflix.", desc_en: "netflix original series." },
+            { title: "el tiempo de las moscas", category: "serie", images: ["assets/Moscas_Thumbnail_v01.png"], yt: "A0d6wnlMRRk", director: "ana katz", prod: "netflix", desc_es: "serie original de netflix.", desc_en: "netflix original series." },
             { title: "levis", category: "advertising", images: ["assets/Levis_Thumbnail_v01.jpg"], yt: "7Cllu0Rme74", director: "lorenzo shakespear", prod: "levis argentina", desc_es: "campaña aniversario 501.", desc_en: "501 anniversary campaign." },
-            { title: "coppola", category: "serie/film", images: ["assets/Coppola_Thumbnail_2.jpg", "assets/Coppola_Thumbnail_3.png"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films / disney+", desc_es: "la agitada vida de guillermo coppola.", desc_en: "the hectic life of guillermo coppola." },
+            { title: "coppola", category: "serie", images: ["assets/Coppola_Thumbnail_2.jpg", "assets/Coppola_Thumbnail_3.png"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films / disney+", desc_es: "la agitada vida de guillermo coppola.", desc_en: "the hectic life of guillermo coppola." },
             { title: "blair", category: "music video", images: ["assets/Blair_Thumbnail_v01.jpg"], yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster", desc_es: "videoclip oficial para blair.", desc_en: "official music video for blair." },
-            { title: "las manos de la abuela", category: "serie/film", images: ["assets/MA_Thumbnail_1.png", "assets/MA_Thumbnail_2.png"], yt: "", director: "camila mediocre", prod: "independiente", desc_es: "exploración íntima sobre el legado familiar.", desc_en: "intimate exploration of family legacy." },
-            { title: "ratones paranoicos", category: "music video", images: ["assets/RP_Thumbnail.jpg"], yt: "", director: "alex roux", prod: "poster", desc_es: "video intro oficial para la gira 2024.", desc_en: "official intro video for 2024 tour." },
-            { title: "besos brujos", category: "serie/film", images: ["assets/BesosBrujos-Thumbnail.jpg", "https://via.placeholder.com/1280x720?text=Still+02"], yt: "", director: "karina flonembaum", prod: "tba", desc_es: "cortometraje de ficción.", desc_en: "fiction short film." },
+            { title: "las manos de la abuela", category: "cortometraje", images: ["assets/MA_Thumbnail_1.png", "assets/MA_Thumbnail_2.png"], yt: "", director: "camila mediocre", prod: "", desc_es: "exploración íntima sobre el legado familiar.", desc_en: "intimate exploration of family legacy." },
+            { title: "ratones paranoicos", category: "music video", images: ["assets/RP_Thumnmail.jpg"], yt: "", director: "alex roux", prod: "poster", desc_es: "video intro oficial para la gira 2024.", desc_en: "official intro video for 2024 tour." },
+            { title: "besos brujos", category: "cortometraje", images: ["assets/BesosBrujos-Thumbnail.jpg"], yt: "", director: "karina flonembaum", prod: "", desc_es: "cortometraje de ficción.", desc_en: "fiction short film." },
             { title: "las marias", category: "advertising", images: ["assets/Marias_Thumbnail_1.png"], yt: "", director: "alejandro berger parrado", prod: "navajo films", desc_es: "documental establecimiento las marías.", desc_en: "las marias estate documentary." },
             { 
                 title: "todo lo que recuerdo", 
-                category: "serie/film", 
+                category: "cortometraje", 
                 images: ["assets/TodoLoQueRecuerdo_Thumbnail_1.png"], 
                 yt: "", 
                 director: "nicolas fernandez melian", 
-                prod: "-", 
-                desc_es: "la deriva existencial de un hombre mayor extraviado en los restos de un pueblo fantasma, donde el silencio y la decadencia son los únicos testigos de su memoria.", 
-                desc_en: "the existential drift of an elderly man lost in the remains of a ghost town, where silence and decay are the only witnesses to his memory." 
+                prod: "", 
+                desc_es: "la deriva existencial de un hombre mayor extraviado en los restos de un pueblo fantasma, donde el silencio y la decadencia son los únicos testigos de su memoria. Selección oficial del Festival Internacional de Cine de Mar del Plata.", 
+                desc_en: "the existential drift of an elderly man lost in the remains of a ghost town, where silence and decay are the only witnesses to his memory. Official selection at Mar del Plata International Film Festival." 
             }
         ];
 
@@ -318,7 +312,13 @@
         function filterBy(val, key) {
             currentFilterKey = key;
             document.getElementById("current-filter-text").innerText = texts[currentLang][key];
-            filteredProjects = (val === 'all') ? [...projects] : projects.filter(p => p.category === val);
+            if(val === 'all') {
+                filteredProjects = [...projects];
+            } else if (val === 'ficción') {
+                filteredProjects = projects.filter(p => p.category === 'serie' || p.category === 'cortometraje');
+            } else {
+                filteredProjects = projects.filter(p => p.category === val);
+            }
             currentIndex = 0;
             updateDisplay();
             resetIntervals();
@@ -334,7 +334,7 @@
             const container = document.getElementById('image-container');
             const details = document.getElementById('p-details');
             const current = filteredProjects[currentIndex];
-            if(document.getElementById('work-section').style.display === 'none') return;
+            if(!current || document.getElementById('work-section').style.display === 'none') return;
 
             if(!onlyText) {
                 details.classList.add('fading');
@@ -351,8 +351,7 @@
             setTimeout(() => {
                 document.getElementById('p-title').innerText = current.title;
                 document.getElementById('p-category').innerText = current.category;
-                // Ocultar fila de prod si está vacío o es "-"
-                const prodHtml = (current.prod && current.prod !== "-") ? `<br><strong>${texts[currentLang].prod}</strong> ${current.prod}` : "";
+                const prodHtml = (current.prod && current.prod !== "") ? `<br><strong>${texts[currentLang].prod}</strong> ${current.prod}` : "";
                 document.getElementById('p-meta-top').innerHTML = `<strong>${texts[currentLang].dir}</strong> ${current.director}${prodHtml}`;
                 document.getElementById('p-description').innerText = currentLang === 'es' ? current.desc_es : current.desc_en;
                 details.classList.remove('fading');
