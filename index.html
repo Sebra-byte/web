@@ -202,6 +202,7 @@
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
         let currentLang = 'es';
+        let currentFilterKey = 'all_projects'; // Rastrear qué filtro está activo
         
         const texts = {
             es: {
@@ -237,43 +238,15 @@
         };
 
         const projects = [
-            { 
-                title: "menem", category: "serie/film", images: ["assets/Menem_Thumbnail_1.jpg", "assets/Menem_Thumbnail_2.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", 
-                desc_es: "biopic que narra el ascenso al poder de carlos menem y la trama de tragedia y corrupción.",
-                desc_en: "biopic charting carlos menem's rise to power and the web of tragedy and corruption."
-            },
-            { 
-                title: "oreo", category: "advertising", images: ["https://img.youtube.com/vi/7Cllu0Rme74/maxresdefault.jpg"], yt: "7Cllu0Rme74", director: "primo films", prod: "primo", 
-                desc_es: "campaña publicitaria global para oreo.", desc_en: "global advertising campaign for oreo."
-            },
-            { 
-                title: "el tiempo de las moscas", category: "serie/film", images: ["assets/Moscas_Thumbnail_v01.png"], yt: "A0d6wnlMRRk", director: "ana katz", prod: "netflix", 
-                desc_es: "la historia de inés buscando reconstruir su vida tras 15 años de prisión.", desc_en: "the story of inés seeking to rebuild her life after 15 years in prison."
-            },
-            { 
-                title: "levis", category: "advertising", images: ["assets/Levis_Thumbnail_v01.jpg"], yt: "7Cllu0Rme74", director: "lorenzo shakespear", prod: "levis argentina", 
-                desc_es: "campaña aniversario 501.", desc_en: "501 anniversary campaign."
-            },
-            { 
-                title: "coppola", category: "serie/film", images: ["assets/Coppola_Thumbnail_2.jpg", "assets/Coppola_Thumbnail_3.png"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films / disney+", 
-                desc_es: "la agitada vida de guillermo coppola, el manager del jugador más famoso.", desc_en: "the hectic life of guillermo coppola, the manager of the world's most famous player."
-            },
-            { 
-                title: "blair", category: "music video", images: ["assets/Blair_Thumbnail_v01.jpg"], yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster", 
-                desc_es: "videoclip oficial para blair.", desc_en: "official music video for blair."
-            },
-            { 
-                title: "las manos de la abuela", category: "serie/film", images: ["assets/MA_Thumbnail_1.png"], yt: "", director: "camila mediocre", prod: "independiente", 
-                desc_es: "exploración íntima sobre el legado familiar y la memoria.", desc_en: "intimate exploration of family legacy and memory."
-            },
-            { 
-                title: "besos brujos", category: "serie/film", images: ["assets/BesosBrujos-Thumbnail.jpg"], yt: "", director: "karina flonembaum", prod: "tba", 
-                desc_es: "cortometraje de ficción. largometraje en rodaje.", desc_en: "fiction short film. feature film currently shooting."
-            },
-            { 
-                title: "las marias", category: "serie/film", images: ["assets/Marias_Thumbnail_1.png"], yt: "", director: "alejandro berger parrado", prod: "navajo films", 
-                desc_es: "documental sobre los 100 años del establecimiento las marías.", desc_en: "documentary about the 100th anniversary of las marías estate."
-            }
+            { title: "menem", category: "serie/film", images: ["assets/Menem_Thumbnail_1.jpg", "assets/Menem_Thumbnail_2.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", desc_es: "biopic que narra el ascenso al poder de carlos menem y la trama de tragedia y corrupción.", desc_en: "biopic charting carlos menem's rise to power and the web of tragedy and corruption." },
+            { title: "oreo", category: "advertising", images: ["https://img.youtube.com/vi/7Cllu0Rme74/maxresdefault.jpg"], yt: "7Cllu0Rme74", director: "primo films", prod: "primo", desc_es: "campaña publicitaria global para oreo.", desc_en: "global advertising campaign for oreo." },
+            { title: "el tiempo de las moscas", category: "serie/film", images: ["assets/Moscas_Thumbnail_v01.png"], yt: "A0d6wnlMRRk", director: "ana katz", prod: "netflix", desc_es: "la historia de inés buscando reconstruir su vida tras 15 años de prisión.", desc_en: "the story of inés seeking to rebuild her life after 15 years in prison." },
+            { title: "levis", category: "advertising", images: ["assets/Levis_Thumbnail_v01.jpg"], yt: "7Cllu0Rme74", director: "lorenzo shakespear", prod: "levis argentina", desc_es: "campaña aniversario 501.", desc_en: "501 anniversary campaign." },
+            { title: "coppola", category: "serie/film", images: ["assets/Coppola_Thumbnail_2.jpg", "assets/Coppola_Thumbnail_3.png"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films / disney+", desc_es: "la agitada vida de guillermo coppola, el manager del jugador más famoso.", desc_en: "the hectic life of guillermo coppola, the manager of the world's most famous player." },
+            { title: "blair", category: "music video", images: ["assets/Blair_Thumbnail_v01.jpg"], yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster", desc_es: "videoclip oficial para blair.", desc_en: "official music video for blair." },
+            { title: "las manos de la abuela", category: "serie/film", images: ["assets/MA_Thumbnail_1.png"], yt: "", director: "camila mediocre", prod: "independiente", desc_es: "exploración íntima sobre el legado familiar y la memoria.", desc_en: "intimate exploration of family legacy and memory." },
+            { title: "besos brujos", category: "serie/film", images: ["assets/BesosBrujos-Thumbnail.jpg"], yt: "", director: "karina flonembaum", prod: "tba", desc_es: "cortometraje de ficción. largometraje en rodaje.", desc_en: "fiction short film. feature film currently shooting." },
+            { title: "las marias", category: "serie/film", images: ["assets/Marias_Thumbnail_1.png"], yt: "", director: "alejandro berger parrado", prod: "navajo films", desc_es: "documental sobre los 100 años del establecimiento las marías.", desc_en: "documentary about the 100th anniversary of las marías estate." }
         ];
 
         let filteredProjects = [...projects];
@@ -287,7 +260,10 @@
             document.getElementById('btn-es').classList.toggle('active-lang', lang === 'es');
             document.getElementById('btn-en').classList.toggle('active-lang', lang === 'en');
             
-            // Traducir interfaz
+            // Actualizar etiqueta del filtro actual
+            document.getElementById("current-filter-text").innerText = texts[lang][currentFilterKey];
+            
+            // Actualizar interfaz
             document.getElementById('nav-bio').innerText = texts[lang].bio;
             document.getElementById('nav-contact').innerText = texts[lang].contact;
             document.getElementById('txt-play').innerText = texts[lang].play;
@@ -296,18 +272,17 @@
             document.getElementById('txt-about-body').innerText = texts[lang].about;
             document.querySelector('.close-btn').innerText = texts[lang].close;
             
-            updateDisplay();
+            updateDisplay(true); // Pasar true para evitar que las fotos se reinicien al cambiar idioma
         }
 
         function toggleDropdown(e) {
             e.stopPropagation();
-            const el = document.getElementById("filter-options");
-            const trigger = document.getElementById("current-filter-text");
-            el.classList.toggle("select-show");
-            trigger.classList.toggle("is-active");
+            document.getElementById("filter-options").classList.toggle("select-show");
+            document.getElementById("current-filter-text").classList.toggle("is-active");
         }
 
         function filterBy(val, key) {
+            currentFilterKey = key;
             document.getElementById("current-filter-text").innerText = texts[currentLang][key];
             filteredProjects = (val === 'all') ? [...projects] : projects.filter(p => p.category === val);
             currentIndex = 0;
@@ -320,26 +295,28 @@
             document.getElementById("current-filter-text").classList.remove("is-active");
         };
 
-        function updateDisplay() {
+        function updateDisplay(onlyText = false) {
             const thumbList = document.getElementById('thumbnail-list');
             const viewer = document.getElementById('viewer');
             const details = document.getElementById('p-details');
             const current = filteredProjects[currentIndex];
             if(document.getElementById('work-section').style.display === 'none') return;
 
-            details.classList.add('fading');
-            viewer.querySelectorAll('img').forEach(img => {
-                img.style.opacity = '0';
-                setTimeout(() => img.remove(), 1000);
-            });
+            if(!onlyText) {
+                details.classList.add('fading');
+                viewer.querySelectorAll('img').forEach(img => {
+                    img.style.opacity = '0';
+                    setTimeout(() => img.remove(), 1000);
+                });
 
-            slideIndex = 0;
-            current.images.forEach((src, idx) => {
-                const img = document.createElement('img');
-                img.src = src;
-                if(idx === 0) setTimeout(() => img.classList.add('active-slide'), 50);
-                viewer.appendChild(img);
-            });
+                slideIndex = 0;
+                current.images.forEach((src, idx) => {
+                    const img = document.createElement('img');
+                    img.src = src;
+                    if(idx === 0) setTimeout(() => img.classList.add('active-slide'), 50);
+                    viewer.appendChild(img);
+                });
+            }
 
             setTimeout(() => {
                 document.getElementById('p-title').innerText = current.title;
