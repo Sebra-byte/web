@@ -44,7 +44,7 @@
         .brand strong { display: block; font-size: 1.6rem; }
         .nav-links { display: flex; flex-direction: column; gap: 15px; }
 
-        /* SCROLLBAR MINIMALISTA */
+        /* SCROLLBAR */
         .right-panel::-webkit-scrollbar { width: 3px; }
         .right-panel::-webkit-scrollbar-track { background: transparent; }
         .right-panel::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
@@ -111,38 +111,16 @@
 
         /* ABOUT SECTION */
         #about-section { 
-            display: none; 
-            width: 100%; 
-            gap: 60px; 
-            align-items: center; 
-            justify-content: center; 
-            height: 100%; 
-            animation: fadeIn 0.8s ease;
+            display: none; width: 100%; gap: 60px; align-items: center; justify-content: center; height: 100%; animation: fadeIn 0.8s ease;
         }
-        .profile-pic { 
-            width: 320px; 
-            filter: grayscale(1); 
-            border: 1px solid rgba(255,255,255,0.1); 
-            transition: 0.5s; 
-        }
+        .profile-pic { width: 320px; filter: grayscale(1); border: 1px solid rgba(255,255,255,0.1); transition: 0.5s; }
         .about-content { max-width: 500px; }
         .about-text { font-size: 1rem; line-height: 1.6; margin-bottom: 20px; }
         .imdb-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--text);
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 0.9rem;
-            border: 1px solid var(--text);
-            padding: 8px 15px;
-            transition: 0.3s;
+            display: inline-flex; align-items: center; gap: 10px; color: var(--text); text-decoration: none;
+            font-weight: 700; font-size: 0.9rem; border: 1px solid var(--text); padding: 8px 15px; transition: 0.3s;
         }
-        .imdb-link:hover {
-            background: var(--text);
-            color: #000;
-        }
+        .imdb-link:hover { background: var(--text); color: #000; }
 
         /* VIDEO MODAL */
         .video-modal { 
@@ -150,16 +128,11 @@
             background: rgba(0,0,0,0.98); display: none; z-index: 1000; 
             justify-content: center; align-items: center; 
         }
-        .video-wrapper { 
-            width: 92%; max-width: 1400px; aspect-ratio: 16 / 9; 
-            position: relative;
-        }
+        .video-wrapper { width: 92%; max-width: 1400px; aspect-ratio: 16 / 9; position: relative; }
         #video-player { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
         .close-btn { 
-            position: fixed; top: 30px; right: 30px; 
-            color: #000; background: #fff; padding: 10px 20px; 
-            cursor: pointer; font-weight: 700; font-size: 0.75rem; 
-            z-index: 1010;
+            position: fixed; top: 30px; right: 30px; color: #000; background: #fff; 
+            padding: 10px 20px; cursor: pointer; font-weight: 700; font-size: 0.75rem; z-index: 1010;
         }
 
         /* MOBILE */
@@ -224,13 +197,9 @@
                         <strong>leandro bruno</strong> es un editor de cine y publicidad con base en buenos aires. especializado en montaje rítmico y narrativa cinematográfica para plataformas globales como netflix, disney+ y prime video.
                     </div>
                     <div style="margin-bottom: 30px;">
-                        <a href="https://www.imdb.com/name/nm10600109/" target="_blank" class="imdb-link">
-                            IMDb profile ↗
-                        </a>
+                        <a href="https://www.imdb.com/name/nm10600109/" target="_blank" class="imdb-link">IMDb profile ↗</a>
                     </div>
-                    <div>
-                        <button style="background:none; border:1px solid rgba(255,255,255,0.2); color:var(--text); padding:8px 20px; cursor:pointer; font-family: inherit;" onclick="showSection('work')">← back to work</button>
-                    </div>
+                    <button style="background:none; border:1px solid rgba(255,255,255,0.2); color:var(--text); padding:8px 20px; cursor:pointer; font-family: inherit;" onclick="showSection('work')">← back to work</button>
                 </div>
             </div>
         </section>
@@ -251,9 +220,8 @@
             { 
                 title: "menem", category: "serie/film", 
                 images: ["assets/Menem_Thumbnail_1.jpg", "assets/Menem_Thumbnail_2.jpg", "assets/Menem_Thumbnail_4.jpg"], 
-                yt: "-2AmqmciWXE", 
-                director: "ariel winograd", prod: "claxon / prime video", 
-                desc: "biopic que narra el ascenso al poder de carlos menem y la trama de tragedia, dinero y corrupción que rodeó a su gobierno en los años 90." 
+                yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", 
+                desc: "biopic que narra el ascenso al poder de carlos menem y la trama de tragedia, dinero y corrupción que rodeó a su gobierno." 
             },
             { 
                 title: "oreo", category: "advertising", 
@@ -263,8 +231,7 @@
             { 
                 title: "el tiempo de las moscas", category: "serie/film", 
                 images: ["assets/Moscas_Thumbnail_v01.png"], yt: "A0d6wnlMRRk", 
-                director: "ana katz", prod: "netflix", 
-                desc: "la historia de inés, quien tras salir de prisión después de 15 años por asesinar a la amante de su exmarido, busca reconstruir su vida en un mundo que ya no reconoce." 
+                director: "ana katz", prod: "netflix", desc: "la historia de inés buscando reconstruir su vida tras 15 años de prisión." 
             },
             { 
                 title: "levis", category: "advertising", 
@@ -275,7 +242,7 @@
                 title: "coppola, el representante", category: "serie/film", 
                 images: ["assets/Coppola_Thumbnail_2.jpg", "assets/Coppola_Thumbnail_3.png", "assets/Coppola_Thumbnail_4.png"], 
                 yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films / disney+", 
-                desc: "guillermo coppola, el representante del jugador de fútbol más famoso del mundo, intenta equilibrar su agitada vida privada con un trabajo a tiempo completo." 
+                desc: "la agitada vida de guillermo coppola, el representante del jugador más famoso del mundo." 
             },
             { 
                 title: "blair - todo lo que recuerdo", category: "music video", 
@@ -284,21 +251,18 @@
             },
             { 
                 title: "las manos de la abuela", category: "serie/film", 
-                images: ["assets/MA_Thumbnail_1.png", "assets/MA_Thumbnail_2.png", "assets/MA_Thumbnail_3.png", "assets/MA_Thumbnail_4.png", "assets/MA_Thumbnail_5.png"], 
-                yt: "", director: "camila mediocre", prod: "independiente", 
-                desc: "una exploración íntima sobre el legado familiar y la memoria a través de los gestos cotidianos." 
+                images: ["assets/MA_Thumbnail_1.png", "assets/MA_Thumbnail_2.png"], 
+                yt: "", director: "camila mediocre", prod: "independiente", desc: "exploración íntima sobre el legado familiar y la memoria." 
             },
             { 
                 title: "besos brujos", category: "serie/film", 
                 images: ["assets/BesosBrujos-Thumbnail.jpg"], yt: "", 
-                director: "karina flonembaum", prod: "tba", 
-                desc: "cortometraje de ficción. el largometraje se encuentra actualmente en rodaje." 
+                director: "karina flonembaum", prod: "tba", desc: "cortometraje de ficción. largometraje actualmente en rodaje." 
             },
             { 
                 title: "las marias", category: "serie/film", 
-                images: ["assets/LasMarias_Thumb_01.jpg", "assets/LasMarias_Thumb_02.jpg"], yt: "", 
-                director: "alejandro berger parrado", prod: "navajo films", 
-                desc: "documental inmersivo que recorre la historia de un lugar y su gente a través de los 100 años del establecimiento las marías." 
+                images: ["assets/Marias_Thumbnail_1.png", "assets/LasMarias_Thumb_02.jpg"], yt: "", 
+                director: "alejandro berger parrado", prod: "navajo films", desc: "documental inmersivo sobre los 100 años del establecimiento las marías." 
             }
         ];
 
@@ -308,17 +272,12 @@
         let rotation, slideRotation;
         let player;
 
-        function toggleDropdown(e) {
-            e.stopPropagation();
-            document.getElementById("filter-options").classList.toggle("select-show");
-        }
+        function toggleDropdown(e) { e.stopPropagation(); document.getElementById("filter-options").classList.toggle("select-show"); }
 
         function filterBy(val, label) {
             document.getElementById("current-filter-text").innerText = label;
             filteredProjects = (val === 'all') ? [...projects] : projects.filter(p => p.category === val);
-            currentIndex = 0;
-            updateDisplay();
-            resetIntervals();
+            currentIndex = 0; updateDisplay(); resetIntervals();
         }
 
         window.onclick = () => document.getElementById("filter-options").classList.remove("select-show");
@@ -328,14 +287,11 @@
             const viewer = document.getElementById('viewer');
             const details = document.getElementById('p-details');
             const current = filteredProjects[currentIndex];
-            
             if(document.getElementById('work-section').style.display === 'none') return;
 
             details.classList.add('fading');
-            const oldImages = viewer.querySelectorAll('img');
-            oldImages.forEach(img => {
-                img.classList.remove('active-slide');
-                img.classList.add('fade-out');
+            viewer.querySelectorAll('img').forEach(img => {
+                img.classList.remove('active-slide'); img.classList.add('fade-out');
                 setTimeout(() => img.remove(), 1200);
             });
 
@@ -343,9 +299,7 @@
             current.images.forEach((src, idx) => {
                 const img = document.createElement('img');
                 img.src = src;
-                if(idx === 0) {
-                    setTimeout(() => img.classList.add('active-slide'), 50);
-                }
+                if(idx === 0) setTimeout(() => img.classList.add('active-slide'), 50);
                 img.onerror = function() { this.src='https://via.placeholder.com/1280x720?text=Still'; };
                 viewer.appendChild(img);
             });
@@ -366,12 +320,7 @@
                 const item = document.createElement('div');
                 item.className = 'thumb-item' + (index === currentIndex ? ' active-thumb' : '');
                 item.innerHTML = `<img src="${proj.images[0]}">`;
-                item.onclick = () => { 
-                    if(currentIndex === index) return;
-                    currentIndex = index; 
-                    updateDisplay(); 
-                    resetIntervals(); 
-                };
+                item.onclick = () => { if(currentIndex !== index) { currentIndex = index; updateDisplay(); resetIntervals(); } };
                 thumbList.appendChild(item);
             });
         }
@@ -386,12 +335,7 @@
 
         function resetIntervals() {
             clearInterval(rotation); clearInterval(slideRotation);
-            rotation = setInterval(() => {
-                if(filteredProjects.length > 1) {
-                    currentIndex = (currentIndex + 1) % filteredProjects.length;
-                    updateDisplay();
-                }
-            }, 8500);
+            rotation = setInterval(() => { if(filteredProjects.length > 1) { currentIndex = (currentIndex + 1) % filteredProjects.length; updateDisplay(); } }, 8500);
             slideRotation = setInterval(nextSlide, 3500);
         }
 
@@ -402,19 +346,13 @@
             const mainGrid = document.getElementById('main-grid');
 
             if(section === 'about') {
-                work.style.display = 'none'; 
-                about.style.display = 'flex';
-                rightPanel.style.display = 'none';
+                work.style.display = 'none'; about.style.display = 'flex'; rightPanel.style.display = 'none';
                 mainGrid.style.gridTemplateColumns = "320px 1fr";
-                clearInterval(rotation); 
-                clearInterval(slideRotation);
+                clearInterval(rotation); clearInterval(slideRotation);
             } else {
-                about.style.display = 'none'; 
-                work.style.display = 'block';
-                rightPanel.style.display = 'flex';
+                about.style.display = 'none'; work.style.display = 'block'; rightPanel.style.display = 'flex';
                 mainGrid.style.gridTemplateColumns = "320px 1fr 200px";
-                updateDisplay(); 
-                resetIntervals();
+                updateDisplay(); resetIntervals();
             }
         }
 
@@ -422,23 +360,13 @@
             const ytId = filteredProjects[currentIndex].yt;
             if(!ytId) return;
             document.getElementById('modal').style.display = 'flex';
-            if (player) {
-                player.loadVideoById(ytId);
-            } else {
-                player = new YT.Player('video-player', {
-                    videoId: ytId,
-                    playerVars: { 'autoplay': 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 1 }
-                });
-            }
+            if (player) player.loadVideoById(ytId);
+            else player = new YT.Player('video-player', { videoId: ytId, playerVars: { 'autoplay': 1, 'rel': 0 } });
         }
 
-        function closeVideo() {
-            document.getElementById('modal').style.display = 'none';
-            if (player) player.stopVideo();
-        }
+        function closeVideo() { document.getElementById('modal').style.display = 'none'; if (player) player.stopVideo(); }
 
-        updateDisplay();
-        resetIntervals();
+        updateDisplay(); resetIntervals();
     </script>
 </body>
 </html>
