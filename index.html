@@ -4,281 +4,187 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>leandro bruno | film editor</title>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <style>
-        * { box-sizing: border-box; }
         :root { 
-            --bg: #f5f5f0; 
-            --text: #1a1a1a; 
-            --accent: #666;
-            --font-main: 'Manrope', sans-serif;
+            --bg: #f0f0f0; --text: #1a1a1a; --gray: #777; 
+            --line-grid: rgba(0, 0, 0, 0.05); --line-accent: rgba(255, 0, 0, 0.15); 
         }
         
         body, html { 
-            margin: 0; padding: 0; height: 100%; width: 100%;
+            margin: 0; padding: 0; width: 100%; height: 100%; 
             background: var(--bg); color: var(--text); 
-            font-family: var(--font-main); overflow: hidden;
+            font-family: 'Space Mono', monospace; overflow: hidden; text-transform: lowercase; 
         }
 
-        .split-container { display: flex; height: 100vh; width: 100vw; }
+        /* FONDO BLUEPRINT */
+        .blueprint-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(var(--line-grid) 1px, transparent 1px), linear-gradient(90deg, var(--line-grid) 1px, transparent 1px);
+            background-size: 50px 50px; z-index: -1;
+        }
+        .guide-h { position: absolute; top: 50%; left: 0; width: 100%; height: 1px; background: var(--line-accent); z-index: -1; }
 
-        /* PANEL IZQUIERDO: STACK DINÁMICO */
-        .left-panel {
-            flex: 1.3; height: 100%; background: #000;
-            position: relative; display: flex; align-items: center; justify-content: center;
-            overflow: hidden; cursor: pointer;
+        /* LAYOUT PRINCIPAL */
+        .main-layout {
+            display: grid; grid-template-columns: 18% 1fr 18%; height: 100vh; align-items: center; padding: 0 40px;
         }
 
-        .stack-container {
-            position: relative; width: 85%; height: 70%;
-            perspective: 1000px;
+        .side-left { font-size: 1.2rem; letter-spacing: 1px; line-height: 1.5; z-index: 10; }
+        .side-left span { display: block; font-weight: 700; font-size: 1.4rem; margin-bottom: 5px; }
+
+        /* CONTENEDOR CENTRAL CON EFECTO STACK */
+        .center-frame {
+            grid-column: 2; width: 100%; max-width: 1000px; aspect-ratio: 16 / 9; margin: 0 auto;
+            position: relative; 
         }
 
-        .card {
-            position: absolute; width: 100%; height: 100%;
-            border-radius: 4px; overflow: hidden;
-            transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        /* Swiper debe permitir ver lo que sale de sus bordes para el efecto peek */
+        .swiper { width: 100%; height: 100%; overflow: visible !important; }
+
+        .swiper-slide {
+            width: 100%; height: 100%;
+            background: #000;
+            border: 1px solid #aaa;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
+            transition: filter 0.6s ease;
         }
 
-        /* El que viene atrás */
-        .card-next {
-            z-index: 1;
-            transform: translate3d(30px, -30px, -100px);
-            opacity: 0.3;
-            filter: grayscale(1);
+        /* El slide que no está activo se ve grisaceo/atenuado */
+        .swiper-slide-next, .swiper-slide-prev {
+            filter: grayscale(1) brightness(0.7);
         }
 
-        /* El que está al frente */
-        .card-main {
-            z-index: 5;
-            transform: translate3d(0, 0, 0);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        .video-wrapper { width: 100%; height: 100%; position: relative; }
+        
+        /* Ajuste para ocultar controles de YT y que parezca un highlight */
+        .video-wrapper iframe { 
+            width: 100%; height: 110%; border: none; 
+            position: absolute; top: -5%; left: 0;
+            pointer-events: none; /* Evita interacciones para que el click sea del swiper */
         }
 
-        .card img { width: 100%; height: 100%; object-fit: cover; }
+        /* NAVEGACIÓN DERECHA */
+        .side-right { display: flex; flex-direction: column; justify-content: space-around; height: 60%; align-items: flex-end; z-index: 10; }
+        .swiper-button-next-custom { cursor: pointer; font-size: 3rem; color: var(--text); transition: 0.3s; margin-bottom: 50px; }
+        .swiper-button-next-custom:hover { transform: translateX(5px); }
 
-        /* Contenedor para el preview de video (Highlight) */
-        #preview-player-container {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; opacity: 0; transition: opacity 1s;
+        .nav-links { display: flex; flex-direction: column; gap: 15px; align-items: flex-end; }
+        .nav-links a { text-decoration: none; color: var(--gray); font-size: 1.1rem; font-weight: 700; letter-spacing: 2px; transition: 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--text); }
+
+        /* INFO INFERIOR */
+        .bottom-info { 
+            position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); 
+            text-align: center; width: 100%; z-index: 10;
         }
-        #preview-player-container.active { opacity: 1; }
-        #preview-player { position: absolute; top: -10%; left: 0; width: 100%; height: 120%; }
+        #p-name { font-size: 1.6rem; font-weight: 700; letter-spacing: 5px; margin-bottom: 5px; }
+        #p-credits { font-size: 1rem; color: var(--gray); }
 
-        /* PANEL DERECHO */
-        .right-panel {
-            flex: 1; height: 100%; overflow-y: auto;
-            padding: 60px; background: var(--bg);
-            border-left: 1px solid rgba(0,0,0,0.05);
-            display: flex; flex-direction: column;
-        }
-
-        .brand-logo { margin-bottom: 50px; cursor: pointer; }
-        .brand-logo h1 { font-size: 2.2rem; font-weight: 800; margin: 0; text-transform: uppercase; }
-        .brand-logo p { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--accent); }
-
-        .nav-links {
-            display: flex; gap: 25px; font-size: 0.75rem;
-            text-transform: uppercase; font-weight: 700;
-            border-top: 1px solid rgba(0,0,0,0.1); padding-top: 15px; margin-bottom: 40px;
-        }
-        .nav-links a { text-decoration: none; color: var(--accent); cursor: pointer; }
-        .nav-links a.active { color: var(--text); }
-
-        .content-section { display: none; }
-        .content-section.active { display: block; }
-
-        .filter-bar { margin-bottom: 25px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
-        .filter-bar span { margin-right: 15px; cursor: pointer; opacity: 0.4; transition: 0.3s; }
-        .filter-bar span.active-filter { opacity: 1; text-decoration: underline; }
-
-        .project-row {
-            display: flex; gap: 20px; padding: 20px 0;
-            border-top: 1px solid rgba(0,0,0,0.08); cursor: pointer; transition: 0.3s;
-        }
-        .project-row.selected { background: #fff; padding-left: 10px; }
-        .thumb { width: 100px; aspect-ratio: 16/9; object-fit: cover; }
-        .p-title { font-weight: 800; font-size: 0.85rem; text-transform: uppercase; margin: 0; }
-        .p-cat { font-size: 0.7rem; color: var(--accent); text-transform: uppercase; }
-
-        /* OVERLAY FULLSCREEN */
-        .project-overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: #000; z-index: 9000; display: none;
-            justify-content: center; align-items: center;
-        }
-        .project-overlay.active { display: flex; }
-        .overlay-media { width: 90vw; height: 90vh; position: relative; }
-        #full-player { position: absolute; top: -5%; left: 0; width: 100%; height: 110%; }
-        .close-btn { position: absolute; top: 30px; right: 40px; color: #fff; cursor: pointer; font-weight: 800; }
-
-        @media (max-width: 1024px) {
-            .split-container { flex-direction: column; overflow-y: auto; }
-            .left-panel { height: 50vh; flex: none; }
+        @media (max-width: 900px) {
+            .main-layout { grid-template-columns: 1fr; grid-template-rows: auto 1fr auto; padding: 20px; text-align: center; }
+            .side-left, .side-right { align-items: center; grid-column: 1; }
+            .side-right { flex-direction: row; width: 100%; height: auto; margin-top: 20px; }
+            .center-frame { width: 90%; }
         }
     </style>
 </head>
 <body>
 
-    <div class="split-container">
-        <div class="left-panel" onclick="openOverlayCurrent()">
-            <div class="stack-container">
-                <div class="card card-next" id="card-next">
-                    <img src="" id="img-next">
-                </div>
-                <div class="card card-main" id="card-main">
-                    <div id="preview-player-container">
-                        <div id="preview-player"></div>
+    <div class="blueprint-bg"></div>
+    <div class="guide-h"></div>
+
+    <main class="main-layout">
+        <div class="side-left">
+            <span>leandro bruno</span>
+            film editor
+        </div>
+
+        <div class="center-frame">
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    
+                    <div class="swiper-slide" data-title="menem" data-credits="<strong>d.</strong> ariel winograd | <strong>p.</strong> claxon, prime video">
+                        <div class="video-wrapper">
+                            <iframe src="https://www.youtube.com/embed/-2AmqmciWXE?autoplay=1&mute=1&loop=1&playlist=-2AmqmciWXE&controls=0&modestbranding=1&rel=0" allow="autoplay"></iframe>
+                        </div>
                     </div>
-                    <img src="" id="img-main">
+
+                    <div class="swiper-slide" data-title="oreo" data-credits="<strong>p.</strong> primo films">
+                        <div class="video-wrapper">
+                            <iframe src="https://www.youtube.com/embed/7Cllu0Rme74?autoplay=1&mute=1&loop=1&playlist=7Cllu0Rme74&controls=0&modestbranding=1&rel=0" allow="autoplay"></iframe>
+                        </div>
+                    </div>
+
+                    <div class="swiper-slide" data-title="coppola" data-credits="<strong>d.</strong> ariel winograd | <strong>p.</strong> pampa films">
+                        <div class="video-wrapper">
+                            <iframe src="https://www.youtube.com/embed/ecr24akKDbs?autoplay=1&mute=1&loop=1&playlist=ecr24akKDbs&controls=0&modestbranding=1&rel=0" allow="autoplay"></iframe>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
 
-        <div class="right-panel">
-            <div class="brand-logo" onclick="location.reload()">
-                <h1>Leandro Bruno</h1>
-                <p>film editor</p>
+        <div class="side-right">
+            <div class="swiper-button-next-custom">→</div>
+            <div class="nav-links">
+                <a href="#" class="active">work</a>
+                <a href="#">about</a>
+                <a href="mailto:leandrobrunoeditor@gmail.com">contact</a>
             </div>
-
-            <nav class="nav-links">
-                <a id="nav-work" class="active" onclick="showSection('work')">Work</a>
-                <a id="nav-bio" onclick="showSection('bio')">Bio</a>
-                <a href="mailto:leandrobrunoeditor@gmail.com">Contact</a>
-            </nav>
-
-            <section id="section-work" class="content-section active">
-                <div class="filter-bar" id="filter-bar">
-                    <span class="active-filter" onclick="filterBy('all')">/ Todos</span>
-                    <span onclick="filterBy('serie')">/ Ficción</span>
-                    <span onclick="filterBy('advertising')">/ Publicidad</span>
-                </div>
-                <div id="project-list"></div>
-            </section>
-
-            <section id="section-bio" class="content-section">
-                <p id="bio-text">Leandro Bruno es un editor de cine y publicidad con base en Buenos Aires.</p>
-            </section>
         </div>
+    </main>
+
+    <div class="bottom-info">
+        <div id="p-name">menem</div>
+        <div id="p-credits"><strong>d.</strong> ariel winograd | <strong>p.</strong> claxon, prime video</div>
     </div>
 
-    <div class="project-overlay" id="project-overlay">
-        <div class="close-btn" onclick="closeOverlay()">[ CERRAR ]</div>
-        <div class="overlay-media">
-            <div id="full-player"></div>
-        </div>
-    </div>
-
-    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
-        const projects = [
-            { title: "menem", category: "serie", img: "assets/Menem_Thumbnail_1.jpg", yt: "-2AmqmciWXE" },
-            { title: "oreo", category: "advertising", img: "https://img.youtube.com/vi/7Cllu0Rme74/maxresdefault.jpg", yt: "7Cllu0Rme74" },
-            { title: "el tiempo de las moscas", category: "serie", img: "assets/Moscas_Thumbnail_v01.png", yt: "A0d6wnlMRRk" },
-            { title: "levis", category: "advertising", img: "assets/Levis_Thumbnail_v01.jpg", yt: "7Cllu0Rme74" },
-            { title: "coppola", category: "serie", img: "assets/Coppola_Thumbnail_2.jpg", yt: "ecr24akKDbs" },
-            { title: "blair", category: "music video", img: "assets/Blair_Thumbnail_v01.jpg", yt: "ItX5aqhqsmo" }
-        ];
-
-        let activeProjects = [...projects];
-        let currentIndex = 0;
-        let previewPlayer;
-        let fullPlayer;
-        let autoTimer;
-
-        // INICIALIZAR YOUTUBE
-        function onYouTubeIframeAPIReady() {
-            // Player para el preview (izquierdo)
-            previewPlayer = new YT.Player('preview-player', {
-                events: { 'onReady': onPreviewReady }
-            });
-            // Player para el overlay (completo)
-            fullPlayer = new YT.Player('full-player', {
-                playerVars: { 'controls': 1, 'modestbranding': 1 }
-            });
-        }
-
-        function onPreviewReady() {
-            previewPlayer.mute();
-            selectProject(0);
-        }
-
-        function renderList() {
-            document.getElementById('project-list').innerHTML = activeProjects.map((p, i) => `
-                <div class="project-row ${i === currentIndex ? 'selected' : ''}" onclick="selectProject(${i})">
-                    <img src="${p.img}" class="thumb">
-                    <div class="p-info">
-                        <p class="p-title">${p.title}</p>
-                        <p class="p-cat">${p.category}</p>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function selectProject(i) {
-            currentIndex = i;
-            const current = activeProjects[currentIndex];
-            const next = activeProjects[(currentIndex + 1) % activeProjects.length];
-
-            // Actualizar imágenes del stack
-            document.getElementById('img-main').src = current.img;
-            document.getElementById('img-next').src = next.img;
-
-            // Manejar Preview de Video
-            const container = document.getElementById('preview-player-container');
-            if(current.yt && previewPlayer.loadVideoById) {
-                container.classList.add('active');
-                previewPlayer.loadVideoById({
-                    videoId: current.yt,
-                    startSeconds: 10, // Empezar en segundo 10 para ver acción
-                    endSeconds: 60
-                });
-            } else {
-                container.classList.remove('active');
+        const swiper = new Swiper(".mySwiper", {
+            loop: true,
+            speed: 1000,
+            grabCursor: true,
+            effect: 'creative',
+            creativeEffect: {
+                prev: {
+                    shadow: true,
+                    translate: ["-120%", 0, -500],
+                },
+                next: {
+                    // Este es el efecto "peek": el siguiente se asoma arriba y atrás
+                    translate: [0, "-15%", -200],
+                    rotate: [0, 0, 0],
+                    opacity: 0.6,
+                    scale: 0.9,
+                },
+            },
+            autoplay: {
+                delay: 5000, // CAMBIO CADA 5 SEGUNDOS
+                disableOnInteraction: false,
+            },
+            navigation: {
+                nextEl: ".swiper-button-next-custom",
+            },
+            on: {
+                slideChange: function () {
+                    // Actualizar textos al cambiar
+                    const activeSlide = this.slides[this.activeIndex];
+                    if(activeSlide) {
+                        const title = activeSlide.getAttribute('data-title');
+                        const credits = activeSlide.getAttribute('data-credits');
+                        
+                        document.getElementById('p-name').innerText = title;
+                        document.getElementById('p-credits').innerHTML = credits;
+                    }
+                }
             }
-
-            renderList();
-            resetTimer();
-        }
-
-        function nextProject() {
-            let nextIdx = (currentIndex + 1) % activeProjects.length;
-            selectProject(nextIdx);
-        }
-
-        function resetTimer() {
-            clearInterval(autoTimer);
-            autoTimer = setInterval(nextProject, 5000); // 5 SEGUNDOS
-        }
-
-        function openOverlayCurrent() {
-            const p = activeProjects[currentIndex];
-            if(!p.yt) return;
-            clearInterval(autoTimer);
-            previewPlayer.pauseVideo();
-            document.getElementById('project-overlay').classList.add('active');
-            fullPlayer.loadVideoById(p.yt);
-        }
-
-        function closeOverlay() {
-            document.getElementById('project-overlay').classList.remove('active');
-            fullPlayer.stopVideo();
-            resetTimer();
-            previewPlayer.playVideo();
-        }
-
-        function filterBy(cat) {
-            activeProjects = cat === 'all' ? [...projects] : projects.filter(p => p.category === cat);
-            currentIndex = 0;
-            selectProject(0);
-        }
-
-        function showSection(id) {
-            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
-            document.getElementById('section-' + id).classList.add('active');
-        }
-
-        window.onload = () => { if(!window.YT) renderList(); };
+        });
     </script>
 </body>
 </html>
