@@ -19,6 +19,8 @@
             background: var(--bg); color: var(--text); 
             font-family: var(--font-main); text-transform: lowercase;
             overflow: hidden; letter-spacing: -0.01em;
+            /* CURSOR DE TIJERA */
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><line x1="20" y1="4" x2="8.12" y2="15.88"></line><line x1="14.47" y1="14.48" x2="20" y2="20"></line><line x1="8.12" y1="8.12" x2="12" y2="12"></line></svg>'), auto;
         }
 
         .blueprint-bg {
@@ -112,16 +114,15 @@
         .main-viewer:hover .nav-arrow { opacity: 1; }
         .nav-arrow:hover { color: #fff; background: rgba(255,255,255,0.02); }
 
-        /* ESTILO DEL CARTEL ACTUALIZADO */
+        /* PLAY INDICATOR - SOLO LOGO ABAJO CENTRO */
         .play-indicator {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: rgba(255,255,255,0.9); color: #000; padding: 14px 28px; font-weight: 800; 
-            font-size: 0.75rem; display: none; z-index: 20; text-transform: uppercase; 
-            letter-spacing: 0.15em; cursor: pointer; transition: all 0.3s ease;
-            display: flex; align-items: center; gap: 10px;
+            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+            color: #fff; font-size: 1.5rem; display: none; z-index: 20;
+            cursor: pointer; transition: all 0.3s ease;
+            opacity: 0.7;
         }
-        .play-indicator:hover { background: #fff; transform: translate(-50%, -50%) scale(1.05); }
-        .main-viewer.has-video:hover .play-indicator { display: flex; }
+        .play-indicator:hover { opacity: 1; transform: translateX(-50%) scale(1.2); }
+        .main-viewer.has-video:hover .play-indicator { display: block; }
 
         .project-details { width: 100%; margin-top: 35px; display: grid; grid-template-columns: 1.4fr 0.6fr; gap: 60px; padding-bottom: 100px; transition: opacity 0.4s; }
         .project-details.fading { opacity: 0; }
@@ -150,10 +151,10 @@
         .imdb-link { display: inline-flex; align-items: center; gap: 15px; color: var(--text); text-decoration: none; font-weight: 700; font-size: 0.9rem; border: 1px solid var(--text); padding: 12px 25px; transition: 0.3s; }
         .imdb-link:hover { background: var(--text); color: #000; }
 
-        /* MODAL VIDEO */
+        /* MODAL VIDEO - ARREGLADO CENTRADO */
         .video-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; display: none; z-index: 1000; justify-content: center; align-items: center; }
-        .video-wrapper { width: 92%; max-width: 1600px; aspect-ratio: 16 / 9; position: relative; }
-        #video-player { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        .video-wrapper { width: 90%; max-width: 1400px; aspect-ratio: 16 / 9; position: relative; display: flex; justify-content: center; align-items: center; }
+        #video-player { width: 100%; height: 100%; }
         .close-btn { position: fixed; top: 40px; right: 40px; color: #fff; cursor: pointer; font-size: 0.8rem; z-index: 1010; font-weight: 700; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
@@ -203,7 +204,7 @@
                         <div class="nav-arrow" onclick="manualSlide(1)">›</div>
                     </div>
                     <div class="play-indicator" onclick="openVideo()">
-                        <span>▶</span> <span id="txt-play">reproducir</span>
+                        <span>▶</span>
                     </div>
                     <div id="image-container"></div>
                 </div>
@@ -293,7 +294,7 @@
                 desc_es: "Biopic que recorre el ascenso al poder de Carlos Menem en los años 90. Una exploración sobre el carisma, la política y la cultura argentina de una era inolvidable.", 
                 desc_en: "Biopic tracing Carlos Menem's rise to power in the 1990s. An exploration of the charisma, politics, and culture of an unforgettable Argentine era." },
             
-            { title: "OREO - Sigamos divirtiéndonos", category: "advertising", images: ["https://img.youtube.com/vi/7Cllu0Rme74/maxresdefault.jpg"], yt: "7Cllu0Rme74", director: "Martín Jalfen", prod: "Company: Pop Studios - México", desc_es: "Campaña publicitaria global para Oreo, destacando dinamismo y ritmo visual.", desc_en: "Global advertising campaign for Oreo, highlighting dynamism and visual rhythm." },
+            { title: "OREO - Sigamos divirtiéndonos", category: "advertising", images: ["https://img.youtube.com/vi/7Cllu0Rme74/maxresdefault.jpg"], yt: "7Cllu0Rme74", director: "Martín Jalfen", prod: "Pop Studios - México", desc_es: "Campaña publicitaria global para Oreo, destacando dinamismo y ritmo visual.", desc_en: "Global advertising campaign for Oreo, highlighting dynamism and visual rhythm." },
             
             { title: "el tiempo de las moscas", category: "serie", images: ["assets/Moscas_Thumbnail_1.jpg", "assets/Moscas_Thumbnail_2.png", "assets/Moscas_Thumbnail_3.png", "assets/Moscas_Thumbnail_4.png", "assets/Moscas_Thumbnail_5.png"], yt: "A0d6wnlMRRk", director: "Benjamín Naishtat y Ana Katz", prod: "netflix", 
                 desc_es: "Dos mujeres intentan reconstruir sus vidas tras salir de prisión, enfrentando un mundo que ha cambiado radicalmente mientras ellas estaban encerradas.", 
@@ -337,7 +338,6 @@
             document.getElementById("current-filter-text").innerText = texts[lang][currentFilterKey];
             document.getElementById('nav-bio').innerText = texts[lang].bio;
             document.getElementById('nav-contact').innerText = texts[lang].contact;
-            document.getElementById('txt-play').innerText = texts[lang].play;
             document.getElementById('txt-imdb').innerText = texts[lang].imdb;
             document.getElementById('txt-back').innerText = texts[lang].back;
             document.getElementById('txt-about-body').innerText = texts[lang].about;
@@ -467,7 +467,9 @@
                 container.innerHTML = `<div id="yt-placeholder"></div>`;
                 player = new YT.Player('yt-placeholder', { 
                     videoId: videoId, 
-                    playerVars: { 'autoplay': 1, 'rel': 0 },
+                    width: '100%',
+                    height: '100%',
+                    playerVars: { 'autoplay': 1, 'rel': 0, 'modestbranding': 1 },
                     events: { 'onReady': (e) => e.target.playVideo() }
                 });
             }
