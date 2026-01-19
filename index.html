@@ -20,7 +20,7 @@
             font-family: 'Space Mono', monospace; overflow: hidden; 
         }
 
-        /* UI ESTATICA */
+        /* UI OVERLAY */
         .ui-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             display: flex; justify-content: space-between; align-items: center;
@@ -28,78 +28,44 @@
         }
 
         .side-brand { pointer-events: auto; }
-        .side-brand h1 { font-size: 1.1rem; font-weight: 700; margin: 0; line-height: 1.2; letter-spacing: -0.5px; }
+        .side-brand h1 { font-size: 1.1rem; font-weight: 700; margin: 0; line-height: 1.2; }
         .side-brand p { font-size: 0.9rem; margin: 0; color: var(--gray); }
 
         .side-nav { pointer-events: auto; text-align: right; display: flex; flex-direction: column; gap: 40px; align-items: flex-end; }
-        .nav-links { display: flex; flex-direction: column; gap: 8px; }
-        .nav-links a { text-decoration: none; color: var(--text); font-size: 0.9rem; font-weight: 700; transition: 0.3s; }
-        .nav-links a:hover { opacity: 0.5; }
-        .arrow-next { cursor: pointer; font-size: 1.5rem; transition: transform 0.3s ease; }
-        .arrow-next:hover { transform: translateX(5px); }
+        
+        /* CATEGORIAS / WORK */
+        .nav-categories { display: flex; flex-direction: column; gap: 5px; margin-bottom: 20px; }
+        .nav-categories span { font-size: 0.7rem; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+        .cat-link { cursor: pointer; text-decoration: none; color: var(--gray); font-size: 0.9rem; font-weight: 700; transition: 0.3s; border: none; background: none; padding: 0; text-align: right; font-family: inherit; }
+        .cat-link.active { color: var(--text); }
+        .cat-link:hover { color: var(--text); }
 
-        /* INFO INFERIOR CON ANIMACIÓN */
+        .main-links { display: flex; flex-direction: column; gap: 8px; border-top: 1px solid #ccc; pt: 15px; padding-top: 15px; }
+        .main-links a { text-decoration: none; color: var(--text); font-size: 0.9rem; font-weight: 700; }
+
+        .arrow-next { cursor: pointer; font-size: 1.5rem; margin-bottom: 30px; pointer-events: auto; }
+
+        /* INFO INFERIOR */
         .project-info {
             position: fixed; bottom: 45px; left: 50%; transform: translateX(-50%);
             text-align: center; z-index: 100; width: 100%;
         }
-
-        .info-wrapper {
-            transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease;
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Clase para disparar la animación de salida */
-        .info-wrapper.changing {
-            opacity: 0;
-            transform: translateY(10px);
-        }
-
+        .info-wrapper { transition: opacity 0.5s, transform 0.5s; }
+        .info-wrapper.changing { opacity: 0; transform: translateY(10px); }
         .project-info h2 { font-size: 1.4rem; font-weight: 700; margin: 0 0 5px 0; letter-spacing: 2px; }
         .project-info p { font-size: 0.85rem; color: var(--gray); margin: 0; }
 
-        /* CONTENEDOR DEL SLIDER */
-        .slider-container {
-            width: 100%; height: 100vh;
-            display: flex; align-items: center; justify-content: center;
-        }
-
-        .center-frame {
-            width: 65%;
-            max-width: 950px;
-            aspect-ratio: 16 / 9;
-            position: relative;
-        }
+        /* SLIDER */
+        .slider-container { width: 100%; height: 100vh; display: flex; align-items: center; justify-content: center; }
+        .center-frame { width: 65%; max-width: 950px; aspect-ratio: 16 / 9; position: relative; }
 
         .swiper { width: 100%; height: 100%; overflow: visible !important; }
+        .swiper-slide { width: 100%; height: 100%; background: #000; border-radius: 2px; overflow: hidden; box-shadow: 0 40px 80px rgba(0,0,0,0.12); }
 
-        .swiper-slide {
-            width: 100%; height: 100%;
-            background: #000;
-            display: flex; align-items: center; justify-content: center;
-            overflow: hidden;
-            box-shadow: 0 40px 80px rgba(0,0,0,0.12);
-            border-radius: 2px;
-        }
+        .video-container { width: 100%; height: 100%; position: relative; cursor: zoom-in; }
+        .video-container iframe { width: 100%; height: 114%; border: none; position: absolute; top: -7%; left: 0; pointer-events: none; }
 
-        .video-wrapper { width: 100%; height: 100%; position: relative; background: #000; }
-        .video-wrapper iframe { 
-            width: 100%; height: 114%; border: none; 
-            position: absolute; top: -7%; left: 0;
-            pointer-events: none; 
-        }
-
-        /* Capa de interacción */
-        .click-layer {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 50; cursor: pointer;
-        }
-
-        @media (max-width: 1024px) {
-            .center-frame { width: 90%; }
-            .ui-overlay { padding: 0 25px; }
-        }
+        @media (max-width: 1024px) { .center-frame { width: 85%; } .ui-overlay { padding: 0 20px; } }
     </style>
 </head>
 <body>
@@ -112,8 +78,16 @@
 
         <div class="side-nav">
             <div class="arrow-next" id="js-next">→</div>
-            <div class="nav-links">
-                <a href="#">work</a>
+            
+            <div class="nav-categories">
+                <span>filter</span>
+                <button class="cat-link active" onclick="filterProjects('all')">all</button>
+                <button class="cat-link" onclick="filterProjects('film')">serie/film</button>
+                <button class="cat-link" onclick="filterProjects('advertising')">advertising</button>
+                <button class="cat-link" onclick="filterProjects('music')">music video</button>
+            </div>
+
+            <div class="main-links">
                 <a href="#">about</a>
                 <a href="mailto:leandrobrunoeditor@gmail.com">contact</a>
             </div>
@@ -122,92 +96,94 @@
 
     <div class="project-info">
         <div class="info-wrapper" id="info-anim-target">
-            <h2 id="p-title">oreo</h2>
-            <p id="p-credits">p. primo films</p>
+            <h2 id="p-title"></h2>
+            <p id="p-credits"></p>
         </div>
     </div>
 
     <div class="slider-container">
-        <div class="center-frame">
-            <div class="click-layer" onclick="swiper.slideNext()"></div>
+        <div class="center-frame" id="fullscreen-target">
             <div class="swiper mySwiper">
-                <div class="swiper-wrapper">
-                    
-                    <div class="swiper-slide" data-title="oreo" data-credits="p. primo films">
-                        <div class="video-wrapper">
-                            <iframe src="https://www.youtube.com/embed/7Cllu0Rme74?autoplay=1&mute=1&loop=1&playlist=7Cllu0Rme74&controls=0&modestbranding=1&rel=0" allow="autoplay"></iframe>
-                        </div>
+                <div class="swiper-wrapper" id="projects-wrapper">
                     </div>
-
-                    <div class="swiper-slide" data-title="menem" data-credits="d. ariel winograd | p. claxon, prime video">
-                        <div class="video-wrapper">
-                            <iframe src="https://www.youtube.com/embed/-2AmqmciWXE?autoplay=1&mute=1&loop=1&playlist=-2AmqmciWXE&controls=0&modestbranding=1&rel=0" allow="autoplay"></iframe>
-                        </div>
-                    </div>
-
-                    <div class="swiper-slide" data-title="coppola" data-credits="d. ariel winograd | p. pampa films">
-                        <div class="video-wrapper">
-                            <iframe src="https://www.youtube.com/embed/ecr24akKDbs?autoplay=1&mute=1&loop=1&playlist=ecr24akKDbs&controls=0&modestbranding=1&rel=0" allow="autoplay"></iframe>
-                        </div>
-                    </div>
-
-                </div>
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
-        const infoWrapper = document.getElementById('info-anim-target');
-        const pTitle = document.getElementById('p-title');
-        const pCredits = document.getElementById('p-credits');
+        // BASE DE DATOS DE PROYECTOS
+        const allProjects = [
+            { id: '7Cllu0Rme74', title: 'oreo', credits: 'p. primo films', cat: 'advertising' },
+            { id: '-2AmqmciWXE', title: 'menem', credits: 'd. ariel winograd | p. claxon', cat: 'film' },
+            { id: 'ecr24akKDbs', title: 'coppola', credits: 'd. ariel winograd | p. pampa films', cat: 'film' }
+        ];
 
-        const swiper = new Swiper(".mySwiper", {
-            direction: 'vertical',
-            loop: true,
-            speed: 1200,
-            allowTouchMove: true,
-            effect: 'creative',
-            creativeEffect: {
-                prev: {
-                    translate: [0, "110%", 0],
-                    opacity: 0,
+        let swiper;
+        const wrapper = document.getElementById('projects-wrapper');
+
+        function initSwiper() {
+            if (swiper) swiper.destroy(true, true);
+            
+            swiper = new Swiper(".mySwiper", {
+                direction: 'vertical',
+                loop: true,
+                speed: 1000,
+                effect: 'creative',
+                creativeEffect: {
+                    prev: { translate: [0, "110%", 0], opacity: 0 },
+                    next: { translate: [0, "-24%", -250], opacity: 0.4, scale: 0.86 }
                 },
-                next: {
-                    // El STACK ARRIBA
-                    translate: [0, "-24%", -250], 
-                    rotate: [0, 0, 0],
-                    opacity: 0.4,
-                    scale: 0.86,
-                },
-            },
-            autoplay: {
-                delay: 5000,
-                disableOnInteraction: false,
-            },
-            on: {
-                slideChangeTransitionStart: function () {
-                    // Iniciamos animación de salida del texto
-                    infoWrapper.classList.add('changing');
-                },
-                slideChange: function () {
-                    const activeSlide = this.slides[this.activeIndex];
-                    if(activeSlide) {
-                        // Esperamos un momento breve para cambiar el contenido mientras está invisible
-                        setTimeout(() => {
-                            pTitle.innerText = activeSlide.getAttribute('data-title');
-                            pCredits.innerHTML = activeSlide.getAttribute('data-credits');
-                            // Quitamos la clase para que el texto vuelva a aparecer
-                            infoWrapper.classList.remove('changing');
-                        }, 300); 
+                autoplay: { delay: 5000, disableOnInteraction: false },
+                on: {
+                    slideChangeTransitionStart: () => document.getElementById('info-anim-target').classList.add('changing'),
+                    slideChange: function () {
+                        const activeSlide = this.slides[this.activeIndex];
+                        if(activeSlide) {
+                            setTimeout(() => {
+                                document.getElementById('p-title').innerText = activeSlide.getAttribute('data-title');
+                                document.getElementById('p-credits').innerHTML = activeSlide.getAttribute('data-credits');
+                                document.getElementById('info-anim-target').classList.remove('changing');
+                            }, 300);
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
 
-        document.getElementById('js-next').addEventListener('click', () => {
-            swiper.slideNext();
-        });
+        function filterProjects(category) {
+            // Actualizar botones UI
+            document.querySelectorAll('.cat-link').forEach(btn => {
+                btn.classList.toggle('active', btn.innerText.includes(category) || (category === 'all' && btn.innerText === 'all'));
+            });
+
+            const filtered = category === 'all' ? allProjects : allProjects.filter(p => p.cat === category);
+            
+            wrapper.innerHTML = filtered.map(p => `
+                <div class="swiper-slide" data-title="${p.title}" data-credits="${p.credits}">
+                    <div class="video-container" onclick="toggleFullscreen()">
+                        <iframe src="https://www.youtube.com/embed/${p.id}?autoplay=1&mute=1&loop=1&playlist=${p.id}&controls=0&modestbranding=1&rel=0" allow="autoplay"></iframe>
+                    </div>
+                </div>
+            `).join('');
+
+            initSwiper();
+        }
+
+        // FUNCIÓN PANTALLA COMPLETA
+        function toggleFullscreen() {
+            const elem = document.getElementById('fullscreen-target');
+            if (!document.fullscreenElement) {
+                elem.requestFullscreen().catch(err => alert(`Error: ${err.message}`));
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        document.getElementById('js-next').addEventListener('click', () => swiper.slideNext());
+
+        // Carga inicial
+        filterProjects('all');
     </script>
 </body>
 </html>
