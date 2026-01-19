@@ -11,7 +11,6 @@
             --bg: #f5f5f0; /* Color Hueso */
             --text: #1a1a1a; 
             --gray: #666; 
-            --transition-speed: 0.6s;
         }
         
         body, html { 
@@ -21,59 +20,71 @@
             text-transform: lowercase;
         }
 
-        /* UI OVERLAY - Ajustada para visibilidad */
+        /* UI OVERLAY - REESTRUCTURADA */
         .ui-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             display: flex; justify-content: space-between; align-items: center;
-            padding: 0 40px; /* Margen lateral */
+            padding: 0 5%; /* Usamos porcentaje para que no se escape */
             pointer-events: none; z-index: 1000;
         }
 
-        /* Lateral Izquierdo - Nombre */
-        .side-brand { pointer-events: auto; min-width: 250px; }
-        .side-brand h1 { font-size: 1.4rem; font-weight: 700; margin: 0; line-height: 1.2; }
-        .side-brand p { font-size: 1.1rem; margin: 5px 0 0 0; color: var(--gray); }
+        /* Lateral Izquierdo */
+        .side-brand { pointer-events: auto; flex: 0 0 20%; }
+        .side-brand h1 { font-size: 1.6rem; font-weight: 700; margin: 0; line-height: 1.1; }
+        .side-brand p { font-size: 1.2rem; margin: 8px 0 0 0; color: var(--gray); }
 
-        /* Lateral Derecho - Navegación y Filtros */
+        /* Lateral Derecho - FIX CRÍTICO AQUÍ */
         .side-nav { 
-            pointer-events: auto; min-width: 250px; text-align: right; 
-            display: flex; flex-direction: column; height: 100%; justify-content: center;
-            gap: 50px;
+            pointer-events: auto; 
+            flex: 0 0 20%; 
+            display: flex; 
+            flex-direction: column; 
+            height: 100%; 
+            justify-content: center;
+            align-items: flex-end; /* Alinea todo a la derecha */
+            text-align: right;
         }
         
-        .arrow-next { cursor: pointer; font-size: 2rem; align-self: flex-end; transition: 0.3s; }
-        .arrow-next:hover { transform: translateX(5px); }
+        .arrow-next { cursor: pointer; font-size: 2.5rem; margin-bottom: 60px; transition: 0.3s; }
 
-        /* Filtros más grandes y separados */
-        .nav-categories { display: flex; flex-direction: column; gap: 12px; }
+        /* Menú de Filtros */
+        .nav-categories { display: flex; flex-direction: column; gap: 15px; margin-bottom: 50px; }
         .cat-link { 
-            cursor: pointer; color: var(--gray); font-size: 1.1rem; font-weight: 400; 
-            transition: 0.3s; border: none; background: none; padding: 5px 0; 
+            cursor: pointer; color: var(--gray); font-size: 1.2rem; font-weight: 400; 
+            transition: 0.2s; border: none; background: none; padding: 0; 
             text-align: right; font-family: inherit; outline: none;
+            white-space: nowrap; /* Evita que el texto se rompa */
         }
-        .cat-link.active { color: var(--text); font-weight: 700; text-decoration: underline; }
-        .cat-link:hover { color: var(--text); }
+        .cat-link.active { color: var(--text); font-weight: 700; border-bottom: 2px solid var(--text); }
 
-        /* Links de contacto y about */
-        .main-links { display: flex; flex-direction: column; gap: 12px; border-top: 1px solid #dcdcdc; padding-top: 20px; }
-        .main-links a { text-decoration: none; color: var(--text); font-size: 1.1rem; font-weight: 700; }
+        /* Links About/Contact */
+        .main-links { display: flex; flex-direction: column; gap: 15px; border-top: 1px solid #ccc; padding-top: 25px; }
+        .main-links a { text-decoration: none; color: var(--text); font-size: 1.2rem; font-weight: 700; }
 
-        /* INFO INFERIOR - Texto más grande */
+        /* INFO INFERIOR */
         .project-info {
-            position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
+            position: fixed; bottom: 50px; left: 50%; transform: translateX(-50%);
             text-align: center; z-index: 1000; width: 100%;
         }
-        .info-wrapper { transition: opacity 0.5s, transform 0.5s; }
-        .info-wrapper.changing { opacity: 0; transform: translateY(10px); }
-        .project-info h2 { font-size: 1.8rem; font-weight: 700; margin: 0 0 5px 0; letter-spacing: 2px; }
-        .project-info p { font-size: 1rem; color: var(--gray); margin: 0; }
+        .project-info h2 { font-size: 2rem; font-weight: 700; margin: 0; letter-spacing: 2px; }
+        .project-info p { font-size: 1.1rem; color: var(--gray); margin: 5px 0 0 0; }
 
-        /* SLIDER CENTRAL - Reducido un poco para dar aire a los textos */
+        /* CONTENEDOR CENTRAL - Reducido para que quepan los laterales */
         .slider-container { width: 100%; height: 100vh; display: flex; align-items: center; justify-content: center; }
-        .center-frame { width: 55%; max-width: 900px; aspect-ratio: 16 / 9; position: relative; z-index: 10; }
+        .center-frame { 
+            width: 50%; /* Bajamos al 50% para dar más aire a los costados */
+            max-width: 850px; 
+            aspect-ratio: 16 / 9; 
+            position: relative; 
+            z-index: 10; 
+        }
 
         .swiper { width: 100%; height: 100%; overflow: visible !important; }
-        .swiper-slide { width: 100%; height: 100%; background: #000; border-radius: 2px; overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,0.2); }
+        .swiper-slide { 
+            width: 100%; height: 100%; background: #000; 
+            border-radius: 2px; overflow: hidden; 
+            box-shadow: 0 40px 100px rgba(0,0,0,0.2); 
+        }
 
         .video-container { width: 100%; height: 100%; position: relative; cursor: zoom-in; }
         .video-container iframe { 
@@ -81,11 +92,9 @@
             position: absolute; top: -7%; left: 0; pointer-events: none; 
         }
 
-        @media (max-width: 1200px) {
-            .ui-overlay { padding: 0 20px; }
-            .center-frame { width: 70%; }
-            .side-brand, .side-nav { min-width: 180px; }
-        }
+        /* Animación de texto */
+        .info-wrapper { transition: opacity 0.5s, transform 0.5s; }
+        .info-wrapper.changing { opacity: 0; transform: translateY(10px); }
     </style>
 </head>
 <body>
@@ -107,7 +116,7 @@
             </div>
 
             <div class="main-links">
-                <a href="#">about</a>
+                <a href="#" onclick="alert('hola!')">about</a>
                 <a href="mailto:leandrobrunoeditor@gmail.com">contact</a>
             </div>
         </div>
@@ -123,8 +132,7 @@
     <div class="slider-container">
         <div class="center-frame" id="fullscreen-target">
             <div class="swiper mySwiper">
-                <div class="swiper-wrapper" id="projects-wrapper">
-                    </div>
+                <div class="swiper-wrapper" id="projects-wrapper"></div>
             </div>
         </div>
     </div>
@@ -138,11 +146,9 @@
         ];
 
         let swiperInstance;
-        const wrapper = document.getElementById('projects-wrapper');
 
         function initSwiper() {
             if (swiperInstance) swiperInstance.destroy(true, true);
-            
             swiperInstance = new Swiper(".mySwiper", {
                 direction: 'vertical',
                 loop: true,
@@ -170,14 +176,16 @@
         }
 
         function filterProjects(category) {
+            // Actualizar estado botones
             document.querySelectorAll('.cat-link').forEach(btn => {
-                const btnText = btn.innerText.toLowerCase();
-                if(category === 'all') btn.classList.toggle('active', btnText === 'all');
-                else if(category === 'film') btn.classList.toggle('active', btnText === 'serie/film');
-                else btn.classList.toggle('active', btnText.includes(category));
+                const txt = btn.innerText.toLowerCase();
+                if(category === 'all') btn.classList.toggle('active', txt === 'all');
+                else if(category === 'film') btn.classList.toggle('active', txt === 'serie/film');
+                else btn.classList.toggle('active', txt.includes(category));
             });
 
             const filtered = category === 'all' ? allProjects : allProjects.filter(p => p.cat === category);
+            const wrapper = document.getElementById('projects-wrapper');
             
             wrapper.innerHTML = filtered.map(p => `
                 <div class="swiper-slide" data-title="${p.title}" data-credits="${p.credits}">
@@ -192,11 +200,8 @@
 
         function toggleFullscreen() {
             const elem = document.getElementById('fullscreen-target');
-            if (!document.fullscreenElement) {
-                elem.requestFullscreen().catch(err => console.log(err));
-            } else {
-                document.exitFullscreen();
-            }
+            if (!document.fullscreenElement) elem.requestFullscreen().catch(err => console.log(err));
+            else document.exitFullscreen();
         }
 
         document.getElementById('js-next').addEventListener('click', () => swiperInstance.slideNext());
