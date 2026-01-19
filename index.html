@@ -1,159 +1,182 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leandro Bruno | Editor</title>
+    <title>leandro bruno | editor</title>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     
     <style>
-        :root { --bg: #000; --text: #fff; --gray: #fff; --dark-gray: #0a0a0a; }
-        body { background-color: var(--bg); color: var(--text); font-family: 'Manrope', sans-serif; margin: 0; padding: 0; overflow-x: hidden; scroll-behavior: smooth; }
-
+        :root { --bg: #000000; --text: #ffffff; --gray: #888; --dark-gray: #111; }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Manrope', sans-serif; margin: 0; padding: 0; overflow-x: hidden; scroll-behavior: smooth; text-transform: lowercase; }
+        
         /* NAVEGACIÓN */
-        nav { 
-            display: flex; justify-content: space-between; padding: 40px 5%; align-items: center;
-            position: fixed; top: 0; width: 90%; z-index: 1000;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
-        }
-        .logo img { height: 45px; width: auto; }
+        nav { display: flex; justify-content: space-between; padding: 40px 5%; align-items: center; position: fixed; top: 0; width: 90%; z-index: 1000; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); }
+        .logo img { height: 35px; width: auto; }
         .menu { display: flex; align-items: center; }
-        .menu-item { position: relative; margin-left: 30px; padding-bottom: 5px; }
-        .menu-item a { text-decoration: none; color: #fff; font-size: 0.7rem; letter-spacing: 3px; font-weight: 400; transition: 0.3s; text-transform: uppercase; cursor: pointer; }
-        .menu-item a::after { content: ''; position: absolute; width: 0; height: 1px; bottom: 0; left: 0; background-color: #fff; transition: width 0.3s ease; }
-        .menu-item:hover a::after { width: 100%; }
-
-        /* Dropdown Categorías */
-        .dropdown-content { display: none; position: absolute; top: 100%; left: 0; background-color: rgba(0,0,0,0.95); min-width: 160px; padding: 15px 0; }
-        .dropdown-content a { padding: 10px 20px; display: block; font-size: 0.6rem; letter-spacing: 2px; color: #fff; text-decoration: none; opacity: 0.7; }
-        .dropdown-content a:hover { opacity: 1; background: #111; }
+        .menu-item { position: relative; margin-left: 30px; }
+        .menu-item a { text-decoration: none; color: var(--gray); font-size: 0.75rem; letter-spacing: 2.5px; font-weight: 400; transition: 0.3s; cursor: pointer; }
+        .menu-item:hover a { color: #fff; }
+        
+        .dropdown-content { 
+            display: none; position: absolute; top: 100%; left: 0; 
+            background-color: rgba(0, 0, 0, 0.9); min-width: 160px; padding: 15px 0; 
+            border: 1px solid #222; margin-top: 10px; backdrop-filter: blur(5px); 
+        }
+        .dropdown-content a { padding: 10px 20px; display: block; font-size: 0.7rem; color: var(--gray); }
+        .dropdown-content a:hover { color: #fff; background: rgba(255, 255, 255, 0.05); }
         .menu-item:hover .dropdown-content { display: block; }
 
-        /* CAROUSEL (SWIPER) */
+        /* CARRUSEL */
         .swiper { width: 100%; height: 100vh; background: #000; }
-        .swiper-button-next, .swiper-button-prev { color: #fff !important; transform: scale(0.6); opacity: 0.4; transition: 0.3s; }
-        .swiper-button-next:hover, .swiper-button-prev:hover { opacity: 1; }
-        
         .swiper-slide { position: relative; overflow: hidden; }
         .video-background { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
-        .video-background iframe { width: 140vw; height: 140vh; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(1.35); border: none; }
+        .video-background iframe { width: 150vw; height: 150vh; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(1.4); border: none; filter: brightness(0.6); }
         .slide-link { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 50; }
+        
         .slide-info { position: absolute; bottom: 80px; left: 5%; z-index: 60; pointer-events: none; }
-        .slide-info h2 { font-size: 1.3rem; letter-spacing: 6px; text-transform: uppercase; font-weight: 400; margin: 0; color: #fff; }
-        .slide-info p { font-size: 0.6rem; color: #fff; opacity: 0.9; letter-spacing: 3px; margin-top: 10px; font-weight: 400; }
+        .slide-info h2 { font-size: 1.8rem; letter-spacing: 8px; font-weight: 400; margin: 0; color: #fff; }
+        .slide-credits { margin-top: 15px; }
+        .slide-credits p { font-size: 0.65rem; color: var(--gray); letter-spacing: 2px; margin: 4px 0; line-height: 1.4; }
+        .category-tag { font-size: 0.5rem; color: #444; letter-spacing: 3px; margin-top: 20px; text-transform: uppercase; border-left: 1px solid #333; padding-left: 10px; }
 
-        /* BOTÓN UNMUTE (Parlante Clásico) */
-        #unmute-btn {
-            position: absolute; bottom: 40px; right: 5%; z-index: 100;
-            background: none; border: none; cursor: pointer; padding: 10px;
-        }
-        #unmute-btn svg { width: 25px; height: 25px; fill: #fff; opacity: 0.6; transition: 0.3s; }
-        #unmute-btn:hover svg { opacity: 1; }
+        #unmute-btn { position: absolute; bottom: 40px; right: 5%; z-index: 100; background: none; border: 1px solid #333; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+        #unmute-btn svg { width: 15px; height: 15px; fill: #fff; }
 
         /* GRID DE TRABAJOS */
-        .work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; padding: 2px; background-color: #000; }
-        .project-card { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: var(--dark-gray); text-decoration: none; color: #fff; transition: 0.5s ease; }
-        .project-card.hidden { display: none; }
-        .project-card img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); transition: 0.6s ease; opacity: 0.4; }
-        .project-card:hover img { filter: grayscale(0%); transform: scale(1.03); opacity: 0.7; }
+        .work-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 10px; background-color: #000; }
+        .project-card { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: #000; text-decoration: none; }
+        .project-card img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%) brightness(0.5); transition: 1s cubic-bezier(0.16, 1, 0.3, 1); }
+        .project-card:hover img { filter: grayscale(0%) brightness(1); transform: scale(1.03); }
+        .card-info { position: absolute; bottom: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; padding: 25px; box-sizing: border-box; background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 40%); opacity: 0; transition: 0.4s ease; }
+        .project-card:hover .card-info { opacity: 1; }
+        .card-info h3 { font-size: 0.85rem; letter-spacing: 3px; margin: 0; font-weight: 400; color: #fff; }
+        .card-info .category { font-size: 0.55rem; color: var(--gray); letter-spacing: 2px; margin-top: 5px; }
         
-        .card-info { 
-            position: absolute; bottom: 0; left: 0; width: 100%; height: 100%;
-            display: flex; flex-direction: column; justify-content: flex-end;
-            padding: 30px; box-sizing: border-box;
-            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);
-            pointer-events: none;
-        }
-        .card-info h3 { font-size: 0.85rem; letter-spacing: 3px; margin: 0 0 5px 0; text-transform: uppercase; font-weight: 700; }
-        .card-info .director { font-size: 0.55rem; color: #fff; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 3px; }
-        .card-info .production { font-size: 0.55rem; color: #fff; opacity: 0.6; letter-spacing: 2px; text-transform: uppercase; }
-
-        @media (max-width: 1024px) { .work-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 768px) { .work-grid { grid-template-columns: 1fr; } }
-        
-        footer { padding: 80px 5%; font-size: 9px; color: #444; letter-spacing: 2px; text-align: center; background: #000; }
+        @media (max-width: 1024px) { .work-grid { grid-template-columns: 1fr; } }
+        footer { padding: 60px 5%; text-align: center; font-size: 9px; color: #222; letter-spacing: 2px; }
     </style>
 </head>
 <body>
 
     <nav>
-        <div class="logo"><a href="index.html"><img src="LOGO_Manrope_v01.png" alt="Leandro Bruno"></a></div>
+        <div class="logo"><a href="index.html"><img src="assets/LOGO_Manrope_v01.png" alt="leandro bruno"></a></div>
         <div class="menu">
             <div class="menu-item">
-                <a onclick="filterProjects('all')">WORK</a>
+                <a onclick="filterProjects('all')">work</a>
                 <div class="dropdown-content">
-                    <a onclick="filterProjects('all')">ALL</a>
-                    <a onclick="filterProjects('advertising')">ADVERTISING</a>
-                    <a onclick="filterProjects('music')">MUSIC</a>
-                    <a onclick="filterProjects('narrative')">NARRATIVE</a>
+                    <a onclick="filterProjects('all')">all</a>
+                    <a onclick="filterProjects('advertising')">advertising</a>
+                    <a onclick="filterProjects('music')">music video</a>
+                    <a onclick="filterProjects('narrative')">narrative</a>
                 </div>
             </div>
-            <div class="menu-item"><a href="about.html">ABOUT</a></div>
-            <div class="menu-item"><a href="mailto:leandrobrunoeditor@gmail.com">CONTACT</a></div>
-            <div class="menu-item"><a href="https://www.imdb.com/name/nm11460466/" target="_blank">IMDb</a></div>
+            <div class="menu-item"><a href="about.html">about</a></div>
+            <div class="menu-item"><a href="mailto:leandrobrunoeditor@gmail.com">contact</a></div>
+            <div class="menu-item"><a>es | en</a><div class="dropdown-content"><a href="#">es</a><a href="#">en</a></div></div>
         </div>
     </nav>
-
-    <button id="unmute-btn" onclick="activateSound()">
-        <svg viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zM3 9v6h4l5 5V4L7 9H3z"/></svg>
-    </button>
 
     <div class="swiper mySwiper">
         <div class="swiper-wrapper">
             <div class="swiper-slide">
-                <a href="menem.html" class="slide-link"></a>
+                <a href="pages project/menem.html" class="slide-link"></a>
                 <div class="video-background"><div id="player1"></div></div>
-                <div class="slide-info"><h2>MENEM</h2><p>SERIE DOCUMENTAL / PRIME VIDEO</p></div>
+                <div class="slide-info">
+                    <h2>menem</h2>
+                    <div class="slide-credits">
+                        <p><strong>d.</strong> ariel winograd</p>
+                        <p><strong>p.</strong> claxon, yavu, prime video</p>
+                    </div>
+                    <div class="category-tag">narrative / series</div>
+                </div>
+                <button id="unmute-btn" onclick="activateSound()"><svg viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zM3 9v6h4l5 5V4L7 9H3z"/></svg></button>
             </div>
             <div class="swiper-slide">
-                <a href="moscas.html" class="slide-link"></a>
+                <a href="pages project/oreo.html" class="slide-link"></a>
                 <div class="video-background"><div id="player2"></div></div>
-                <div class="slide-info"><h2>EL TIEMPO DE LAS MOSCAS</h2><p>SERIE / NETFLIX</p></div>
+                <div class="slide-info">
+                    <h2>oreo - moment of fun</h2>
+                    <div class="slide-credits">
+                        <p><strong>p.</strong> primo</p>
+                    </div>
+                    <div class="category-tag">advertising</div>
+                </div>
             </div>
             <div class="swiper-slide">
-                <a href="coppola.html" class="slide-link"></a>
+                <a href="pages project/moscas.html" class="slide-link"></a>
                 <div class="video-background"><div id="player3"></div></div>
-                <div class="slide-info"><h2>COPPOLA</h2><p>SERIE / DISNEY+</p></div>
+                <div class="slide-info">
+                    <h2>el tiempo de las moscas</h2>
+                    <div class="slide-credits">
+                        <p><strong>d.</strong> benjamín naishtat, ana katz</p>
+                        <p><strong>p.</strong> netflix, zona audiovisual</p>
+                    </div>
+                    <div class="category-tag">narrative / series</div>
+                </div>
             </div>
             <div class="swiper-slide">
-                <a href="oreo.html" class="slide-link"></a>
+                <a href="pages project/levis.html" class="slide-link"></a>
                 <div class="video-background"><div id="player4"></div></div>
-                <div class="slide-info"><h2>OREO</h2><p>ADVERTISING / MOMENTO DE DIVERSIÓN</p></div>
+                <div class="slide-info">
+                    <h2>levi's x winona riders</h2>
+                    <div class="slide-credits">
+                        <p><strong>d.</strong> tomas terzano</p>
+                        <p><strong>p.</strong> levi's</p>
+                    </div>
+                    <div class="category-tag">advertising</div>
+                </div>
             </div>
             <div class="swiper-slide">
-                <a href="blair.html" class="slide-link"></a>
+                <a href="pages project/coppola.html" class="slide-link"></a>
                 <div class="video-background"><div id="player5"></div></div>
-                <div class="slide-info"><h2>BLAIR</h2><p>MUSIC VIDEO</p></div>
+                <div class="slide-info">
+                    <h2>coppola, el representante</h2>
+                    <div class="slide-credits">
+                        <p><strong>d.</strong> ariel winograd</p>
+                        <p><strong>p.</strong> disney, pampa films</p>
+                    </div>
+                    <div class="category-tag">narrative / series</div>
+                </div>
+            </div>
+            <div class="swiper-slide">
+                <a href="pages project/blair.html" class="slide-link"></a>
+                <div class="video-background"><div id="player6"></div></div>
+                <div class="slide-info">
+                    <h2>blair - everything i have</h2>
+                    <div class="slide-credits">
+                        <p><strong>d.</strong> dana campanello</p>
+                        <p><strong>p.</strong> poster</p>
+                    </div>
+                    <div class="category-tag">music video</div>
+                </div>
             </div>
         </div>
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
     </div>
 
     <div class="work-grid" id="work">
-        <a href="menem.html" class="project-card narrative"><img src="https://img.youtube.com/vi/-2AmqmciWXE/hqdefault.jpg"><div class="card-info"><h3>MENEM</h3><div class="director">Dir. Federico Cassinelli</div><div class="production">Prime Video</div></div></a>
-        <a href="moscas.html" class="project-card narrative"><img src="https://img.youtube.com/vi/A0d6wnlMRRk/hqdefault.jpg"><div class="card-info"><h3>EL TIEMPO DE LAS MOSCAS</h3><div class="director">Dir. Ana Katz</div><div class="production">Netflix</div></div></a>
-        <a href="coppola.html" class="project-card narrative"><img src="https://img.youtube.com/vi/ecr24akKDbs/hqdefault.jpg"><div class="card-info"><h3>COPPOLA</h3><div class="director">Dir. Ariel Winograd</div><div class="production">Disney+</div></div></a>
-        <a href="oreo.html" class="project-card advertising"><img src="https://img.youtube.com/vi/7Cllu0Rme74/hqdefault.jpg"><div class="card-info"><h3>OREO</h3><div class="director">Dir. Ariel Winograd</div><div class="production">Momento de Diversión</div></div></a>
-        
-        <a href="levis.html" class="project-card advertising"><img src="Levis_Thumbnail_v01.png"><div class="card-info"><h3>LEVI'S x WINONA RIDERS</h3><div class="director">Dir. Campaign</div><div class="production">Levi's / Advertising</div></div></a>
-        
-        <a href="blair.html" class="project-card music"><img src="https://img.youtube.com/vi/ItX5aqhqsmo/hqdefault.jpg"><div class="card-info"><h3>BLAIR</h3><div class="director">Dir. Todo lo que tengo</div><div class="production">Music Video</div></div></a>
-        <a href="ratones.html" class="project-card advertising"><img src="RP_Thumnmail.png"><div class="card-info"><h3>RATONES PARANOICOS</h3><div class="director">Dir. Poster</div><div class="production">Advertising</div></div></a>
-        <a href="marias.html" class="project-card advertising"><img src="Marias_Thumbnail.png"><div class="card-info"><h3>MARÍAS</h3><div class="director">Dir. Publicidad</div><div class="production">Advertising</div></div></a>
-        
-        <a href="besos.html" class="project-card narrative"><img src="BesosBrujos-Thumbnail.png"><div class="card-info"><h3>BESOS BRUJOS</h3><div class="director">Dir. Narrative</div><div class="production">Short Film</div></div></a>
+        <a href="pages project/menem.html" class="project-card narrative"><img src="assets/MMenem_Thumbnail_1.jpg"><div class="card-info"><h3>menem</h3><div class="category">narrative / series</div></div></a>
+        <a href="pages project/moscas.html" class="project-card narrative"><img src="http://googleusercontent.com/image_collection/image_retrieval/6232733411188043026_0"><div class="card-info"><h3>el tiempo de las moscas</h3><div class="category">narrative / series</div></div></a>
+        <a href="pages project/coppola.html" class="project-card narrative"><img src="assets/Coppola_Thumbnail_2.jpg"><div class="card-info"><h3>coppola, el representante</h3><div class="category">narrative / series</div></div></a>
+        <a href="pages project/oreo.html" class="project-card advertising"><img src="http://googleusercontent.com/image_collection/image_retrieval/17680678229300991827_0"><div class="card-info"><h3>oreo - moment of fun</h3><div class="category">advertising</div></div></a>
+        <a href="pages project/levis.html" class="project-card advertising"><img src="assets/Levis_Thumbnail_v01.png"><div class="card-info"><h3>levi's x winona riders</h3><div class="category">advertising / campaign</div></div></a>
+        <a href="pages project/blair.html" class="project-card music"><img src="assets/Blair_Thumbnail_v01.png"><div class="card-info"><h3>blair - everything i have</h3><div class="category">music / music video</div></div></a>
+        <a href="pages project/ratones.html" class="project-card advertising"><img src="assets/RP_Thumnmail.png"><div class="card-info"><h3>ratones paranoicos</h3><div class="category">advertising / documentary</div></div></a>
+        <a href="pages project/marias.html" class="project-card advertising"><img src="assets/Marias_Thumbnail.png"><div class="card-info"><h3>marías</h3><div class="category">advertising</div></div></a>
+        <a href="pages project/besos.html" class="project-card narrative"><img src="assets/BesosBrujos-Thumbnail.png"><div class="card-info"><h3>besos brujos</h3><div class="category">narrative</div></div></a>
+        <a href="pages project/las-manos-de-la-abuela.html" class="project-card narrative"><img src="assets/ManosAbuela_Thumbnail.png"><div class="card-info"><h3>grandmother's hands</h3><div class="category">narrative / short film</div></div></a>
+        <a href="pages project/todo-lo-que-recuerdo.html" class="project-card narrative"><img src="assets/TodoRecuerdo_Thumbnail.png"><div class="card-info"><h3>everything i remember</h3><div class="category">narrative / short film</div></div></a>
     </div>
 
-    <footer>© 2026 LEANDRO BRUNO.</footer>
+    <footer>© 2026 leandro bruno. all rights reserved.</footer>
 
     <script src="https://www.youtube.com/iframe_api"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
         let players = [];
         function onYouTubeIframeAPIReady() {
-            const ids = ['-2AmqmciWXE', 'A0d6wnlMRRk', 'ecr24akKDbs', '7Cllu0Rme74', 'ItX5aqhqsmo'];
+            const ids = ['-2AmqmciWXE', '7Cllu0Rme74', 'A0d6wnlMRRk', 'C9Vazh3PVzU', 'ecr24akKDbs', 'ItX5aqhqsmo'];
             ids.forEach((id, index) => {
                 players[index] = new YT.Player('player' + (index + 1), {
                     videoId: id,
@@ -162,24 +185,14 @@
                 });
             });
         }
-
-        function activateSound() {
-            players.forEach(p => { if(p && p.unMute) p.unMute(); });
-            document.getElementById('unmute-btn').style.display = 'none';
-        }
-
-        var swiper = new Swiper(".mySwiper", { 
-            loop: true, speed: 1200, effect: "fade",
-            autoplay: { delay: 6000, disableOnInteraction: false },
-            navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" }
-        });
-
+        function activateSound() { players.forEach(p => { if(p && p.unMute) p.unMute(); }); document.getElementById('unmute-btn').style.display = 'none'; }
+        var swiper = new Swiper(".mySwiper", { loop: true, speed: 1200, effect: "fade", autoplay: { delay: 5000, disableOnInteraction: false } });
         function filterProjects(category) {
             const cards = document.querySelectorAll('.project-card');
             document.querySelector('#work').scrollIntoView({ behavior: 'smooth' });
             cards.forEach(card => {
-                if (category === 'all' || card.classList.contains(category)) card.classList.remove('hidden');
-                else card.classList.add('hidden');
+                if (category === 'all' || card.classList.contains(category)) card.style.display = 'block';
+                else card.style.display = 'none'; 
             });
         }
     </script>
