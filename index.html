@@ -34,6 +34,13 @@
             background-size: 40px 40px; z-index: -1;
         }
 
+        /* Capa de transición (Fade to Black) */
+        #transition-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 2000; opacity: 0; pointer-events: none;
+            transition: opacity 0.8s ease;
+        }
+
         .main-layout {
             display: grid;
             grid-template-columns: 280px 1fr 220px;
@@ -105,36 +112,23 @@
         .meta strong { color: var(--text); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; }
 
         .p-description { 
-            margin-top: 25px; 
-            max-width: 650px; 
-            text-transform: none; 
-            font-weight: 300; 
-            color: #777; 
-            line-height: 1.6; 
-            font-size: 0.95rem;
+            margin-top: 25px; max-width: 650px; text-transform: none; 
+            font-weight: 300; color: #777; line-height: 1.6; font-size: 0.95rem;
         }
 
         .platform-logo {
-            margin-top: 30px;
-            height: 38px;
+            margin-top: 30px; height: 38px;
             filter: brightness(0) invert(1) sepia(5%) saturate(200%) hue-rotate(20deg);
-            opacity: 0.7;
-            display: block;
+            opacity: 0.7; display: block;
         }
 
         /* PANEL DERECHO */
         .right-panel { 
-            display: flex; 
-            flex-direction: column; 
-            gap: 25px; 
-            overflow-y: auto; 
-            padding-right: 15px; 
-            scrollbar-width: thin;
+            display: flex; flex-direction: column; gap: 25px; 
+            overflow-y: auto; padding-right: 15px; scrollbar-width: thin;
             scrollbar-color: rgba(245, 245, 240, 0.1) transparent;
         }
-
         .right-panel::-webkit-scrollbar { width: 2px; }
-        .right-panel::-webkit-scrollbar-track { background: transparent; }
         .right-panel::-webkit-scrollbar-thumb { background: rgba(245, 245, 240, 0.1); }
 
         .thumb-item { width: 100%; aspect-ratio: 16 / 9; background: #000; border: 1px solid rgba(245, 245, 240, 0.05); overflow: hidden; transition: 0.5s; flex-shrink: 0; cursor: pointer; }
@@ -150,7 +144,6 @@
         }
         .video-wrapper { width: 76.5%; max-width: 1200px; aspect-ratio: 16 / 9; position: relative; }
         .gallery-wrapper { width: 90%; max-width: 1400px; aspect-ratio: 16 / 9; position: relative; }
-        
         .gallery-wrapper img { width: 100%; height: 100%; object-fit: contain; }
         
         .close-btn { position: fixed; top: 40px; right: 40px; color: var(--text); font-size: 0.8rem; z-index: 1010; font-weight: 700; cursor: pointer; opacity: 0.7; }
@@ -176,6 +169,7 @@
 </head>
 <body>
 
+    <div id="transition-overlay"></div>
     <div class="blueprint-bg"></div>
 
     <script src="https://www.youtube.com/iframe_api"></script>
@@ -223,11 +217,10 @@
             </div>
 
             <div id="about-section" style="display:none;">
-                <img src="assets/Perfil_LMB.png" class="profile-pic" alt="Leandro Bruno">
                 <div class="about-content">
                     <div id="txt-about-body" style="font-size:1.3rem; line-height:1.4; max-width:600px; font-weight: 300; margin-bottom: 40px; color: #999;"></div>
                     <div style="display: flex; gap: 20px; align-items: center;">
-                        <a id="txt-imdb" href="https://www.imdb.com/name/nm10600109/" target="_blank" class="imdb-link"></a>
+                        <a id="txt-imdb" href="https://www.imdb.com/name/nm10600109/" target="_blank" style="color:var(--text); text-decoration:none; font-weight:700; font-size:0.8rem; border-bottom:1px solid var(--text);"></a>
                         <a style="font-size: 0.75rem; color: #555; font-weight: 700; cursor: pointer;" onclick="showSection('work')">[ volver ]</a>
                     </div>
                 </div>
@@ -350,17 +343,15 @@
             const p = filteredProjects[currentIndex];
             if(p.yt) {
                 document.getElementById('modal-v').style.display = 'flex';
-                // Si es YouTube normal, usamos el API para detectar el fin
                 if (p.yt.length < 20) {
                     document.getElementById('video-player').innerHTML = `<div id="yt-player-container"></div>`;
                     ytPlayer = new YT.Player('yt-player-container', {
                         height: '100%', width: '100%',
                         videoId: p.yt,
-                        playerVars: { 'autoplay': 1, 'rel': 0 },
+                        playerVars: { 'autoplay': 1, 'rel': 0, 'modestbranding': 1 },
                         events: { 'onStateChange': (e) => { if(e.data === YT.PlayerState.ENDED) goToNextProject(); } }
                     });
                 } else {
-                    // Google Drive (no permite API de fin de video tan fácil, cerramos manual o con Esc)
                     const url = `https://drive.google.com/file/d/${p.yt}/preview`;
                     document.getElementById('video-player').innerHTML = `<iframe width="100%" height="100%" src="${url}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
                 }
@@ -371,24 +362,31 @@
             }
         }
 
-        // LÓGICA DE CIERRE Y AVANCE
+        // LÓGICA DE TRANSICIÓN Y AVANCE
         function goToNextProject() {
-            closeModals();
-            currentIndex = (currentIndex + 1) % filteredProjects.length;
-            updateDisplay();
-            resetIntervals();
+            const overlay = document.getElementById('transition-overlay');
+            overlay.style.opacity = '1'; // Fundido a negro
+            
+            setTimeout(() => {
+                closeModals();
+                currentIndex = (currentIndex + 1) % filteredProjects.length;
+                updateDisplay();
+                resetIntervals();
+                
+                setTimeout(() => {
+                    overlay.style.opacity = '0'; // Fundido de vuelta a la página
+                }, 400);
+            }, 800);
         }
 
         function modalGalleryNav(dir) {
             const imgs = filteredProjects[currentIndex].images;
             const nextIdx = modalSlideIndex + dir;
 
-            // Si llegamos al final de la galería y presionamos "Siguiente"
             if (nextIdx >= imgs.length && dir > 0) {
                 goToNextProject();
                 return;
             }
-            // Si estamos en la primera y presionamos "Atrás" (opcional: vuelve al anterior o lo dejamos circular)
             if (nextIdx < 0 && dir < 0) {
                 modalSlideIndex = imgs.length - 1;
             } else {
@@ -407,7 +405,6 @@
             if(ytPlayer) { ytPlayer.destroy(); ytPlayer = null; }
         }
 
-        // Teclado
         document.addEventListener('keydown', (e) => {
             const isGalleryOpen = document.getElementById('modal-g').style.display === 'flex';
             if (e.key === 'Escape') closeModals();
