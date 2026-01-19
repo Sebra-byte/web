@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>leandro bruno | film editor</title>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;700;800&family=Space+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;700;800&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; }
         :root { 
-            --bg: #f5f5f0; /* Color Hueso */
+            --bg: #f5f5f0; 
             --text: #1a1a1a; 
             --accent: #666;
             --font-main: 'Manrope', sans-serif;
@@ -22,33 +22,41 @@
 
         .split-container { display: flex; height: 100vh; width: 100vw; }
 
-        /* PANEL IZQUIERDO: SLIDER PRINCIPAL */
+        /* PANEL IZQUIERDA: SLIDER PRINCIPAL */
         .left-panel {
             flex: 1.3; height: 100%; background: #000;
-            position: relative; overflow: hidden; cursor: e-resize;
+            position: relative; overflow: hidden; cursor: pointer;
         }
         .slider-wrapper {
             display: flex; height: 100%;
             transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
         }
-        .slide { min-width: 100%; height: 100%; position: relative; }
+        .slide { min-width: 100%; height: 100%; }
         .slide img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* PANEL DERECHO: CONTENIDO */
+        /* PANEL DERECHA: CONTENIDO */
         .right-panel {
             flex: 1; height: 100%; overflow-y: auto;
-            padding: 40px 60px; background: var(--bg);
+            padding: 60px; background: var(--bg);
             border-left: 1px solid rgba(0,0,0,0.05);
             display: flex; flex-direction: column;
         }
 
-        .header-top { margin-bottom: 50px; }
-        .logo-img { width: 280px; margin-bottom: 30px; display: block; }
+        /* NUEVO LOGO EN TEXTO */
+        .brand-logo { margin-bottom: 50px; cursor: pointer; }
+        .brand-logo h1 { 
+            font-size: 2.2rem; font-weight: 800; margin: 0; 
+            line-height: 1; text-transform: uppercase; letter-spacing: -0.02em; 
+        }
+        .brand-logo p { 
+            font-size: 0.9rem; font-weight: 400; margin: 5px 0 0 0; 
+            text-transform: uppercase; letter-spacing: 0.2em; color: var(--accent);
+        }
 
         .nav-links {
             display: flex; gap: 25px; font-size: 0.75rem;
             text-transform: uppercase; font-weight: 700;
-            border-top: 1px solid rgba(0,0,0,0.1); padding-top: 15px;
+            border-top: 1px solid rgba(0,0,0,0.1); padding-top: 15px; margin-bottom: 40px;
         }
         .nav-links a { text-decoration: none; color: var(--accent); cursor: pointer; transition: 0.3s; }
         .nav-links a:hover, .nav-links a.active { color: var(--text); }
@@ -58,91 +66,79 @@
 
         .filter-bar {
             margin-bottom: 25px; font-size: 0.7rem;
-            text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.05em; font-weight: 800;
         }
-        .filter-bar span { margin-right: 15px; cursor: pointer; opacity: 0.4; transition: 0.3s; }
+        .filter-bar span { margin-right: 15px; cursor: pointer; opacity: 0.4; }
         .filter-bar span.active-filter { opacity: 1; text-decoration: underline; }
 
         .project-row {
             display: flex; gap: 20px; padding: 20px 0;
-            border-top: 1px solid rgba(0,0,0,0.08); cursor: pointer; transition: 0.3s;
+            border-top: 1px solid rgba(0,0,0,0.08); cursor: pointer;
         }
-        .project-row:hover { background: rgba(0,0,0,0.02); }
         .project-row.selected { background: #fff; padding-left: 10px; }
 
         .thumb { width: 100px; aspect-ratio: 16/9; object-fit: cover; background: #eee; }
         .p-info { flex: 1; }
-        .p-title { font-weight: 800; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 4px; }
-        .p-cat { font-size: 0.7rem; color: var(--accent); text-transform: uppercase; margin-bottom: 6px; }
-        .more-btn { font-size: 0.75rem; font-weight: 700; margin-top: 10px; color: #000; }
+        .p-title { font-weight: 800; font-size: 0.85rem; text-transform: uppercase; margin: 0; }
+        .p-cat { font-size: 0.7rem; color: var(--accent); text-transform: uppercase; margin-top: 2px; }
+        .more-btn { font-size: 0.7rem; font-weight: 800; margin-top: 10px; text-decoration: underline; display: inline-block; }
 
-        .bio-container { max-width: 500px; }
-        .bio-text { font-size: 1.1rem; line-height: 1.6; margin-bottom: 30px; font-weight: 400; }
-        .imdb-link {
-            display: inline-block; padding: 10px 20px; border: 1px solid #000;
-            text-decoration: none; color: #000; font-size: 0.75rem; font-weight: 800;
-        }
+        .bio-text { font-size: 1.1rem; line-height: 1.6; max-width: 500px; margin-bottom: 30px; }
 
-        /* OVERLAY DETALLE PROYECTO */
+        /* VISTA DETALLE EXPANDIDA 90% */
         .project-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg); z-index: 2000; display: none;
-            /* Animación de entrada */
-            opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: #000; z-index: 5000; display: none;
+            justify-content: center; align-items: center;
         }
-        .project-overlay.active { display: flex; opacity: 1; pointer-events: auto; }
+        .project-overlay.active { display: flex; animation: fadeIn 0.4s ease; }
 
-        .overlay-left { flex: 1.5; background: #000; height: 100%; position: relative; }
-        .overlay-video-container { width: 100%; height: 100%; display: none; } /* Oculto por defecto */
+        .overlay-media-container {
+            width: 90vw; height: 90vh; position: relative;
+            display: flex; justify-content: center; align-items: center; background: #000;
+        }
         #overlay-player { width: 100%; height: 100%; }
 
-        /* Slider de imágenes en el overlay */
-        .overlay-image-slider {
-            width: 100%; height: 100%; display: none; /* Oculto por defecto */
-            position: relative; overflow: hidden;
+        /* Capa de Información Flotante */
+        .overlay-info-panel {
+            position: absolute; bottom: 40px; left: 40px;
+            background: rgba(245, 245, 240, 0.95);
+            padding: 40px; max-width: 450px;
+            color: var(--text); border-radius: 2px;
+            transform: translateY(20px); opacity: 0;
+            transition: 0.5s all ease 0.2s;
+            pointer-events: auto;
         }
-        .overlay-slider-wrapper {
-            display: flex; height: 100%; transition: transform 0.5s ease;
-        }
-        .overlay-slide { min-width: 100%; height: 100%; background: #000; }
-        .overlay-slide img { width: 100%; height: 100%; object-fit: contain; }
-        
-        /* Flechas del slider de overlay */
-        .overlay-nav {
-            position: absolute; top: 50%; transform: translateY(-50%);
-            font-size: 2rem; color: #fff; background: transparent; border: none;
-            padding: 20px; cursor: pointer; z-index: 10; opacity: 0.5; transition: 0.3s;
-        }
-        .overlay-nav:hover { opacity: 1; }
-        .o-prev { left: 0; } .o-next { right: 0; }
+        .project-overlay.active .overlay-info-panel { transform: translateY(0); opacity: 1; }
 
+        .overlay-info-panel h1 { font-size: 2.2rem; text-transform: uppercase; margin: 0 0 10px 0; line-height: 0.9; font-weight: 800; }
+        .overlay-info-panel .meta { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; }
+        .overlay-info-panel .credits { font-size: 0.8rem; line-height: 1.6; margin-bottom: 20px; text-transform: uppercase; }
+        .overlay-info-panel .desc { font-size: 0.95rem; line-height: 1.5; }
 
-        .overlay-right {
-            flex: 1; height: 100%; background: var(--bg); padding: 60px;
-            overflow-y: auto; position: relative;
-        }
         .close-overlay {
-            position: absolute; top: 30px; right: 40px;
-            font-size: 1.5rem; cursor: pointer; z-index: 10;
+            position: absolute; top: 30px; right: 40px; color: #fff;
+            font-size: 0.8rem; font-weight: 800; cursor: pointer; z-index: 6000;
         }
 
-        .overlay-info h1 { font-size: 3rem; text-transform: uppercase; line-height: 1; margin-bottom: 10px; }
-        .overlay-meta { margin-bottom: 30px; font-size: 0.8rem; color: var(--accent); text-transform: uppercase; }
-        .overlay-credits { margin-bottom: 40px; font-size: 0.85rem; line-height: 1.8; }
-        .overlay-desc { font-size: 1.1rem; line-height: 1.6; max-width: 600px; }
+        /* Slider para proyectos sin video en Overlay */
+        .overlay-img-slider { width: 100%; height: 100%; overflow: hidden; position: relative; }
+        .overlay-slider-inner { display: flex; height: 100%; transition: transform 0.5s ease; }
+        .overlay-slide { min-width: 100%; height: 100%; }
+        .overlay-slide img { width: 100%; height: 100%; object-fit: contain; }
 
-        .footer-lang { margin-top: auto; padding-top: 40px; font-size: 0.7rem; font-weight: 800; }
-        .footer-lang span { cursor: pointer; opacity: 0.3; }
+        .footer-lang { margin-top: auto; padding-top: 40px; font-size: 0.7rem; font-weight: 800; opacity: 0.5; }
+        .footer-lang span { cursor: pointer; }
         .footer-lang span.active { opacity: 1; text-decoration: underline; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         @media (max-width: 1024px) {
             .split-container { flex-direction: column; overflow-y: auto; }
             .left-panel { height: 40vh; flex: none; }
-            .right-panel { flex: none; padding: 30px; }
-            .logo-img { width: 200px; }
-            .project-overlay { flex-direction: column; }
-            .overlay-left { height: 50vh; flex: none; }
-            .overlay-right { flex: 1; padding: 30px; }
+            .right-panel { flex: none; padding: 40px 20px; }
+            .overlay-media-container { width: 100vw; height: 50vh; }
+            .overlay-info-panel { position: relative; bottom: 0; left: 0; width: 100%; max-width: none; padding: 30px; transform: none; }
         }
     </style>
 </head>
@@ -154,31 +150,30 @@
         </div>
 
         <div class="right-panel">
-            <header class="header-top">
-                <img src="LOGO_Manrope_v01.jpg" alt="Leandro Bruno" class="logo-img">
-                <nav class="nav-links">
-                    <a id="nav-work" class="active" onclick="showSection('work')">Work</a>
-                    <a id="nav-bio" onclick="showSection('bio')">Bio</a>
-                    <a href="mailto:leandrobrunoeditor@gmail.com">Contact</a>
-                    <a href="https://www.instagram.com/leandrombruno/" target="_blank">Instagram</a>
-                </nav>
+            <header class="brand-logo" onclick="showSection('work')">
+                <h1>Leandro Bruno</h1>
+                <p>film editor</p>
             </header>
+
+            <nav class="nav-links">
+                <a id="nav-work" class="active" onclick="showSection('work')">Work</a>
+                <a id="nav-bio" onclick="showSection('bio')">Bio</a>
+                <a href="mailto:leandrobrunoeditor@gmail.com">Contact</a>
+                <a href="https://www.instagram.com/leandrombruno/" target="_blank">Instagram</a>
+            </nav>
 
             <section id="section-work" class="content-section active">
                 <div class="filter-bar" id="filter-bar">
                     <span class="active-filter" onclick="filterBy('all')">/ Todos</span>
                     <span onclick="filterBy('ficción')">/ Ficción</span>
                     <span onclick="filterBy('advertising')">/ Publicidad</span>
-                    <span onclick="filterBy('music video')">/ Videoclips</span>
                 </div>
                 <div id="project-list"></div>
             </section>
 
             <section id="section-bio" class="content-section">
-                <div class="bio-container">
-                    <div class="bio-text" id="bio-text"></div>
-                    <a href="https://www.imdb.com/name/nm10600109/" target="_blank" class="imdb-link">IMDB CREDITS ↗</a>
-                </div>
+                <div class="bio-text" id="bio-text"></div>
+                <a href="https://www.imdb.com/name/nm10600109/" target="_blank" style="color:#000; font-weight:800; font-size:0.75rem; text-decoration:none; border:1px solid #000; padding:10px 20px;">IMDB CREDITS ↗</a>
             </section>
 
             <div class="footer-lang">
@@ -189,19 +184,16 @@
     </div>
 
     <div class="project-overlay" id="project-overlay">
-        <div class="overlay-left">
-            <div class="overlay-video-container" id="overlay-video-box">
+        <div class="close-overlay" onclick="closeOverlay()">[ CLOSE ]</div>
+        <div class="overlay-media-container">
+            <div id="overlay-player-wrapper" style="width:100%; height:100%; display:none;">
                 <div id="overlay-player"></div>
             </div>
-            <div class="overlay-image-slider" id="overlay-image-box">
-                <div class="overlay-slider-wrapper" id="overlay-slider-wrapper"></div>
-                <button class="overlay-nav o-prev" onclick="moveOverlaySlide(-1)">‹</button>
-                <button class="overlay-nav o-next" onclick="moveOverlaySlide(1)">›</button>
+            <div id="overlay-image-slider" class="overlay-img-slider" style="display:none;" onclick="moveOverlaySlide()">
+                <div class="overlay-slider-inner" id="overlay-slider-inner"></div>
             </div>
-        </div>
-        <div class="overlay-right">
-            <div class="close-overlay" onclick="closeOverlay()">✕</div>
-            <div class="overlay-info" id="overlay-info-content">
+
+            <div class="overlay-info-panel" id="info-panel">
                 </div>
         </div>
     </div>
@@ -210,29 +202,23 @@
     <script>
         let currentLang = 'es';
         let currentIndex = 0;
-        let overlaySlideIndex = 0;
-        let ytPlayer, overlayPlayer;
+        let overlaySlideIdx = 0;
+        let ytPlayer;
         let autoPlayInterval;
 
         const projects = [
             { title: "menem", category: "serie", images: ["assets/Menem_Thumbnail_1.jpg", "assets/Menem_Thumbnail_2.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", desc_es: "Biopic sobre Carlos Menem.", desc_en: "Biopic about Carlos Menem." },
             { title: "oreo", category: "advertising", images: ["https://img.youtube.com/vi/7Cllu0Rme74/maxresdefault.jpg"], yt: "7Cllu0Rme74", director: "primo films", prod: "primo", desc_es: "Campaña global para Oreo.", desc_en: "Global campaign for Oreo." },
             { title: "el tiempo de las moscas", category: "serie", images: ["assets/Moscas_Thumbnail_v01.png"], yt: "A0d6wnlMRRk", director: "ana katz", prod: "netflix", desc_es: "Serie original de Netflix.", desc_en: "Netflix original series." },
-            { title: "coppola", category: "serie", images: ["assets/Coppola_Thumbnail_2.jpg", "assets/Coppola_Thumbnail_3.png"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films / disney+", desc_es: "Miniserie de Disney+.", desc_en: "Disney+ original series." },
-            { title: "blair", category: "music video", images: ["assets/Blair_Thumbnail_v01.jpg"], yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster", desc_es: "Videoclip musical.", desc_en: "Music video." },
-            { title: "levis", category: "advertising", images: ["assets/Levis_Thumbnail_v01.jpg"], yt: "7Cllu0Rme74", director: "lorenzo shakespear", prod: "levis argentina", desc_es: "Campaña Levis 501.", desc_en: "Levis 501 campaign." },
-            { title: "las manos de la abuela", category: "cortometraje", images: ["assets/MA_Thumbnail_1.png", "assets/MA_Thumbnail_2.png"], yt: "", director: "camila mediocre", prod: "", desc_es: "Ensayo poético sobre la memoria.", desc_en: "Poetic essay on memory." },
-            { title: "ratones paranoicos", category: "music video", images: ["assets/RP_Thumnmail.jpg"], yt: "", director: "alex roux", prod: "poster", desc_es: "Rock nacional argentino.", desc_en: "Argentine rock." },
-            { title: "besos brujos", category: "cortometraje", images: ["assets/BesosBrujos-Thumbnail.jpg"], yt: "", director: "karina flonembaum", prod: "", desc_es: "Ficción onírica.", desc_en: "Dreamlike fiction." },
-            { title: "las marias", category: "advertising", images: ["assets/Marias_Thumbnail_1.png"], yt: "", director: "alejandro berger parrado", prod: "navajo films", desc_es: "Documental publicitario.", desc_en: "Advertising documentary." },
-            { title: "todo lo que recuerdo", category: "cortometraje", images: ["assets/TodoLoQueRecuerdo_Thumbnail_1.png"], yt: "", director: "nicolas fernandez melian", prod: "", desc_es: "Selección Festival de Mar del Plata.", desc_en: "Mar del Plata Film Festival selection." }
+            { title: "coppola", category: "serie", images: ["assets/Coppola_Thumbnail_2.jpg"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films / disney+", desc_es: "Miniserie de Disney+.", desc_en: "Disney+ original series." },
+            { title: "las manos de la abuela", category: "cortometraje", images: ["assets/MA_Thumbnail_1.png", "assets/MA_Thumbnail_2.png"], yt: "", director: "camila mediocre", prod: "", desc_es: "Ensayo poético sobre la memoria.", desc_en: "Poetic essay on memory." }
         ];
 
         let activeProjects = [...projects];
 
         const content = {
-            es: { bio: "Leandro Bruno es un editor de cine y publicidad con base en Buenos Aires. Se especializa en montaje rítmico y narrativa de ficción para plataformas globales como Netflix, Disney+ y Prime Video.", more: "Ver más →", dir: "Director", prod: "Productora" },
-            en: { bio: "Leandro Bruno is a film and advertising editor based in Buenos Aires. He specializes in rhythmic editing and narrative fiction for global platforms such as Netflix, Disney+, and Prime Video.", more: "See more →", dir: "Director", prod: "Production" }
+            es: { bio: "Leandro Bruno es un editor de cine y publicidad con base en Buenos Aires. Se especializa en montaje rítmico y narrativa de ficción para plataformas globales.", dir: "Director", prod: "Producción", more: "Ver más →" },
+            en: { bio: "Leandro Bruno is a film and advertising editor based in Buenos Aires. Specialized in rhythmic editing and narrative fiction for global platforms.", dir: "Director", prod: "Production", more: "See more →" }
         };
 
         function initSlider() {
@@ -244,38 +230,72 @@
                 <div class="project-row ${i === currentIndex ? 'selected' : ''}" onclick="selectProject(${i})">
                     <img src="${p.images[0]}" class="thumb">
                     <div class="p-info">
-                        <div class="p-title">${p.title}</div>
-                        <div class="p-cat">${p.category}</div>
-                        <div class="more-btn" onclick="openOverlay(${i}, event)">${content[currentLang].more}</div>
+                        <p class="p-title">${p.title}</p>
+                        <p class="p-cat">${p.category}</p>
+                        <span class="more-btn" onclick="openOverlay(${i}, event)">${content[currentLang].more}</span>
                     </div>
                 </div>
             `).join('');
         }
 
-        function selectProject(index) {
-            currentIndex = index;
-            document.getElementById('main-slider').style.transform = `translateX(-${index * 100}%)`;
+        function selectProject(i) {
+            currentIndex = i;
+            document.getElementById('main-slider').style.transform = `translateX(-${i * 100}%)`;
             renderList();
             resetAutoPlay();
         }
 
-        function manualSlideNext() {
-            selectProject((currentIndex + 1) % activeProjects.length);
+        function manualSlideNext() { selectProject((currentIndex + 1) % activeProjects.length); }
+        function resetAutoPlay() { clearInterval(autoPlayInterval); autoPlayInterval = setInterval(manualSlideNext, 5000); }
+
+        function openOverlay(idx, e) {
+            e.stopPropagation();
+            const p = activeProjects[idx];
+            document.getElementById('project-overlay').classList.add('active');
+            
+            document.getElementById('info-panel').innerHTML = `
+                <h1>${p.title}</h1>
+                <div class="meta">${p.category}</div>
+                <div class="credits"><strong>${content[currentLang].dir}:</strong> ${p.director} ${p.prod ? `<br><strong>${content[currentLang].prod}:</strong> ${p.prod}` : ''}</div>
+                <div class="desc">${currentLang === 'es' ? p.desc_es : p.desc_en}</div>
+            `;
+
+            if(p.yt) {
+                document.getElementById('overlay-player-wrapper').style.display = 'block';
+                document.getElementById('overlay-image-slider').style.display = 'none';
+                if(ytPlayer) ytPlayer.loadVideoById(p.yt);
+                else ytPlayer = new YT.Player('overlay-player', { videoId: p.yt, playerVars: { 'autoplay': 1 } });
+            } else {
+                document.getElementById('overlay-player-wrapper').style.display = 'none';
+                document.getElementById('overlay-image-slider').style.display = 'block';
+                overlaySlideIdx = 0;
+                document.getElementById('overlay-slider-inner').innerHTML = p.images.map(img => `<div class="overlay-slide"><img src="${img}"></div>`).join('');
+                updateOverlaySlider();
+            }
+            clearInterval(autoPlayInterval);
         }
 
-        function resetAutoPlay() {
-            clearInterval(autoPlayInterval);
-            autoPlayInterval = setInterval(manualSlideNext, 5000);
+        function moveOverlaySlide() {
+            const count = document.querySelectorAll('.overlay-slide').length;
+            overlaySlideIdx = (overlaySlideIdx + 1) % count;
+            updateOverlaySlider();
+        }
+
+        function updateOverlaySlider() {
+            document.getElementById('overlay-slider-inner').style.transform = `translateX(-${overlaySlideIdx * 100}%)`;
+        }
+
+        function closeOverlay() {
+            document.getElementById('project-overlay').classList.remove('active');
+            if(ytPlayer) ytPlayer.stopVideo();
+            resetAutoPlay();
         }
 
         function filterBy(cat) {
             document.querySelectorAll('#filter-bar span').forEach(s => s.classList.remove('active-filter'));
             event.target.classList.add('active-filter');
-            if(cat === 'all') activeProjects = [...projects];
-            else if(cat === 'ficción') activeProjects = projects.filter(p => p.category === 'serie' || p.category === 'cortometraje');
-            else activeProjects = projects.filter(p => p.category === cat);
-            currentIndex = 0;
-            initSlider(); renderList(); selectProject(0);
+            activeProjects = (cat === 'all') ? [...projects] : projects.filter(p => p.category === cat || (cat === 'ficción' && (p.category === 'serie' || p.category === 'cortometraje')));
+            currentIndex = 0; initSlider(); renderList(); selectProject(0);
         }
 
         function showSection(id) {
@@ -292,68 +312,7 @@
             renderList();
         }
 
-        // --- LÓGICA DEL OVERLAY ---
-
-        function openOverlay(idx, event) {
-            if(event) event.stopPropagation();
-            const p = activeProjects[idx];
-            const overlay = document.getElementById('project-overlay');
-            const videoBox = document.getElementById('overlay-video-box');
-            const inputBox = document.getElementById('overlay-image-box');
-
-            // Llenar info
-            document.getElementById('overlay-info-content').innerHTML = `
-                <h1>${p.title}</h1>
-                <div class="overlay-meta">${p.category}</div>
-                <div class="overlay-credits">
-                    <strong>${content[currentLang].dir}</strong><br>${p.director}<br><br>
-                    ${p.prod ? `<strong>${content[currentLang].prod}</strong><br>${p.prod}` : ''}
-                </div>
-                <div class="overlay-desc">${currentLang === 'es' ? p.desc_es : p.desc_en}</div>
-            `;
-
-            // Decidir si mostrar video o slider de imágenes
-            if(p.yt) {
-                videoBox.style.display = 'block';
-                inputBox.style.display = 'none';
-                if (overlayPlayer) overlayPlayer.loadVideoById(p.yt);
-                else overlayPlayer = new YT.Player('overlay-player', { videoId: p.yt, playerVars: { 'autoplay': 1 } });
-            } else {
-                videoBox.style.display = 'none';
-                inputBox.style.display = 'block';
-                if(overlayPlayer) overlayPlayer.stopVideo();
-                
-                // Inicializar slider de imágenes del overlay
-                overlaySlideIndex = 0;
-                document.getElementById('overlay-slider-wrapper').innerHTML = p.images.map(src => `
-                    <div class="overlay-slide"><img src="${src}"></div>
-                `).join('');
-                updateOverlaySlider();
-            }
-
-            overlay.classList.add('active');
-            clearInterval(autoPlayInterval); // Pausar el slider principal
-        }
-
-        function moveOverlaySlide(dir) {
-            const slides = document.querySelectorAll('.overlay-slide');
-            overlaySlideIndex = (overlaySlideIndex + dir + slides.length) % slides.length;
-            updateOverlaySlider();
-        }
-
-        function updateOverlaySlider() {
-            document.getElementById('overlay-slider-wrapper').style.transform = `translateX(-${overlaySlideIndex * 100}%)`;
-        }
-
-        function closeOverlay() {
-            document.getElementById('project-overlay').classList.remove('active');
-            if(overlayPlayer) overlayPlayer.stopVideo();
-            resetAutoPlay(); // Reanudar slider principal
-        }
-
-        window.onload = () => {
-            changeLang('es'); initSlider(); selectProject(0);
-        };
+        window.onload = () => { changeLang('es'); initSlider(); selectProject(0); };
     </script>
 </body>
 </html>
