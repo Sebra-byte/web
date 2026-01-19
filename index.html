@@ -34,7 +34,6 @@
             background-size: 40px 40px; z-index: -1;
         }
 
-        /* Capa de transición */
         #transition-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #000; z-index: 2000; opacity: 0; pointer-events: none;
@@ -119,6 +118,27 @@
             opacity: 0.7; display: block;
         }
 
+        /* Estilo mejorado para el botón volver */
+        .back-link {
+            font-size: 0.75rem;
+            color: var(--text);
+            font-weight: 700;
+            cursor: pointer;
+            padding: 8px 12px;
+            border: 1px solid rgba(255, 255, 228, 0.2);
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            opacity: 0.6;
+            margin-left: 20px;
+        }
+        .back-link:hover {
+            opacity: 1;
+            background: rgba(255, 255, 228, 0.05);
+            border-color: var(--text);
+        }
+
         .right-panel { 
             display: flex; flex-direction: column; gap: 25px; 
             overflow-y: auto; padding-right: 15px; scrollbar-width: thin;
@@ -177,16 +197,16 @@
                     <span id="btn-en" onclick="setLanguage('en')">EN</span>
                 </div>
                 <div class="custom-select-container">
-                    <div class="select-selected" id="current-filter-text" onclick="toggleDropdown(event)">proyectos / todos</div>
+                    <div class="select-selected" id="current-filter-text"></div>
                     <div class="select-items" id="filter-options">
-                        <div onclick="filterBy('all', 'all_projects')">/ todos</div>
-                        <div onclick="filterBy('ficción', 'narrative')">/ ficción</div>
-                        <div onclick="filterBy('advertising', 'advertising')">/ publicidad</div>
-                        <div onclick="filterBy('music video', 'music_video')">/ videoclips</div>
+                        <div id="opt-all" onclick="filterBy('all', 'all_projects')"></div>
+                        <div id="opt-narrative" onclick="filterBy('ficción', 'narrative')"></div>
+                        <div id="opt-advertising" onclick="filterBy('advertising', 'advertising')"></div>
+                        <div id="opt-music" onclick="filterBy('music video', 'music_video')"></div>
                     </div>
                 </div>
-                <a onclick="showSection('about')">/ biografía</a>
-                <a href="mailto:leandrobrunoeditor@gmail.com">/ contacto</a>
+                <a id="nav-about" onclick="showSection('about')"></a>
+                <a id="nav-contact" href="mailto:leandrobrunoeditor@gmail.com"></a>
             </nav>
         </section>
 
@@ -213,9 +233,9 @@
             <div id="about-section" style="display:none;">
                 <div class="about-content">
                     <div id="txt-about-body" style="font-size:1.3rem; line-height:1.4; max-width:600px; font-weight: 300; margin-bottom: 40px; color: #999;"></div>
-                    <div style="display: flex; gap: 20px; align-items: center;">
+                    <div style="display: flex; gap: 0px; align-items: center;">
                         <a id="txt-imdb" href="https://www.imdb.com/name/nm10600109/" target="_blank" style="color:var(--text); text-decoration:none; font-weight:700; font-size:0.8rem; border-bottom:1px solid var(--text);"></a>
-                        <a style="font-size: 0.75rem; color: #555; font-weight: 700; cursor: pointer;" onclick="showSection('work')">[ volver ]</a>
+                        <a id="txt-back" class="back-link" onclick="showSection('work')"></a>
                     </div>
                 </div>
             </div>
@@ -225,12 +245,12 @@
     </main>
 
     <div class="video-modal" id="modal-v">
-        <div class="close-btn" onclick="closeModals()">[ CERRAR ]</div>
+        <div class="close-btn" id="txt-close-v" onclick="closeModals()"></div>
         <div class="video-wrapper" id="video-player"></div>
     </div>
 
     <div class="gallery-modal" id="modal-g">
-        <div class="close-btn" onclick="closeModals()">[ CERRAR ]</div>
+        <div class="close-btn" id="txt-close-g" onclick="closeModals()"></div>
         <div class="gallery-wrapper">
             <div class="modal-arrow arrow-left" onclick="modalGalleryNav(-1)">‹</div>
             <img id="gallery-img" src="">
@@ -245,10 +265,11 @@
         let modalSlideIndex = 0;
         let slideRotation, mainRotation;
         let ytPlayer;
+        let currentFilterKey = 'all_projects';
 
         const projects = [
             { title: "menem", category: "serie", images: ["assets/Menem_Thumbnail_1.jpg", "assets/Menem_Thumbnail_2.jpg", "assets/Menem_Thumbnail_3.png", "assets/Menem_Thumbnail_4.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", desc_es: "Biopic que recorre el ascenso al poder de Carlos Menem en los años 90. Una exploración sobre el carisma, la política y la cultura argentina de una era inolvidable.", desc_en: "Biopic tracing Carlos Menem's rise to power in the 1990s. An exploration of the charisma, politics, and culture of an unforgettable Argentine era." },
-            { title: "OREO - Sigamos divirtiéndonos", category: "advertising", images: ["assets/Oreo_Thumbnail_1.png", "assets/Oreo_Thumbnail_2.png", "assets/Oreo_Thumbnail_3.png", "assets/Oreo_Thumbnail_4.png", "assets/Oreo_Thumbnail_5.png"], yt: "7Cllu0Rme74", director: "Martín Jalfen", prod: "Pop Studios - México", desc_es: "Campaña publicitaria global para Oreo, destacando dinamismo y ritmo visual.", desc_en: "Global advertising campaign for Oreo, highlighting dynamism and visual rhythm." },
+            { title: "OREO - Sigamos divirtiendonos", category: "advertising", images: ["assets/Oreo_Thumbnail_1.png", "assets/Oreo_Thumbnail_2.png", "assets/Oreo_Thumbnail_3.png", "assets/Oreo_Thumbnail_4.png", "assets/Oreo_Thumbnail_5.png"], yt: "7Cllu0Rme74", director: "Martín Jalfen", prod: "Pop Studios - México", desc_es: "Campaña publicitaria global para Oreo, destacando dinamismo y ritmo visual.", desc_en: "Global advertising campaign for Oreo, highlighting dynamism and visual rhythm." },
             { title: "el tiempo de las moscas", category: "serie", images: ["assets/Moscas_Thumbnail_1.jpg", "assets/Moscas_Thumbnail_2.png", "assets/Moscas_Thumbnail_3.png", "assets/Moscas_Thumbnail_4.png", "assets/Moscas_Thumbnail_5.png"], yt: "A0d6wnlMRRk", director: "Benjamín Naishtat y Ana Katz", prod: "netflix", desc_es: "Dos mujeres intentan reconstruir sus vidas tras salir de prisión, enfrentando un mundo que ha cambiado radicalmente mientras ellas estaban encerradas.", desc_en: "Two women attempt to rebuild their lives after being released from prison, facing a world that has radically changed while they were locked up." },
             { title: "levis x winona riders", category: "advertising", images: ["assets/Levis_Thumbnail_v01.jpg", "assets/Levis_Thumbnail_2.png", "assets/Levis_Thumbnail_3.png", "assets/Levis_Thumbnail_5.png", "assets/Levis_Thumbnail_6.png", "assets/Levis_Thumbnail_7.png"], yt: "1eE588vXvqSECtESSjgwN_vpRmMFaUpRg", director: "Nico Alarcos", prod: "primo", desc_es: "Campaña de gira de Winona Riders por el norte de Argentina.", desc_en: "Winona Riders commercial tour of northern Argentina." },
             { title: "coppola, el representante", category: "serie", images: ["assets/Coppola_Thumbnail_2.jpg", "assets/Coppola_Thumbnail_3.png", "assets/Coppola_Thumbnail_4.jpg"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films / disney+", desc_es: "La historia de Guillermo Coppola, el representante más famoso de Argentina, en una travesía llena de excesos, humor y nostalgia noventera.", desc_en: "The story of Guillermo Coppola, Argentina's most famous manager, in a journey filled with excess, humor, and nineties nostalgia." },
@@ -263,25 +284,61 @@
         let filteredProjects = [...projects];
 
         const translations = {
-            es: { all_projects: "todos", narrative: "ficción", advertising: "publicidad", music_video: "videoclips", dir: "dir", prod: "prod", imdb: "CRÉDITOS_IMDB ↗", about_body: "Leandro Bruno es un editor de cine y publicidad con base en Buenos Aires. Se especializa en montaje rítmico y narrativa para plataformas globales como Netflix, Disney+ y Prime Video." },
-            en: { all_projects: "all", narrative: "fiction", advertising: "advertising", music_video: "music videos", dir: "dir", prod: "prod", imdb: "IMDB_CREDITS ↗", about_body: "Leandro Bruno is a film and advertising editor based in Buenos Aires. He specializes in rhythmic editing and narrative for global platforms such as Netflix, Disney+, and Prime Video." }
+            es: { 
+                all_projects: "todos", narrative: "ficción", advertising: "publicidad", music_video: "videoclips", 
+                dir: "dir", prod: "prod", imdb: "CRÉDITOS_IMDB ↗", 
+                about: "/ biografía", contact: "/ contacto", projects: "proyectos",
+                back: "← volver", close: "[ CERRAR ]",
+                about_body: "Leandro Bruno es un editor de cine y publicidad con base en Buenos Aires. Se especializa en montaje rítmico y narrativa para plataformas globales como Netflix, Disney+ y Prime Video." 
+            },
+            en: { 
+                all_projects: "all", narrative: "fiction", advertising: "advertising", music_video: "music videos", 
+                dir: "dir", prod: "prod", imdb: "IMDB_CREDITS ↗", 
+                about: "/ biography", contact: "/ contact", projects: "projects",
+                back: "← back", close: "[ CLOSE ]",
+                about_body: "Leandro Bruno is a film and advertising editor based in Buenos Aires. He specializes in rhythmic editing and narrative for global platforms such as Netflix, Disney+, and Prime Video." 
+            }
         };
 
         function setLanguage(lang) {
             currentLang = lang;
+            const t = translations[lang];
+            
+            // Actualizar botones de idioma
             document.getElementById('btn-es').className = lang === 'es' ? 'active-lang' : '';
             document.getElementById('btn-en').className = lang === 'en' ? 'active-lang' : '';
-            document.getElementById('txt-about-body').innerText = translations[lang].about_body;
-            document.getElementById('txt-imdb').innerText = translations[lang].imdb;
+            
+            // Traducir Menu Principal
+            document.getElementById('nav-about').innerText = t.about;
+            document.getElementById('nav-contact').innerText = t.contact;
+            
+            // Traducir Selector de Filtros
+            document.getElementById('opt-all').innerText = "/ " + t.all_projects;
+            document.getElementById('opt-narrative').innerText = "/ " + t.narrative;
+            document.getElementById('opt-advertising').innerText = "/ " + t.advertising;
+            document.getElementById('opt-music').innerText = "/ " + t.music_video;
+            document.getElementById('current-filter-text').innerText = t.projects + ' / ' + t[currentFilterKey];
+            
+            // Traducir Modales y Botón Volver
+            document.getElementById('txt-back').innerText = t.back;
+            document.getElementById('txt-close-v').innerText = t.close;
+            document.getElementById('txt-close-g').innerText = t.close;
+            
+            // Traducir About
+            document.getElementById('txt-about-body').innerText = t.about_body;
+            document.getElementById('txt-imdb').innerText = t.imdb;
+            
             updateDisplay(true);
         }
 
         function filterBy(val, dictKey) {
+            currentFilterKey = dictKey;
             if(val === 'all') filteredProjects = [...projects];
             else if(val === 'ficción') filteredProjects = projects.filter(p => p.category === 'serie' || p.category === 'cortometraje');
             else filteredProjects = projects.filter(p => p.category === val);
+            
             currentIndex = 0;
-            document.getElementById('current-filter-text').innerText = 'proyectos / ' + translations[currentLang][dictKey];
+            document.getElementById('current-filter-text').innerText = translations[currentLang].projects + ' / ' + translations[currentLang][dictKey];
             updateDisplay();
             resetIntervals();
         }
@@ -294,7 +351,6 @@
 
             if(!onlyText) {
                 if(immediate) {
-                    // CAMBIO INSTANTÁNEO (PARA DENTRO DEL FUNDIDO)
                     container.classList.remove('fade-out');
                     details.classList.remove('fade-out');
                     container.innerHTML = current.images.map((src, idx) => `<img src="${src}" class="${idx === 0 ? 'active-slide' : ''}">`).join('');
@@ -303,7 +359,6 @@
                     renderThumbnails();
                     resetSlideTimer();
                 } else {
-                    // CAMBIO CON FADE (PARA NAVEGACIÓN MANUAL)
                     container.classList.add('fade-out');
                     details.classList.add('fade-out');
                     setTimeout(() => {
@@ -368,39 +423,27 @@
             }
         }
 
-        // LÓGICA DE TRANSICIÓN CORREGIDA
         function goToNextProject() {
             const overlay = document.getElementById('transition-overlay');
             overlay.style.opacity = '1'; 
-            
             setTimeout(() => {
                 closeModals();
                 currentIndex = (currentIndex + 1) % filteredProjects.length;
-                
-                // IMPORTANTE: El cambio ocurre aquí, mientras está en negro
-                // Usamos el flag 'true' para que sea inmediato sin esperar animaciones
                 updateDisplay(false, true); 
                 resetIntervals();
-                
-                setTimeout(() => {
-                    overlay.style.opacity = '0';
-                }, 100); 
-            }, 300); // 300ms es el tiempo que tarda el overlay en ser opaco
+                setTimeout(() => { overlay.style.opacity = '0'; }, 100); 
+            }, 300);
         }
 
         function modalGalleryNav(dir) {
             const imgs = filteredProjects[currentIndex].images;
             const nextIdx = modalSlideIndex + dir;
-
             if (nextIdx >= imgs.length && dir > 0) {
                 goToNextProject();
                 return;
             }
-            if (nextIdx < 0 && dir < 0) {
-                modalSlideIndex = imgs.length - 1;
-            } else {
-                modalSlideIndex = nextIdx;
-            }
+            if (nextIdx < 0 && dir < 0) modalSlideIndex = imgs.length - 1;
+            else modalSlideIndex = nextIdx;
             updateGalleryImg();
         }
 
@@ -453,7 +496,13 @@
             sec === 'work' ? resetIntervals() : clearInterval(mainRotation);
         }
 
-        function toggleDropdown(e) { e.stopPropagation(); document.getElementById("filter-options").classList.toggle("select-show"); }
+        function toggleDropdown(e) { 
+            e.stopPropagation(); 
+            document.getElementById("filter-options").classList.toggle("select-show"); 
+        }
+
+        document.getElementById('current-filter-text').onclick = toggleDropdown;
+
         window.onclick = () => document.getElementById("filter-options").classList.remove("select-show");
         window.onload = () => { setLanguage('es'); updateDisplay(); resetIntervals(); };
     </script>
