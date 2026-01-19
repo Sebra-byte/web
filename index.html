@@ -112,13 +112,16 @@
         .main-viewer:hover .nav-arrow { opacity: 1; }
         .nav-arrow:hover { color: #fff; background: rgba(255,255,255,0.02); }
 
+        /* ESTILO DEL CARTEL ACTUALIZADO */
         .play-indicator {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: #fff; color: #000; padding: 12px 24px; font-weight: 800; 
-            font-size: 0.7rem; display: none; z-index: 20; text-transform: uppercase; 
-            letter-spacing: 0.1em; cursor: pointer;
+            background: rgba(255,255,255,0.9); color: #000; padding: 14px 28px; font-weight: 800; 
+            font-size: 0.75rem; display: none; z-index: 20; text-transform: uppercase; 
+            letter-spacing: 0.15em; cursor: pointer; transition: all 0.3s ease;
+            display: flex; align-items: center; gap: 10px;
         }
-        .main-viewer.has-video:hover .play-indicator { display: block; }
+        .play-indicator:hover { background: #fff; transform: translate(-50%, -50%) scale(1.05); }
+        .main-viewer.has-video:hover .play-indicator { display: flex; }
 
         .project-details { width: 100%; margin-top: 35px; display: grid; grid-template-columns: 1.4fr 0.6fr; gap: 60px; padding-bottom: 100px; transition: opacity 0.4s; }
         .project-details.fading { opacity: 0; }
@@ -199,7 +202,9 @@
                         <div class="nav-arrow" onclick="manualSlide(-1)">‹</div>
                         <div class="nav-arrow" onclick="manualSlide(1)">›</div>
                     </div>
-                    <div class="play-indicator" id="txt-play" onclick="openVideo()">reproducir_contenido</div>
+                    <div class="play-indicator" onclick="openVideo()">
+                        <span>▶</span> <span id="txt-play">reproducir</span>
+                    </div>
                     <div id="image-container"></div>
                 </div>
 
@@ -250,7 +255,7 @@
                 music_video: "proyectos / videoclips",
                 bio: "/ biografía",
                 contact: "/ contacto",
-                play: "reproducir_contenido",
+                play: "reproducir",
                 close: "[ CERRAR ]",
                 back: "[ volver al índice ]",
                 imdb: "CRÉDITOS_IMDB ↗",
@@ -269,7 +274,7 @@
                 music_video: "projects / music videos",
                 bio: "/ bio",
                 contact: "/ contact",
-                play: "play_content",
+                play: "play video",
                 close: "[ CLOSE ]",
                 back: "[ back to index ]",
                 imdb: "IMDB_CREDITS ↗",
@@ -312,7 +317,7 @@
                 desc_es: "Ficción breve que juega con los límites del deseo y la fantasía en una atmósfera onírica.", 
                 desc_en: "Short fiction playing with the limits of desire and fantasy in a dreamlike atmosphere." },
             
-            { title: "las marias", category: "advertising", images: ["assets/Marias_Thumbnail_1.png", "assets/Marias_Thumbnail_2.png", "assets/Marias_Thumbnail_3.png", "assets/Marias_Thumbnail_4.png"], yt: "1zE7Pq5m1X_ID_DRIVE", director: "alejandro berger parrado", prod: "navajo films", desc_es: "Pieza con formato video inmersivo documental publicitaria sobre la tradición yerbatera argentina.", desc_en: "Immersive video documentary advertising piece on the Argentine yerba mate tradition." },
+            { title: "las marias", category: "advertising", images: ["assets/Marias_Thumbnail_1.png", "assets/Marias_Thumbnail_2.png", "assets/Marias_Thumbnail_3.png", "assets/Marias_Thumbnail_4.png"], yt: "", director: "alejandro berger parrado", prod: "navajo films", desc_es: "Pieza con formato video inmersivo documental publicitaria sobre la tradición yerbatera argentina.", desc_en: "Immersive video documentary advertising piece on the Argentine yerba mate tradition." },
             
             { title: "todo lo que recuerdo", category: "cortometraje", images: ["assets/TodoLoQueRecuerdo_Thumbnail_1.png"], yt: "", director: "nicolas fernandez melian", prod: "", 
                 desc_es: "Un viaje sensorial por la memoria fragmentada. Selección oficial del Festival Internacional de Cine de Mar del Plata.", 
@@ -456,11 +461,9 @@
             document.getElementById('modal').style.display = 'flex';
 
             if(videoId.length > 15) {
-                // Lógica Google Drive
                 container.innerHTML = `<iframe src="https://drive.google.com/file/d/${videoId}/preview" frameborder="0" width="100%" height="100%" allow="autoplay" allowfullscreen></iframe>`;
-                player = null; // Desactivamos el player de YT para que no haya conflictos
+                player = null; 
             } else {
-                // Lógica YouTube
                 container.innerHTML = `<div id="yt-placeholder"></div>`;
                 player = new YT.Player('yt-placeholder', { 
                     videoId: videoId, 
@@ -472,7 +475,7 @@
 
         function closeVideo() { 
             document.getElementById('modal').style.display = 'none'; 
-            document.getElementById('video-player').innerHTML = ''; // Limpiamos el iframe o player
+            document.getElementById('video-player').innerHTML = ''; 
             if (player && typeof player.stopVideo === 'function') player.stopVideo(); 
         }
 
