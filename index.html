@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <style>
         :root { 
-            --bg: #ececec; 
+            --bg: #f5f5f0; /* Color Hueso */
             --text: #1a1a1a; 
             --gray: #666; 
             --transition-speed: 0.6s;
@@ -18,36 +18,47 @@
             margin: 0; padding: 0; width: 100%; height: 100%; 
             background: var(--bg); color: var(--text); 
             font-family: 'Space Mono', monospace; overflow: hidden; 
+            text-transform: lowercase;
         }
 
-        /* UI OVERLAY */
+        /* UI OVERLAY MEJORADA */
         .ui-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             display: flex; justify-content: space-between; align-items: center;
-            padding: 0 50px; pointer-events: none; z-index: 100;
+            padding: 0 60px; pointer-events: none; z-index: 100;
         }
 
-        .side-brand { pointer-events: auto; }
+        /* Lateral Izquierdo */
+        .side-brand { pointer-events: auto; width: 200px; }
         .side-brand h1 { font-size: 1.1rem; font-weight: 700; margin: 0; line-height: 1.2; }
-        .side-brand p { font-size: 0.9rem; margin: 0; color: var(--gray); }
+        .side-brand p { font-size: 0.9rem; margin: 5px 0 0 0; color: var(--gray); }
 
-        .side-nav { pointer-events: auto; text-align: right; display: flex; flex-direction: column; gap: 40px; align-items: flex-end; }
+        /* Lateral Derecho */
+        .side-nav { 
+            pointer-events: auto; width: 200px; text-align: right; 
+            display: flex; flex-direction: column; height: 100%; justify-content: center;
+        }
         
-        /* CATEGORIAS / WORK */
-        .nav-categories { display: flex; flex-direction: column; gap: 5px; margin-bottom: 20px; }
-        .nav-categories span { font-size: 0.7rem; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
-        .cat-link { cursor: pointer; text-decoration: none; color: var(--gray); font-size: 0.9rem; font-weight: 700; transition: 0.3s; border: none; background: none; padding: 0; text-align: right; font-family: inherit; }
-        .cat-link.active { color: var(--text); }
+        .arrow-next { cursor: pointer; font-size: 1.5rem; margin-bottom: 50px; align-self: flex-end; }
+
+        /* Menú de Filtros (Work) */
+        .nav-categories { display: flex; flex-direction: column; gap: 6px; margin-bottom: 40px; }
+        .cat-link { 
+            cursor: pointer; color: var(--gray); font-size: 0.9rem; font-weight: 400; 
+            transition: 0.3s; border: none; background: none; padding: 0; 
+            text-align: right; font-family: inherit; outline: none;
+        }
+        .cat-link.active { color: var(--text); font-weight: 700; }
         .cat-link:hover { color: var(--text); }
 
-        .main-links { display: flex; flex-direction: column; gap: 8px; border-top: 1px solid #ccc; pt: 15px; padding-top: 15px; }
-        .main-links a { text-decoration: none; color: var(--text); font-size: 0.9rem; font-weight: 700; }
-
-        .arrow-next { cursor: pointer; font-size: 1.5rem; margin-bottom: 30px; pointer-events: auto; }
+        /* Links Principales */
+        .main-links { display: flex; flex-direction: column; gap: 8px; }
+        .main-links a { text-decoration: none; color: var(--text); font-size: 0.9rem; font-weight: 700; transition: 0.3s; }
+        .main-links a:hover { opacity: 0.5; }
 
         /* INFO INFERIOR */
         .project-info {
-            position: fixed; bottom: 45px; left: 50%; transform: translateX(-50%);
+            position: fixed; bottom: 50px; left: 50%; transform: translateX(-50%);
             text-align: center; z-index: 100; width: 100%;
         }
         .info-wrapper { transition: opacity 0.5s, transform 0.5s; }
@@ -55,17 +66,27 @@
         .project-info h2 { font-size: 1.4rem; font-weight: 700; margin: 0 0 5px 0; letter-spacing: 2px; }
         .project-info p { font-size: 0.85rem; color: var(--gray); margin: 0; }
 
-        /* SLIDER */
+        /* SLIDER CENTRAL */
         .slider-container { width: 100%; height: 100vh; display: flex; align-items: center; justify-content: center; }
-        .center-frame { width: 65%; max-width: 950px; aspect-ratio: 16 / 9; position: relative; }
+        .center-frame { width: 60%; max-width: 1000px; aspect-ratio: 16 / 9; position: relative; }
 
         .swiper { width: 100%; height: 100%; overflow: visible !important; }
-        .swiper-slide { width: 100%; height: 100%; background: #000; border-radius: 2px; overflow: hidden; box-shadow: 0 40px 80px rgba(0,0,0,0.12); }
+        .swiper-slide { width: 100%; height: 100%; background: #000; overflow: hidden; box-shadow: 0 40px 100px rgba(0,0,0,0.15); }
 
         .video-container { width: 100%; height: 100%; position: relative; cursor: zoom-in; }
-        .video-container iframe { width: 100%; height: 114%; border: none; position: absolute; top: -7%; left: 0; pointer-events: none; }
+        .video-container iframe { 
+            width: 100%; height: 114%; border: none; 
+            position: absolute; top: -7%; left: 0; pointer-events: none; 
+        }
 
-        @media (max-width: 1024px) { .center-frame { width: 85%; } .ui-overlay { padding: 0 20px; } }
+        /* Estilo para el modo fullscreen */
+        #fullscreen-target:fullscreen .video-container { cursor: zoom-out; }
+
+        @media (max-width: 1024px) {
+            .ui-overlay { padding: 0 20px; }
+            .center-frame { width: 80%; }
+            .side-brand, .side-nav { width: 150px; }
+        }
     </style>
 </head>
 <body>
@@ -80,7 +101,6 @@
             <div class="arrow-next" id="js-next">→</div>
             
             <div class="nav-categories">
-                <span>filter</span>
                 <button class="cat-link active" onclick="filterProjects('all')">all</button>
                 <button class="cat-link" onclick="filterProjects('film')">serie/film</button>
                 <button class="cat-link" onclick="filterProjects('advertising')">advertising</button>
@@ -88,7 +108,7 @@
             </div>
 
             <div class="main-links">
-                <a href="#">about</a>
+                <a href="#" onclick="alert('Biografía en construcción')">about</a>
                 <a href="mailto:leandrobrunoeditor@gmail.com">contact</a>
             </div>
         </div>
@@ -112,23 +132,24 @@
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
-        // BASE DE DATOS DE PROYECTOS
         const allProjects = [
             { id: '7Cllu0Rme74', title: 'oreo', credits: 'p. primo films', cat: 'advertising' },
             { id: '-2AmqmciWXE', title: 'menem', credits: 'd. ariel winograd | p. claxon', cat: 'film' },
-            { id: 'ecr24akKDbs', title: 'coppola', credits: 'd. ariel winograd | p. pampa films', cat: 'film' }
+            { id: 'ecr24akKDbs', title: 'coppola', credits: 'd. ariel winograd | p. pampa films', cat: 'film' },
+            { id: 'ItX5aqhqsmo', title: 'blair', credits: 'music video | p. indie', cat: 'music' }
         ];
 
-        let swiper;
+        let swiperInstance;
         const wrapper = document.getElementById('projects-wrapper');
 
         function initSwiper() {
-            if (swiper) swiper.destroy(true, true);
+            if (swiperInstance) swiperInstance.destroy(true, true);
             
-            swiper = new Swiper(".mySwiper", {
+            swiperInstance = new Swiper(".mySwiper", {
                 direction: 'vertical',
                 loop: true,
                 speed: 1000,
+                allowTouchMove: true,
                 effect: 'creative',
                 creativeEffect: {
                     prev: { translate: [0, "110%", 0], opacity: 0 },
@@ -152,37 +173,43 @@
         }
 
         function filterProjects(category) {
-            // Actualizar botones UI
+            // UI Update
             document.querySelectorAll('.cat-link').forEach(btn => {
-                btn.classList.toggle('active', btn.innerText.includes(category) || (category === 'all' && btn.innerText === 'all'));
+                const btnText = btn.innerText.toLowerCase();
+                if(category === 'all') btn.classList.toggle('active', btnText === 'all');
+                else if(category === 'film') btn.classList.toggle('active', btnText === 'serie/film');
+                else btn.classList.toggle('active', btnText.includes(category));
             });
 
             const filtered = category === 'all' ? allProjects : allProjects.filter(p => p.cat === category);
             
-            wrapper.innerHTML = filtered.map(p => `
-                <div class="swiper-slide" data-title="${p.title}" data-credits="${p.credits}">
-                    <div class="video-container" onclick="toggleFullscreen()">
-                        <iframe src="https://www.youtube.com/embed/${p.id}?autoplay=1&mute=1&loop=1&playlist=${p.id}&controls=0&modestbranding=1&rel=0" allow="autoplay"></iframe>
+            if(filtered.length === 0) {
+                wrapper.innerHTML = '<div class="swiper-slide"><div class="video-container"><h2 style="color:white; text-align:center; padding-top:20%">próximamente</h2></div></div>';
+            } else {
+                wrapper.innerHTML = filtered.map(p => `
+                    <div class="swiper-slide" data-title="${p.title}" data-credits="${p.credits}">
+                        <div class="video-container" onclick="toggleFullscreen()">
+                            <iframe src="https://www.youtube.com/embed/${p.id}?autoplay=1&mute=1&loop=1&playlist=${p.id}&controls=0&modestbranding=1&rel=0&showinfo=0" allow="autoplay"></iframe>
+                        </div>
                     </div>
-                </div>
-            `).join('');
+                `).join('');
+            }
 
             initSwiper();
         }
 
-        // FUNCIÓN PANTALLA COMPLETA
         function toggleFullscreen() {
             const elem = document.getElementById('fullscreen-target');
             if (!document.fullscreenElement) {
-                elem.requestFullscreen().catch(err => alert(`Error: ${err.message}`));
+                elem.requestFullscreen().catch(err => console.log(err));
             } else {
                 document.exitFullscreen();
             }
         }
 
-        document.getElementById('js-next').addEventListener('click', () => swiper.slideNext());
+        document.getElementById('js-next').addEventListener('click', () => swiperInstance.slideNext());
 
-        // Carga inicial
+        // Inicialización
         filterProjects('all');
     </script>
 </body>
