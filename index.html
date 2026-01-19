@@ -72,7 +72,6 @@
             overflow: hidden; position: relative;
         }
         
-        /* Contenedores con transición sincronizada */
         #image-container, .project-details { 
             transition: opacity var(--transition-speed) ease-in-out; 
         }
@@ -113,16 +112,16 @@
             font-size: 0.95rem;
         }
 
-        /* LOGOS PLATAFORMAS */
+        /* LOGOS PLATAFORMAS - AGRANDADOS 50% (de 25px a 38px) */
         .platform-logo {
             margin-top: 30px;
-            height: 25px;
+            height: 38px;
             filter: brightness(0) invert(1);
             opacity: 0.8;
             display: block;
         }
 
-        /* PANEL DERECHO + SCROLL MINIMALISTA */
+        /* PANEL DERECHO */
         .right-panel { 
             display: flex; 
             flex-direction: column; 
@@ -133,7 +132,6 @@
             scrollbar-color: rgba(255,255,255,0.1) transparent;
         }
         .right-panel::-webkit-scrollbar { width: 3px; }
-        .right-panel::-webkit-scrollbar-track { background: transparent; }
         .right-panel::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
 
         .thumb-item { width: 100%; aspect-ratio: 16 / 9; background: #000; border: 1px solid rgba(255,255,255,0.05); overflow: hidden; transition: 0.5s; flex-shrink: 0; }
@@ -209,9 +207,11 @@
             <div id="about-section">
                 <img src="assets/Perfil_LMB.png" class="profile-pic" alt="Leandro Bruno">
                 <div class="about-content">
-                    <div id="txt-about-body" style="font-size:1.3rem; line-height:1.4; max-width:600px; text-transform:none; font-weight: 300; margin-bottom: 40px;"></div>
+                    <div id="txt-about-body" style="font-size:1.3rem; line-height:1.4; max-width:600px; text-transform:none; font-weight: 300; margin-bottom: 40px;">
+                        Editor de cine y publicidad con base en Buenos Aires. Ha trabajado en proyectos para plataformas como Netflix, Prime Video y Disney+.
+                    </div>
                     <div style="display: flex; gap: 20px; align-items: center;">
-                        <a id="txt-imdb" href="https://www.imdb.com/name/nm10600109/" target="_blank" class="imdb-link"></a>
+                        <a id="txt-imdb" href="https://www.imdb.com/name/nm10600109/" target="_blank" class="imdb-link">CRÉDITOS_IMDB ↗</a>
                         <a style="font-size: 0.75rem; color: #444; font-weight: 700;" onclick="showSection('work')">[ volver ]</a>
                     </div>
                 </div>
@@ -231,6 +231,7 @@
         
         const projects = [
             { title: "menem", category: "serie", images: ["assets/Menem_Thumbnail_1.jpg", "assets/Menem_Thumbnail_2.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon", desc_es: "Biopic que recorre el ascenso al poder de Carlos Menem.", desc_en: "Biopic tracing Carlos Menem's rise to power.", platform: "prime" },
+            { title: "las marías", category: "serie", images: ["assets/Marias_Thumbnail_1.jpg"], yt: "dQw4w9WgXcQ", director: "Nico Casavecchia", prod: "landia", desc_es: "Exploración visual y narrativa sobre la identidad.", desc_en: "Visual and narrative exploration of identity.", platform: "netflix" },
             { title: "el tiempo de las moscas", category: "serie", images: ["assets/Moscas_Thumbnail_1.jpg"], yt: "A0d6wnlMRRk", director: "Benjamín Naishtat", prod: "reino", desc_es: "Dos mujeres intentan reconstruir sus vidas tras salir de prisión.", desc_en: "Two women attempt to rebuild their lives after being released from prison.", platform: "netflix" },
             { title: "coppola, el representante", category: "serie", images: ["assets/Coppola_Thumbnail_2.jpg"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films", desc_es: "La historia de Guillermo Coppola.", desc_en: "The story of Guillermo Coppola.", platform: "disney" },
             { title: "levis x winona riders", category: "advertising", images: ["assets/Levis_Thumbnail_v01.jpg"], yt: "1eE588vXvqSECtESSjgwN_vpRmMFaUpRg", director: "Nico Alarcos", prod: "primo", desc_es: "Campaña de gira de Winona Riders.", desc_en: "Winona Riders commercial tour.", platform: "" },
@@ -261,11 +262,8 @@
             if(!onlyText) {
                 const container = document.getElementById('image-container');
                 const details = document.getElementById('p-details');
-                
-                // Fundido de salida sincronizado (0.5s)
                 container.classList.add('fade-out');
                 details.classList.add('fade-out');
-                
                 await new Promise(r => setTimeout(r, 500));
 
                 container.innerHTML = '';
@@ -277,7 +275,6 @@
                     container.appendChild(img);
                 });
 
-                // Actualizar textos mientras está invisible
                 document.getElementById('p-title').innerText = current.title;
                 document.getElementById('p-category').innerText = current.category;
                 const prodHtml = (current.prod && current.prod !== "") ? `<br><strong>${texts[currentLang].prod}</strong> ${current.prod}` : "";
@@ -293,7 +290,6 @@
                     platformContainer.appendChild(logo);
                 }
 
-                // Fundido de entrada sincronizado
                 container.classList.remove('fade-out');
                 details.classList.remove('fade-out');
             }
