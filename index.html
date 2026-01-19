@@ -34,13 +34,13 @@
         .side-left { font-size: 1.2rem; letter-spacing: 1px; line-height: 1.5; z-index: 10; }
         .side-left span { display: block; font-weight: 700; font-size: 1.4rem; margin-bottom: 5px; }
 
-        /* CONTENEDOR CENTRAL CON EFECTO STACK */
+        /* CONTENEDOR CENTRAL */
         .center-frame {
             grid-column: 2; width: 100%; max-width: 1000px; aspect-ratio: 16 / 9; margin: 0 auto;
             position: relative; 
         }
 
-        /* Swiper debe permitir ver lo que sale de sus bordes para el efecto peek */
+        /* Swiper Vertical con overflow visible para el stack */
         .swiper { width: 100%; height: 100%; overflow: visible !important; }
 
         .swiper-slide {
@@ -53,24 +53,24 @@
             transition: filter 0.6s ease;
         }
 
-        /* El slide que no está activo se ve grisaceo/atenuado */
+        /* Slide inactivo: gris y oscuro */
         .swiper-slide-next, .swiper-slide-prev {
-            filter: grayscale(1) brightness(0.7);
+            filter: grayscale(1) brightness(0.6);
         }
 
         .video-wrapper { width: 100%; height: 100%; position: relative; }
-        
-        /* Ajuste para ocultar controles de YT y que parezca un highlight */
         .video-wrapper iframe { 
-            width: 100%; height: 110%; border: none; 
-            position: absolute; top: -5%; left: 0;
-            pointer-events: none; /* Evita interacciones para que el click sea del swiper */
+            width: 100%; height: 112%; border: none; 
+            position: absolute; top: -6%; left: 0;
+            pointer-events: none; 
         }
 
         /* NAVEGACIÓN DERECHA */
         .side-right { display: flex; flex-direction: column; justify-content: space-around; height: 60%; align-items: flex-end; z-index: 10; }
         .swiper-button-next-custom { cursor: pointer; font-size: 3rem; color: var(--text); transition: 0.3s; margin-bottom: 50px; }
-        .swiper-button-next-custom:hover { transform: translateX(5px); }
+        /* Flecha apuntando hacia abajo para indicar swiper vertical */
+        .swiper-button-next-custom { transform: rotate(90deg); }
+        .swiper-button-next-custom:hover { transform: rotate(90deg) translateX(5px); }
 
         .nav-links { display: flex; flex-direction: column; gap: 15px; align-items: flex-end; }
         .nav-links a { text-decoration: none; color: var(--gray); font-size: 1.1rem; font-weight: 700; letter-spacing: 2px; transition: 0.3s; }
@@ -83,13 +83,6 @@
         }
         #p-name { font-size: 1.6rem; font-weight: 700; letter-spacing: 5px; margin-bottom: 5px; }
         #p-credits { font-size: 1rem; color: var(--gray); }
-
-        @media (max-width: 900px) {
-            .main-layout { grid-template-columns: 1fr; grid-template-rows: auto 1fr auto; padding: 20px; text-align: center; }
-            .side-left, .side-right { align-items: center; grid-column: 1; }
-            .side-right { flex-direction: row; width: 100%; height: auto; margin-top: 20px; }
-            .center-frame { width: 90%; }
-        }
     </style>
 </head>
 <body>
@@ -147,6 +140,7 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
         const swiper = new Swiper(".mySwiper", {
+            direction: 'vertical', // CAMBIO A DIRECCIÓN VERTICAL
             loop: true,
             speed: 1000,
             grabCursor: true,
@@ -154,18 +148,18 @@
             creativeEffect: {
                 prev: {
                     shadow: true,
-                    translate: ["-120%", 0, -500],
+                    translate: [0, "120%", -500], // Se va hacia abajo
                 },
                 next: {
-                    // Este es el efecto "peek": el siguiente se asoma arriba y atrás
-                    translate: [0, "-15%", -200],
+                    // EL STACK ARRIBA: centrado horizontalmente (0) y desplazado hacia arriba (-20%)
+                    translate: [0, "-20%", -250], 
                     rotate: [0, 0, 0],
-                    opacity: 0.6,
-                    scale: 0.9,
+                    opacity: 0.5,
+                    scale: 0.85,
                 },
             },
             autoplay: {
-                delay: 5000, // CAMBIO CADA 5 SEGUNDOS
+                delay: 5000,
                 disableOnInteraction: false,
             },
             navigation: {
@@ -173,14 +167,10 @@
             },
             on: {
                 slideChange: function () {
-                    // Actualizar textos al cambiar
                     const activeSlide = this.slides[this.activeIndex];
                     if(activeSlide) {
-                        const title = activeSlide.getAttribute('data-title');
-                        const credits = activeSlide.getAttribute('data-credits');
-                        
-                        document.getElementById('p-name').innerText = title;
-                        document.getElementById('p-credits').innerHTML = credits;
+                        document.getElementById('p-name').innerText = activeSlide.getAttribute('data-title');
+                        document.getElementById('p-credits').innerHTML = activeSlide.getAttribute('data-credits');
                     }
                 }
             }
