@@ -122,7 +122,7 @@
             display: block;
         }
 
-        /* PANEL DERECHO - SCROLL MINIMALISTA */
+        /* PANEL DERECHO */
         .right-panel { 
             display: flex; 
             flex-direction: column; 
@@ -145,10 +145,9 @@
         /* MODALES */
         .video-modal, .gallery-modal { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.95); display: none; z-index: 1000; 
+            background: rgba(0,0,0,0.97); display: none; z-index: 1000; 
             justify-content: center; align-items: center; 
         }
-        /* Reducción del 15% en el tamaño del video (90% * 0.85 = 76.5%) */
         .video-wrapper { width: 76.5%; max-width: 1200px; aspect-ratio: 16 / 9; position: relative; }
         .gallery-wrapper { width: 90%; max-width: 1400px; aspect-ratio: 16 / 9; position: relative; }
         
@@ -171,9 +170,6 @@
             .right-panel { flex-direction: row; height: 140px; margin-top: 20px; overflow-x: auto; overflow-y: hidden; }
             .thumb-item { width: 220px; }
             .project-details h2 { font-size: 2.5rem; }
-            .modal-arrow { font-size: 2rem; }
-            .arrow-left { left: 0; }
-            .arrow-right { right: 0; }
             .video-wrapper { width: 95%; }
         }
     </style>
@@ -181,6 +177,8 @@
 <body>
 
     <div class="blueprint-bg"></div>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
 
     <main class="main-layout">
         <section class="left-panel">
@@ -259,6 +257,7 @@
         let slideIndex = 0;
         let modalSlideIndex = 0;
         let slideRotation, mainRotation;
+        let ytPlayer;
 
         const projects = [
             { title: "menem", category: "serie", images: ["assets/Menem_Thumbnail_1.jpg", "assets/Menem_Thumbnail_2.jpg", "assets/Menem_Thumbnail_3.png", "assets/Menem_Thumbnail_4.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", desc_es: "Biopic que recorre el ascenso al poder de Carlos Menem en los años 90. Una exploración sobre el carisma, la política y la cultura argentina de una era inolvidable.", desc_en: "Biopic tracing Carlos Menem's rise to power in the 1990s. An exploration of the charisma, politics, and culture of an unforgettable Argentine era." },
@@ -351,8 +350,20 @@
             const p = filteredProjects[currentIndex];
             if(p.yt) {
                 document.getElementById('modal-v').style.display = 'flex';
-                const url = p.yt.length > 20 ? `https://drive.google.com/file/d/${p.yt}/preview` : `https://www.youtube.com/embed/${p.yt}?autoplay=1`;
-                document.getElementById('video-player').innerHTML = `<iframe width="100%" height="100%" src="${url}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+                // Si es YouTube normal, usamos el API para detectar el fin
+                if (p.yt.length < 20) {
+                    document.getElementById('video-player').innerHTML = `<div id="yt-player-container"></div>`;
+                    ytPlayer = new YT.Player('yt-player-container', {
+                        height: '100%', width: '100%',
+                        videoId: p.yt,
+                        playerVars: { 'autoplay': 1, 'rel': 0 },
+                        events: { 'onStateChange': (e) => { if(e.data === YT.PlayerState.ENDED) goToNextProject(); } }
+                    });
+                } else {
+                    // Google Drive (no permite API de fin de video tan fácil, cerramos manual o con Esc)
+                    const url = `https://drive.google.com/file/d/${p.yt}/preview`;
+                    document.getElementById('video-player').innerHTML = `<iframe width="100%" height="100%" src="${url}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+                }
             } else {
                 modalSlideIndex = 0;
                 document.getElementById('modal-g').style.display = 'flex';
@@ -360,9 +371,29 @@
             }
         }
 
+        // LÓGICA DE CIERRE Y AVANCE
+        function goToNextProject() {
+            closeModals();
+            currentIndex = (currentIndex + 1) % filteredProjects.length;
+            updateDisplay();
+            resetIntervals();
+        }
+
         function modalGalleryNav(dir) {
             const imgs = filteredProjects[currentIndex].images;
-            modalSlideIndex = (modalSlideIndex + dir + imgs.length) % imgs.length;
+            const nextIdx = modalSlideIndex + dir;
+
+            // Si llegamos al final de la galería y presionamos "Siguiente"
+            if (nextIdx >= imgs.length && dir > 0) {
+                goToNextProject();
+                return;
+            }
+            // Si estamos en la primera y presionamos "Atrás" (opcional: vuelve al anterior o lo dejamos circular)
+            if (nextIdx < 0 && dir < 0) {
+                modalSlideIndex = imgs.length - 1;
+            } else {
+                modalSlideIndex = nextIdx;
+            }
             updateGalleryImg();
         }
 
@@ -373,15 +404,13 @@
         function closeModals() {
             document.querySelectorAll('.video-modal, .gallery-modal').forEach(m => m.style.display = 'none');
             document.getElementById('video-player').innerHTML = '';
+            if(ytPlayer) { ytPlayer.destroy(); ytPlayer = null; }
         }
 
-        // Lógica de Teclado
+        // Teclado
         document.addEventListener('keydown', (e) => {
             const isGalleryOpen = document.getElementById('modal-g').style.display === 'flex';
-            const isVideoOpen = document.getElementById('modal-v').style.display === 'flex';
-
             if (e.key === 'Escape') closeModals();
-
             if (isGalleryOpen) {
                 if (e.key === 'ArrowRight') modalGalleryNav(1);
                 if (e.key === 'ArrowLeft') modalGalleryNav(-1);
