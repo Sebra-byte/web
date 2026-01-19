@@ -22,7 +22,7 @@
 
         .split-container { display: flex; height: 100vh; width: 100vw; }
 
-        /* PANEL IZQUIERDA: SLIDER PRINCIPAL */
+        /* PANEL IZQUIERDO: SLIDER PRINCIPAL */
         .left-panel {
             flex: 1.3; height: 100%; background: #000;
             position: relative; overflow: hidden; cursor: pointer;
@@ -34,7 +34,7 @@
         .slide { min-width: 100%; height: 100%; }
         .slide img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* PANEL DERECHA: CONTENIDO */
+        /* PANEL DERECHO: CONTENIDO */
         .right-panel {
             flex: 1; height: 100%; overflow-y: auto;
             padding: 60px; background: var(--bg);
@@ -42,8 +42,7 @@
             display: flex; flex-direction: column;
         }
 
-        /* NUEVO LOGO EN TEXTO */
-        .brand-logo { margin-bottom: 50px; cursor: pointer; }
+        .brand-logo { margin-bottom: 50px; cursor: pointer; text-decoration: none; color: inherit; display: block; }
         .brand-logo h1 { 
             font-size: 2.2rem; font-weight: 800; margin: 0; 
             line-height: 1; text-transform: uppercase; letter-spacing: -0.02em; 
@@ -68,12 +67,12 @@
             margin-bottom: 25px; font-size: 0.7rem;
             text-transform: uppercase; letter-spacing: 0.05em; font-weight: 800;
         }
-        .filter-bar span { margin-right: 15px; cursor: pointer; opacity: 0.4; }
+        .filter-bar span { margin-right: 15px; cursor: pointer; opacity: 0.4; transition: 0.3s; }
         .filter-bar span.active-filter { opacity: 1; text-decoration: underline; }
 
         .project-row {
             display: flex; gap: 20px; padding: 20px 0;
-            border-top: 1px solid rgba(0,0,0,0.08); cursor: pointer;
+            border-top: 1px solid rgba(0,0,0,0.08); cursor: pointer; transition: 0.3s;
         }
         .project-row.selected { background: #fff; padding-left: 10px; }
 
@@ -93,13 +92,20 @@
         }
         .project-overlay.active { display: flex; animation: fadeIn 0.4s ease; }
 
+        /* Contenedor Limpio (Recorta YouTube) */
         .overlay-media-container {
             width: 90vw; height: 90vh; position: relative;
-            display: flex; justify-content: center; align-items: center; background: #000;
+            overflow: hidden; /* Esto oculta los bordes de YouTube */
+            background: #000;
         }
-        #overlay-player { width: 100%; height: 100%; }
 
-        /* Capa de Información Flotante */
+        /* Hack para ocultar UI de Youtube: hacemos el iframe más grande que su contenedor */
+        #overlay-player { 
+            position: absolute;
+            top: -10%; left: -5%;
+            width: 110%; height: 120%; 
+        }
+
         .overlay-info-panel {
             position: absolute; bottom: 40px; left: 40px;
             background: rgba(245, 245, 240, 0.95);
@@ -107,7 +113,7 @@
             color: var(--text); border-radius: 2px;
             transform: translateY(20px); opacity: 0;
             transition: 0.5s all ease 0.2s;
-            pointer-events: auto;
+            pointer-events: auto; z-index: 10;
         }
         .project-overlay.active .overlay-info-panel { transform: translateY(0); opacity: 1; }
 
@@ -119,9 +125,9 @@
         .close-overlay {
             position: absolute; top: 30px; right: 40px; color: #fff;
             font-size: 0.8rem; font-weight: 800; cursor: pointer; z-index: 6000;
+            background: rgba(0,0,0,0.5); padding: 5px 10px; border-radius: 3px;
         }
 
-        /* Slider para proyectos sin video en Overlay */
         .overlay-img-slider { width: 100%; height: 100%; overflow: hidden; position: relative; }
         .overlay-slider-inner { display: flex; height: 100%; transition: transform 0.5s ease; }
         .overlay-slide { min-width: 100%; height: 100%; }
@@ -139,6 +145,7 @@
             .right-panel { flex: none; padding: 40px 20px; }
             .overlay-media-container { width: 100vw; height: 50vh; }
             .overlay-info-panel { position: relative; bottom: 0; left: 0; width: 100%; max-width: none; padding: 30px; transform: none; }
+            #overlay-player { width: 100%; height: 100%; top: 0; left: 0; }
         }
     </style>
 </head>
@@ -150,10 +157,10 @@
         </div>
 
         <div class="right-panel">
-            <header class="brand-logo" onclick="showSection('work')">
+            <div class="brand-logo" onclick="showSection('work')">
                 <h1>Leandro Bruno</h1>
                 <p>film editor</p>
-            </header>
+            </div>
 
             <nav class="nav-links">
                 <a id="nav-work" class="active" onclick="showSection('work')">Work</a>
@@ -167,6 +174,7 @@
                     <span class="active-filter" onclick="filterBy('all')">/ Todos</span>
                     <span onclick="filterBy('ficción')">/ Ficción</span>
                     <span onclick="filterBy('advertising')">/ Publicidad</span>
+                    <span onclick="filterBy('music video')">/ Videoclips</span>
                 </div>
                 <div id="project-list"></div>
             </section>
@@ -184,7 +192,7 @@
     </div>
 
     <div class="project-overlay" id="project-overlay">
-        <div class="close-overlay" onclick="closeOverlay()">[ CLOSE ]</div>
+        <div class="close-overlay" onclick="closeOverlay()">[ CERRAR ]</div>
         <div class="overlay-media-container">
             <div id="overlay-player-wrapper" style="width:100%; height:100%; display:none;">
                 <div id="overlay-player"></div>
@@ -192,9 +200,7 @@
             <div id="overlay-image-slider" class="overlay-img-slider" style="display:none;" onclick="moveOverlaySlide()">
                 <div class="overlay-slider-inner" id="overlay-slider-inner"></div>
             </div>
-
-            <div class="overlay-info-panel" id="info-panel">
-                </div>
+            <div class="overlay-info-panel" id="info-panel"></div>
         </div>
     </div>
 
@@ -207,18 +213,24 @@
         let autoPlayInterval;
 
         const projects = [
-            { title: "menem", category: "serie", images: ["assets/Menem_Thumbnail_1.jpg", "assets/Menem_Thumbnail_2.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", desc_es: "Biopic sobre Carlos Menem.", desc_en: "Biopic about Carlos Menem." },
-            { title: "oreo", category: "advertising", images: ["https://img.youtube.com/vi/7Cllu0Rme74/maxresdefault.jpg"], yt: "7Cllu0Rme74", director: "primo films", prod: "primo", desc_es: "Campaña global para Oreo.", desc_en: "Global campaign for Oreo." },
-            { title: "el tiempo de las moscas", category: "serie", images: ["assets/Moscas_Thumbnail_v01.png"], yt: "A0d6wnlMRRk", director: "ana katz", prod: "netflix", desc_es: "Serie original de Netflix.", desc_en: "Netflix original series." },
-            { title: "coppola", category: "serie", images: ["assets/Coppola_Thumbnail_2.jpg"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films / disney+", desc_es: "Miniserie de Disney+.", desc_en: "Disney+ original series." },
-            { title: "las manos de la abuela", category: "cortometraje", images: ["assets/MA_Thumbnail_1.png", "assets/MA_Thumbnail_2.png"], yt: "", director: "camila mediocre", prod: "", desc_es: "Ensayo poético sobre la memoria.", desc_en: "Poetic essay on memory." }
+            { title: "menem", category: "serie", images: ["assets/Menem_Thumbnail_1.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", desc_es: "Biopic que recorre el ascenso al poder de Carlos Menem.", desc_en: "Biopic tracing Carlos Menem's rise to power." },
+            { title: "oreo", category: "advertising", images: ["https://img.youtube.com/vi/7Cllu0Rme74/maxresdefault.jpg"], yt: "7Cllu0Rme74", director: "primo films", prod: "primo", desc_es: "Campaña publicitaria global para Oreo.", desc_en: "Global advertising campaign for Oreo." },
+            { title: "el tiempo de las moscas", category: "serie", images: ["assets/Moscas_Thumbnail_v01.png"], yt: "A0d6wnlMRRk", director: "ana katz", prod: "netflix", desc_es: "Serie original de Netflix dirigida por Ana Katz.", desc_en: "Netflix original series directed by Ana Katz." },
+            { title: "levis", category: "advertising", images: ["assets/Levis_Thumbnail_v01.jpg"], yt: "7Cllu0Rme74", director: "lorenzo shakespear", prod: "levis argentina", desc_es: "Campaña aniversario del icónico modelo 501.", desc_en: "Anniversary campaign for the iconic 501 model." },
+            { title: "coppola", category: "serie", images: ["assets/Coppola_Thumbnail_2.jpg"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films / disney+", desc_es: "La historia de Guillermo Coppola, el representante más famoso.", desc_en: "The story of Guillermo Coppola, the most famous manager." },
+            { title: "blair", category: "music video", images: ["assets/Blair_Thumbnail_v01.jpg"], yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster", desc_es: "Videoclip oficial para la artista Blair.", desc_en: "Official music video for the artist Blair." },
+            { title: "las manos de la abuela", category: "cortometraje", images: ["assets/MA_Thumbnail_1.png", "assets/MA_Thumbnail_2.png"], yt: "", director: "camila mediocre", prod: "", desc_es: "Ensayo poético que explora la memoria familiar.", desc_en: "Poetic essay exploring family memory." },
+            { title: "ratones paranoicos", category: "music video", images: ["assets/RP_Thumnmail.jpg"], yt: "", director: "alex roux", prod: "poster", desc_es: "Pieza audiovisual para la banda de rock argentina.", desc_en: "Audiovisual piece for the Argentine rock band." },
+            { title: "besos brujos", category: "cortometraje", images: ["assets/BesosBrujos-Thumbnail.jpg"], yt: "", director: "karina flonembaum", prod: "", desc_es: "Ficción breve de atmósfera onírica.", desc_en: "Short fiction with a dreamlike atmosphere." },
+            { title: "las marias", category: "advertising", images: ["assets/Marias_Thumbnail_1.png"], yt: "", director: "alejandro berger parrado", prod: "navajo films", desc_es: "Pieza documental publicitaria sobre tradición yerbatera.", desc_en: "Advertising documentary on yerba mate tradition." },
+            { title: "todo lo que recuerdo", category: "cortometraje", images: ["assets/TodoLoQueRecuerdo_Thumbnail_1.png"], yt: "", director: "nicolas fernandez melian", prod: "", desc_es: "Un viaje sensorial por la memoria fragmentada.", desc_en: "A sensory journey through fragmented memory." }
         ];
 
         let activeProjects = [...projects];
 
         const content = {
-            es: { bio: "Leandro Bruno es un editor de cine y publicidad con base en Buenos Aires. Se especializa en montaje rítmico y narrativa de ficción para plataformas globales.", dir: "Director", prod: "Producción", more: "Ver más →" },
-            en: { bio: "Leandro Bruno is a film and advertising editor based in Buenos Aires. Specialized in rhythmic editing and narrative fiction for global platforms.", dir: "Director", prod: "Production", more: "See more →" }
+            es: { bio: "Leandro Bruno es un editor de cine y publicidad con base en Buenos Aires. Se especializa en montaje rítmico y narrativa de ficción para plataformas globales como Netflix, Disney+ y Prime Video.", dir: "Director", prod: "Producción", more: "Ver más →", close: "[ CERRAR ]" },
+            en: { bio: "Leandro Bruno is a film and advertising editor based in Buenos Aires. He specializes in rhythmic editing and narrative fiction for global platforms such as Netflix, Disney+, and Prime Video.", dir: "Director", prod: "Production", more: "See more →", close: "[ CLOSE ]" }
         };
 
         function initSlider() {
@@ -252,7 +264,6 @@
             e.stopPropagation();
             const p = activeProjects[idx];
             document.getElementById('project-overlay').classList.add('active');
-            
             document.getElementById('info-panel').innerHTML = `
                 <h1>${p.title}</h1>
                 <div class="meta">${p.category}</div>
@@ -263,8 +274,22 @@
             if(p.yt) {
                 document.getElementById('overlay-player-wrapper').style.display = 'block';
                 document.getElementById('overlay-image-slider').style.display = 'none';
-                if(ytPlayer) ytPlayer.loadVideoById(p.yt);
-                else ytPlayer = new YT.Player('overlay-player', { videoId: p.yt, playerVars: { 'autoplay': 1 } });
+                
+                const ytOptions = {
+                    videoId: p.yt,
+                    playerVars: { 
+                        'autoplay': 1, 
+                        'controls': 0, // Oculta botones de play/volumen
+                        'rel': 0, // No muestra videos relacionados
+                        'modestbranding': 1, // Quita parte del logo
+                        'showinfo': 0, // Oculta título (en reproductores viejos)
+                        'iv_load_policy': 3, // Oculta anotaciones
+                        'disablekb': 1 // Desactiva teclado
+                    }
+                };
+
+                if(ytPlayer) ytPlayer.loadVideoById(ytOptions);
+                else ytPlayer = new YT.Player('overlay-player', ytOptions);
             } else {
                 document.getElementById('overlay-player-wrapper').style.display = 'none';
                 document.getElementById('overlay-image-slider').style.display = 'block';
@@ -294,7 +319,9 @@
         function filterBy(cat) {
             document.querySelectorAll('#filter-bar span').forEach(s => s.classList.remove('active-filter'));
             event.target.classList.add('active-filter');
-            activeProjects = (cat === 'all') ? [...projects] : projects.filter(p => p.category === cat || (cat === 'ficción' && (p.category === 'serie' || p.category === 'cortometraje')));
+            if(cat === 'all') activeProjects = [...projects];
+            else if(cat === 'ficción') activeProjects = projects.filter(p => p.category === 'serie' || p.category === 'cortometraje');
+            else activeProjects = projects.filter(p => p.category === cat);
             currentIndex = 0; initSlider(); renderList(); selectProject(0);
         }
 
@@ -309,6 +336,7 @@
             document.getElementById('l-es').className = lang === 'es' ? 'active' : '';
             document.getElementById('l-en').className = lang === 'en' ? 'active' : '';
             document.getElementById('bio-text').innerText = content[lang].bio;
+            document.querySelector('.close-overlay').innerText = content[lang].close;
             renderList();
         }
 
