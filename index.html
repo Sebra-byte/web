@@ -42,7 +42,7 @@
             display: flex; flex-direction: column;
         }
 
-        .brand-logo { margin-bottom: 50px; cursor: pointer; text-decoration: none; color: inherit; display: block; }
+        .brand-logo { margin-bottom: 50px; cursor: pointer; display: block; }
         .brand-logo h1 { 
             font-size: 2.2rem; font-weight: 800; margin: 0; 
             line-height: 1; text-transform: uppercase; letter-spacing: -0.02em; 
@@ -92,18 +92,33 @@
         }
         .project-overlay.active { display: flex; animation: fadeIn 0.4s ease; }
 
-        /* Contenedor Limpio (Recorta YouTube) */
         .overlay-media-container {
             width: 90vw; height: 90vh; position: relative;
-            overflow: hidden; /* Esto oculta los bordes de YouTube */
-            background: #000;
+            overflow: hidden; background: #000;
         }
 
-        /* Hack para ocultar UI de Youtube: hacemos el iframe más grande que su contenedor */
+        /* Capa para detectar clics sin UI */
+        .video-click-surface {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 5; cursor: pointer;
+        }
+
+        /* Recorte sutil: Solo 4% arriba y abajo para esconder logo/título */
         #overlay-player { 
             position: absolute;
-            top: -10%; left: -5%;
-            width: 110%; height: 120%; 
+            top: -4%; left: 0;
+            width: 100%; height: 108%; 
+            pointer-events: none;
+        }
+
+        /* Barra de progreso minimalista */
+        .video-progress-container {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 4px;
+            background: rgba(255,255,255,0.1); z-index: 20;
+        }
+        .video-progress-bar {
+            height: 100%; width: 0%; background: #fff;
+            transition: width 0.1s linear;
         }
 
         .overlay-info-panel {
@@ -125,7 +140,7 @@
         .close-overlay {
             position: absolute; top: 30px; right: 40px; color: #fff;
             font-size: 0.8rem; font-weight: 800; cursor: pointer; z-index: 6000;
-            background: rgba(0,0,0,0.5); padding: 5px 10px; border-radius: 3px;
+            letter-spacing: 2px;
         }
 
         .overlay-img-slider { width: 100%; height: 100%; overflow: hidden; position: relative; }
@@ -195,7 +210,11 @@
         <div class="close-overlay" onclick="closeOverlay()">[ CERRAR ]</div>
         <div class="overlay-media-container">
             <div id="overlay-player-wrapper" style="width:100%; height:100%; display:none;">
+                <div class="video-click-surface" onclick="togglePlayPause()"></div>
                 <div id="overlay-player"></div>
+                <div class="video-progress-container">
+                    <div class="video-progress-bar" id="progress-bar"></div>
+                </div>
             </div>
             <div id="overlay-image-slider" class="overlay-img-slider" style="display:none;" onclick="moveOverlaySlide()">
                 <div class="overlay-slider-inner" id="overlay-slider-inner"></div>
@@ -211,6 +230,7 @@
         let overlaySlideIdx = 0;
         let ytPlayer;
         let autoPlayInterval;
+        let progressInterval;
 
         const projects = [
             { title: "menem", category: "serie", images: ["assets/Menem_Thumbnail_1.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", desc_es: "Biopic que recorre el ascenso al poder de Carlos Menem.", desc_en: "Biopic tracing Carlos Menem's rise to power." },
@@ -229,8 +249,8 @@
         let activeProjects = [...projects];
 
         const content = {
-            es: { bio: "Leandro Bruno es un editor de cine y publicidad con base en Buenos Aires. Se especializa en montaje rítmico y narrativa de ficción para plataformas globales como Netflix, Disney+ y Prime Video.", dir: "Director", prod: "Producción", more: "Ver más →", close: "[ CERRAR ]" },
-            en: { bio: "Leandro Bruno is a film and advertising editor based in Buenos Aires. He specializes in rhythmic editing and narrative fiction for global platforms such as Netflix, Disney+, and Prime Video.", dir: "Director", prod: "Production", more: "See more →", close: "[ CLOSE ]" }
+            es: { bio: "Leandro Bruno es un editor de cine y publicidad con base en Buenos Aires. Se especializa en montaje rítmico y narrativa de ficción para plataformas globales.", dir: "Director", prod: "Producción", more: "Ver más →", close: "[ CERRAR ]" },
+            en: { bio: "Leandro Bruno is a film and advertising editor based in Buenos Aires. Specialized in rhythmic editing and narrative fiction for global platforms.", dir: "Director", prod: "Production", more: "See more →", close: "[ CLOSE ]" }
         };
 
         function initSlider() {
@@ -252,7 +272,8 @@
 
         function selectProject(i) {
             currentIndex = i;
-            document.getElementById('main-slider').style.transform = `translateX(-${i * 100}%)`;
+            const slider = document.getElementById('main-slider');
+            if(slider) slider.style.transform = `translateX(-${i * 100}%)`;
             renderList();
             resetAutoPlay();
         }
@@ -277,19 +298,18 @@
                 
                 const ytOptions = {
                     videoId: p.yt,
-                    playerVars: { 
-                        'autoplay': 1, 
-                        'controls': 0, // Oculta botones de play/volumen
-                        'rel': 0, // No muestra videos relacionados
-                        'modestbranding': 1, // Quita parte del logo
-                        'showinfo': 0, // Oculta título (en reproductores viejos)
-                        'iv_load_policy': 3, // Oculta anotaciones
-                        'disablekb': 1 // Desactiva teclado
+                    playerVars: { 'autoplay': 1, 'controls': 0, 'rel': 0, 'modestbranding': 1, 'showinfo': 0 },
+                    events: { 
+                        'onStateChange': onPlayerStateChange,
+                        'onReady': (e) => { e.target.playVideo(); startProgressTracker(); }
                     }
                 };
 
-                if(ytPlayer) ytPlayer.loadVideoById(ytOptions);
-                else ytPlayer = new YT.Player('overlay-player', ytOptions);
+                if(ytPlayer && ytPlayer.loadVideoById) {
+                    ytPlayer.loadVideoById(p.yt);
+                } else {
+                    ytPlayer = new YT.Player('overlay-player', ytOptions);
+                }
             } else {
                 document.getElementById('overlay-player-wrapper').style.display = 'none';
                 document.getElementById('overlay-image-slider').style.display = 'block';
@@ -300,19 +320,35 @@
             clearInterval(autoPlayInterval);
         }
 
-        function moveOverlaySlide() {
-            const count = document.querySelectorAll('.overlay-slide').length;
-            overlaySlideIdx = (overlaySlideIdx + 1) % count;
-            updateOverlaySlider();
+        function startProgressTracker() {
+            clearInterval(progressInterval);
+            progressInterval = setInterval(() => {
+                if(ytPlayer && ytPlayer.getCurrentTime) {
+                    const current = ytPlayer.getCurrentTime();
+                    const total = ytPlayer.getDuration();
+                    const pct = (current / total) * 100;
+                    document.getElementById('progress-bar').style.width = pct + "%";
+                }
+            }, 100);
         }
 
-        function updateOverlaySlider() {
-            document.getElementById('overlay-slider-inner').style.transform = `translateX(-${overlaySlideIdx * 100}%)`;
+        function onPlayerStateChange(event) {
+            if (event.data === YT.PlayerState.ENDED) closeOverlay();
+        }
+
+        function togglePlayPause() {
+            if (ytPlayer && ytPlayer.getPlayerState) {
+                const state = ytPlayer.getPlayerState();
+                if (state === YT.PlayerState.PLAYING) ytPlayer.pauseVideo();
+                else ytPlayer.playVideo();
+            }
         }
 
         function closeOverlay() {
             document.getElementById('project-overlay').classList.remove('active');
-            if(ytPlayer) ytPlayer.stopVideo();
+            if(ytPlayer && ytPlayer.stopVideo) ytPlayer.stopVideo();
+            clearInterval(progressInterval);
+            document.getElementById('progress-bar').style.width = "0%";
             resetAutoPlay();
         }
 
