@@ -21,57 +21,59 @@
             text-transform: lowercase;
         }
 
-        /* UI OVERLAY MEJORADA */
+        /* UI OVERLAY - Ajustada para visibilidad */
         .ui-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             display: flex; justify-content: space-between; align-items: center;
-            padding: 0 60px; pointer-events: none; z-index: 100;
+            padding: 0 40px; /* Margen lateral */
+            pointer-events: none; z-index: 1000;
         }
 
-        /* Lateral Izquierdo */
-        .side-brand { pointer-events: auto; width: 200px; }
-        .side-brand h1 { font-size: 1.1rem; font-weight: 700; margin: 0; line-height: 1.2; }
-        .side-brand p { font-size: 0.9rem; margin: 5px 0 0 0; color: var(--gray); }
+        /* Lateral Izquierdo - Nombre */
+        .side-brand { pointer-events: auto; min-width: 250px; }
+        .side-brand h1 { font-size: 1.4rem; font-weight: 700; margin: 0; line-height: 1.2; }
+        .side-brand p { font-size: 1.1rem; margin: 5px 0 0 0; color: var(--gray); }
 
-        /* Lateral Derecho */
+        /* Lateral Derecho - Navegación y Filtros */
         .side-nav { 
-            pointer-events: auto; width: 200px; text-align: right; 
+            pointer-events: auto; min-width: 250px; text-align: right; 
             display: flex; flex-direction: column; height: 100%; justify-content: center;
+            gap: 50px;
         }
         
-        .arrow-next { cursor: pointer; font-size: 1.5rem; margin-bottom: 50px; align-self: flex-end; }
+        .arrow-next { cursor: pointer; font-size: 2rem; align-self: flex-end; transition: 0.3s; }
+        .arrow-next:hover { transform: translateX(5px); }
 
-        /* Menú de Filtros (Work) */
-        .nav-categories { display: flex; flex-direction: column; gap: 6px; margin-bottom: 40px; }
+        /* Filtros más grandes y separados */
+        .nav-categories { display: flex; flex-direction: column; gap: 12px; }
         .cat-link { 
-            cursor: pointer; color: var(--gray); font-size: 0.9rem; font-weight: 400; 
-            transition: 0.3s; border: none; background: none; padding: 0; 
+            cursor: pointer; color: var(--gray); font-size: 1.1rem; font-weight: 400; 
+            transition: 0.3s; border: none; background: none; padding: 5px 0; 
             text-align: right; font-family: inherit; outline: none;
         }
-        .cat-link.active { color: var(--text); font-weight: 700; }
+        .cat-link.active { color: var(--text); font-weight: 700; text-decoration: underline; }
         .cat-link:hover { color: var(--text); }
 
-        /* Links Principales */
-        .main-links { display: flex; flex-direction: column; gap: 8px; }
-        .main-links a { text-decoration: none; color: var(--text); font-size: 0.9rem; font-weight: 700; transition: 0.3s; }
-        .main-links a:hover { opacity: 0.5; }
+        /* Links de contacto y about */
+        .main-links { display: flex; flex-direction: column; gap: 12px; border-top: 1px solid #dcdcdc; padding-top: 20px; }
+        .main-links a { text-decoration: none; color: var(--text); font-size: 1.1rem; font-weight: 700; }
 
-        /* INFO INFERIOR */
+        /* INFO INFERIOR - Texto más grande */
         .project-info {
-            position: fixed; bottom: 50px; left: 50%; transform: translateX(-50%);
-            text-align: center; z-index: 100; width: 100%;
+            position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
+            text-align: center; z-index: 1000; width: 100%;
         }
         .info-wrapper { transition: opacity 0.5s, transform 0.5s; }
         .info-wrapper.changing { opacity: 0; transform: translateY(10px); }
-        .project-info h2 { font-size: 1.4rem; font-weight: 700; margin: 0 0 5px 0; letter-spacing: 2px; }
-        .project-info p { font-size: 0.85rem; color: var(--gray); margin: 0; }
+        .project-info h2 { font-size: 1.8rem; font-weight: 700; margin: 0 0 5px 0; letter-spacing: 2px; }
+        .project-info p { font-size: 1rem; color: var(--gray); margin: 0; }
 
-        /* SLIDER CENTRAL */
+        /* SLIDER CENTRAL - Reducido un poco para dar aire a los textos */
         .slider-container { width: 100%; height: 100vh; display: flex; align-items: center; justify-content: center; }
-        .center-frame { width: 60%; max-width: 1000px; aspect-ratio: 16 / 9; position: relative; }
+        .center-frame { width: 55%; max-width: 900px; aspect-ratio: 16 / 9; position: relative; z-index: 10; }
 
         .swiper { width: 100%; height: 100%; overflow: visible !important; }
-        .swiper-slide { width: 100%; height: 100%; background: #000; overflow: hidden; box-shadow: 0 40px 100px rgba(0,0,0,0.15); }
+        .swiper-slide { width: 100%; height: 100%; background: #000; border-radius: 2px; overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,0.2); }
 
         .video-container { width: 100%; height: 100%; position: relative; cursor: zoom-in; }
         .video-container iframe { 
@@ -79,13 +81,10 @@
             position: absolute; top: -7%; left: 0; pointer-events: none; 
         }
 
-        /* Estilo para el modo fullscreen */
-        #fullscreen-target:fullscreen .video-container { cursor: zoom-out; }
-
-        @media (max-width: 1024px) {
+        @media (max-width: 1200px) {
             .ui-overlay { padding: 0 20px; }
-            .center-frame { width: 80%; }
-            .side-brand, .side-nav { width: 150px; }
+            .center-frame { width: 70%; }
+            .side-brand, .side-nav { min-width: 180px; }
         }
     </style>
 </head>
@@ -108,7 +107,7 @@
             </div>
 
             <div class="main-links">
-                <a href="#" onclick="alert('Biografía en construcción')">about</a>
+                <a href="#">about</a>
                 <a href="mailto:leandrobrunoeditor@gmail.com">contact</a>
             </div>
         </div>
@@ -135,8 +134,7 @@
         const allProjects = [
             { id: '7Cllu0Rme74', title: 'oreo', credits: 'p. primo films', cat: 'advertising' },
             { id: '-2AmqmciWXE', title: 'menem', credits: 'd. ariel winograd | p. claxon', cat: 'film' },
-            { id: 'ecr24akKDbs', title: 'coppola', credits: 'd. ariel winograd | p. pampa films', cat: 'film' },
-            { id: 'ItX5aqhqsmo', title: 'blair', credits: 'music video | p. indie', cat: 'music' }
+            { id: 'ecr24akKDbs', title: 'coppola', credits: 'd. ariel winograd | p. pampa films', cat: 'film' }
         ];
 
         let swiperInstance;
@@ -149,7 +147,6 @@
                 direction: 'vertical',
                 loop: true,
                 speed: 1000,
-                allowTouchMove: true,
                 effect: 'creative',
                 creativeEffect: {
                     prev: { translate: [0, "110%", 0], opacity: 0 },
@@ -173,7 +170,6 @@
         }
 
         function filterProjects(category) {
-            // UI Update
             document.querySelectorAll('.cat-link').forEach(btn => {
                 const btnText = btn.innerText.toLowerCase();
                 if(category === 'all') btn.classList.toggle('active', btnText === 'all');
@@ -183,17 +179,13 @@
 
             const filtered = category === 'all' ? allProjects : allProjects.filter(p => p.cat === category);
             
-            if(filtered.length === 0) {
-                wrapper.innerHTML = '<div class="swiper-slide"><div class="video-container"><h2 style="color:white; text-align:center; padding-top:20%">próximamente</h2></div></div>';
-            } else {
-                wrapper.innerHTML = filtered.map(p => `
-                    <div class="swiper-slide" data-title="${p.title}" data-credits="${p.credits}">
-                        <div class="video-container" onclick="toggleFullscreen()">
-                            <iframe src="https://www.youtube.com/embed/${p.id}?autoplay=1&mute=1&loop=1&playlist=${p.id}&controls=0&modestbranding=1&rel=0&showinfo=0" allow="autoplay"></iframe>
-                        </div>
+            wrapper.innerHTML = filtered.map(p => `
+                <div class="swiper-slide" data-title="${p.title}" data-credits="${p.credits}">
+                    <div class="video-container" onclick="toggleFullscreen()">
+                        <iframe src="https://www.youtube.com/embed/${p.id}?autoplay=1&mute=1&loop=1&playlist=${p.id}&controls=0&modestbranding=1&rel=0" allow="autoplay"></iframe>
                     </div>
-                `).join('');
-            }
+                </div>
+            `).join('');
 
             initSwiper();
         }
@@ -208,8 +200,6 @@
         }
 
         document.getElementById('js-next').addEventListener('click', () => swiperInstance.slideNext());
-
-        // Inicialización
         filterProjects('all');
     </script>
 </body>
