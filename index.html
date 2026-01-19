@@ -3,380 +3,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>leandro bruno | film editor</title>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <title>Leandro Bruno | Editor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    
     <style>
-        * { box-sizing: border-box; }
-        :root { 
-            --bg: #f5f5f0; 
-            --text: #1a1a1a; 
-            --accent: #666;
-            --font-main: 'Manrope', sans-serif;
+        :root { --bg: #000; --text: #fff; --gray: #fff; --dark-gray: #0a0a0a; }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Manrope', sans-serif; margin: 0; padding: 0; overflow-x: hidden; scroll-behavior: smooth; }
+
+        /* NAVEGACIÓN */
+        nav { 
+            display: flex; justify-content: space-between; padding: 40px 5%; align-items: center;
+            position: fixed; top: 0; width: 90%; z-index: 1000;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
         }
+        .logo img { height: 45px; width: auto; }
+        .menu { display: flex; align-items: center; }
+        .menu-item { position: relative; margin-left: 30px; padding-bottom: 5px; }
+        .menu-item a { text-decoration: none; color: #fff; font-size: 0.7rem; letter-spacing: 3px; font-weight: 400; transition: 0.3s; text-transform: uppercase; cursor: pointer; }
+        .menu-item a::after { content: ''; position: absolute; width: 0; height: 1px; bottom: 0; left: 0; background-color: #fff; transition: width 0.3s ease; }
+        .menu-item:hover a::after { width: 100%; }
+
+        /* Dropdown Categorías */
+        .dropdown-content { display: none; position: absolute; top: 100%; left: 0; background-color: rgba(0,0,0,0.95); min-width: 160px; padding: 15px 0; }
+        .dropdown-content a { padding: 10px 20px; display: block; font-size: 0.6rem; letter-spacing: 2px; color: #fff; text-decoration: none; opacity: 0.7; }
+        .dropdown-content a:hover { opacity: 1; background: #111; }
+        .menu-item:hover .dropdown-content { display: block; }
+
+        /* CAROUSEL (SWIPER) */
+        .swiper { width: 100%; height: 100vh; background: #000; }
+        .swiper-button-next, .swiper-button-prev { color: #fff !important; transform: scale(0.6); opacity: 0.4; transition: 0.3s; }
+        .swiper-button-next:hover, .swiper-button-prev:hover { opacity: 1; }
         
-        body, html { 
-            margin: 0; padding: 0; height: 100%; width: 100%;
-            background: var(--bg); color: var(--text); 
-            font-family: var(--font-main); overflow: hidden;
+        .swiper-slide { position: relative; overflow: hidden; }
+        .video-background { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+        .video-background iframe { width: 140vw; height: 140vh; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(1.35); border: none; }
+        .slide-link { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 50; }
+        .slide-info { position: absolute; bottom: 80px; left: 5%; z-index: 60; pointer-events: none; }
+        .slide-info h2 { font-size: 1.3rem; letter-spacing: 6px; text-transform: uppercase; font-weight: 400; margin: 0; color: #fff; }
+        .slide-info p { font-size: 0.6rem; color: #fff; opacity: 0.9; letter-spacing: 3px; margin-top: 10px; font-weight: 400; }
+
+        /* BOTÓN UNMUTE (Parlante Clásico) */
+        #unmute-btn {
+            position: absolute; bottom: 40px; right: 5%; z-index: 100;
+            background: none; border: none; cursor: pointer; padding: 10px;
         }
+        #unmute-btn svg { width: 25px; height: 25px; fill: #fff; opacity: 0.6; transition: 0.3s; }
+        #unmute-btn:hover svg { opacity: 1; }
 
-        .split-container { display: flex; height: 100vh; width: 100vw; }
-
-        /* PANEL IZQUIERDO: SLIDER PRINCIPAL */
-        .left-panel {
-            flex: 1.3; height: 100%; background: #000;
-            position: relative; overflow: hidden; cursor: pointer;
-        }
-        .slider-wrapper {
-            display: flex; height: 100%;
-            transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-        .slide { min-width: 100%; height: 100%; }
-        .slide img { width: 100%; height: 100%; object-fit: cover; }
-
-        /* PANEL DERECHO: CONTENIDO */
-        .right-panel {
-            flex: 1; height: 100%; overflow-y: auto;
-            padding: 60px; background: var(--bg);
-            border-left: 1px solid rgba(0,0,0,0.05);
-            display: flex; flex-direction: column;
-        }
-
-        .brand-logo { margin-bottom: 50px; cursor: pointer; display: block; }
-        .brand-logo h1 { 
-            font-size: 2.2rem; font-weight: 800; margin: 0; 
-            line-height: 1; text-transform: uppercase; letter-spacing: -0.02em; 
-        }
-        .brand-logo p { 
-            font-size: 0.9rem; font-weight: 400; margin: 5px 0 0 0; 
-            text-transform: uppercase; letter-spacing: 0.2em; color: var(--accent);
-        }
-
-        .nav-links {
-            display: flex; gap: 25px; font-size: 0.75rem;
-            text-transform: uppercase; font-weight: 700;
-            border-top: 1px solid rgba(0,0,0,0.1); padding-top: 15px; margin-bottom: 40px;
-        }
-        .nav-links a { text-decoration: none; color: var(--accent); cursor: pointer; transition: 0.3s; }
-        .nav-links a:hover, .nav-links a.active { color: var(--text); }
-
-        .content-section { display: none; }
-        .content-section.active { display: block; }
-
-        .filter-bar {
-            margin-bottom: 25px; font-size: 0.7rem;
-            text-transform: uppercase; letter-spacing: 0.05em; font-weight: 800;
-        }
-        .filter-bar span { margin-right: 15px; cursor: pointer; opacity: 0.4; transition: 0.3s; }
-        .filter-bar span.active-filter { opacity: 1; text-decoration: underline; }
-
-        .project-row {
-            display: flex; gap: 20px; padding: 20px 0;
-            border-top: 1px solid rgba(0,0,0,0.08); cursor: pointer; transition: 0.3s;
-        }
-        .project-row.selected { background: #fff; padding-left: 10px; }
-
-        .thumb { width: 100px; aspect-ratio: 16/9; object-fit: cover; background: #eee; }
-        .p-info { flex: 1; }
-        .p-title { font-weight: 800; font-size: 0.85rem; text-transform: uppercase; margin: 0; }
-        .p-cat { font-size: 0.7rem; color: var(--accent); text-transform: uppercase; margin-top: 2px; }
-        .more-btn { font-size: 0.7rem; font-weight: 800; margin-top: 10px; text-decoration: underline; display: inline-block; }
-
-        .bio-text { font-size: 1.1rem; line-height: 1.6; max-width: 500px; margin-bottom: 30px; }
-
-        /* VISTA DETALLE EXPANDIDA 90% */
-        .project-overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: #000; z-index: 5000; display: none;
-            justify-content: center; align-items: center;
-        }
-        .project-overlay.active { display: flex; animation: fadeIn 0.4s ease; }
-
-        .overlay-media-container {
-            width: 90vw; height: 90vh; position: relative;
-            overflow: hidden; background: #000;
-        }
-
-        /* Capa para detectar clics sin UI */
-        .video-click-surface {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 5; cursor: pointer;
-        }
-
-        /* Recorte sutil: Solo 4% arriba y abajo para esconder logo/título */
-        #overlay-player { 
-            position: absolute;
-            top: -4%; left: 0;
-            width: 100%; height: 108%; 
+        /* GRID DE TRABAJOS */
+        .work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; padding: 2px; background-color: #000; }
+        .project-card { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: var(--dark-gray); text-decoration: none; color: #fff; transition: 0.5s ease; }
+        .project-card.hidden { display: none; }
+        .project-card img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); transition: 0.6s ease; opacity: 0.4; }
+        .project-card:hover img { filter: grayscale(0%); transform: scale(1.03); opacity: 0.7; }
+        
+        .card-info { 
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column; justify-content: flex-end;
+            padding: 30px; box-sizing: border-box;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);
             pointer-events: none;
         }
+        .card-info h3 { font-size: 0.85rem; letter-spacing: 3px; margin: 0 0 5px 0; text-transform: uppercase; font-weight: 700; }
+        .card-info .director { font-size: 0.55rem; color: #fff; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 3px; }
+        .card-info .production { font-size: 0.55rem; color: #fff; opacity: 0.6; letter-spacing: 2px; text-transform: uppercase; }
 
-        /* Barra de progreso minimalista */
-        .video-progress-container {
-            position: absolute; bottom: 0; left: 0; width: 100%; height: 4px;
-            background: rgba(255,255,255,0.1); z-index: 20;
-        }
-        .video-progress-bar {
-            height: 100%; width: 0%; background: #fff;
-            transition: width 0.1s linear;
-        }
-
-        .overlay-info-panel {
-            position: absolute; bottom: 40px; left: 40px;
-            background: rgba(245, 245, 240, 0.95);
-            padding: 40px; max-width: 450px;
-            color: var(--text); border-radius: 2px;
-            transform: translateY(20px); opacity: 0;
-            transition: 0.5s all ease 0.2s;
-            pointer-events: auto; z-index: 10;
-        }
-        .project-overlay.active .overlay-info-panel { transform: translateY(0); opacity: 1; }
-
-        .overlay-info-panel h1 { font-size: 2.2rem; text-transform: uppercase; margin: 0 0 10px 0; line-height: 0.9; font-weight: 800; }
-        .overlay-info-panel .meta { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; }
-        .overlay-info-panel .credits { font-size: 0.8rem; line-height: 1.6; margin-bottom: 20px; text-transform: uppercase; }
-        .overlay-info-panel .desc { font-size: 0.95rem; line-height: 1.5; }
-
-        .close-overlay {
-            position: absolute; top: 30px; right: 40px; color: #fff;
-            font-size: 0.8rem; font-weight: 800; cursor: pointer; z-index: 6000;
-            letter-spacing: 2px;
-        }
-
-        .overlay-img-slider { width: 100%; height: 100%; overflow: hidden; position: relative; }
-        .overlay-slider-inner { display: flex; height: 100%; transition: transform 0.5s ease; }
-        .overlay-slide { min-width: 100%; height: 100%; }
-        .overlay-slide img { width: 100%; height: 100%; object-fit: contain; }
-
-        .footer-lang { margin-top: auto; padding-top: 40px; font-size: 0.7rem; font-weight: 800; opacity: 0.5; }
-        .footer-lang span { cursor: pointer; }
-        .footer-lang span.active { opacity: 1; text-decoration: underline; }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        @media (max-width: 1024px) {
-            .split-container { flex-direction: column; overflow-y: auto; }
-            .left-panel { height: 40vh; flex: none; }
-            .right-panel { flex: none; padding: 40px 20px; }
-            .overlay-media-container { width: 100vw; height: 50vh; }
-            .overlay-info-panel { position: relative; bottom: 0; left: 0; width: 100%; max-width: none; padding: 30px; transform: none; }
-            #overlay-player { width: 100%; height: 100%; top: 0; left: 0; }
-        }
+        @media (max-width: 1024px) { .work-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) { .work-grid { grid-template-columns: 1fr; } }
+        
+        footer { padding: 80px 5%; font-size: 9px; color: #444; letter-spacing: 2px; text-align: center; background: #000; }
     </style>
 </head>
 <body>
 
-    <div class="split-container">
-        <div class="left-panel" onclick="manualSlideNext()">
-            <div class="slider-wrapper" id="main-slider"></div>
-        </div>
-
-        <div class="right-panel">
-            <div class="brand-logo" onclick="showSection('work')">
-                <h1>Leandro Bruno</h1>
-                <p>film editor</p>
-            </div>
-
-            <nav class="nav-links">
-                <a id="nav-work" class="active" onclick="showSection('work')">Work</a>
-                <a id="nav-bio" onclick="showSection('bio')">Bio</a>
-                <a href="mailto:leandrobrunoeditor@gmail.com">Contact</a>
-                <a href="https://www.instagram.com/leandrombruno/" target="_blank">Instagram</a>
-            </nav>
-
-            <section id="section-work" class="content-section active">
-                <div class="filter-bar" id="filter-bar">
-                    <span class="active-filter" onclick="filterBy('all')">/ Todos</span>
-                    <span onclick="filterBy('ficción')">/ Ficción</span>
-                    <span onclick="filterBy('advertising')">/ Publicidad</span>
-                    <span onclick="filterBy('music video')">/ Videoclips</span>
-                </div>
-                <div id="project-list"></div>
-            </section>
-
-            <section id="section-bio" class="content-section">
-                <div class="bio-text" id="bio-text"></div>
-                <a href="https://www.imdb.com/name/nm10600109/" target="_blank" style="color:#000; font-weight:800; font-size:0.75rem; text-decoration:none; border:1px solid #000; padding:10px 20px;">IMDB CREDITS ↗</a>
-            </section>
-
-            <div class="footer-lang">
-                <span id="l-es" onclick="changeLang('es')">ES</span> / 
-                <span id="l-en" onclick="changeLang('en')">EN</span>
-            </div>
-        </div>
-    </div>
-
-    <div class="project-overlay" id="project-overlay">
-        <div class="close-overlay" onclick="closeOverlay()">[ CERRAR ]</div>
-        <div class="overlay-media-container">
-            <div id="overlay-player-wrapper" style="width:100%; height:100%; display:none;">
-                <div class="video-click-surface" onclick="togglePlayPause()"></div>
-                <div id="overlay-player"></div>
-                <div class="video-progress-container">
-                    <div class="video-progress-bar" id="progress-bar"></div>
+    <nav>
+        <div class="logo"><a href="index.html"><img src="LOGO_Manrope_v01.png" alt="Leandro Bruno"></a></div>
+        <div class="menu">
+            <div class="menu-item">
+                <a onclick="filterProjects('all')">WORK</a>
+                <div class="dropdown-content">
+                    <a onclick="filterProjects('all')">ALL</a>
+                    <a onclick="filterProjects('advertising')">ADVERTISING</a>
+                    <a onclick="filterProjects('music')">MUSIC</a>
+                    <a onclick="filterProjects('narrative')">NARRATIVE</a>
                 </div>
             </div>
-            <div id="overlay-image-slider" class="overlay-img-slider" style="display:none;" onclick="moveOverlaySlide()">
-                <div class="overlay-slider-inner" id="overlay-slider-inner"></div>
-            </div>
-            <div class="overlay-info-panel" id="info-panel"></div>
+            <div class="menu-item"><a href="about.html">ABOUT</a></div>
+            <div class="menu-item"><a href="mailto:leandrobrunoeditor@gmail.com">CONTACT</a></div>
+            <div class="menu-item"><a href="https://www.imdb.com/name/nm11460466/" target="_blank">IMDb</a></div>
         </div>
+    </nav>
+
+    <button id="unmute-btn" onclick="activateSound()">
+        <svg viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zM3 9v6h4l5 5V4L7 9H3z"/></svg>
+    </button>
+
+    <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <a href="menem.html" class="slide-link"></a>
+                <div class="video-background"><div id="player1"></div></div>
+                <div class="slide-info"><h2>MENEM</h2><p>SERIE DOCUMENTAL / PRIME VIDEO</p></div>
+            </div>
+            <div class="swiper-slide">
+                <a href="moscas.html" class="slide-link"></a>
+                <div class="video-background"><div id="player2"></div></div>
+                <div class="slide-info"><h2>EL TIEMPO DE LAS MOSCAS</h2><p>SERIE / NETFLIX</p></div>
+            </div>
+            <div class="swiper-slide">
+                <a href="coppola.html" class="slide-link"></a>
+                <div class="video-background"><div id="player3"></div></div>
+                <div class="slide-info"><h2>COPPOLA</h2><p>SERIE / DISNEY+</p></div>
+            </div>
+            <div class="swiper-slide">
+                <a href="oreo.html" class="slide-link"></a>
+                <div class="video-background"><div id="player4"></div></div>
+                <div class="slide-info"><h2>OREO</h2><p>ADVERTISING / MOMENTO DE DIVERSIÓN</p></div>
+            </div>
+            <div class="swiper-slide">
+                <a href="blair.html" class="slide-link"></a>
+                <div class="video-background"><div id="player5"></div></div>
+                <div class="slide-info"><h2>BLAIR</h2><p>MUSIC VIDEO</p></div>
+            </div>
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
     </div>
+
+    <div class="work-grid" id="work">
+        <a href="menem.html" class="project-card narrative"><img src="https://img.youtube.com/vi/-2AmqmciWXE/hqdefault.jpg"><div class="card-info"><h3>MENEM</h3><div class="director">Dir. Federico Cassinelli</div><div class="production">Prime Video</div></div></a>
+        <a href="moscas.html" class="project-card narrative"><img src="https://img.youtube.com/vi/A0d6wnlMRRk/hqdefault.jpg"><div class="card-info"><h3>EL TIEMPO DE LAS MOSCAS</h3><div class="director">Dir. Ana Katz</div><div class="production">Netflix</div></div></a>
+        <a href="coppola.html" class="project-card narrative"><img src="https://img.youtube.com/vi/ecr24akKDbs/hqdefault.jpg"><div class="card-info"><h3>COPPOLA</h3><div class="director">Dir. Ariel Winograd</div><div class="production">Disney+</div></div></a>
+        <a href="oreo.html" class="project-card advertising"><img src="https://img.youtube.com/vi/7Cllu0Rme74/hqdefault.jpg"><div class="card-info"><h3>OREO</h3><div class="director">Dir. Ariel Winograd</div><div class="production">Momento de Diversión</div></div></a>
+        
+        <a href="levis.html" class="project-card advertising"><img src="Levis_Thumbnail_v01.png"><div class="card-info"><h3>LEVI'S x WINONA RIDERS</h3><div class="director">Dir. Campaign</div><div class="production">Levi's / Advertising</div></div></a>
+        
+        <a href="blair.html" class="project-card music"><img src="https://img.youtube.com/vi/ItX5aqhqsmo/hqdefault.jpg"><div class="card-info"><h3>BLAIR</h3><div class="director">Dir. Todo lo que tengo</div><div class="production">Music Video</div></div></a>
+        <a href="ratones.html" class="project-card advertising"><img src="RP_Thumnmail.png"><div class="card-info"><h3>RATONES PARANOICOS</h3><div class="director">Dir. Poster</div><div class="production">Advertising</div></div></a>
+        <a href="marias.html" class="project-card advertising"><img src="Marias_Thumbnail.png"><div class="card-info"><h3>MARÍAS</h3><div class="director">Dir. Publicidad</div><div class="production">Advertising</div></div></a>
+        
+        <a href="besos.html" class="project-card narrative"><img src="BesosBrujos-Thumbnail.png"><div class="card-info"><h3>BESOS BRUJOS</h3><div class="director">Dir. Narrative</div><div class="production">Short Film</div></div></a>
+    </div>
+
+    <footer>© 2026 LEANDRO BRUNO.</footer>
 
     <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
-        let currentLang = 'es';
-        let currentIndex = 0;
-        let overlaySlideIdx = 0;
-        let ytPlayer;
-        let autoPlayInterval;
-        let progressInterval;
-
-        const projects = [
-            { title: "menem", category: "serie", images: ["assets/Menem_Thumbnail_1.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", desc_es: "Biopic que recorre el ascenso al poder de Carlos Menem.", desc_en: "Biopic tracing Carlos Menem's rise to power." },
-            { title: "oreo", category: "advertising", images: ["https://img.youtube.com/vi/7Cllu0Rme74/maxresdefault.jpg"], yt: "7Cllu0Rme74", director: "primo films", prod: "primo", desc_es: "Campaña publicitaria global para Oreo.", desc_en: "Global advertising campaign for Oreo." },
-            { title: "el tiempo de las moscas", category: "serie", images: ["assets/Moscas_Thumbnail_v01.png"], yt: "A0d6wnlMRRk", director: "ana katz", prod: "netflix", desc_es: "Serie original de Netflix dirigida por Ana Katz.", desc_en: "Netflix original series directed by Ana Katz." },
-            { title: "levis", category: "advertising", images: ["assets/Levis_Thumbnail_v01.jpg"], yt: "7Cllu0Rme74", director: "lorenzo shakespear", prod: "levis argentina", desc_es: "Campaña aniversario del icónico modelo 501.", desc_en: "Anniversary campaign for the iconic 501 model." },
-            { title: "coppola", category: "serie", images: ["assets/Coppola_Thumbnail_2.jpg"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films / disney+", desc_es: "La historia de Guillermo Coppola, el representante más famoso.", desc_en: "The story of Guillermo Coppola, the most famous manager." },
-            { title: "blair", category: "music video", images: ["assets/Blair_Thumbnail_v01.jpg"], yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster", desc_es: "Videoclip oficial para la artista Blair.", desc_en: "Official music video for the artist Blair." },
-            { title: "las manos de la abuela", category: "cortometraje", images: ["assets/MA_Thumbnail_1.png", "assets/MA_Thumbnail_2.png"], yt: "", director: "camila mediocre", prod: "", desc_es: "Ensayo poético que explora la memoria familiar.", desc_en: "Poetic essay exploring family memory." },
-            { title: "ratones paranoicos", category: "music video", images: ["assets/RP_Thumnmail.jpg"], yt: "", director: "alex roux", prod: "poster", desc_es: "Pieza audiovisual para la banda de rock argentina.", desc_en: "Audiovisual piece for the Argentine rock band." },
-            { title: "besos brujos", category: "cortometraje", images: ["assets/BesosBrujos-Thumbnail.jpg"], yt: "", director: "karina flonembaum", prod: "", desc_es: "Ficción breve de atmósfera onírica.", desc_en: "Short fiction with a dreamlike atmosphere." },
-            { title: "las marias", category: "advertising", images: ["assets/Marias_Thumbnail_1.png"], yt: "", director: "alejandro berger parrado", prod: "navajo films", desc_es: "Pieza documental publicitaria sobre tradición yerbatera.", desc_en: "Advertising documentary on yerba mate tradition." },
-            { title: "todo lo que recuerdo", category: "cortometraje", images: ["assets/TodoLoQueRecuerdo_Thumbnail_1.png"], yt: "", director: "nicolas fernandez melian", prod: "", desc_es: "Un viaje sensorial por la memoria fragmentada.", desc_en: "A sensory journey through fragmented memory." }
-        ];
-
-        let activeProjects = [...projects];
-
-        const content = {
-            es: { bio: "Leandro Bruno es un editor de cine y publicidad con base en Buenos Aires. Se especializa en montaje rítmico y narrativa de ficción para plataformas globales.", dir: "Director", prod: "Producción", more: "Ver más →", close: "[ CERRAR ]" },
-            en: { bio: "Leandro Bruno is a film and advertising editor based in Buenos Aires. Specialized in rhythmic editing and narrative fiction for global platforms.", dir: "Director", prod: "Production", more: "See more →", close: "[ CLOSE ]" }
-        };
-
-        function initSlider() {
-            document.getElementById('main-slider').innerHTML = activeProjects.map(p => `<div class="slide"><img src="${p.images[0]}"></div>`).join('');
+        let players = [];
+        function onYouTubeIframeAPIReady() {
+            const ids = ['-2AmqmciWXE', 'A0d6wnlMRRk', 'ecr24akKDbs', '7Cllu0Rme74', 'ItX5aqhqsmo'];
+            ids.forEach((id, index) => {
+                players[index] = new YT.Player('player' + (index + 1), {
+                    videoId: id,
+                    playerVars: { 'autoplay': 1, 'mute': 1, 'loop': 1, 'playlist': id, 'controls': 0, 'showinfo': 0, 'modestbranding': 1, 'rel': 0 },
+                    events: { 'onReady': (e) => e.target.playVideo() }
+                });
+            });
         }
 
-        function renderList() {
-            document.getElementById('project-list').innerHTML = activeProjects.map((p, i) => `
-                <div class="project-row ${i === currentIndex ? 'selected' : ''}" onclick="selectProject(${i})">
-                    <img src="${p.images[0]}" class="thumb">
-                    <div class="p-info">
-                        <p class="p-title">${p.title}</p>
-                        <p class="p-cat">${p.category}</p>
-                        <span class="more-btn" onclick="openOverlay(${i}, event)">${content[currentLang].more}</span>
-                    </div>
-                </div>
-            `).join('');
+        function activateSound() {
+            players.forEach(p => { if(p && p.unMute) p.unMute(); });
+            document.getElementById('unmute-btn').style.display = 'none';
         }
 
-        function selectProject(i) {
-            currentIndex = i;
-            const slider = document.getElementById('main-slider');
-            if(slider) slider.style.transform = `translateX(-${i * 100}%)`;
-            renderList();
-            resetAutoPlay();
+        var swiper = new Swiper(".mySwiper", { 
+            loop: true, speed: 1200, effect: "fade",
+            autoplay: { delay: 6000, disableOnInteraction: false },
+            navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" }
+        });
+
+        function filterProjects(category) {
+            const cards = document.querySelectorAll('.project-card');
+            document.querySelector('#work').scrollIntoView({ behavior: 'smooth' });
+            cards.forEach(card => {
+                if (category === 'all' || card.classList.contains(category)) card.classList.remove('hidden');
+                else card.classList.add('hidden');
+            });
         }
-
-        function manualSlideNext() { selectProject((currentIndex + 1) % activeProjects.length); }
-        function resetAutoPlay() { clearInterval(autoPlayInterval); autoPlayInterval = setInterval(manualSlideNext, 5000); }
-
-        function openOverlay(idx, e) {
-            e.stopPropagation();
-            const p = activeProjects[idx];
-            document.getElementById('project-overlay').classList.add('active');
-            document.getElementById('info-panel').innerHTML = `
-                <h1>${p.title}</h1>
-                <div class="meta">${p.category}</div>
-                <div class="credits"><strong>${content[currentLang].dir}:</strong> ${p.director} ${p.prod ? `<br><strong>${content[currentLang].prod}:</strong> ${p.prod}` : ''}</div>
-                <div class="desc">${currentLang === 'es' ? p.desc_es : p.desc_en}</div>
-            `;
-
-            if(p.yt) {
-                document.getElementById('overlay-player-wrapper').style.display = 'block';
-                document.getElementById('overlay-image-slider').style.display = 'none';
-                
-                const ytOptions = {
-                    videoId: p.yt,
-                    playerVars: { 'autoplay': 1, 'controls': 0, 'rel': 0, 'modestbranding': 1, 'showinfo': 0 },
-                    events: { 
-                        'onStateChange': onPlayerStateChange,
-                        'onReady': (e) => { e.target.playVideo(); startProgressTracker(); }
-                    }
-                };
-
-                if(ytPlayer && ytPlayer.loadVideoById) {
-                    ytPlayer.loadVideoById(p.yt);
-                } else {
-                    ytPlayer = new YT.Player('overlay-player', ytOptions);
-                }
-            } else {
-                document.getElementById('overlay-player-wrapper').style.display = 'none';
-                document.getElementById('overlay-image-slider').style.display = 'block';
-                overlaySlideIdx = 0;
-                document.getElementById('overlay-slider-inner').innerHTML = p.images.map(img => `<div class="overlay-slide"><img src="${img}"></div>`).join('');
-                updateOverlaySlider();
-            }
-            clearInterval(autoPlayInterval);
-        }
-
-        function startProgressTracker() {
-            clearInterval(progressInterval);
-            progressInterval = setInterval(() => {
-                if(ytPlayer && ytPlayer.getCurrentTime) {
-                    const current = ytPlayer.getCurrentTime();
-                    const total = ytPlayer.getDuration();
-                    const pct = (current / total) * 100;
-                    document.getElementById('progress-bar').style.width = pct + "%";
-                }
-            }, 100);
-        }
-
-        function onPlayerStateChange(event) {
-            if (event.data === YT.PlayerState.ENDED) closeOverlay();
-        }
-
-        function togglePlayPause() {
-            if (ytPlayer && ytPlayer.getPlayerState) {
-                const state = ytPlayer.getPlayerState();
-                if (state === YT.PlayerState.PLAYING) ytPlayer.pauseVideo();
-                else ytPlayer.playVideo();
-            }
-        }
-
-        function closeOverlay() {
-            document.getElementById('project-overlay').classList.remove('active');
-            if(ytPlayer && ytPlayer.stopVideo) ytPlayer.stopVideo();
-            clearInterval(progressInterval);
-            document.getElementById('progress-bar').style.width = "0%";
-            resetAutoPlay();
-        }
-
-        function filterBy(cat) {
-            document.querySelectorAll('#filter-bar span').forEach(s => s.classList.remove('active-filter'));
-            event.target.classList.add('active-filter');
-            if(cat === 'all') activeProjects = [...projects];
-            else if(cat === 'ficción') activeProjects = projects.filter(p => p.category === 'serie' || p.category === 'cortometraje');
-            else activeProjects = projects.filter(p => p.category === cat);
-            currentIndex = 0; initSlider(); renderList(); selectProject(0);
-        }
-
-        function showSection(id) {
-            document.querySelectorAll('.content-section, .nav-links a').forEach(el => el.classList.remove('active'));
-            document.getElementById('section-' + id).classList.add('active');
-            document.getElementById('nav-' + id).classList.add('active');
-        }
-
-        function changeLang(lang) {
-            currentLang = lang;
-            document.getElementById('l-es').className = lang === 'es' ? 'active' : '';
-            document.getElementById('l-en').className = lang === 'en' ? 'active' : '';
-            document.getElementById('bio-text').innerText = content[lang].bio;
-            document.querySelector('.close-overlay').innerText = content[lang].close;
-            renderList();
-        }
-
-        window.onload = () => { changeLang('es'); initSlider(); selectProject(0); };
     </script>
 </body>
 </html>
