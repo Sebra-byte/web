@@ -1,98 +1,329 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>leandro bruno | film editor</title>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;700;800&family=Space+Mono&display=swap" rel="stylesheet">
     <style>
+        * { box-sizing: border-box; }
         :root { 
-            --bg: #f0f0f0; --text: #1a1a1a; --gray: #777; 
-            --line-grid: rgba(0, 0, 0, 0.05); --line-accent: rgba(255, 0, 0, 0.15); 
+            --bg: #f2f2f2; 
+            --text: #1a1a1a; 
+            --accent: #666;
+            --font-main: 'Manrope', sans-serif;
+            --font-mono: 'Space Mono', monospace;
         }
+        
         body, html { 
-            margin: 0; padding: 0; width: 100%; height: 100%; 
+            margin: 0; padding: 0; height: 100%; width: 100%;
             background: var(--bg); color: var(--text); 
-            font-family: 'Space Mono', monospace; overflow: hidden; text-transform: lowercase; 
+            font-family: var(--font-main); overflow: hidden;
         }
-        .blueprint-bg {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: linear-gradient(var(--line-grid) 1px, transparent 1px), linear-gradient(90deg, var(--line-grid) 1px, transparent 1px);
-            background-size: 50px 50px; z-index: -1;
+
+        .split-container { display: flex; height: 100vh; width: 100vw; }
+
+        /* PANEL IZQUIERDO: CARROUSEL DINÁMICO */
+        .left-panel {
+            flex: 1.4; height: 100%; 
+            background: #e6e6e6;
+            position: relative; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
         }
-        .guide-h { position: absolute; top: 50%; left: 0; width: 100%; height: 1px; background: var(--line-accent); z-index: -1; }
 
-        .main-layout {
-            display: grid; grid-template-columns: 18% 1fr 18%; height: 100vh; align-items: center; padding: 0 40px;
+        .carousel-view {
+            position: relative;
+            width: 80%;
+            height: 60%;
+            perspective: 1000px;
         }
-        .side-left { font-size: 1.2rem; letter-spacing: 1px; line-height: 1.5; }
-        .side-left span { display: block; font-weight: 700; font-size: 1.4rem; margin-bottom: 5px; }
 
-        .center-frame {
-            grid-column: 2; width: 100%; max-width: 1150px; aspect-ratio: 16 / 9; margin: 0 auto;
-            border: 1px solid #aaa; position: relative; background: #000; box-shadow: 0 25px 55px rgba(0,0,0,0.12);
+        .main-card {
+            width: 100%;
+            height: 100%;
+            background: #000;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 10;
+            overflow: hidden;
+            border-radius: 4px;
+            cursor: pointer;
         }
-        .swiper { width: 100%; height: 100%; }
-        .video-wrapper { width: 100%; height: 100%; background: #000; }
-        .video-wrapper iframe { width: 100%; height: 100%; border: none; }
 
-        .side-right { display: flex; flex-direction: column; justify-content: space-around; height: 60%; align-items: flex-end; }
-        .swiper-button-next-custom { cursor: pointer; font-size: 3rem; color: var(--text); transition: 0.3s; margin-bottom: 50px; }
-        .nav-links { display: flex; flex-direction: column; gap: 15px; align-items: flex-end; }
-        .nav-links a { text-decoration: none; color: var(--gray); font-size: 1.2rem; font-weight: 700; letter-spacing: 2px; }
-        .nav-links a.active { color: var(--text); }
+        .main-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.5s ease;
+        }
 
-        .bottom-info { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); text-align: center; width: 100%; }
-        #p-name { font-size: 1.6rem; font-weight: 700; letter-spacing: 5px; margin-bottom: 10px; }
-        .credits-box { font-size: 1.1rem; color: var(--gray); }
+        .back-card {
+            position: absolute;
+            top: -12%;
+            left: 5%;
+            width: 90%;
+            height: 100%;
+            background: #ccc;
+            z-index: 5;
+            opacity: 0.4;
+            border-radius: 4px;
+            overflow: hidden;
+            transition: transform 0.8s ease;
+        }
+        .back-card img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); }
+
+        .carousel-nav-info {
+            position: absolute;
+            bottom: -80px;
+            width: 100%;
+            text-align: center;
+        }
+        .carousel-nav-info h2 { font-family: var(--font-mono); font-size: 1.3rem; text-transform: lowercase; margin: 0; }
+        .carousel-nav-info p { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; margin: 5px 0; color: var(--accent); }
+
+        /* PANEL DERECHO: LISTA Y FILTROS */
+        .right-panel {
+            flex: 1; height: 100%; overflow-y: auto;
+            padding: 60px; background: #fff;
+            border-left: 1px solid rgba(0,0,0,0.05);
+            display: flex; flex-direction: column;
+        }
+
+        .brand-logo { margin-bottom: 50px; cursor: pointer; }
+        .brand-logo h1 { font-size: 2rem; font-weight: 800; margin: 0; line-height: 1; text-transform: uppercase; }
+        .brand-logo p { font-size: 0.8rem; margin: 5px 0 0 0; text-transform: uppercase; letter-spacing: 0.2em; color: var(--accent); }
+
+        .nav-links {
+            display: flex; gap: 20px; font-size: 0.7rem;
+            text-transform: uppercase; font-weight: 700;
+            border-top: 1px solid #eee; padding-top: 15px; margin-bottom: 40px;
+        }
+        .nav-links a { text-decoration: none; color: var(--accent); cursor: pointer; transition: 0.3s; }
+        .nav-links a.active { color: #000; }
+
+        .filter-bar {
+            margin-bottom: 30px; 
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            display: flex; gap: 15px;
+        }
+        .filter-bar span { cursor: pointer; opacity: 0.4; transition: 0.3s; }
+        .filter-bar span.active-filter { opacity: 1; text-decoration: underline; }
+
+        .project-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 18px 0; border-top: 1px solid #f0f0f0;
+            cursor: pointer; transition: 0.3s;
+        }
+        .project-item:hover, .project-item.selected { background: #fafafa; padding-left: 10px; }
+        .project-item .p-name { font-weight: 700; text-transform: uppercase; font-size: 0.8rem; }
+        .project-item .p-cat { font-size: 0.65rem; color: var(--accent); text-transform: uppercase; }
+
+        /* OVERLAY FULLSCREEN (DISEÑO PREVIO) */
+        .project-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: #000; z-index: 9000; display: none;
+            justify-content: center; align-items: center;
+        }
+        .project-overlay.active { display: flex; animation: fadeIn 0.4s ease; }
+
+        .overlay-media-container {
+            width: 90vw; height: 90vh; position: relative;
+            background: #000; overflow: hidden;
+        }
+
+        #player-wrapper { width: 100%; height: 100%; position: relative; }
+        
+        /* Hack de recorte para YouTube limpio */
+        #player { 
+            position: absolute; top: -5%; left: 0;
+            width: 100%; height: 110%; 
+            pointer-events: none; 
+        }
+
+        .video-click-surface {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 10; cursor: pointer;
+        }
+
+        .video-progress-container {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 4px;
+            background: rgba(255,255,255,0.1); z-index: 20;
+        }
+        .video-progress-bar { height: 100%; width: 0%; background: #fff; transition: width 0.1s linear; }
+
+        .close-overlay {
+            position: absolute; top: 30px; right: 40px; color: #fff;
+            font-size: 0.75rem; font-weight: 800; cursor: pointer; z-index: 9999;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        @media (max-width: 1024px) {
+            .split-container { flex-direction: column; overflow-y: auto; }
+            .left-panel { height: 50vh; flex: none; }
+            .right-panel { flex: none; padding: 30px 20px; }
+        }
     </style>
 </head>
 <body>
-    <div class="blueprint-bg"></div>
-    <div class="guide-h"></div>
-    <main class="main-layout">
-        <div class="side-left"><span>leandro bruno</span>film editor</div>
-        <div class="center-frame">
-            <div class="swiper mySwiper">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide" data-title="menem" data-credits="<strong>d.</strong> ariel winograd | <strong>p.</strong> claxon, yavu, prime video">
-                        <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/-2AmqmciWXE?autoplay=1&mute=1&loop=1&playlist=-2AmqmciWXE&controls=0&modestbranding=1" allow="autoplay"></iframe></div>
-                    </div>
-                    <div class="swiper-slide" data-title="oreo" data-credits="<strong>p.</strong> primo films">
-                        <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/7Cllu0Rme74?autoplay=1&mute=1&loop=1&playlist=7Cllu0Rme74&controls=0&modestbranding=1" allow="autoplay"></iframe></div>
-                    </div>
+
+    <div class="split-container">
+        <div class="left-panel">
+            <div class="carousel-view">
+                <div class="back-card"><img src="" id="img-next"></div>
+                <div class="main-card" onclick="openFullscreen()">
+                    <img src="" id="img-main">
+                </div>
+                <div class="carousel-nav-info">
+                    <h2 id="info-title"></h2>
+                    <p id="info-cat"></p>
                 </div>
             </div>
         </div>
-        <div class="side-right">
-            <div class="swiper-button-next-custom">→</div>
-            <div class="nav-links">
-                <a href="index.html" class="active">work</a>
-                <a href="about.html">about</a>
-                <a href="mailto:leandrobrunoeditor@gmail.com">contact</a>
+
+        <div class="right-panel">
+            <div class="brand-logo" onclick="location.reload()">
+                <h1>leandro bruno</h1>
+                <p>film editor</p>
+            </div>
+
+            <nav class="nav-links">
+                <a class="active">Work</a>
+                <a href="#">About</a>
+                <a href="mailto:leandrobrunoeditor@gmail.com">Contact</a>
+            </nav>
+
+            <div class="filter-bar">
+                <span class="active-filter" onclick="filterProjects('all', this)">/ todos</span>
+                <span onclick="filterProjects('serie/film', this)">/ serie/film</span>
+                <span onclick="filterProjects('advertising', this)">/ advertising</span>
+                <span onclick="filterProjects('music video', this)">/ music video</span>
+            </div>
+
+            <div id="project-list"></div>
+        </div>
+    </div>
+
+    <div class="project-overlay" id="overlay">
+        <div class="close-overlay" onclick="closeFullscreen()">[ CLOSE ]</div>
+        <div class="overlay-media-container">
+            <div id="player-wrapper">
+                <div class="video-click-surface" onclick="togglePlay()"></div>
+                <div id="player"></div>
+                <div class="video-progress-container">
+                    <div class="video-progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
-    </main>
-    <div class="bottom-info">
-        <div id="p-name">menem</div>
-        <div class="credits-box" id="p-credits"><strong>d.</strong> ariel winograd | <strong>p.</strong> claxon, yavu, prime video</div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-        const swiper = new Swiper(".mySwiper", {
-            loop: true, speed: 600,
-            navigation: { nextEl: ".swiper-button-next-custom" },
-            on: {
-                slideChange: function () {
-                    const activeSlide = this.slides[this.activeIndex];
-                    if(activeSlide) {
-                        document.getElementById('p-name').innerText = activeSlide.getAttribute('data-title');
-                        document.getElementById('p-credits').innerHTML = activeSlide.getAttribute('data-credits');
-                    }
+        const projects = [
+            { title: "menem", category: "serie/film", img: "assets/Menem_Thumbnail_1.jpg", yt: "-2AmqmciWXE" },
+            { title: "oreo", category: "advertising", img: "https://img.youtube.com/vi/7Cllu0Rme74/maxresdefault.jpg", yt: "7Cllu0Rme74" },
+            { title: "el tiempo de las moscas", category: "serie/film", img: "assets/Moscas_Thumbnail_v01.png", yt: "A0d6wnlMRRk" },
+            { title: "levis", category: "advertising", img: "assets/Levis_Thumbnail_v01.jpg", yt: "7Cllu0Rme74" },
+            { title: "coppola", category: "serie/film", img: "assets/Coppola_Thumbnail_2.jpg", yt: "ecr24akKDbs" },
+            { title: "blair", category: "music video", img: "assets/Blair_Thumbnail_v01.jpg", yt: "ItX5aqhqsmo" },
+            { title: "las manos de la abuela", category: "serie/film", img: "assets/MA_Thumbnail_1.png", yt: "dQw4w9WgXcQ" },
+            { title: "ratones paranoicos", category: "music video", img: "assets/RP_Thumnmail.jpg", yt: "dQw4w9WgXcQ" },
+            { title: "besos brujos", category: "serie/film", img: "assets/BesosBrujos-Thumbnail.jpg", yt: "dQw4w9WgXcQ" },
+            { title: "las marias", category: "advertising", img: "assets/Marias_Thumbnail_1.png", yt: "dQw4w9WgXcQ" },
+            { title: "todo lo que recuerdo", category: "serie/film", img: "assets/TodoLoQueRecuerdo_Thumbnail_1.png", yt: "dQw4w9WgXcQ" }
+        ];
+
+        let filtered = [...projects];
+        let currentIndex = 0;
+        let ytPlayer;
+        let autoInterval;
+        let progressInterval;
+
+        function renderList() {
+            const container = document.getElementById('project-list');
+            container.innerHTML = filtered.map((p, i) => `
+                <div class="project-item ${i === currentIndex ? 'selected' : ''}" onclick="selectProject(${i})">
+                    <span class="p-name">${p.title}</span>
+                    <span class="p-cat">${p.category}</span>
+                </div>
+            `).join('');
+            updateCarousel();
+        }
+
+        function updateCarousel() {
+            const current = filtered[currentIndex];
+            const next = filtered[(currentIndex + 1) % filtered.length];
+            
+            document.getElementById('img-main').src = current.img;
+            document.getElementById('img-next').src = next.img;
+            document.getElementById('info-title').innerText = current.title;
+            document.getElementById('info-cat').innerText = current.category;
+        }
+
+        function selectProject(i) {
+            currentIndex = i;
+            renderList();
+            startAutoCycle();
+        }
+
+        function filterProjects(cat, el) {
+            document.querySelectorAll('.filter-bar span').forEach(s => s.classList.remove('active-filter'));
+            el.classList.add('active-filter');
+            filtered = cat === 'all' ? [...projects] : projects.filter(p => p.category === cat);
+            currentIndex = 0;
+            renderList();
+        }
+
+        function startAutoCycle() {
+            clearInterval(autoInterval);
+            autoInterval = setInterval(() => {
+                currentIndex = (currentIndex + 1) % filtered.length;
+                renderList();
+            }, 5000);
+        }
+
+        // YouTube API e Interacciones
+        function onYouTubeIframeAPIReady() {
+            ytPlayer = new YT.Player('player', {
+                height: '100%', width: '100%',
+                playerVars: { 'autoplay': 1, 'controls': 0, 'rel': 0, 'modestbranding': 1, 'showinfo': 0 },
+                events: { 'onStateChange': (e) => { if(e.data === 0) closeFullscreen(); } }
+            });
+        }
+
+        function openFullscreen() {
+            const videoId = filtered[currentIndex].yt;
+            if(!videoId) return;
+            document.getElementById('overlay').classList.add('active');
+            ytPlayer.loadVideoById(videoId);
+            clearInterval(autoInterval);
+            
+            progressInterval = setInterval(() => {
+                if(ytPlayer.getCurrentTime) {
+                    const pct = (ytPlayer.getCurrentTime() / ytPlayer.getDuration()) * 100;
+                    document.getElementById('progress-bar').style.width = pct + '%';
                 }
-            }
-        });
+            }, 100);
+        }
+
+        function togglePlay() {
+            const state = ytPlayer.getPlayerState();
+            state === 1 ? ytPlayer.pauseVideo() : ytPlayer.playVideo();
+        }
+
+        function closeFullscreen() {
+            document.getElementById('overlay').classList.remove('active');
+            ytPlayer.stopVideo();
+            clearInterval(progressInterval);
+            document.getElementById('progress-bar').style.width = '0%';
+            startAutoCycle();
+        }
+
+        window.onload = () => { renderList(); startAutoCycle(); };
     </script>
 </body>
 </html>
