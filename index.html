@@ -225,7 +225,7 @@
 
     <main class="main-layout">
         <section class="left-panel">
-            <div class="brand" onclick="showSection('work')"><strong>Leandro Bruno</strong>film editor</div>
+            <div class="brand" onclick="showSection('work')"><strong>LEANDRO<br>BRUNO</strong>film editor</div>
             <nav class="nav-links">
                 <div class="lang-switch">
                     <span id="btn-es" onclick="setLanguage('es')">ES</span>
@@ -417,7 +417,6 @@
             else if(prodLower.includes("prime")) logo = "https://upload.wikimedia.org/wikipedia/commons/f/f1/Prime_Video.png";
             
             if(logo) {
-                // El inline style asegura que la animación se dispare al re-renderizar
                 platCont.innerHTML = `<img src="${logo}" class="platform-logo" style="animation: none; opacity: 0;">`;
                 setTimeout(() => { 
                     const img = platCont.querySelector('img');
@@ -534,25 +533,46 @@
             }
         }
 
-        function showSection(sec) {
-            document.getElementById('work-section').style.display = sec === 'work' ? 'block' : 'none';
-            document.getElementById('about-section').style.display = sec === 'about' ? 'flex' : 'none';
-            document.getElementById('thumbnail-list').style.display = sec === 'work' ? 'flex' : 'none';
-            sec === 'work' ? resetIntervals() : clearInterval(mainRotation);
-            if(sec === 'work') scrollThumbIntoView();
+        function toggleDropdown(e) {
+            e.stopPropagation();
+            document.getElementById("filter-options").classList.toggle("select-show");
         }
 
-        function toggleDropdown(e) { 
-            e.stopPropagation(); 
-            document.getElementById("filter-options").classList.toggle("select-show"); 
+        window.onclick = function(event) {
+            if (!event.target.matches('.select-selected')) {
+                const dropdowns = document.getElementsByClassName("select-items");
+                for (let i = 0; i < dropdowns.length; i++) {
+                    if (dropdowns[i].classList.contains('select-show')) {
+                        dropdowns[i].classList.remove('select-show');
+                    }
+                }
+            }
         }
 
-        window.onclick = () => document.getElementById("filter-options").classList.remove("select-show");
-        
-        window.onload = () => { 
-            setLanguage('es'); 
-            updateDisplay(); 
-            resetIntervals(); 
+        function showSection(section) {
+            const work = document.getElementById('work-section');
+            const about = document.getElementById('about-section');
+            const thumbs = document.getElementById('thumbnail-list');
+
+            if(section === 'work') {
+                work.style.display = 'block';
+                about.style.display = 'none';
+                thumbs.style.opacity = '1';
+                thumbs.style.pointerEvents = 'auto';
+                resetIntervals();
+            } else {
+                work.style.display = 'none';
+                about.style.display = 'flex';
+                thumbs.style.opacity = '0';
+                thumbs.style.pointerEvents = 'none';
+                clearInterval(mainRotation);
+                clearInterval(slideRotation);
+            }
+        }
+
+        window.onload = () => {
+            setLanguage('es');
+            showSection('work');
         };
     </script>
 </body>
