@@ -40,14 +40,16 @@
             transition: opacity 0.3s ease;
         }
 
+        /* LAYOUT PRINCIPAL */
         .main-layout {
             display: grid;
-            grid-template-columns: 280px 1fr 300px; /* Ajustado para el stack 3D */
+            grid-template-columns: 280px 1fr 260px;
             height: 100vh;
             padding: 35px;
-            gap: 30px;
+            gap: 40px;
         }
 
+        /* PANEL IZQUIERDO: Branding y Nav */
         .left-panel { display: flex; flex-direction: column; gap: 60px; z-index: 100; }
         .brand { font-weight: 300; font-size: 1.1rem; line-height: 1.1; text-transform: none; cursor: pointer; color: var(--text); }
         .brand strong { display: block; font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 2px; }
@@ -55,47 +57,24 @@
         .nav-links { display: flex; flex-direction: column; gap: 25px; }
         
         .lang-switch { 
-            font-size: 0.85rem; 
-            font-weight: 800; 
-            display: flex; 
-            gap: 5px; 
-            margin-bottom: 5px;
-            margin-left: -8px;
+            font-size: 0.85rem; font-weight: 800; display: flex; gap: 5px; 
+            margin-bottom: 5px; margin-left: -8px;
         }
         .lang-switch span { 
-            cursor: pointer; 
-            position: relative; 
-            padding: 8px 12px;
-            opacity: 0.2;
-            transition: all 0.3s ease;
-            display: inline-block;
+            cursor: pointer; position: relative; padding: 8px 12px;
+            opacity: 0.2; transition: all 0.3s ease; display: inline-block;
         }
-        .lang-switch span::after {
-            content: '';
-            position: absolute;
-            bottom: 5px;
-            left: 12px;
-            width: 0;
-            height: 2px;
-            background-color: var(--text);
-            transition: width 0.3s ease;
-        }
-        .lang-switch span.active-lang { 
-            opacity: 1; 
-        }
+        .lang-switch span.active-lang { opacity: 1; }
         .lang-switch span.active-lang::after {
-            width: calc(100% - 24px);
-        }
-        .lang-switch span:hover {
-            opacity: 0.7;
-            background: rgba(255, 255, 228, 0.05);
+            content: ''; position: absolute; bottom: 5px; left: 12px;
+            width: calc(100% - 24px); height: 2px; background-color: var(--text);
         }
 
         .custom-select-container { position: relative; }
-        .select-selected { font-size: 0.9rem; font-weight: 700; border-bottom: 1px solid rgba(255, 255, 228, 0.2); padding-bottom: 4px; display: inline-block; cursor: pointer; }
+        .select-selected { font-size: 0.9rem; font-weight: 700; border-bottom: 1px solid rgba(255, 255, 228, 0.2); padding-bottom: 4px; cursor: pointer; }
         .select-items {
-            position: absolute; background-color: #111; top: 100%; left: 0; z-index: 99; border: 1px solid rgba(255, 255, 228, 0.05);
-            margin-top: 10px; display: none; min-width: 200px;
+            position: absolute; background-color: #111; top: 100%; left: 0; z-index: 99; 
+            border: 1px solid rgba(255, 255, 228, 0.05); margin-top: 10px; display: none; min-width: 200px;
         }
         .select-items div { padding: 12px 15px; font-size: 0.8rem; cursor: pointer; }
         .select-items div:hover { background-color: var(--text); color: #000; }
@@ -104,7 +83,8 @@
         .nav-links a { text-decoration: none; color: var(--text); font-size: 0.9rem; font-weight: 500; opacity: 0.5; transition: 0.3s; cursor: pointer; }
         .nav-links a:hover { opacity: 1; }
 
-        .center-panel { width: 100%; position: relative; overflow-y: auto; scrollbar-width: none; scroll-behavior: smooth; }
+        /* PANEL CENTRAL: Viewer */
+        .center-panel { width: 100%; position: relative; overflow-y: auto; scrollbar-width: none; }
         .center-panel::-webkit-scrollbar { display: none; }
 
         .main-viewer {
@@ -113,9 +93,7 @@
             overflow: hidden; position: relative;
         }
         
-        #image-container, .project-details { 
-            transition: opacity var(--transition-speed) ease-in-out; 
-        }
+        #image-container, .project-details { transition: opacity var(--transition-speed); }
         .fade-out { opacity: 0 !important; }
 
         .main-viewer img { 
@@ -125,68 +103,46 @@
         .main-viewer img.active-slide { opacity: 1; z-index: 2; }
         
         .slide-nav { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: space-between; z-index: 15; pointer-events: none; }
-        .nav-arrow { pointer-events: auto; width: 60px; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; opacity: 0; transition: 0.3s; color: rgba(255, 255, 228, 0.5); user-select: none; }
+        .nav-arrow { pointer-events: auto; width: 60px; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; opacity: 0; transition: 0.3s; color: rgba(255, 255, 228, 0.5); }
         .main-viewer:hover .nav-arrow { opacity: 1; }
 
         .play-indicator {
             position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
-            color: var(--text); font-size: 1.5rem; display: none; z-index: 20; opacity: 0.7; pointer-events: none;
+            color: var(--text); font-size: 1.5rem; display: none; z-index: 20; opacity: 0.7;
         }
         .main-viewer:hover .play-indicator { display: block; }
 
+        /* DETALLES PROYECTO */
         .project-details { width: 100%; max-width: 900px; margin-top: 35px; padding-bottom: 100px; }
-        .project-details h2 { font-size: 4rem; margin: 0; font-weight: 800; line-height: 0.85; text-transform: uppercase; letter-spacing: -0.05em; color: var(--text); }
+        .project-details h2 { font-size: 4.2rem; margin: 0; font-weight: 800; line-height: 0.85; text-transform: uppercase; letter-spacing: -0.05em; }
         .category-label { font-size: 0.7rem; font-weight: 700; color: #555; margin-bottom: 15px; display: block; text-transform: uppercase; letter-spacing: 0.15em; }
-        
         .meta { font-size: 0.9rem; line-height: 1.8; color: #888; margin-top: 20px; }
         .meta strong { color: var(--text); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; }
-
-        .p-description { 
-            margin-top: 25px; max-width: 650px; text-transform: none; 
-            font-weight: 300; color: #777; line-height: 1.6; font-size: 0.95rem;
-        }
-
-        @keyframes logoEntry {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 0.4; transform: translateY(0); }
-        }
+        .p-description { margin-top: 25px; max-width: 650px; text-transform: none; font-weight: 300; color: #777; line-height: 1.6; }
 
         .platform-logo {
-            margin-top: 35px; 
-            height: auto; 
-            max-height: 35px;
-            max-width: 140px;
-            display: block;
-            filter: brightness(0) invert(98%) sepia(10%) saturate(400%) hue-rotate(320deg);
-            opacity: 0.4;
-            transition: opacity 0.3s, transform 0.3s;
-            animation: logoEntry 0.6s ease-out forwards;
+            margin-top: 35px; max-height: 35px; max-width: 140px; opacity: 0.4;
+            filter: brightness(0) invert(98%); transition: 0.3s;
         }
-        .platform-logo:hover { opacity: 0.8; transform: scale(1.02); }
 
-        .back-link {
-            font-size: 0.75rem; color: var(--text); font-weight: 700; cursor: pointer;
-            padding: 8px 16px; border: 1px solid rgba(255, 255, 228, 0.3);
-            transition: all 0.3s; display: inline-block; opacity: 0.6;
-            margin-left: 20px; text-transform: lowercase;
-        }
-        .back-link:hover { opacity: 1; background: rgba(255, 255, 228, 0.1); border-color: var(--text); }
-
-        /* --- NUEVO SISTEMA DE CARRUSEL 3D VERTICAL --- */
+        /* PANEL DERECHO: MINIATURAS 3D + SCROLL LOGIC */
         .right-panel { 
             position: relative;
-            perspective: 1500px;
+            perspective: 1200px;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: visible; /* Importante para que no corte el efecto 3D */
         }
 
         .thumb-stack {
             position: relative;
             width: 100%;
-            height: 90vh;
+            height: 100%;
             transform-style: preserve-3d;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         .thumb-item { 
@@ -194,30 +150,35 @@
             width: 100%; 
             aspect-ratio: 16 / 9; 
             background: #000; 
-            border: 1px solid rgba(255, 255, 228, 0.1); 
+            border: 1px solid rgba(255, 255, 228, 0.05); 
             overflow: hidden; 
-            transition: all 0.7s cubic-bezier(0.25, 1, 0.5, 1);
-            flex-shrink: 0; 
+            transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);
             cursor: pointer;
-            border-radius: 2px;
             
-            /* Posicionamiento dinámico basado en variables de JS */
+            /* Lógica de posicionamiento */
             transform: 
                 translateY(calc(var(--offset) * 110%)) 
                 translateZ(calc(var(--abs-offset) * -120px)) 
                 rotateX(calc(var(--direction) * -15deg));
             
-            opacity: calc(1 - (var(--abs-offset) * 0.35));
-            filter: grayscale(calc(var(--abs-offset) * 0.4)) blur(calc(var(--abs-offset) * 1px));
-            z-index: calc(10 - var(--abs-offset));
+            opacity: calc(1 - (var(--abs-offset) * 0.3));
+            filter: grayscale(calc(var(--abs-offset) * 0.4)) blur(calc(var(--abs-offset) * 0.5px));
+            z-index: calc(20 - var(--abs-offset));
+            pointer-events: auto;
         }
 
-        .thumb-item img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+        /* Ocultar las que están muy lejos para no ensuciar */
+        .thumb-item[style*="--abs-offset: 4"], 
+        .thumb-item[style*="--abs-offset: 5"],
+        .thumb-item[style*="--abs-offset: 6"] {
+            opacity: 0; pointer-events: none;
+        }
+
+        .thumb-item img { width: 100%; height: 100%; object-fit: cover; }
         .thumb-item.active-thumb { 
-            border-color: var(--text);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            opacity: 1;
-            filter: grayscale(0) blur(0);
+            border-color: rgba(255, 255, 228, 0.5);
+            opacity: 1; filter: grayscale(0);
+            box-shadow: 0 0 40px rgba(0,0,0,0.6);
         }
 
         /* MODALES */
@@ -226,34 +187,23 @@
             background: rgba(0,0,0,0.98); display: none; z-index: 1000; 
             justify-content: center; align-items: center; 
         }
-        .video-wrapper { width: 76.5%; max-width: 1200px; aspect-ratio: 16 / 9; position: relative; }
-        .gallery-wrapper { width: 90%; max-width: 1400px; aspect-ratio: 16 / 9; position: relative; }
+        .video-wrapper { width: 76.5%; aspect-ratio: 16 / 9; position: relative; }
+        .gallery-wrapper { width: 90%; aspect-ratio: 16 / 9; position: relative; }
         .gallery-wrapper img { width: 100%; height: 100%; object-fit: contain; }
-        
-        .close-btn { position: fixed; top: 40px; right: 40px; color: var(--text); font-size: 0.8rem; z-index: 1010; font-weight: 700; cursor: pointer; opacity: 0.7; }
-        .close-btn:hover { opacity: 1; }
-        
-        .modal-arrow {
-            position: absolute; top: 50%; transform: translateY(-50%);
-            font-size: 3rem; color: var(--text); opacity: 0.2; cursor: pointer; 
-            transition: 0.3s; padding: 20px; user-select: none;
-        }
-        .modal-arrow:hover { opacity: 1; }
-        .arrow-left { left: -80px; }
-        .arrow-right { right: -80px; }
+        .close-btn { position: fixed; top: 40px; right: 40px; color: var(--text); font-weight: 700; cursor: pointer; opacity: 0.7; }
+        .modal-arrow { position: absolute; top: 50%; transform: translateY(-50%); font-size: 3rem; color: var(--text); opacity: 0.2; cursor: pointer; padding: 20px; }
+        .arrow-left { left: -80px; } .arrow-right { right: -80px; }
 
         @media (max-width: 1100px) {
-            .main-layout { grid-template-columns: 1fr; height: auto; overflow-y: auto; }
+            .main-layout { grid-template-columns: 1fr; }
             .right-panel { display: none; }
         }
     </style>
 </head>
-<body>
+<body onwheel="handleWheel(event)">
 
     <div id="transition-overlay"></div>
     <div class="blueprint-bg"></div>
-
-    <script src="https://www.youtube.com/iframe_api"></script>
 
     <main class="main-layout">
         <section class="left-panel">
@@ -297,14 +247,9 @@
                 </div>
             </div>
 
-            <div id="about-section" style="display:none;">
-                <div class="about-content">
-                    <div id="txt-about-body" style="font-size:1.3rem; line-height:1.4; max-width:600px; font-weight: 300; margin-bottom: 40px; color: #999;"></div>
-                    <div style="display: flex; gap: 0px; align-items: center;">
-                        <a id="txt-imdb" href="https://www.imdb.com/name/nm10600109/" target="_blank" style="color:var(--text); text-decoration:none; font-weight:700; font-size:0.8rem; border-bottom:1px solid var(--text);"></a>
-                        <a id="txt-back" class="back-link" onclick="showSection('work')"></a>
-                    </div>
-                </div>
+            <div id="about-section" style="display:none; padding-top: 20px;">
+                <div id="txt-about-body" style="font-size:1.3rem; line-height:1.4; max-width:600px; color: #999; margin-bottom: 40px;"></div>
+                <a id="txt-imdb" href="https://www.imdb.com/name/nm10600109/" target="_blank" style="color:var(--text); text-decoration:none; font-weight:700; border-bottom:1px solid var(--text);"></a>
             </div>
         </section>
 
@@ -332,25 +277,24 @@
         let currentIndex = 0;
         let slideIndex = 0;
         let modalSlideIndex = 0;
-        let slideRotation, mainRotation;
-        let ytPlayer;
+        let mainRotation, slideRotation;
+        let filteredProjects = [];
         let currentFilterKey = 'all_projects';
+        let isScrolling = false;
 
         const projects = [
-            { title_es: "menem", title_en: "menem", category: "serie", images: ["assets/Menem_Thumbnail_1.jpg", "assets/Menem_Thumbnail_2.jpg", "assets/Menem_Thumbnail_3.png", "assets/Menem_Thumbnail_4.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", desc_es: "Biopic que recorre el ascenso al poder de Carlos Menem en los años 90.", desc_en: "Biopic tracing Carlos Menem's rise to power in the 1990s." },
-            { title_es: "OREO - Sigamos divirtiéndonos", title_en: "OREO - Keep on playing", category: "advertising", images: ["assets/Oreo_Thumbnail_1.png", "assets/Oreo_Thumbnail_2.png", "assets/Oreo_Thumbnail_3.png", "assets/Oreo_Thumbnail_4.png", "assets/Oreo_Thumbnail_5.png"], yt: "7Cllu0Rme74", director: "Martín Jalfen", prod: "Pop Studios - México", desc_es: "Campaña publicitaria global para Oreo.", desc_en: "Global advertising campaign for Oreo." },
-            { title_es: "el tiempo de las moscas", title_en: "time of the flies", category: "serie", images: ["assets/Moscas_Thumbnail_1.jpg", "assets/Moscas_Thumbnail_2.png", "assets/Moscas_Thumbnail_3.png", "assets/Moscas_Thumbnail_4.png", "assets/Moscas_Thumbnail_5.png"], yt: "A0d6wnlMRRk", director: "Benjamín Naishtat y Ana Katz", prod: "netflix", desc_es: "Dos mujeres intentan reconstruir sus vidas tras salir de prisión.", desc_en: "Two women attempt to rebuild their lives after prison." },
-            { title_es: "levis x winona riders", title_en: "levis x winona riders", category: "advertising", images: ["assets/Levis_Thumbnail_v01.jpg", "assets/Levis_Thumbnail_2.png", "assets/Levis_Thumbnail_3.png", "assets/Levis_Thumbnail_5.png"], yt: "1eE588vXvqS", director: "Nico Alarcos", prod: "primo", desc_es: "Campaña de gira de Winona Riders por el norte de Argentina.", desc_en: "Winona Riders commercial tour." },
-            { title_es: "coppola, el representante", title_en: "coppola, the agent", category: "serie", images: ["assets/Coppola_Thumbnail_2.jpg", "assets/Coppola_Thumbnail_3.png", "assets/Coppola_Thumbnail_4.jpg"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films / disney+", desc_es: "La historia de Guillermo Coppola, el representante más famoso de Argentina.", desc_en: "The story of Guillermo Coppola, Argentina's most famous manager." },
-            { title_es: "blair - Todo lo que tengo", title_en: "blair - All I have", category: "music video", images: ["assets/Blair_Thumbnail_1.jpg", "assets/Blair_Thumbnail_2.png", "assets/Blair_Thumbnail_3.png", "assets/Blair_Thumbnail_4.png"], yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster", desc_es: "Primer adelanto del disco Bar Scorpios (2025)", desc_en: "First preview of the album Bar Scorpios (2025)" },
-            { title_es: "las manos de la abuela", title_en: "grandmother's hands", category: "cortometraje", images: ["assets/MA_Thumbnail_1.png", "assets/MA_Thumbnail_3.png"], yt: "", director: "camila migliore", prod: "calesita films", desc_es: "Cortometraje que explora la memoria y el legado familiar.", desc_en: "Short film exploring memory and family legacy." },
-            { title_es: "ratones paranoicos", title_en: "ratones paranoicos", category: "music video", images: ["assets/RP_Thumbmail_1.png", "assets/RP_Thumbmail_2.png"], yt: "", director: "alex roux", prod: "poster", desc_es: "Pieza audiovisual para la legendaria banda de rock argentina.", desc_en: "Audiovisual piece for the rock band." },
-            { title_es: "besos brujos", title_en: "witch kisses", category: "cortometraje", images: ["assets/BB_Thumbnail_1.png", "assets/BB_Thumbnail_2.png"], yt: "", director: "karina flonembaum", prod: "", desc_es: "Ficción breve onírica.", desc_en: "Dreamlike short fiction." },
-            { title_es: "las marias", title_en: "las marias", category: "advertising", images: ["assets/Marias_Thumbnail_1.png", "assets/Marias_Thumbnail_2.png"], yt: "", director: "alejandro berger parrado", prod: "navajo films", desc_es: "Documental publicitario sobre la yerba mate.", desc_en: "Ad documentary about yerba mate." },
-            { title_es: "todo lo que recuerdo", title_en: "all I remember", category: "cortometraje", images: ["assets/TodoLoQueRecuerdo_Thumbnail_1.png"], yt: "", director: "nicolas fernandez melian", prod: "", desc_es: "Un viaje sensorial por la memoria fragmentada.", desc_en: "A sensory journey through fragmented memory." }
+            { title_es: "menem", title_en: "menem", category: "serie", images: ["assets/Menem_Thumbnail_1.jpg", "assets/Menem_Thumbnail_2.jpg", "assets/Menem_Thumbnail_3.png"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", desc_es: "Biopic que recorre el ascenso al poder de Carlos Menem.", desc_en: "Biopic tracing Carlos Menem's rise to power." },
+            { title_es: "OREO - Sigamos divirtiéndonos", title_en: "OREO - Keep on playing", category: "advertising", images: ["assets/Oreo_Thumbnail_1.png", "assets/Oreo_Thumbnail_2.png"], yt: "7Cllu0Rme74", director: "Martín Jalfen", prod: "Pop Studios - México", desc_es: "Campaña publicitaria global para Oreo.", desc_en: "Global advertising campaign for Oreo." },
+            { title_es: "el tiempo de las moscas", title_en: "time of the flies", category: "serie", images: ["assets/Moscas_Thumbnail_1.jpg", "assets/Moscas_Thumbnail_2.png"], yt: "A0d6wnlMRRk", director: "Benjamín Naishtat y Ana Katz", prod: "netflix", desc_es: "Dos mujeres intentan reconstruir sus vidas tras la prisión.", desc_en: "Two women rebuild their lives after prison." },
+            { title_es: "levis x winona riders", title_en: "levis x winona riders", category: "advertising", images: ["assets/Levis_Thumbnail_v01.jpg", "assets/Levis_Thumbnail_2.png"], yt: "1eE588vXvqS", director: "Nico Alarcos", prod: "primo", desc_es: "Campaña de gira de Winona Riders.", desc_en: "Winona Riders commercial tour." },
+            { title_es: "coppola, el representante", title_en: "coppola, the agent", category: "serie", images: ["assets/Coppola_Thumbnail_2.jpg", "assets/Coppola_Thumbnail_3.png"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films / disney+", desc_es: "La historia de Guillermo Coppola.", desc_en: "The story of Guillermo Coppola." },
+            { title_es: "blair - Todo lo que tengo", title_en: "blair - All I have", category: "music video", images: ["assets/Blair_Thumbnail_1.jpg", "assets/Blair_Thumbnail_2.png"], yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster", desc_es: "Primer adelanto del disco Bar Scorpios (2025)", desc_en: "First preview of Bar Scorpios (2025)" },
+            { title_es: "las manos de la abuela", title_en: "grandmother's hands", category: "cortometraje", images: ["assets/MA_Thumbnail_1.png"], yt: "", director: "camila migliore", prod: "calesita films", desc_es: "Memoria y legado familiar.", desc_en: "Memory and family legacy." },
+            { title_es: "ratones paranoicos", title_en: "ratones paranoicos", category: "music video", images: ["assets/RP_Thumbmail_1.png"], yt: "", director: "alex roux", prod: "poster", desc_es: "Pieza para la legendaria banda de rock.", desc_en: "Piece for the legendary rock band." },
+            { title_es: "besos brujos", title_en: "witch kisses", category: "cortometraje", images: ["assets/BB_Thumbnail_1.png"], yt: "", director: "karina flonembaum", prod: "", desc_es: "Ficción breve onírica.", desc_en: "Dreamlike short fiction." },
+            { title_es: "las marias", title_en: "las marias", category: "advertising", images: ["assets/Marias_Thumbnail_1.png"], yt: "", director: "alejandro berger parrado", prod: "navajo films", desc_es: "Tradición yerbatera argentina.", desc_en: "Argentine yerba mate tradition." },
+            { title_es: "todo lo que recuerdo", title_en: "all I remember", category: "cortometraje", images: ["assets/TodoLoQueRecuerdo_Thumbnail_1.png"], yt: "", director: "nicolas fernandez melian", prod: "", desc_es: "Un viaje sensorial por la memoria.", desc_en: "A sensory journey." }
         ];
-
-        let filteredProjects = [...projects];
 
         const translations = {
             es: { 
@@ -381,7 +325,6 @@
             document.getElementById('opt-advertising').innerText = "/ " + t.advertising;
             document.getElementById('opt-music').innerText = "/ " + t.music_video;
             document.getElementById('current-filter-text').innerText = t.projects + ' / ' + t[currentFilterKey];
-            document.getElementById('txt-back').innerText = t.back;
             document.getElementById('txt-close-v').innerText = t.close;
             document.getElementById('txt-close-g').innerText = t.close;
             document.getElementById('txt-about-body').innerText = t.about_body;
@@ -401,35 +344,37 @@
             resetIntervals();
         }
 
-        function updateDisplay(onlyText = false, immediate = false) {
+        // LÓGICA DE RUEDA DEL MOUSE
+        function handleWheel(e) {
+            if (isScrolling || document.getElementById('modal-v').style.display === 'flex') return;
+            isScrolling = true;
+            setTimeout(() => { isScrolling = false; }, 500);
+
+            if (e.deltaY > 0) selectProject((currentIndex + 1) % filteredProjects.length);
+            else selectProject((currentIndex - 1 + filteredProjects.length) % filteredProjects.length);
+        }
+
+        function updateDisplay(onlyText = false) {
             const current = filteredProjects[currentIndex];
             if(!current) return;
             const container = document.getElementById('image-container');
             const details = document.getElementById('p-details');
 
             if(!onlyText) {
-                if(immediate) {
-                    container.classList.remove('fade-out');
-                    details.classList.remove('fade-out');
+                container.classList.add('fade-out');
+                details.classList.add('fade-out');
+                setTimeout(() => {
                     container.innerHTML = current.images.map((src, idx) => `<img src="${src}" class="${idx === 0 ? 'active-slide' : ''}">`).join('');
                     slideIndex = 0;
                     renderDetails(current);
                     renderThumbnails();
+                    container.classList.remove('fade-out');
+                    details.classList.remove('fade-out');
                     resetSlideTimer();
-                } else {
-                    container.classList.add('fade-out');
-                    details.classList.add('fade-out');
-                    setTimeout(() => {
-                        container.innerHTML = current.images.map((src, idx) => `<img src="${src}" class="${idx === 0 ? 'active-slide' : ''}">`).join('');
-                        slideIndex = 0;
-                        renderDetails(current);
-                        renderThumbnails();
-                        container.classList.remove('fade-out');
-                        details.classList.remove('fade-out');
-                        resetSlideTimer();
-                    }, 400);
-                }
-            } else { renderDetails(current); }
+                }, 300);
+            } else { 
+                renderDetails(current); 
+            }
         }
 
         function renderDetails(current) {
@@ -453,7 +398,11 @@
         function renderThumbnails() {
             const list = document.getElementById('thumbnail-list');
             list.innerHTML = filteredProjects.map((p, idx) => {
-                const offset = idx - currentIndex;
+                let offset = idx - currentIndex;
+                // LOOP INFINITO VISUAL
+                if (offset > filteredProjects.length / 2) offset -= filteredProjects.length;
+                if (offset < -filteredProjects.length / 2) offset += filteredProjects.length;
+                
                 const absOffset = Math.abs(offset);
                 const direction = Math.sign(offset);
                 
@@ -476,25 +425,10 @@
                 const url = p.yt.length < 20 ? `https://www.youtube.com/embed/${p.yt}?autoplay=1` : `https://drive.google.com/file/d/${p.yt}/preview`;
                 document.getElementById('video-player').innerHTML = `<iframe width="100%" height="100%" src="${url}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
             } else {
-                modalSlideIndex = 0;
-                document.getElementById('modal-g').style.display = 'flex';
+                modalSlideIndex = 0; 
+                document.getElementById('modal-g').style.display = 'flex'; 
                 updateGalleryImg();
             }
-        }
-
-        function modalGalleryNav(dir) {
-            const imgs = filteredProjects[currentIndex].images;
-            modalSlideIndex = (modalSlideIndex + dir + imgs.length) % imgs.length;
-            updateGalleryImg();
-        }
-
-        function updateGalleryImg() {
-            document.getElementById('gallery-img').src = filteredProjects[currentIndex].images[modalSlideIndex];
-        }
-
-        function closeModals() {
-            document.querySelectorAll('.video-modal, .gallery-modal').forEach(m => m.style.display = 'none');
-            document.getElementById('video-player').innerHTML = '';
         }
 
         function manualSlide(dir) {
@@ -508,7 +442,7 @@
 
         function resetIntervals() {
             clearInterval(mainRotation);
-            mainRotation = setInterval(() => { currentIndex = (currentIndex + 1) % filteredProjects.length; updateDisplay(); }, 8000);
+            mainRotation = setInterval(() => { selectProject((currentIndex + 1) % filteredProjects.length); }, 8000);
         }
 
         function resetSlideTimer() {
@@ -518,15 +452,30 @@
             }
         }
 
-        function showSection(section) {
-            document.getElementById('work-section').style.display = section === 'work' ? 'block' : 'none';
-            document.getElementById('about-section').style.display = section === 'about' ? 'block' : 'none';
+        function showSection(s) {
+            document.getElementById('work-section').style.display = s === 'work' ? 'block' : 'none';
+            document.getElementById('about-section').style.display = s === 'about' ? 'block' : 'none';
         }
 
         function toggleDropdown(e) { e.stopPropagation(); document.getElementById("filter-options").classList.toggle("select-show"); }
+        
+        function closeModals() { 
+            document.querySelectorAll('.video-modal, .gallery-modal').forEach(m => m.style.display = 'none'); 
+            document.getElementById('video-player').innerHTML = ''; 
+        }
+
+        function modalGalleryNav(dir) { 
+            const imgs = filteredProjects[currentIndex].images; 
+            modalSlideIndex = (modalSlideIndex + dir + imgs.length) % imgs.length; 
+            updateGalleryImg(); 
+        }
+
+        function updateGalleryImg() { 
+            document.getElementById('gallery-img').src = filteredProjects[currentIndex].images[modalSlideIndex]; 
+        }
 
         window.onclick = () => document.getElementById("filter-options").classList.remove("select-show");
-        window.onload = () => { setLanguage('es'); resetIntervals(); };
+        window.onload = () => { filteredProjects = [...projects]; setLanguage('es'); resetIntervals(); };
     </script>
 </body>
 </html>
