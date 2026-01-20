@@ -48,14 +48,46 @@
             gap: 30px;
         }
 
-        .left-panel { display: flex; flex-direction: column; gap: 60px; z-index: 10; }
+        .left-panel { display: flex; flex-direction: column; gap: 60px; z-index: 100; }
         .brand { font-weight: 300; font-size: 1.1rem; line-height: 1.1; text-transform: none; cursor: pointer; color: var(--text); }
         .brand strong { display: block; font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 2px; }
         
         .nav-links { display: flex; flex-direction: column; gap: 25px; }
-        .lang-switch { font-size: 0.7rem; font-weight: 700; display: flex; gap: 10px; margin-bottom: -10px; opacity: 0.4; }
-        .lang-switch span { cursor: pointer; }
-        .lang-switch span.active-lang { border-bottom: 1px solid var(--text); opacity: 1; }
+        
+        /* Animación de Idioma */
+        .lang-switch { 
+            font-size: 0.7rem; 
+            font-weight: 700; 
+            display: flex; 
+            gap: 15px; 
+            margin-bottom: -5px;
+        }
+        .lang-switch span { 
+            cursor: pointer; 
+            position: relative; 
+            padding: 4px 0;
+            opacity: 0.3;
+            transition: opacity 0.3s ease;
+        }
+        .lang-switch span::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: var(--text);
+            transition: width 0.3s ease;
+        }
+        .lang-switch span.active-lang { 
+            opacity: 1; 
+        }
+        .lang-switch span.active-lang::after {
+            width: 100%;
+        }
+        .lang-switch span:hover {
+            opacity: 1;
+        }
 
         .custom-select-container { position: relative; }
         .select-selected { font-size: 0.9rem; font-weight: 700; border-bottom: 1px solid rgba(255, 255, 228, 0.2); padding-bottom: 4px; display: inline-block; cursor: pointer; }
@@ -118,26 +150,13 @@
             opacity: 0.7; display: block;
         }
 
-        /* Estilo mejorado para el botón volver */
         .back-link {
-            font-size: 0.75rem;
-            color: var(--text);
-            font-weight: 700;
-            cursor: pointer;
-            padding: 8px 12px;
-            border: 1px solid rgba(255, 255, 228, 0.2);
-            transition: 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            opacity: 0.6;
-            margin-left: 20px;
+            font-size: 0.75rem; color: var(--text); font-weight: 700; cursor: pointer;
+            padding: 8px 16px; border: 1px solid rgba(255, 255, 228, 0.3);
+            transition: all 0.3s; display: inline-block; opacity: 0.6;
+            margin-left: 20px; text-transform: lowercase;
         }
-        .back-link:hover {
-            opacity: 1;
-            background: rgba(255, 255, 228, 0.05);
-            border-color: var(--text);
-        }
+        .back-link:hover { opacity: 1; background: rgba(255, 255, 228, 0.1); border-color: var(--text); }
 
         .right-panel { 
             display: flex; flex-direction: column; gap: 25px; 
@@ -193,11 +212,11 @@
             <div class="brand" onclick="showSection('work')"><strong>Leandro Bruno</strong>film editor</div>
             <nav class="nav-links">
                 <div class="lang-switch">
-                    <span id="btn-es" class="active-lang" onclick="setLanguage('es')">ES</span>
+                    <span id="btn-es" onclick="setLanguage('es')">ES</span>
                     <span id="btn-en" onclick="setLanguage('en')">EN</span>
                 </div>
                 <div class="custom-select-container">
-                    <div class="select-selected" id="current-filter-text"></div>
+                    <div class="select-selected" id="current-filter-text" onclick="toggleDropdown(event)"></div>
                     <div class="select-items" id="filter-options">
                         <div id="opt-all" onclick="filterBy('all', 'all_projects')"></div>
                         <div id="opt-narrative" onclick="filterBy('ficción', 'narrative')"></div>
@@ -288,14 +307,14 @@
                 all_projects: "todos", narrative: "ficción", advertising: "publicidad", music_video: "videoclips", 
                 dir: "dir", prod: "prod", imdb: "CRÉDITOS_IMDB ↗", 
                 about: "/ biografía", contact: "/ contacto", projects: "proyectos",
-                back: "← volver", close: "[ CERRAR ]",
+                back: "[ volver ]", close: "[ CERRAR ]",
                 about_body: "Leandro Bruno es un editor de cine y publicidad con base en Buenos Aires. Se especializa en montaje rítmico y narrativa para plataformas globales como Netflix, Disney+ y Prime Video." 
             },
             en: { 
                 all_projects: "all", narrative: "fiction", advertising: "advertising", music_video: "music videos", 
                 dir: "dir", prod: "prod", imdb: "IMDB_CREDITS ↗", 
                 about: "/ biography", contact: "/ contact", projects: "projects",
-                back: "← back", close: "[ CLOSE ]",
+                back: "[ back ]", close: "[ CLOSE ]",
                 about_body: "Leandro Bruno is a film and advertising editor based in Buenos Aires. He specializes in rhythmic editing and narrative for global platforms such as Netflix, Disney+, and Prime Video." 
             }
         };
@@ -304,27 +323,20 @@
             currentLang = lang;
             const t = translations[lang];
             
-            // Actualizar botones de idioma
             document.getElementById('btn-es').className = lang === 'es' ? 'active-lang' : '';
             document.getElementById('btn-en').className = lang === 'en' ? 'active-lang' : '';
             
-            // Traducir Menu Principal
             document.getElementById('nav-about').innerText = t.about;
             document.getElementById('nav-contact').innerText = t.contact;
-            
-            // Traducir Selector de Filtros
             document.getElementById('opt-all').innerText = "/ " + t.all_projects;
             document.getElementById('opt-narrative').innerText = "/ " + t.narrative;
             document.getElementById('opt-advertising').innerText = "/ " + t.advertising;
             document.getElementById('opt-music').innerText = "/ " + t.music_video;
-            document.getElementById('current-filter-text').innerText = t.projects + ' / ' + t[currentFilterKey];
             
-            // Traducir Modales y Botón Volver
+            document.getElementById('current-filter-text').innerText = t.projects + ' / ' + t[currentFilterKey];
             document.getElementById('txt-back').innerText = t.back;
             document.getElementById('txt-close-v').innerText = t.close;
             document.getElementById('txt-close-g').innerText = t.close;
-            
-            // Traducir About
             document.getElementById('txt-about-body').innerText = t.about_body;
             document.getElementById('txt-imdb').innerText = t.imdb;
             
@@ -338,7 +350,8 @@
             else filteredProjects = projects.filter(p => p.category === val);
             
             currentIndex = 0;
-            document.getElementById('current-filter-text').innerText = translations[currentLang].projects + ' / ' + translations[currentLang][dictKey];
+            const t = translations[currentLang];
+            document.getElementById('current-filter-text').innerText = t.projects + ' / ' + t[dictKey];
             updateDisplay();
             resetIntervals();
         }
@@ -384,7 +397,7 @@
             
             const platCont = document.getElementById('p-platform-container');
             platCont.innerHTML = '';
-            const prodLower = current.prod.toLowerCase();
+            const prodLower = (current.prod || "").toLowerCase();
             let logo = "";
             if(prodLower.includes("netflix")) logo = "https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg";
             else if(prodLower.includes("disney")) logo = "https://upload.wikimedia.org/wikipedia/commons/3/3e/Disney%2B_logo.svg";
@@ -501,10 +514,13 @@
             document.getElementById("filter-options").classList.toggle("select-show"); 
         }
 
-        document.getElementById('current-filter-text').onclick = toggleDropdown;
-
         window.onclick = () => document.getElementById("filter-options").classList.remove("select-show");
-        window.onload = () => { setLanguage('es'); updateDisplay(); resetIntervals(); };
+        
+        window.onload = () => { 
+            setLanguage('es'); 
+            updateDisplay(); 
+            resetIntervals(); 
+        };
     </script>
 </body>
 </html>
