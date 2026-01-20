@@ -113,7 +113,9 @@
             overflow: hidden; position: relative;
         }
         
-        #image-container { transition: opacity var(--transition-speed) ease-in-out; }
+        #image-container, .project-details { 
+            transition: opacity var(--transition-speed) ease-in-out; 
+        }
         .fade-out { opacity: 0 !important; }
 
         .main-viewer img { 
@@ -132,39 +134,36 @@
         }
         .main-viewer:hover .play-indicator { display: block; }
 
-        /* ANIMACIÓN SUAVE DE REVELACIÓN VERTICAL */
-        @keyframes softReveal {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
         .project-details { width: 100%; max-width: 900px; margin-top: 35px; padding-bottom: 100px; }
+        .project-details h2 { font-size: 4rem; margin: 0; font-weight: 800; line-height: 0.85; text-transform: uppercase; letter-spacing: -0.05em; color: var(--text); }
+        .category-label { font-size: 0.7rem; font-weight: 700; color: #555; margin-bottom: 15px; display: block; text-transform: uppercase; letter-spacing: 0.15em; }
         
-        .project-details h2, .category-label, .meta, .p-description, .platform-logo {
-            opacity: 0;
-            animation: softReveal 1.2s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+        .meta { font-size: 0.9rem; line-height: 1.8; color: #888; margin-top: 20px; }
+        .meta strong { color: var(--text); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; }
+
+        .p-description { 
+            margin-top: 25px; max-width: 650px; text-transform: none; 
+            font-weight: 300; color: #777; line-height: 1.6; font-size: 0.95rem;
         }
 
-        .project-details h2 { font-size: 4rem; margin: 0; font-weight: 800; line-height: 0.85; text-transform: uppercase; letter-spacing: -0.05em; color: var(--text); animation-delay: 0.1s; }
-        .category-label { font-size: 0.7rem; font-weight: 700; color: #555; margin-bottom: 15px; display: block; text-transform: uppercase; letter-spacing: 0.15em; animation-delay: 0s; }
-        .meta { font-size: 0.9rem; line-height: 1.8; color: #888; margin-top: 20px; animation-delay: 0.2s; }
-        .meta strong { color: var(--text); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; }
-        .p-description { margin-top: 25px; max-width: 650px; text-transform: none; font-weight: 300; color: #777; line-height: 1.6; font-size: 0.95rem; animation-delay: 0.3s; }
+        /* Animación para el Logo */
+        @keyframes logoEntry {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 0.4; transform: translateY(0); }
+        }
 
-        /* PLATAFORMAS EN COLOR OFF-WHITE */
         .platform-logo {
             margin-top: 35px; 
             height: auto; 
-            max-height: 38px;
+            max-height: 35px;
             max-width: 140px;
             display: block;
-            /* Invertido a Off-White: #FFFFE4 aproximado vía filtros */
             filter: brightness(0) invert(98%) sepia(10%) saturate(400%) hue-rotate(320deg);
             opacity: 0.4;
             transition: opacity 0.3s, transform 0.3s;
-            animation-delay: 0.4s;
+            animation: logoEntry 0.6s ease-out forwards;
         }
-        .platform-logo:hover { opacity: 0.9 !important; transform: scale(1.03); }
+        .platform-logo:hover { opacity: 0.8; transform: scale(1.02); }
 
         .back-link {
             font-size: 0.75rem; color: var(--text); font-weight: 700; cursor: pointer;
@@ -178,7 +177,7 @@
             display: flex; flex-direction: column; gap: 25px; 
             overflow-y: auto; padding-right: 15px; scrollbar-width: thin;
             scrollbar-color: rgba(255, 255, 228, 0.1) transparent;
-            scroll-behavior: smooth;
+            scroll-behavior: smooth; /* Movimiento suave */
         }
         .right-panel::-webkit-scrollbar { width: 2px; }
         .right-panel::-webkit-scrollbar-thumb { background: rgba(255, 255, 228, 0.1); }
@@ -372,10 +371,12 @@
             const current = filteredProjects[currentIndex];
             if(!current) return;
             const container = document.getElementById('image-container');
+            const details = document.getElementById('p-details');
 
             if(!onlyText) {
                 if(immediate) {
                     container.classList.remove('fade-out');
+                    details.classList.remove('fade-out');
                     container.innerHTML = current.images.map((src, idx) => `<img src="${src}" class="${idx === 0 ? 'active-slide' : ''}">`).join('');
                     slideIndex = 0;
                     renderDetails(current);
@@ -384,12 +385,14 @@
                     scrollThumbIntoView();
                 } else {
                     container.classList.add('fade-out');
+                    details.classList.add('fade-out');
                     setTimeout(() => {
                         container.innerHTML = current.images.map((src, idx) => `<img src="${src}" class="${idx === 0 ? 'active-slide' : ''}">`).join('');
                         slideIndex = 0;
                         renderDetails(current);
                         renderThumbnails();
                         container.classList.remove('fade-out');
+                        details.classList.remove('fade-out');
                         resetSlideTimer();
                         scrollThumbIntoView();
                     }, 400);
@@ -398,22 +401,14 @@
         }
 
         function renderDetails(current) {
-            const cat = document.getElementById('p-category');
-            const title = document.getElementById('p-title');
-            const meta = document.getElementById('p-meta-top');
-            const desc = document.getElementById('p-description');
-            const platCont = document.getElementById('p-platform-container');
-
-            // Limpiamos animaciones previas para re-dispararlas
-            [cat, title, meta, desc].forEach(el => { el.style.animation = 'none'; el.offsetHeight; el.style.animation = ''; });
-            
-            cat.innerText = current.category;
-            title.innerText = currentLang === 'es' ? current.title_es : current.title_en;
-            desc.innerText = currentLang === 'es' ? current.desc_es : current.desc_en;
+            document.getElementById('p-title').innerText = currentLang === 'es' ? current.title_es : current.title_en;
+            document.getElementById('p-category').innerText = current.category;
+            document.getElementById('p-description').innerText = currentLang === 'es' ? current.desc_es : current.desc_en;
             const prodText = current.prod ? `<br><strong>${translations[currentLang].prod}:</strong> ${current.prod}` : "";
-            meta.innerHTML = `<strong>${translations[currentLang].dir}:</strong> ${current.director}${prodText}`;
+            document.getElementById('p-meta-top').innerHTML = `<strong>${translations[currentLang].dir}:</strong> ${current.director}${prodText}`;
             document.getElementById('play-icon').innerText = current.yt ? "▶" : "⛶";
             
+            const platCont = document.getElementById('p-platform-container');
             platCont.innerHTML = '';
             const prodLower = (current.prod || "").toLowerCase();
             let logo = "";
@@ -422,9 +417,12 @@
             else if(prodLower.includes("prime")) logo = "https://upload.wikimedia.org/wikipedia/commons/f/f1/Prime_Video.png";
             
             if(logo) {
-                platCont.innerHTML = `<img src="${logo}" class="platform-logo">`;
-                const logoImg = platCont.querySelector('img');
-                logoImg.style.animation = 'none'; logoImg.offsetHeight; logoImg.style.animation = '';
+                // El inline style asegura que la animación se dispare al re-renderizar
+                platCont.innerHTML = `<img src="${logo}" class="platform-logo" style="animation: none; opacity: 0;">`;
+                setTimeout(() => { 
+                    const img = platCont.querySelector('img');
+                    if(img) img.style.animation = ""; 
+                }, 10);
             }
         }
 
@@ -439,7 +437,11 @@
         function scrollThumbIntoView() {
             const activeThumb = document.querySelector(`.thumb-item[data-index="${currentIndex}"]`);
             if (activeThumb) {
-                activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                activeThumb.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'nearest',
+                    inline: 'center'
+                });
             }
         }
 
@@ -450,7 +452,8 @@
                 if (p.yt.length < 20) {
                     document.getElementById('video-player').innerHTML = `<div id="yt-player-container"></div>`;
                     ytPlayer = new YT.Player('yt-player-container', {
-                        height: '100%', width: '100%', videoId: p.yt,
+                        height: '100%', width: '100%',
+                        videoId: p.yt,
                         playerVars: { 'autoplay': 1, 'rel': 0, 'modestbranding': 1 },
                         events: { 'onStateChange': (e) => { if(e.data === YT.PlayerState.ENDED) goToNextProject(); } }
                     });
@@ -546,7 +549,11 @@
 
         window.onclick = () => document.getElementById("filter-options").classList.remove("select-show");
         
-        window.onload = () => { setLanguage('es'); updateDisplay(); resetIntervals(); };
+        window.onload = () => { 
+            setLanguage('es'); 
+            updateDisplay(); 
+            resetIntervals(); 
+        };
     </script>
 </body>
 </html>
