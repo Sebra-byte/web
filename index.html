@@ -132,44 +132,39 @@
         }
         .main-viewer:hover .play-indicator { display: block; }
 
-        /* NUEVAS ANIMACIONES DE BARRIDO (SWEEP) */
-        @keyframes textSweep {
-            from { opacity: 0; transform: translateX(-20px); filter: blur(5px); }
-            to { opacity: 1; transform: translateX(0); filter: blur(0); }
+        /* ANIMACIÓN SUAVE DE REVELACIÓN VERTICAL */
+        @keyframes softReveal {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .project-details { width: 100%; max-width: 900px; margin-top: 35px; padding-bottom: 100px; }
         
         .project-details h2, .category-label, .meta, .p-description, .platform-logo {
-            opacity: 0; /* Empiezan invisibles para la animación */
+            opacity: 0;
+            animation: softReveal 1.2s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
         }
 
-        .animate-sweep {
-            animation: textSweep 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-        }
-
-        .project-details h2 { font-size: 4rem; margin: 0; font-weight: 800; line-height: 0.85; text-transform: uppercase; letter-spacing: -0.05em; color: var(--text); }
-        .category-label { font-size: 0.7rem; font-weight: 700; color: #555; margin-bottom: 15px; display: block; text-transform: uppercase; letter-spacing: 0.15em; }
-        
-        .meta { font-size: 0.9rem; line-height: 1.8; color: #888; margin-top: 20px; }
+        .project-details h2 { font-size: 4rem; margin: 0; font-weight: 800; line-height: 0.85; text-transform: uppercase; letter-spacing: -0.05em; color: var(--text); animation-delay: 0.1s; }
+        .category-label { font-size: 0.7rem; font-weight: 700; color: #555; margin-bottom: 15px; display: block; text-transform: uppercase; letter-spacing: 0.15em; animation-delay: 0s; }
+        .meta { font-size: 0.9rem; line-height: 1.8; color: #888; margin-top: 20px; animation-delay: 0.2s; }
         .meta strong { color: var(--text); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; }
+        .p-description { margin-top: 25px; max-width: 650px; text-transform: none; font-weight: 300; color: #777; line-height: 1.6; font-size: 0.95rem; animation-delay: 0.3s; }
 
-        .p-description { 
-            margin-top: 25px; max-width: 650px; text-transform: none; 
-            font-weight: 300; color: #777; line-height: 1.6; font-size: 0.95rem;
-        }
-
+        /* PLATAFORMAS EN COLOR OFF-WHITE */
         .platform-logo {
             margin-top: 35px; 
             height: auto; 
-            max-height: 35px;
+            max-height: 38px;
             max-width: 140px;
             display: block;
+            /* Invertido a Off-White: #FFFFE4 aproximado vía filtros */
             filter: brightness(0) invert(98%) sepia(10%) saturate(400%) hue-rotate(320deg);
-            opacity: 0;
+            opacity: 0.4;
             transition: opacity 0.3s, transform 0.3s;
+            animation-delay: 0.4s;
         }
-        .platform-logo:hover { opacity: 0.8 !important; transform: scale(1.02); }
+        .platform-logo:hover { opacity: 0.9 !important; transform: scale(1.03); }
 
         .back-link {
             font-size: 0.75rem; color: var(--text); font-weight: 700; cursor: pointer;
@@ -389,7 +384,6 @@
                     scrollThumbIntoView();
                 } else {
                     container.classList.add('fade-out');
-                    // No hace falta fade-out de detalles porque la animación sweep se encarga de re-aparecerlos
                     setTimeout(() => {
                         container.innerHTML = current.images.map((src, idx) => `<img src="${src}" class="${idx === 0 ? 'active-slide' : ''}">`).join('');
                         slideIndex = 0;
@@ -410,14 +404,9 @@
             const desc = document.getElementById('p-description');
             const platCont = document.getElementById('p-platform-container');
 
-            // Resetear estados
-            [cat, title, meta, desc].forEach(el => {
-                el.classList.remove('animate-sweep');
-                el.style.opacity = "0";
-            });
-            platCont.innerHTML = '';
-
-            // Llenar contenido
+            // Limpiamos animaciones previas para re-dispararlas
+            [cat, title, meta, desc].forEach(el => { el.style.animation = 'none'; el.offsetHeight; el.style.animation = ''; });
+            
             cat.innerText = current.category;
             title.innerText = currentLang === 'es' ? current.title_es : current.title_en;
             desc.innerText = currentLang === 'es' ? current.desc_es : current.desc_en;
@@ -425,7 +414,7 @@
             meta.innerHTML = `<strong>${translations[currentLang].dir}:</strong> ${current.director}${prodText}`;
             document.getElementById('play-icon').innerText = current.yt ? "▶" : "⛶";
             
-            // Logos con animación propia
+            platCont.innerHTML = '';
             const prodLower = (current.prod || "").toLowerCase();
             let logo = "";
             if(prodLower.includes("netflix")) logo = "https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg";
@@ -434,21 +423,9 @@
             
             if(logo) {
                 platCont.innerHTML = `<img src="${logo}" class="platform-logo">`;
+                const logoImg = platCont.querySelector('img');
+                logoImg.style.animation = 'none'; logoImg.offsetHeight; logoImg.style.animation = '';
             }
-
-            // Disparar cascada de animaciones
-            setTimeout(() => {
-                cat.style.animationDelay = "0.0s"; cat.classList.add('animate-sweep');
-                title.style.animationDelay = "0.1s"; title.classList.add('animate-sweep');
-                meta.style.animationDelay = "0.2s"; meta.classList.add('animate-sweep');
-                desc.style.animationDelay = "0.3s"; desc.classList.add('animate-sweep');
-                
-                const logoImg = platCont.querySelector('.platform-logo');
-                if(logoImg) {
-                    logoImg.style.animation = "textSweep 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards";
-                    logoImg.style.animationDelay = "0.4s";
-                }
-            }, 50);
         }
 
         function renderThumbnails() {
