@@ -34,22 +34,15 @@
             background-size: 40px 40px; z-index: -1;
         }
 
-        #transition-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; z-index: 2000; opacity: 0; pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-
-        /* LAYOUT PRINCIPAL */
         .main-layout {
             display: grid;
-            grid-template-columns: 280px 1fr 260px;
+            grid-template-columns: 280px 1fr 220px; /* Tamaño de miniatura reducido */
             height: 100vh;
             padding: 35px;
             gap: 40px;
         }
 
-        /* PANEL IZQUIERDO: Branding y Nav */
+        /* PANEL IZQUIERDO */
         .left-panel { display: flex; flex-direction: column; gap: 60px; z-index: 100; }
         .brand { font-weight: 300; font-size: 1.1rem; line-height: 1.1; text-transform: none; cursor: pointer; color: var(--text); }
         .brand strong { display: block; font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 2px; }
@@ -71,10 +64,10 @@
         }
 
         .custom-select-container { position: relative; }
-        .select-selected { font-size: 0.9rem; font-weight: 700; border-bottom: 1px solid rgba(255, 255, 228, 0.2); padding-bottom: 4px; cursor: pointer; }
+        .select-selected { font-size: 0.9rem; font-weight: 700; border-bottom: 1px solid rgba(255, 255, 228, 0.2); padding-bottom: 4px; display: inline-block; cursor: pointer; }
         .select-items {
-            position: absolute; background-color: #111; top: 100%; left: 0; z-index: 99; 
-            border: 1px solid rgba(255, 255, 228, 0.05); margin-top: 10px; display: none; min-width: 200px;
+            position: absolute; background-color: #111; top: 100%; left: 0; z-index: 99; border: 1px solid rgba(255, 255, 228, 0.05);
+            margin-top: 10px; display: none; min-width: 200px;
         }
         .select-items div { padding: 12px 15px; font-size: 0.8rem; cursor: pointer; }
         .select-items div:hover { background-color: var(--text); color: #000; }
@@ -83,7 +76,7 @@
         .nav-links a { text-decoration: none; color: var(--text); font-size: 0.9rem; font-weight: 500; opacity: 0.5; transition: 0.3s; cursor: pointer; }
         .nav-links a:hover { opacity: 1; }
 
-        /* PANEL CENTRAL: Viewer */
+        /* PANEL CENTRAL */
         .center-panel { width: 100%; position: relative; overflow-y: auto; scrollbar-width: none; }
         .center-panel::-webkit-scrollbar { display: none; }
 
@@ -103,7 +96,7 @@
         .main-viewer img.active-slide { opacity: 1; z-index: 2; }
         
         .slide-nav { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: space-between; z-index: 15; pointer-events: none; }
-        .nav-arrow { pointer-events: auto; width: 60px; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; opacity: 0; transition: 0.3s; color: rgba(255, 255, 228, 0.5); }
+        .nav-arrow { pointer-events: auto; width: 60px; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; opacity: 0; transition: 0.3s; color: rgba(255, 255, 228, 0.5); user-select: none; }
         .main-viewer:hover .nav-arrow { opacity: 1; }
 
         .play-indicator {
@@ -125,24 +118,30 @@
             filter: brightness(0) invert(98%); transition: 0.3s;
         }
 
-        /* PANEL DERECHO: MINIATURAS 3D + SCROLL LOGIC */
+        /* ABOUT SECTION */
+        .back-link {
+            font-size: 0.75rem; color: var(--text); font-weight: 700; cursor: pointer;
+            padding: 8px 16px; border: 1px solid rgba(255, 255, 228, 0.3);
+            transition: all 0.3s; display: inline-block; opacity: 0.6;
+            margin-left: 20px; text-transform: lowercase;
+        }
+        .back-link:hover { opacity: 1; background: rgba(255, 255, 228, 0.1); border-color: var(--text); }
+
+        /* PANEL DERECHO (ANIMACIÓN 3D) */
         .right-panel { 
             position: relative;
             perspective: 1200px;
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: opacity 0.5s ease, visibility 0.5s;
         }
 
         .thumb-stack {
             position: relative;
             width: 100%;
-            height: 100%;
+            height: 80vh;
             transform-style: preserve-3d;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
         }
 
         .thumb-item { 
@@ -150,35 +149,26 @@
             width: 100%; 
             aspect-ratio: 16 / 9; 
             background: #000; 
-            border: 1px solid rgba(255, 255, 228, 0.05); 
+            border: 1px solid rgba(255, 255, 228, 0.1); 
             overflow: hidden; 
             transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);
             cursor: pointer;
+            border-radius: 2px;
             
-            /* Lógica de posicionamiento */
             transform: 
                 translateY(calc(var(--offset) * 110%)) 
                 translateZ(calc(var(--abs-offset) * -120px)) 
                 rotateX(calc(var(--direction) * -15deg));
             
-            opacity: calc(1 - (var(--abs-offset) * 0.3));
+            opacity: calc(1 - (var(--abs-offset) * 0.35));
             filter: grayscale(calc(var(--abs-offset) * 0.4)) blur(calc(var(--abs-offset) * 0.5px));
             z-index: calc(20 - var(--abs-offset));
-            pointer-events: auto;
         }
 
-        /* Ocultar las que están muy lejos para no ensuciar */
-        .thumb-item[style*="--abs-offset: 4"], 
-        .thumb-item[style*="--abs-offset: 5"],
-        .thumb-item[style*="--abs-offset: 6"] {
-            opacity: 0; pointer-events: none;
-        }
-
-        .thumb-item img { width: 100%; height: 100%; object-fit: cover; }
+        .thumb-item img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
         .thumb-item.active-thumb { 
-            border-color: rgba(255, 255, 228, 0.5);
+            border-color: rgba(255, 255, 228, 0.6);
             opacity: 1; filter: grayscale(0);
-            box-shadow: 0 0 40px rgba(0,0,0,0.6);
         }
 
         /* MODALES */
@@ -202,7 +192,6 @@
 </head>
 <body onwheel="handleWheel(event)">
 
-    <div id="transition-overlay"></div>
     <div class="blueprint-bg"></div>
 
     <main class="main-layout">
@@ -248,8 +237,11 @@
             </div>
 
             <div id="about-section" style="display:none; padding-top: 20px;">
-                <div id="txt-about-body" style="font-size:1.3rem; line-height:1.4; max-width:600px; color: #999; margin-bottom: 40px;"></div>
-                <a id="txt-imdb" href="https://www.imdb.com/name/nm10600109/" target="_blank" style="color:var(--text); text-decoration:none; font-weight:700; border-bottom:1px solid var(--text);"></a>
+                <div id="txt-about-body" style="font-size:1.3rem; line-height:1.4; max-width:600px; color: #999; margin-bottom: 40px; font-weight: 300;"></div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <a id="txt-imdb" href="https://www.imdb.com/name/nm10600109/" target="_blank" style="color:var(--text); text-decoration:none; font-weight:700; border-bottom:1px solid var(--text); font-size: 0.8rem;"></a>
+                    <a id="txt-back" class="back-link" onclick="showSection('work')"></a>
+                </div>
             </div>
         </section>
 
@@ -280,20 +272,23 @@
         let mainRotation, slideRotation;
         let filteredProjects = [];
         let currentFilterKey = 'all_projects';
-        let isScrolling = false;
+        
+        // Scroll control para trackpads
+        let isWheeling = false;
+        let wheelDeltaBuffer = 0;
 
         const projects = [
-            { title_es: "menem", title_en: "menem", category: "serie", images: ["assets/Menem_Thumbnail_1.jpg", "assets/Menem_Thumbnail_2.jpg", "assets/Menem_Thumbnail_3.png"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", desc_es: "Biopic que recorre el ascenso al poder de Carlos Menem.", desc_en: "Biopic tracing Carlos Menem's rise to power." },
-            { title_es: "OREO - Sigamos divirtiéndonos", title_en: "OREO - Keep on playing", category: "advertising", images: ["assets/Oreo_Thumbnail_1.png", "assets/Oreo_Thumbnail_2.png"], yt: "7Cllu0Rme74", director: "Martín Jalfen", prod: "Pop Studios - México", desc_es: "Campaña publicitaria global para Oreo.", desc_en: "Global advertising campaign for Oreo." },
-            { title_es: "el tiempo de las moscas", title_en: "time of the flies", category: "serie", images: ["assets/Moscas_Thumbnail_1.jpg", "assets/Moscas_Thumbnail_2.png"], yt: "A0d6wnlMRRk", director: "Benjamín Naishtat y Ana Katz", prod: "netflix", desc_es: "Dos mujeres intentan reconstruir sus vidas tras la prisión.", desc_en: "Two women rebuild their lives after prison." },
-            { title_es: "levis x winona riders", title_en: "levis x winona riders", category: "advertising", images: ["assets/Levis_Thumbnail_v01.jpg", "assets/Levis_Thumbnail_2.png"], yt: "1eE588vXvqS", director: "Nico Alarcos", prod: "primo", desc_es: "Campaña de gira de Winona Riders.", desc_en: "Winona Riders commercial tour." },
-            { title_es: "coppola, el representante", title_en: "coppola, the agent", category: "serie", images: ["assets/Coppola_Thumbnail_2.jpg", "assets/Coppola_Thumbnail_3.png"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films / disney+", desc_es: "La historia de Guillermo Coppola.", desc_en: "The story of Guillermo Coppola." },
-            { title_es: "blair - Todo lo que tengo", title_en: "blair - All I have", category: "music video", images: ["assets/Blair_Thumbnail_1.jpg", "assets/Blair_Thumbnail_2.png"], yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster", desc_es: "Primer adelanto del disco Bar Scorpios (2025)", desc_en: "First preview of Bar Scorpios (2025)" },
-            { title_es: "las manos de la abuela", title_en: "grandmother's hands", category: "cortometraje", images: ["assets/MA_Thumbnail_1.png"], yt: "", director: "camila migliore", prod: "calesita films", desc_es: "Memoria y legado familiar.", desc_en: "Memory and family legacy." },
-            { title_es: "ratones paranoicos", title_en: "ratones paranoicos", category: "music video", images: ["assets/RP_Thumbmail_1.png"], yt: "", director: "alex roux", prod: "poster", desc_es: "Pieza para la legendaria banda de rock.", desc_en: "Piece for the legendary rock band." },
-            { title_es: "besos brujos", title_en: "witch kisses", category: "cortometraje", images: ["assets/BB_Thumbnail_1.png"], yt: "", director: "karina flonembaum", prod: "", desc_es: "Ficción breve onírica.", desc_en: "Dreamlike short fiction." },
-            { title_es: "las marias", title_en: "las marias", category: "advertising", images: ["assets/Marias_Thumbnail_1.png"], yt: "", director: "alejandro berger parrado", prod: "navajo films", desc_es: "Tradición yerbatera argentina.", desc_en: "Argentine yerba mate tradition." },
-            { title_es: "todo lo que recuerdo", title_en: "all I remember", category: "cortometraje", images: ["assets/TodoLoQueRecuerdo_Thumbnail_1.png"], yt: "", director: "nicolas fernandez melian", prod: "", desc_es: "Un viaje sensorial por la memoria.", desc_en: "A sensory journey." }
+            { title_es: "menem", title_en: "menem", category: "serie", images: ["assets/Menem_Thumbnail_1.jpg", "assets/Menem_Thumbnail_2.jpg", "assets/Menem_Thumbnail_3.png", "assets/Menem_Thumbnail_4.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", desc_es: "Biopic que recorre el ascenso al poder de Carlos Menem en los años 90.", desc_en: "Biopic tracing Carlos Menem's rise to power in the 1990s." },
+            { title_es: "OREO - Sigamos divirtiéndonos", title_en: "OREO - Keep on playing", category: "advertising", images: ["assets/Oreo_Thumbnail_1.png", "assets/Oreo_Thumbnail_2.png", "assets/Oreo_Thumbnail_3.png", "assets/Oreo_Thumbnail_4.png", "assets/Oreo_Thumbnail_5.png"], yt: "7Cllu0Rme74", director: "Martín Jalfen", prod: "Pop Studios - México", desc_es: "Campaña publicitaria global para Oreo.", desc_en: "Global advertising campaign for Oreo." },
+            { title_es: "el tiempo de las moscas", title_en: "time of the flies", category: "serie", images: ["assets/Moscas_Thumbnail_1.jpg", "assets/Moscas_Thumbnail_2.png", "assets/Moscas_Thumbnail_3.png", "assets/Moscas_Thumbnail_4.png", "assets/Moscas_Thumbnail_5.png"], yt: "A0d6wnlMRRk", director: "Benjamín Naishtat y Ana Katz", prod: "netflix", desc_es: "Dos mujeres intentan reconstruir sus vidas tras salir de prisión.", desc_en: "Two women attempt to rebuild their lives after prison." },
+            { title_es: "levis x winona riders", title_en: "levis x winona riders", category: "advertising", images: ["assets/Levis_Thumbnail_v01.jpg", "assets/Levis_Thumbnail_2.png", "assets/Levis_Thumbnail_3.png", "assets/Levis_Thumbnail_5.png"], yt: "1eE588vXvqS", director: "Nico Alarcos", prod: "primo", desc_es: "Campaña de gira de Winona Riders por el norte de Argentina.", desc_en: "Winona Riders commercial tour." },
+            { title_es: "coppola, el representante", title_en: "coppola, the agent", category: "serie", images: ["assets/Coppola_Thumbnail_2.jpg", "assets/Coppola_Thumbnail_3.png", "assets/Coppola_Thumbnail_4.jpg"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films / disney+", desc_es: "La historia de Guillermo Coppola, el representante más famoso de Argentina.", desc_en: "The story of Guillermo Coppola, Argentina's most famous manager." },
+            { title_es: "blair - Todo lo que tengo", title_en: "blair - All I have", category: "music video", images: ["assets/Blair_Thumbnail_1.jpg", "assets/Blair_Thumbnail_2.png", "assets/Blair_Thumbnail_3.png", "assets/Blair_Thumbnail_4.png"], yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster", desc_es: "Primer adelanto del disco Bar Scorpios (2025)", desc_en: "First preview of the album Bar Scorpios (2025)" },
+            { title_es: "las manos de la abuela", title_en: "grandmother's hands", category: "cortometraje", images: ["assets/MA_Thumbnail_1.png", "assets/MA_Thumbnail_3.png"], yt: "", director: "camila migliore", prod: "calesita films", desc_es: "Cortometraje que explora la memoria y el legado familiar.", desc_en: "Short film exploring memory and family legacy." },
+            { title_es: "ratones paranoicos", title_en: "ratones paranoicos", category: "music video", images: ["assets/RP_Thumbmail_1.png", "assets/RP_Thumbmail_2.png"], yt: "", director: "alex roux", prod: "poster", desc_es: "Pieza audiovisual para la legendaria banda de rock argentina.", desc_en: "Audiovisual piece for the rock band." },
+            { title_es: "besos brujos", title_en: "witch kisses", category: "cortometraje", images: ["assets/BB_Thumbnail_1.png", "assets/BB_Thumbnail_2.png"], yt: "", director: "karina flonembaum", prod: "", desc_es: "Ficción breve onírica.", desc_en: "Dreamlike short fiction." },
+            { title_es: "las marias", title_en: "las marias", category: "advertising", images: ["assets/Marias_Thumbnail_1.png", "assets/Marias_Thumbnail_2.png"], yt: "", director: "alejandro berger parrado", prod: "navajo films", desc_es: "Documental publicitario sobre la yerba mate.", desc_en: "Ad documentary about yerba mate." },
+            { title_es: "todo lo que recuerdo", title_en: "all I remember", category: "cortometraje", images: ["assets/TodoLoQueRecuerdo_Thumbnail_1.png"], yt: "", director: "nicolas fernandez melian", prod: "", desc_es: "Un viaje sensorial por la memoria fragmentada.", desc_en: "A sensory journey through fragmented memory." }
         ];
 
         const translations = {
@@ -325,6 +320,7 @@
             document.getElementById('opt-advertising').innerText = "/ " + t.advertising;
             document.getElementById('opt-music').innerText = "/ " + t.music_video;
             document.getElementById('current-filter-text').innerText = t.projects + ' / ' + t[currentFilterKey];
+            document.getElementById('txt-back').innerText = t.back;
             document.getElementById('txt-close-v').innerText = t.close;
             document.getElementById('txt-close-g').innerText = t.close;
             document.getElementById('txt-about-body').innerText = t.about_body;
@@ -344,14 +340,25 @@
             resetIntervals();
         }
 
-        // LÓGICA DE RUEDA DEL MOUSE
+        // CONTROL DE SCROLL MEJORADO PARA MACBOOK
         function handleWheel(e) {
-            if (isScrolling || document.getElementById('modal-v').style.display === 'flex') return;
-            isScrolling = true;
-            setTimeout(() => { isScrolling = false; }, 500);
+            if (document.getElementById('about-section').style.display === 'block') return;
+            if (document.getElementById('modal-v').style.display === 'flex') return;
 
-            if (e.deltaY > 0) selectProject((currentIndex + 1) % filteredProjects.length);
-            else selectProject((currentIndex - 1 + filteredProjects.length) % filteredProjects.length);
+            e.preventDefault();
+            wheelDeltaBuffer += e.deltaY;
+
+            if (!isWheeling) {
+                isWheeling = true;
+                setTimeout(() => {
+                    if (Math.abs(wheelDeltaBuffer) > 30) {
+                        if (wheelDeltaBuffer > 0) selectProject((currentIndex + 1) % filteredProjects.length);
+                        else selectProject((currentIndex - 1 + filteredProjects.length) % filteredProjects.length);
+                    }
+                    wheelDeltaBuffer = 0;
+                    isWheeling = false;
+                }, 150); // Tiempo de reacción al scroll
+            }
         }
 
         function updateDisplay(onlyText = false) {
@@ -399,10 +406,8 @@
             const list = document.getElementById('thumbnail-list');
             list.innerHTML = filteredProjects.map((p, idx) => {
                 let offset = idx - currentIndex;
-                // LOOP INFINITO VISUAL
                 if (offset > filteredProjects.length / 2) offset -= filteredProjects.length;
                 if (offset < -filteredProjects.length / 2) offset += filteredProjects.length;
-                
                 const absOffset = Math.abs(offset);
                 const direction = Math.sign(offset);
                 
@@ -417,6 +422,14 @@
         }
 
         function selectProject(idx) { currentIndex = idx; updateDisplay(); resetIntervals(); }
+
+        function showSection(s) {
+            document.getElementById('work-section').style.display = s === 'work' ? 'block' : 'none';
+            document.getElementById('about-section').style.display = s === 'about' ? 'block' : 'none';
+            // Ocultar animación 3D en About
+            document.querySelector('.right-panel').style.opacity = s === 'work' ? '1' : '0';
+            document.querySelector('.right-panel').style.visibility = s === 'work' ? 'visible' : 'hidden';
+        }
 
         function handleMainClick() {
             const p = filteredProjects[currentIndex];
@@ -450,11 +463,6 @@
             if(document.querySelectorAll('#image-container img').length > 1) {
                 slideRotation = setInterval(() => manualSlide(1), 2800);
             }
-        }
-
-        function showSection(s) {
-            document.getElementById('work-section').style.display = s === 'work' ? 'block' : 'none';
-            document.getElementById('about-section').style.display = s === 'about' ? 'block' : 'none';
         }
 
         function toggleDropdown(e) { e.stopPropagation(); document.getElementById("filter-options").classList.toggle("select-show"); }
