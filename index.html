@@ -111,9 +111,12 @@
 
         .project-details { display: flex; flex-direction: column; margin-top: 35px; }
         .category-label { font-size: 0.75rem; font-weight: 300; color: var(--text); margin-bottom: 15px; display: block; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.9; }
-        .project-header { display: flex; align-items: center; gap: 30px; }
+        
+        /* CORRECCIÓN: Logo más cerca del título */
+        .project-header { display: flex; align-items: center; gap: 15px; }
         .project-details h2 { font-size: 4rem; margin: 0; font-weight: 800; line-height: 0.85; text-transform: uppercase; letter-spacing: -0.05em; color: var(--text); }
         .platform-logo { max-height: 35px; max-width: 140px; display: block; filter: brightness(0) invert(98%) sepia(10%) saturate(400%) hue-rotate(320deg); opacity: 0.4; transition: 0.3s; }
+        
         .meta { font-size: 0.9rem; line-height: 1.8; color: #888; margin-top: 20px; }
         .meta strong { color: var(--text); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; }
         .p-description { margin-top: 25px; max-width: 650px; text-transform: none; font-weight: 300; color: #777; line-height: 1.6; font-size: 0.95rem; }
@@ -422,7 +425,7 @@
             const prodText = current.prod ? `<br><strong>${translations[currentLang].prod}:</strong> ${current.prod}` : "";
             document.getElementById('p-meta-top').innerHTML = `<strong>${translations[currentLang].dir}:</strong> ${current.director}${prodText}`;
             
-            // Símbolo dinámico
+            // Símbolo dinámico según tipo de contenido
             document.getElementById('play-icon').innerText = current.yt ? '⏵' : '⧉';
 
             const platCont = document.getElementById('p-platform-container');
@@ -481,9 +484,7 @@
             document.querySelectorAll('.video-modal, .gallery-modal').forEach(m => m.style.display = 'none');
             document.getElementById('video-player').innerHTML = '';
             if(ytPlayer) { ytPlayer.destroy(); ytPlayer = null; }
-            currentIndex = (currentIndex + 1) % filteredProjects.length; 
-            updateDisplay(); 
-            resetIntervals();
+            // No avanzamos de proyecto automáticamente al cerrar para no desorientar
         }
 
         function manualSlide(dir) {
