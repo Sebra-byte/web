@@ -16,7 +16,7 @@
             --text: #FFFFE4; 
             --line-grid: rgba(255, 255, 228, 0.03); 
             --font-main: 'Manrope', sans-serif;
-            --transition-speed: 0.5s;
+            --transition-speed: 0.6s;
         }
         
         body, html { 
@@ -88,29 +88,24 @@
         .nav-links a { text-decoration: none; color: var(--text); font-size: 0.9rem; font-weight: 500; opacity: 0.5; transition: 0.3s; cursor: pointer; }
         .nav-links a:hover { opacity: 1; }
 
-        .center-panel { 
-            width: 100%; 
-            position: relative; 
-            display: flex;
-            flex-direction: column;
-            overflow: hidden; /* Evitamos el scroll nativo para usar el JS */
-        }
+        .center-panel { width: 100%; position: relative; overflow: hidden; }
 
         .main-viewer {
             width: 100%; max-width: 900px; aspect-ratio: 21 / 9; 
-            background: #000; border: 1px solid rgba(255, 255, 228, 0.05); 
+            background: #000; border: 1px solid rgba(255, 255, 228, 0.1); 
             overflow: hidden; position: relative;
-            flex-shrink: 0;
+            transition: transform 0.5s cubic-bezier(0.2, 0, 0.2, 1);
         }
+        .main-viewer:hover { transform: scale(1.01); border-color: rgba(255, 255, 228, 0.3); }
         
         #image-container, .project-details { 
-            transition: opacity var(--transition-speed) ease-in-out; 
+            transition: opacity var(--transition-speed) ease-in-out, transform var(--transition-speed) ease-in-out; 
         }
-        .fade-out { opacity: 0 !important; }
+        .fade-out { opacity: 0 !important; transform: translateY(10px); }
 
         .main-viewer img { 
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-            object-fit: cover; transition: opacity 0.6s ease; opacity: 0; 
+            object-fit: cover; transition: opacity 0.8s ease; opacity: 0; 
         }
         .main-viewer img.active-slide { opacity: 1; z-index: 2; }
         
@@ -124,7 +119,7 @@
         }
         .main-viewer:hover .play-indicator { display: block; }
 
-        .project-details { width: 100%; max-width: 900px; margin-top: 35px; }
+        .project-details { width: 100%; max-width: 900px; margin-top: 35px; padding-bottom: 100px; }
         .project-details h2 { font-size: 4rem; margin: 0; font-weight: 800; line-height: 0.85; text-transform: uppercase; letter-spacing: -0.05em; color: var(--text); }
         .category-label { font-size: 0.7rem; font-weight: 700; color: rgba(255, 255, 228, 0.3); margin-bottom: 15px; display: block; text-transform: uppercase; letter-spacing: 0.15em; }
         
@@ -152,25 +147,26 @@
         .thumb-item { width: 100%; aspect-ratio: 16 / 9; background: #000; border: 1px solid rgba(255, 255, 228, 0.05); overflow: hidden; transition: 0.5s; flex-shrink: 0; cursor: pointer; }
         .thumb-item img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); opacity: 0.2; transition: 0.5s; }
         .thumb-item:hover img, .thumb-item.active-thumb img { filter: grayscale(0); opacity: 1; }
-        .thumb-item.active-thumb { border-color: rgba(255, 255, 228, 0.5); transform: translateX(-5px); }
+        .thumb-item.active-thumb { border-color: rgba(255, 255, 228, 0.5); transform: translateX(-5px); box-shadow: 0 0 20px rgba(0,0,0,0.5); }
 
-        /* Modals */
         .video-modal, .gallery-modal { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: rgba(0,0,0,0.98); display: none; z-index: 1000; 
             justify-content: center; align-items: center; 
         }
-        .video-wrapper, .gallery-wrapper { width: 80%; max-width: 1200px; aspect-ratio: 16 / 9; position: relative; }
+        .video-wrapper { width: 76.5%; max-width: 1200px; aspect-ratio: 16 / 9; position: relative; }
+        .gallery-wrapper { width: 90%; max-width: 1400px; aspect-ratio: 16 / 9; position: relative; }
         .gallery-wrapper img { width: 100%; height: 100%; object-fit: contain; }
+        
         .close-btn { position: fixed; top: 40px; right: 40px; color: var(--text); font-size: 0.8rem; z-index: 1010; font-weight: 700; cursor: pointer; opacity: 0.7; }
-        .modal-arrow { position: absolute; top: 50%; transform: translateY(-50%); font-size: 3rem; color: var(--text); opacity: 0.2; cursor: pointer; padding: 20px; user-select: none; }
+        .modal-arrow { position: absolute; top: 50%; transform: translateY(-50%); font-size: 3rem; color: var(--text); opacity: 0.2; cursor: pointer; transition: 0.3s; padding: 20px; user-select: none; }
         .modal-arrow:hover { opacity: 1; }
         .arrow-left { left: -80px; }
         .arrow-right { right: -80px; }
 
         @media (max-width: 1100px) {
             .main-layout { grid-template-columns: 1fr; height: auto; overflow-y: auto; }
-            .right-panel { flex-direction: row; height: 140px; overflow-x: auto; }
+            .right-panel { flex-direction: row; height: 140px; margin-top: 20px; overflow-x: auto; }
             .thumb-item { width: 220px; }
             .project-details h2 { font-size: 2.5rem; }
         }
@@ -185,7 +181,7 @@
 
     <main class="main-layout">
         <section class="left-panel">
-            <div class="brand" onclick="showSection('work')"><strong>Leandro Bruno</strong>film editor</div>
+            <div class="brand" onclick="location.reload()"><strong>Leandro Bruno</strong>film editor</div>
             <nav class="nav-links">
                 <div class="lang-switch">
                     <span id="btn-es" onclick="setLanguage('es')">ES</span>
@@ -205,7 +201,7 @@
             </nav>
         </section>
 
-        <section class="center-panel" id="scroll-container">
+        <section class="center-panel" id="main-scroll-area">
             <div id="work-section">
                 <div class="main-viewer" id="viewer" onclick="handleMainClick()">
                     <div class="slide-nav">
@@ -229,7 +225,7 @@
                 <div id="txt-about-body" style="font-size:1.3rem; line-height:1.4; max-width:600px; font-weight: 300; margin-bottom: 40px; color: rgba(255, 255, 228, 0.5);"></div>
                 <div style="display: flex; gap: 20px; align-items: center;">
                     <a id="txt-imdb" href="https://www.imdb.com/name/nm10600109/" target="_blank" style="color:var(--text); text-decoration:none; font-weight:700; font-size:0.8rem; border-bottom:1px solid var(--text);"></a>
-                    <span id="txt-back" style="cursor:pointer; font-size:0.8rem; opacity:0.6" onclick="showSection('work')"></span>
+                    <span id="txt-back" style="cursor:pointer; font-size:0.8rem; opacity:0.6; text-decoration: underline;" onclick="showSection('work')"></span>
                 </div>
             </div>
         </section>
@@ -256,10 +252,10 @@
         let currentIndex = 0;
         let slideIndex = 0;
         let modalSlideIndex = 0;
-        let slideRotation;
+        let slideRotation, mainRotation;
         let ytPlayer;
         let currentFilterKey = 'all_projects';
-        let isScrolling = false;
+        let isWheelLocked = false;
 
         const projects = [
             { title_es: "menem", title_en: "menem", category: "serie", images: ["assets/Menem_Thumbnail_1.jpg", "assets/Menem_Thumbnail_2.jpg", "assets/Menem_Thumbnail_3.png", "assets/Menem_Thumbnail_4.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", desc_es: "Biopic que recorre el ascenso al poder de Carlos Menem en los años 90. Una exploración sobre el carisma, la política y la cultura argentina de una era inolvidable.", desc_en: "Biopic tracing Carlos Menem's rise to power in the 1990s. An exploration of the charisma, politics, and culture of an unforgettable Argentine era." },
@@ -294,20 +290,17 @@
             }
         };
 
-        // --- Manejo del Scroll (Carousel Vertical) ---
+        // --- Lógica de Carousel Vertical con Ruedita ---
         window.addEventListener('wheel', (e) => {
-            if (isScrolling || document.getElementById('about-section').style.display === 'block') return;
+            if(isWheelLocked || document.getElementById('about-section').style.display === 'block') return;
+            isWheelLocked = true;
             
-            isScrolling = true;
-            if (e.deltaY > 0) {
-                currentIndex = (currentIndex + 1) % filteredProjects.length;
-            } else {
-                currentIndex = (currentIndex - 1 + filteredProjects.length) % filteredProjects.length;
-            }
+            if(e.deltaY > 0) currentIndex = (currentIndex + 1) % filteredProjects.length;
+            else currentIndex = (currentIndex - 1 + filteredProjects.length) % filteredProjects.length;
             
             updateDisplay();
-            
-            setTimeout(() => { isScrolling = false; }, 800); // Debounce rítmico
+            resetIntervals();
+            setTimeout(() => { isWheelLocked = false; }, 800);
         }, { passive: true });
 
         function setLanguage(lang) {
@@ -343,8 +336,10 @@
             else if(val === 'ficción') filteredProjects = projects.filter(p => p.category === 'serie' || p.category === 'cortometraje');
             else filteredProjects = projects.filter(p => p.category === val);
             currentIndex = 0;
-            setLanguage(currentLang);
+            const t = translations[currentLang];
+            document.getElementById('current-filter-text').innerText = t.projects + ' / ' + t[dictKey];
             updateDisplay();
+            resetIntervals();
         }
 
         function updateDisplay(onlyText = false) {
@@ -386,7 +381,9 @@
             else if(prodLower.includes("disney")) logo = "https://upload.wikimedia.org/wikipedia/commons/3/3e/Disney%2B_logo.svg";
             else if(prodLower.includes("prime")) logo = "https://upload.wikimedia.org/wikipedia/commons/f/f1/Prime_Video.png";
             
-            if(logo) platCont.innerHTML = `<img src="${logo}" class="platform-logo">`;
+            if(logo) {
+                platCont.innerHTML = `<img src="${logo}" class="platform-logo">`;
+            }
         }
 
         function renderThumbnails() {
@@ -402,7 +399,29 @@
             if (activeThumb) activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
-        function selectProject(idx) { currentIndex = idx; updateDisplay(); }
+        function handleMainClick() {
+            const p = filteredProjects[currentIndex];
+            if(p.yt) {
+                document.getElementById('modal-v').style.display = 'flex';
+                if (p.yt.length < 20) {
+                    document.getElementById('video-player').innerHTML = `<div id="yt-player-container"></div>`;
+                    ytPlayer = new YT.Player('yt-player-container', {
+                        height: '100%', width: '100%', videoId: p.yt,
+                        playerVars: { 'autoplay': 1, 'rel': 0, 'modestbranding': 1 },
+                        events: { 'onStateChange': (e) => { if(e.data === YT.PlayerState.ENDED) closeModals(); } }
+                    });
+                } else {
+                    const url = `https://drive.google.com/file/d/${p.yt}/preview`;
+                    document.getElementById('video-player').innerHTML = `<iframe width="100%" height="100%" src="${url}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+                }
+            } else {
+                modalSlideIndex = 0;
+                document.getElementById('modal-g').style.display = 'flex';
+                updateGalleryImg();
+            }
+        }
+
+        function selectProject(idx) { currentIndex = idx; updateDisplay(); resetIntervals(); }
 
         function manualSlide(dir) {
             const imgs = document.querySelectorAll('#image-container img');
@@ -411,6 +430,14 @@
             slideIndex = (slideIndex + dir + imgs.length) % imgs.length;
             imgs[slideIndex].classList.add('active-slide');
             resetSlideTimer();
+        }
+
+        function resetIntervals() {
+            clearInterval(mainRotation);
+            mainRotation = setInterval(() => { 
+                currentIndex = (currentIndex + 1) % filteredProjects.length; 
+                updateDisplay(); 
+            }, 8000);
         }
 
         function resetSlideTimer() {
@@ -425,26 +452,24 @@
             }
         }
 
-        function handleMainClick() {
-            const p = filteredProjects[currentIndex];
-            if(p.yt) {
-                document.getElementById('modal-v').style.display = 'flex';
-                if (p.yt.length < 20) {
-                    document.getElementById('video-player').innerHTML = `<div id="yt-player-container"></div>`;
-                    ytPlayer = new YT.Player('yt-player-container', {
-                        height: '100%', width: '100%', videoId: p.yt,
-                        playerVars: { 'autoplay': 1, 'rel': 0 },
-                        events: { 'onStateChange': (e) => { if(e.data === YT.PlayerState.ENDED) closeModals(); } }
-                    });
-                } else {
-                    const url = `https://drive.google.com/file/d/${p.yt}/preview`;
-                    document.getElementById('video-player').innerHTML = `<iframe width="100%" height="100%" src="${url}" frameborder="0" allow="autoplay" allowfullscreen></iframe>`;
-                }
+        function showSection(sec) {
+            const work = document.getElementById('work-section');
+            const about = document.getElementById('about-section');
+            if(sec === 'about') {
+                work.style.display = 'none';
+                about.style.display = 'block';
+                clearInterval(mainRotation);
             } else {
-                modalSlideIndex = 0;
-                document.getElementById('modal-g').style.display = 'flex';
-                updateGalleryImg();
+                work.style.display = 'block';
+                about.style.display = 'none';
+                resetIntervals();
             }
+        }
+
+        function closeModals() {
+            document.querySelectorAll('.video-modal, .gallery-modal').forEach(m => m.style.display = 'none');
+            document.getElementById('video-player').innerHTML = '';
+            if(ytPlayer && ytPlayer.destroy) ytPlayer.destroy();
         }
 
         function modalGalleryNav(dir) {
@@ -457,26 +482,9 @@
             document.getElementById('gallery-img').src = filteredProjects[currentIndex].images[modalSlideIndex];
         }
 
-        function closeModals() {
-            document.querySelectorAll('.video-modal, .gallery-modal').forEach(m => m.style.display = 'none');
-            document.getElementById('video-player').innerHTML = '';
-            if(ytPlayer && ytPlayer.destroy) ytPlayer.destroy();
-        }
-
-        function showSection(sec) {
-            const work = document.getElementById('work-section');
-            const about = document.getElementById('about-section');
-            if(sec === 'about') {
-                work.style.display = 'none';
-                about.style.display = 'block';
-            } else {
-                work.style.display = 'block';
-                about.style.display = 'none';
-            }
-        }
-
         // Init
         setLanguage('es');
+        resetIntervals();
     </script>
 </body>
 </html>
