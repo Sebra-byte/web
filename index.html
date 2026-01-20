@@ -264,9 +264,40 @@
 
         let filteredProjects = [...projects];
 
+        // --- CORRECCIÓN DE TRADUCCIONES AQUÍ ---
         const translations = {
-            es: { all_projects: "todos", narrative: "ficción", advertising: "publicidad", music_video: "videoclips", dir: "dir", prod: "prod", imdb: "CRÉDITOS_IMDB ", about: "/ biografía", contact: "/ contacto", projects: "proyectos", back: "[ volver ]", close: "[ CERRAR ]", about_body: "Leandro Bruno es un editor de cine y publicidad con base en Buenos Aires. Se especializa en montaje rítmico y narrativa para plataformas globales como Netflix, Disney+ y Prime Video." },
-            en: { all_projects: "all", narrative: "fiction", advertising: "advertising", music_video: "music videos", dir: "dir", prod: "prod", imdb: "IMDB_CREDITS ", about: "/ biography", contact: "/ contact", projects: "projects", back: "[ back ]", close: "[ CLOSE ]", about_body: "Leandro Bruno is a film and advertising editor based in Buenos Aires. He specializes in rhythmic editing and narrative for global platforms such as Netflix, Disney+, and Prime Video." }
+            es: { 
+                all_projects: "todos", 
+                narrative: "ficción", 
+                advertising: "publicidad", 
+                music_video: "videoclips", 
+                "music video": "videoclips", // Mapeo para la categoría individual
+                dir: "dir", 
+                prod: "prod", 
+                imdb: "CRÉDITOS_IMDB ", 
+                about: "/ biografía", 
+                contact: "/ contacto", 
+                projects: "proyectos", 
+                back: "[ volver ]", 
+                close: "[ CERRAR ]", 
+                about_body: "Leandro Bruno es un editor de cine y publicidad con base en Buenos Aires. Se especializa en montaje rítmico y narrativa para plataformas globales como Netflix, Disney+ y Prime Video." 
+            },
+            en: { 
+                all_projects: "all", 
+                narrative: "fiction", 
+                advertising: "advertising", 
+                music_video: "music videos", 
+                "music video": "music video",
+                dir: "dir", 
+                prod: "prod", 
+                imdb: "IMDB_CREDITS ", 
+                about: "/ biography", 
+                contact: "/ contact", 
+                projects: "projects", 
+                back: "[ back ]", 
+                close: "[ CLOSE ]", 
+                about_body: "Leandro Bruno is a film and advertising editor based in Buenos Aires. He specializes in rhythmic editing and narrative for global platforms such as Netflix, Disney+, and Prime Video." 
+            }
         };
 
         function setLanguage(lang) {
