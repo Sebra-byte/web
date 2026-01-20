@@ -6,7 +6,7 @@
     <title>leandro bruno | film editor</title>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;500;700;800&display=swap" rel="stylesheet">
     <style>
-        /* CONFIGURACIÓN GENERAL Y CURSOR */
+        /* --- CONFIGURACIÓN GENERAL --- */
         * { 
             box-sizing: border-box; 
             cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23FFFFE4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><line x1="20" y1="4" x2="8.12" y2="15.88"></line><line x1="14.47" y1="14.48" x2="20" y2="20"></line><line x1="8.12" y1="8.12" x2="12" y2="12"></line></svg>'), auto !important;
@@ -27,7 +27,7 @@
             overflow: hidden; letter-spacing: -0.01em;
         }
 
-        /* --- MEJORAS DE IMAGEN (GRANO) --- */
+        /* --- EFECTOS VISUALES (GRANO) --- */
         .noise-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 500; opacity: 0.05;
@@ -48,7 +48,7 @@
             transition: opacity 0.3s ease;
         }
 
-        /* LAYOUT FLUIDO (SE ADAPTA A 14" Y 21") */
+        /* --- LAYOUT PRINCIPAL --- */
         .main-layout {
             display: grid;
             grid-template-columns: 280px 1fr 220px; 
@@ -57,20 +57,20 @@
             gap: 30px;
         }
 
-        /* --- PANEL IZQUIERDO --- */
+        /* --- PANEL IZQUIERDO (NAVEGACIÓN) --- */
         .left-panel { display: flex; flex-direction: column; gap: 60px; z-index: 100; }
         .brand { font-weight: 300; font-size: 1.1rem; line-height: 1.1; text-transform: none; cursor: pointer; color: var(--text); }
         .brand strong { display: block; font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 2px; text-transform: uppercase; }
         
-        .nav-links { display: flex; flex-direction: column; gap: 25px; }
+        .nav-links { display: flex; flex-direction: column; gap: 20px; }
         
-        /* ESTILO UNIFICADO BOTONES (IDIOMA Y SECCIONES) */
+        /* Estilos unificados para botones de navegación */
         .lang-switch, .nav-item-container { 
-            font-size: 0.85rem; font-weight: 800; display: flex; gap: 5px; margin-bottom: 5px; margin-left: -8px; 
+            font-size: 0.85rem; font-weight: 800; display: flex; gap: 5px; margin-left: -8px; 
         }
 
         .nav-link-custom { 
-            cursor: pointer; position: relative; padding: 8px 12px; opacity: 0.2; 
+            cursor: pointer; position: relative; padding: 8px 12px; opacity: 0.3; 
             transition: all 0.3s ease; display: inline-block; 
             text-decoration: none; color: var(--text); font-weight: 800; font-size: 0.85rem;
         }
@@ -80,19 +80,31 @@
             background-color: var(--text); transition: width 0.3s ease; 
         }
 
-        /* Estado Activo (Subrayado y Opacidad) */
+        /* Estado Activo */
         .nav-link-custom.active-nav { opacity: 1; }
         .nav-link-custom.active-nav::after { width: calc(100% - 24px); }
-        .nav-link-custom:hover { opacity: 0.7; background: rgba(255, 255, 228, 0.05); }
+        .nav-link-custom:hover { opacity: 0.8; background: rgba(255, 255, 228, 0.05); }
 
-        /* DROPDOWN DE FILTROS */
-        .custom-select-container { position: relative; }
-        .select-selected { font-size: 0.9rem; font-weight: 700; border-bottom: 1px solid rgba(255, 255, 228, 0.2); padding-bottom: 4px; display: inline-block; cursor: pointer; }
-        .select-items {
-            position: absolute; background-color: #111; top: 100%; left: 0; z-index: 99; border: 1px solid rgba(255, 255, 228, 0.05);
-            margin-top: 10px; display: none; min-width: 200px;
+        /* DROPDOWN DE FILTROS (SUB-NAVEGACIÓN) */
+        .custom-select-container { 
+            position: relative; 
+            padding-left: 12px; /* Indentación visual para mostrar jerarquía */
+            margin-top: -15px; /* Pegarlo al botón padre */
+            transition: opacity 0.3s ease;
         }
-        .select-items div { padding: 12px 15px; font-size: 0.8rem; cursor: pointer; }
+        
+        .select-selected { 
+            font-size: 0.8rem; font-weight: 700; color: #888;
+            padding-bottom: 4px; display: inline-block; cursor: pointer; 
+            transition: color 0.3s;
+        }
+        .select-selected:hover { color: var(--text); }
+
+        .select-items {
+            position: absolute; background-color: #111; top: 100%; left: 12px; z-index: 99; border: 1px solid rgba(255, 255, 228, 0.05);
+            margin-top: 5px; display: none; min-width: 180px;
+        }
+        .select-items div { padding: 10px 15px; font-size: 0.8rem; cursor: pointer; color: #888; }
         .select-items div:hover { background-color: var(--text); color: #000; }
         .select-show { display: block; }
 
@@ -102,10 +114,9 @@
             position: relative; 
             overflow-y: auto; 
             scrollbar-width: none; 
-            scroll-behavior: smooth; 
             display: flex;
             flex-direction: column;
-            align-items: center; /* Centrado fluido */
+            align-items: center; 
         }
         .center-panel::-webkit-scrollbar { display: none; }
 
@@ -123,7 +134,6 @@
 
         .main-viewer img { 
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity 0.6s ease; opacity: 0;
-            /* Filtro sutil para imagen principal */
             filter: contrast(1.02) brightness(1.01);
         }
         .main-viewer img.active-slide { opacity: 1; z-index: 2; }
@@ -142,13 +152,8 @@
         /* DETALLES DEL PROYECTO */
         .project-details { width: 100%; margin-top: 35px; padding-bottom: 100px; }
         
-        /* Contenedor Flex para Título y Logo */
         .title-row {
-            display: flex;
-            align-items: center; /* Alineación vertical */
-            gap: 25px;
-            margin: 0;
-            flex-wrap: wrap;
+            display: flex; align-items: center; gap: 25px; margin: 0; flex-wrap: wrap;
         }
 
         .project-details h2 { font-size: 4.5rem; margin: 0; font-weight: 800; line-height: 0.85; text-transform: uppercase; letter-spacing: -0.05em; color: var(--text); }
@@ -170,6 +175,7 @@
         /* BIOGRAFÍA */
         .back-link { font-size: 0.75rem; color: var(--text); font-weight: 700; cursor: pointer; padding: 8px 16px; border: 1px solid rgba(255, 255, 228, 0.3); transition: all 0.3s; display: inline-block; opacity: 0.6; margin-left: 20px; text-transform: lowercase; }
         .back-link:hover { opacity: 1; background: rgba(255, 255, 228, 0.1); border-color: var(--text); }
+        .about-content { padding-top: 20px; }
 
         /* --- PANEL DERECHO (THUMBNAILS) --- */
         .right-panel { 
@@ -182,12 +188,11 @@
 
         .thumb-item { width: 100%; aspect-ratio: 16 / 9; background: #000; border: 1px solid rgba(255, 255, 228, 0.05); overflow: hidden; transition: 0.5s; flex-shrink: 0; cursor: pointer; position: relative; }
         
-        /* MEJORA DE IMAGEN PARA THUMBNAILS (OREO FIX) */
         .thumb-item img { 
             width: 100%; height: 100%; object-fit: cover; 
-            filter: grayscale(1) contrast(1.15) brightness(1.05); /* Filtro de nitidez */
+            filter: grayscale(1) contrast(1.15) brightness(1.05);
             opacity: 0.2; transition: 0.5s; 
-            image-rendering: -webkit-optimize-contrast; /* Forzar renderizado nítido */
+            image-rendering: -webkit-optimize-contrast;
         }
         
         .thumb-item:hover img, .thumb-item.active-thumb img { filter: grayscale(0) contrast(1.15) brightness(1.05); opacity: 1; }
@@ -217,7 +222,8 @@
 </head>
 <body>
 
-    <div class="noise-overlay"></div> <div id="transition-overlay"></div>
+    <div class="noise-overlay"></div>
+    <div id="transition-overlay"></div>
     <div class="blueprint-bg"></div>
 
     <script src="https://www.youtube.com/iframe_api"></script>
@@ -235,13 +241,13 @@
                     <span id="nav-work" class="nav-link-custom active-nav" onclick="showSection('work')">proyectos</span>
                 </div>
 
-                <div class="custom-select-container">
-                    <div class="select-selected" id="current-filter-text" onclick="toggleDropdown(event)"></div>
+                <div class="custom-select-container" id="filter-container">
+                    <div class="select-selected" id="current-filter-text" onclick="toggleDropdown(event)">/ todos</div>
                     <div class="select-items" id="filter-options">
-                        <div id="opt-all" onclick="filterBy('all', 'all_projects')"></div>
-                        <div id="opt-narrative" onclick="filterBy('ficción', 'narrative')"></div>
-                        <div id="opt-advertising" onclick="filterBy('advertising', 'advertising')"></div>
-                        <div id="opt-music" onclick="filterBy('music video', 'music_video')"></div>
+                        <div id="opt-all" onclick="filterBy('all', 'all_projects')">/ todos</div>
+                        <div id="opt-narrative" onclick="filterBy('ficción', 'narrative')">/ ficción</div>
+                        <div id="opt-advertising" onclick="filterBy('advertising', 'advertising')">/ publicidad</div>
+                        <div id="opt-music" onclick="filterBy('music video', 'music_video')">/ videoclips</div>
                     </div>
                 </div>
 
@@ -337,19 +343,26 @@
         function setLanguage(lang) {
             currentLang = lang;
             const t = translations[lang];
-            // Lógica de botones de idioma
+            
+            // Botones de Idioma
             document.getElementById('btn-es').classList.toggle('active-nav', lang === 'es');
             document.getElementById('btn-en').classList.toggle('active-nav', lang === 'en');
             
-            // Textos
+            // Textos Navegación
             document.getElementById('nav-about').innerText = t.about;
             document.getElementById('nav-work').innerText = t.projects;
             document.getElementById('nav-contact').innerText = t.contact;
+            
+            // Textos Filtros (Solo actualizamos el texto, la lógica de mostrar/ocultar es CSS/JS)
             document.getElementById('opt-all').innerText = "/ " + t.all_projects;
             document.getElementById('opt-narrative').innerText = "/ " + t.narrative;
             document.getElementById('opt-advertising').innerText = "/ " + t.advertising;
             document.getElementById('opt-music').innerText = "/ " + t.music_video;
-            document.getElementById('current-filter-text').innerText = t.projects + ' / ' + t[currentFilterKey];
+            
+            // Actualizar texto del filtro actual seleccionado
+            document.getElementById('current-filter-text').innerText = "/ " + t[currentFilterKey];
+
+            // Textos Varios
             document.getElementById('txt-back').innerText = t.back;
             document.getElementById('txt-close-v').innerText = t.close;
             document.getElementById('txt-close-g').innerText = t.close;
@@ -360,11 +373,14 @@
         }
 
         function showSection(sec) {
-            // Visibilidad
+            // Lógica de visualización
             document.getElementById('work-section').style.display = sec === 'work' ? 'block' : 'none';
             document.getElementById('about-section').style.display = sec === 'about' ? 'block' : 'none';
             document.getElementById('thumbnail-list').style.display = sec === 'work' ? 'flex' : 'none';
             
+            // CONTROL DEL MENÚ DE FILTROS: Se oculta en Bio para no duplicar info
+            document.getElementById('filter-container').style.display = sec === 'work' ? 'block' : 'none';
+
             // ESTADO ACTIVO EN BOTONES (SUBRAYADO)
             document.getElementById('nav-work').classList.toggle('active-nav', sec === 'work');
             document.getElementById('nav-about').classList.toggle('active-nav', sec === 'about');
@@ -381,11 +397,9 @@
             const prodText = current.prod ? `<br><strong>${translations[currentLang].prod}:</strong> ${current.prod}` : "";
             document.getElementById('p-meta-top').innerHTML = `<strong>${translations[currentLang].dir}:</strong> ${current.director}${prodText}`;
             
-            // Icono Play/Expandir
             const playIcon = document.getElementById('play-icon');
             playIcon.innerText = current.yt ? "▶" : "⛶";
 
-            // Logo Plataforma
             const platCont = document.getElementById('p-platform-container');
             platCont.innerHTML = '';
             const prodLower = (current.prod || "").toLowerCase();
@@ -408,9 +422,12 @@
             if(val === 'all') filteredProjects = [...projects];
             else if(val === 'ficción') filteredProjects = projects.filter(p => p.category === 'serie' || p.category === 'cortometraje');
             else filteredProjects = projects.filter(p => p.category === val);
+            
             currentIndex = 0;
             const t = translations[currentLang];
-            document.getElementById('current-filter-text').innerText = t.projects + ' / ' + t[dictKey];
+            // Actualizamos SOLO el texto del filtro, no repetimos "Proyectos"
+            document.getElementById('current-filter-text').innerText = "/ " + t[dictKey];
+            
             updateDisplay();
             resetIntervals();
         }
@@ -423,7 +440,6 @@
             
             if(!onlyText) {
                 if(immediate) {
-                    // Cambio sin transición (al cambiar idioma o volver)
                     container.classList.remove('fade-out');
                     details.classList.remove('fade-out');
                     container.innerHTML = current.images.map((src, idx) => `<img src="${src}" class="${idx === 0 ? 'active-slide' : ''}">`).join('');
@@ -433,7 +449,6 @@
                     resetSlideTimer();
                     scrollThumbIntoView();
                 } else {
-                    // Cambio con transición (al navegar)
                     container.classList.add('fade-out');
                     details.classList.add('fade-out');
                     setTimeout(() => {
