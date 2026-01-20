@@ -146,12 +146,13 @@
             font-weight: 300; color: #777; line-height: 1.6; font-size: 0.95rem;
         }
 
-        /* Logos con Tonalidad Off-White */
+        /* --- AJUSTE DE TAMAÑO DE LOGOS AQUÍ --- */
         .platform-logo {
-            margin-top: 30px; 
-            height: 24px; /* Un poco más elegante, menos invasivo */
+            margin-top: 35px; 
+            height: auto; 
+            max-height: 35px; /* Controla la altura máxima para que no se desborden */
+            max-width: 140px;  /* Permite que logos anchos como Prime crezcan más */
             display: block;
-            /* El filtro convierte el logo a #FFFFE4 aprox */
             filter: brightness(0) invert(98%) sepia(10%) saturate(400%) hue-rotate(320deg);
             opacity: 0.4;
             transition: opacity 0.3s;
