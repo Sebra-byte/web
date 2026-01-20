@@ -12,11 +12,11 @@
         }
 
         :root { 
-            --bg: ##1E1E1E; 
+            --bg: #1E1E1E; /* Color Grafito solicitado */
             --text: #FFFFE4; 
             --line-grid: rgba(255, 255, 228, 0.03); 
             --font-main: 'Manrope', sans-serif;
-            --transition-speed: 0.6s;
+            --transition-speed: 0.8s;
         }
         
         body, html { 
@@ -34,12 +34,6 @@
             background-size: 40px 40px; z-index: -1;
         }
 
-        #transition-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; z-index: 2000; opacity: 0; pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-
         .main-layout {
             display: grid;
             grid-template-columns: 280px 1fr 220px;
@@ -48,136 +42,94 @@
             gap: 30px;
         }
 
+        /* Paneles */
         .left-panel { display: flex; flex-direction: column; gap: 60px; z-index: 100; }
         .brand { font-weight: 300; font-size: 1.1rem; line-height: 1.1; text-transform: none; cursor: pointer; color: var(--text); }
         .brand strong { display: block; font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 2px; text-transform: uppercase; }
         
         .nav-links { display: flex; flex-direction: column; gap: 25px; }
-        
-        .lang-switch { 
-            font-size: 0.85rem; 
-            font-weight: 800; 
-            display: flex; 
-            gap: 5px; 
-            margin-bottom: 5px;
-            margin-left: -8px;
-        }
-        .lang-switch span { 
-            cursor: pointer; 
-            position: relative; 
-            padding: 8px 12px;
-            opacity: 0.2;
-            transition: all 0.3s ease;
-            display: inline-block;
-        }
+        .lang-switch { font-size: 0.85rem; font-weight: 800; display: flex; gap: 5px; margin-bottom: 5px; margin-left: -8px; }
+        .lang-switch span { cursor: pointer; position: relative; padding: 8px 12px; opacity: 0.2; transition: 0.3s; }
         .lang-switch span.active-lang { opacity: 1; }
-        .lang-switch span.active-lang::after {
-            content: ''; position: absolute; bottom: 5px; left: 12px; width: calc(100% - 24px); height: 2px; background-color: var(--text);
-        }
+        .lang-switch span.active-lang::after { content: ''; position: absolute; bottom: 5px; left: 12px; width: calc(100% - 24px); height: 2px; background-color: var(--text); }
 
         .custom-select-container { position: relative; }
-        .select-selected { font-size: 0.9rem; font-weight: 700; border-bottom: 1px solid rgba(255, 255, 228, 0.2); padding-bottom: 4px; display: inline-block; cursor: pointer; }
-        .select-items {
-            position: absolute; background-color: #0b0d0b; top: 100%; left: 0; z-index: 99; border: 1px solid rgba(255, 255, 228, 0.05);
-            margin-top: 10px; display: none; min-width: 200px;
-        }
+        .select-selected { font-size: 0.9rem; font-weight: 700; border-bottom: 1px solid rgba(255, 255, 228, 0.2); padding-bottom: 4px; cursor: pointer; }
+        .select-items { position: absolute; background-color: #121212; top: 100%; left: 0; z-index: 99; border: 1px solid rgba(255, 255, 228, 0.05); margin-top: 10px; display: none; min-width: 200px; }
         .select-items div { padding: 12px 15px; font-size: 0.8rem; cursor: pointer; }
         .select-items div:hover { background-color: var(--text); color: #000; }
         .select-show { display: block; }
 
-        .nav-links a { text-decoration: none; color: var(--text); font-size: 0.9rem; font-weight: 500; opacity: 0.5; transition: 0.3s; cursor: pointer; }
-        .nav-links a:hover { opacity: 1; }
-
         .center-panel { width: 100%; position: relative; overflow: hidden; }
 
+        /* Destaque del Viewer */
         .main-viewer {
             width: 100%; max-width: 900px; aspect-ratio: 21 / 9; 
-            background: #000; border: 1px solid rgba(255, 255, 228, 0.1); 
+            background: #000; border: 1px solid rgba(255, 255, 228, 0.15); 
             overflow: hidden; position: relative;
-            transition: transform 0.5s cubic-bezier(0.2, 0, 0.2, 1);
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.6s ease;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.6);
         }
-        .main-viewer:hover { transform: scale(1.01); border-color: rgba(255, 255, 228, 0.3); }
+        .main-viewer:hover { transform: scale(1.02); border-color: rgba(255, 255, 228, 0.6); }
         
-        #image-container, .project-details { 
-            transition: opacity var(--transition-speed) ease-in-out, transform var(--transition-speed) ease-in-out; 
-        }
-        .fade-out { opacity: 0 !important; transform: translateY(10px); }
-
-        .main-viewer img { 
+        #image-container img { 
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-            object-fit: cover; transition: opacity 0.8s ease; opacity: 0; 
+            object-fit: cover; transition: opacity 1.2s ease-in-out; opacity: 0; 
         }
-        .main-viewer img.active-slide { opacity: 1; z-index: 2; }
+        #image-container img.active-slide { opacity: 1; z-index: 2; }
         
-        .slide-nav { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: space-between; z-index: 15; pointer-events: none; }
-        .nav-arrow { pointer-events: auto; width: 60px; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; opacity: 0; transition: 0.3s; color: rgba(255, 255, 228, 0.5); user-select: none; }
-        .main-viewer:hover .nav-arrow { opacity: 1; }
+        .fade-transition { opacity: 0 !important; transform: translateY(10px); transition: 0.4s ease-in-out; }
 
-        .play-indicator {
-            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
-            color: var(--text); font-size: 1.5rem; display: none; z-index: 20; opacity: 0.7; pointer-events: none;
-        }
-        .main-viewer:hover .play-indicator { display: block; }
-
-        .project-details { width: 100%; max-width: 900px; margin-top: 35px; padding-bottom: 100px; }
-        .project-details h2 { font-size: 4rem; margin: 0; font-weight: 800; line-height: 0.85; text-transform: uppercase; letter-spacing: -0.05em; color: var(--text); }
+        /* Detalles Proyecto */
+        .project-details { width: 100%; max-width: 900px; margin-top: 35px; transition: 0.5s ease; }
+        .project-details h2 { font-size: 4rem; margin: 0; font-weight: 800; line-height: 0.85; text-transform: uppercase; letter-spacing: -0.05em; }
         .category-label { font-size: 0.7rem; font-weight: 700; color: rgba(255, 255, 228, 0.3); margin-bottom: 15px; display: block; text-transform: uppercase; letter-spacing: 0.15em; }
-        
         .meta { font-size: 0.9rem; line-height: 1.8; color: rgba(255, 255, 228, 0.5); margin-top: 20px; }
         .meta strong { color: var(--text); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; }
 
-        .p-description { 
-            margin-top: 25px; max-width: 650px; text-transform: none; 
-            font-weight: 300; color: rgba(255, 255, 228, 0.4); line-height: 1.6; font-size: 0.95rem;
-        }
-
-        .platform-logo {
-            margin-top: 35px; height: auto; max-height: 35px; max-width: 140px; display: block;
-            filter: brightness(0) invert(98%) sepia(10%) saturate(400%) hue-rotate(320deg);
-            opacity: 0.3; transition: 0.3s;
-        }
-
+        /* Right Panel con Scrollbar */
         .right-panel { 
-            display: flex; flex-direction: column; gap: 25px; 
-            overflow-y: auto; padding-right: 15px; scrollbar-width: none;
-            scroll-behavior: smooth; 
+            display: flex; flex-direction: column; gap: 20px; 
+            overflow-y: scroll; padding-right: 12px;
+            scroll-behavior: smooth;
         }
-        .right-panel::-webkit-scrollbar { display: none; }
+        /* Custom Scrollbar Styles */
+        .right-panel::-webkit-scrollbar { width: 3px; }
+        .right-panel::-webkit-scrollbar-track { background: rgba(255, 255, 228, 0.02); }
+        .right-panel::-webkit-scrollbar-thumb { background: rgba(255, 255, 228, 0.2); border-radius: 10px; }
+        .right-panel::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 228, 0.5); }
 
-        .thumb-item { width: 100%; aspect-ratio: 16 / 9; background: #000; border: 1px solid rgba(255, 255, 228, 0.05); overflow: hidden; transition: 0.5s; flex-shrink: 0; cursor: pointer; }
-        .thumb-item img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); opacity: 0.2; transition: 0.5s; }
-        .thumb-item:hover img, .thumb-item.active-thumb img { filter: grayscale(0); opacity: 1; }
-        .thumb-item.active-thumb { border-color: rgba(255, 255, 228, 0.5); transform: translateX(-5px); box-shadow: 0 0 20px rgba(0,0,0,0.5); }
-
-        .video-modal, .gallery-modal { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.98); display: none; z-index: 1000; 
-            justify-content: center; align-items: center; 
+        .thumb-item { 
+            width: 100%; aspect-ratio: 16 / 9; background: #000; 
+            border: 1px solid rgba(255, 255, 228, 0.1); 
+            overflow: hidden; transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); 
+            flex-shrink: 0; cursor: pointer; opacity: 0.3;
         }
-        .video-wrapper { width: 76.5%; max-width: 1200px; aspect-ratio: 16 / 9; position: relative; }
-        .gallery-wrapper { width: 90%; max-width: 1400px; aspect-ratio: 16 / 9; position: relative; }
-        .gallery-wrapper img { width: 100%; height: 100%; object-fit: contain; }
+        .thumb-item img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); transition: 0.5s; }
         
-        .close-btn { position: fixed; top: 40px; right: 40px; color: var(--text); font-size: 0.8rem; z-index: 1010; font-weight: 700; cursor: pointer; opacity: 0.7; }
-        .modal-arrow { position: absolute; top: 50%; transform: translateY(-50%); font-size: 3rem; color: var(--text); opacity: 0.2; cursor: pointer; transition: 0.3s; padding: 20px; user-select: none; }
-        .modal-arrow:hover { opacity: 1; }
-        .arrow-left { left: -80px; }
-        .arrow-right { right: -80px; }
+        /* Destaque miniatura activa */
+        .thumb-item.active-thumb { 
+            opacity: 1; border-color: var(--text); 
+            transform: translateX(-12px); 
+            box-shadow: -10px 10px 30px rgba(0,0,0,0.4);
+        }
+        .thumb-item.active-thumb img { filter: grayscale(0); }
+
+        /* Modales */
+        .video-modal, .gallery-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); display: none; z-index: 1000; justify-content: center; align-items: center; }
+        .video-wrapper { width: 80%; aspect-ratio: 16 / 9; }
+        .close-btn { position: fixed; top: 40px; right: 40px; color: var(--text); font-size: 0.8rem; font-weight: 700; cursor: pointer; z-index: 1100; }
 
         @media (max-width: 1100px) {
             .main-layout { grid-template-columns: 1fr; height: auto; overflow-y: auto; }
-            .right-panel { flex-direction: row; height: 140px; margin-top: 20px; overflow-x: auto; }
+            .right-panel { flex-direction: row; height: 140px; overflow-x: scroll; overflow-y: hidden; }
             .thumb-item { width: 220px; }
-            .project-details h2 { font-size: 2.5rem; }
         }
     </style>
 </head>
 <body>
 
-    <div id="transition-overlay"></div>
     <div class="blueprint-bg"></div>
-
-    <script src="https://www.youtube.com/iframe_api"></script>
 
     <main class="main-layout">
         <section class="left-panel">
@@ -190,43 +142,33 @@
                 <div class="custom-select-container">
                     <div class="select-selected" id="current-filter-text" onclick="toggleDropdown(event)"></div>
                     <div class="select-items" id="filter-options">
-                        <div id="opt-all" onclick="filterBy('all', 'all_projects')"></div>
-                        <div id="opt-narrative" onclick="filterBy('ficción', 'narrative')"></div>
-                        <div id="opt-advertising" onclick="filterBy('advertising', 'advertising')"></div>
-                        <div id="opt-music" onclick="filterBy('music video', 'music_video')"></div>
+                        <div onclick="filterBy('all', 'all_projects')">/ todos</div>
+                        <div onclick="filterBy('ficción', 'narrative')">/ ficción</div>
+                        <div onclick="filterBy('advertising', 'advertising')">/ publicidad</div>
+                        <div onclick="filterBy('music video', 'music_video')">/ videoclips</div>
                     </div>
                 </div>
                 <a id="nav-about" onclick="showSection('about')"></a>
-                <a id="nav-contact" href="mailto:leandrobrunoeditor@gmail.com"></a>
+                <a id="nav-contact" href="mailto:leandrobrunoeditor@gmail.com">/ contacto</a>
             </nav>
         </section>
 
-        <section class="center-panel" id="main-scroll-area">
+        <section class="center-panel">
             <div id="work-section">
                 <div class="main-viewer" id="viewer" onclick="handleMainClick()">
-                    <div class="slide-nav">
-                        <div class="nav-arrow" onclick="event.stopPropagation(); manualSlide(-1)">‹</div>
-                        <div class="nav-arrow" onclick="event.stopPropagation(); manualSlide(1)">›</div>
-                    </div>
-                    <div id="play-icon" class="play-indicator">▶</div>
                     <div id="image-container"></div>
                 </div>
-                
                 <div class="project-details" id="p-details">
                     <span class="category-label" id="p-category"></span>
                     <h2 id="p-title"></h2>
                     <div class="meta" id="p-meta-top"></div>
-                    <div class="p-description" id="p-description"></div>
-                    <div id="p-platform-container"></div>
+                    <div class="p-description" id="p-description" style="margin-top:20px; opacity:0.6; font-weight:300;"></div>
                 </div>
             </div>
 
-            <div id="about-section" style="display:none;">
-                <div id="txt-about-body" style="font-size:1.3rem; line-height:1.4; max-width:600px; font-weight: 300; margin-bottom: 40px; color: rgba(255, 255, 228, 0.5);"></div>
-                <div style="display: flex; gap: 20px; align-items: center;">
-                    <a id="txt-imdb" href="https://www.imdb.com/name/nm10600109/" target="_blank" style="color:var(--text); text-decoration:none; font-weight:700; font-size:0.8rem; border-bottom:1px solid var(--text);"></a>
-                    <span id="txt-back" style="cursor:pointer; font-size:0.8rem; opacity:0.6; text-decoration: underline;" onclick="showSection('work')"></span>
-                </div>
+            <div id="about-section" style="display:none; padding-top: 50px;">
+                <div id="txt-about-body" style="font-size:1.3rem; line-height:1.4; max-width:600px; font-weight: 300; margin-bottom: 40px; opacity: 0.6;"></div>
+                <span id="txt-back" style="cursor:pointer; text-decoration: underline;" onclick="showSection('work')"></span>
             </div>
         </section>
 
@@ -234,213 +176,108 @@
     </main>
 
     <div class="video-modal" id="modal-v">
-        <div class="close-btn" id="txt-close-v" onclick="closeModals()"></div>
+        <div class="close-btn" onclick="closeModals()">[ CERRAR ]</div>
         <div class="video-wrapper" id="video-player"></div>
     </div>
 
-    <div class="gallery-modal" id="modal-g">
-        <div class="close-btn" id="txt-close-g" onclick="closeModals()"></div>
-        <div class="gallery-wrapper">
-            <div class="modal-arrow arrow-left" onclick="modalGalleryNav(-1)">‹</div>
-            <img id="gallery-img" src="">
-            <div class="modal-arrow arrow-right" onclick="modalGalleryNav(1)">›</div>
-        </div>
-    </div>
-
+    <script src="https://www.youtube.com/iframe_api"></script>
     <script>
         let currentLang = 'es';
         let currentIndex = 0;
         let slideIndex = 0;
-        let modalSlideIndex = 0;
-        let slideRotation, mainRotation;
-        let ytPlayer;
-        let currentFilterKey = 'all_projects';
+        let mainRotation, slideRotation;
         let isWheelLocked = false;
 
         const projects = [
-            { title_es: "menem", title_en: "menem", category: "serie", images: ["assets/Menem_Thumbnail_1.jpg", "assets/Menem_Thumbnail_2.jpg", "assets/Menem_Thumbnail_3.png", "assets/Menem_Thumbnail_4.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", desc_es: "Biopic que recorre el ascenso al poder de Carlos Menem en los años 90. Una exploración sobre el carisma, la política y la cultura argentina de una era inolvidable.", desc_en: "Biopic tracing Carlos Menem's rise to power in the 1990s. An exploration of the charisma, politics, and culture of an unforgettable Argentine era." },
-            { title_es: "OREO - Sigamos divirtiéndonos", title_en: "OREO - Keep on playing", category: "advertising", images: ["assets/Oreo_Thumbnail_1.png", "assets/Oreo_Thumbnail_2.png", "assets/Oreo_Thumbnail_3.png", "assets/Oreo_Thumbnail_4.png", "assets/Oreo_Thumbnail_5.png"], yt: "7Cllu0Rme74", director: "Martín Jalfen", prod: "Pop Studios - México", desc_es: "Campaña publicitaria global para Oreo, destacando dinamismo y ritmo visual.", desc_en: "Global advertising campaign for Oreo, highlighting dynamism and visual rhythm." },
-            { title_es: "el tiempo de las moscas", title_en: "time of the flies", category: "serie", images: ["assets/Moscas_Thumbnail_1.jpg", "assets/Moscas_Thumbnail_2.png", "assets/Moscas_Thumbnail_3.png", "assets/Moscas_Thumbnail_4.png", "assets/Moscas_Thumbnail_5.png"], yt: "A0d6wnlMRRk", director: "Benjamín Naishtat y Ana Katz", prod: "netflix", desc_es: "Dos mujeres intentan reconstruir sus vidas tras salir de prisión, enfrentando un mundo que ha cambiado radicalmente mientras ellas estaban encerradas.", desc_en: "Two women attempt to rebuild their lives after being released from prison, facing a world that has radically changed while they were locked up." },
-            { title_es: "levis x winona riders", title_en: "levis x winona riders", category: "advertising", images: ["assets/Levis_Thumbnail_v01.jpg", "assets/Levis_Thumbnail_2.png", "assets/Levis_Thumbnail_3.png", "assets/Levis_Thumbnail_5.png", "assets/Levis_Thumbnail_6.png", "assets/Levis_Thumbnail_7.png"], yt: "1eE588vXvqSECtESSjgwN_vpRmMFaUpRg", director: "Nico Alarcos", prod: "primo", desc_es: "Campaña de gira de Winona Riders por el norte de Argentina.", desc_en: "Winona Riders commercial tour of northern Argentina." },
-            { title_es: "coppola, el representante", title_en: "coppola, the agent", category: "serie", images: ["assets/Coppola_Thumbnail_2.jpg", "assets/Coppola_Thumbnail_3.png", "assets/Coppola_Thumbnail_4.jpg"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films / disney+", desc_es: "La historia de Guillermo Coppola, el representante más famoso de Argentina, en una travesía llena de excesos, humor y nostalgia noventera.", desc_en: "The story of Guillermo Coppola, Argentina's most famous manager, in a journey filled with excess, humor, and nineties nostalgia." },
-            { title_es: "blair - Todo lo que tengo", title_en: "blair - All I have", category: "music video", images: ["assets/Blair_Thumbnail_1.jpg", "assets/Blair_Thumbnail_2.png", "assets/Blair_Thumbnail_3.png", "assets/Blair_Thumbnail_4.png", "assets/Blair_Thumbnail_5.png"], yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster", desc_es: "Primer adelanto del disco Bar Scorpios (2025)", desc_en: "First preview of the album Bar Scorpios (2025)" },
-            { title_es: "las manos de la abuela", title_en: "grandmother's hands", category: "cortometraje", images: ["assets/MA_Thumbnail_1.png", "assets/MA_Thumbnail_3.png", "assets/MA_Thumbnail_4.png", "assets/MA_Thumbnail_5.png"], yt: "", director: "camila migliore", prod: "calesita films", desc_es: "Cortometraje que explora la memoria y el legado familiar a través de los gestos y las historias grabadas en las manos de una abuela.", desc_en: "Short film that exploring memory and family legacy through the gestures and stories etched into a grandmother's hands." },
-            { title_es: "ratones paranoicos", title_en: "ratones paranoicos", category: "music video", images: ["assets/RP_Thumbmail_1.png", "assets/RP_Thumbmail_2.png", "assets/RP_Thumbmail_3.png", "assets/RP_Thumbmail_4.png"], yt: "", director: "alex roux", prod: "poster", desc_es: "Pieza audiovisual para la legendaria banda de rock argentina.", desc_en: "Audiovisual piece for the legendary Argentine rock band." },
-            { title_es: "besos brujos", title_en: "witch kisses", category: "cortometraje", images: ["assets/BB_Thumbnail_1.png", "assets/BB_Thumbnail_2.png", "assets/BB_Thumbnail_3.png"], yt: "", director: "karina flonembaum", prod: "", desc_es: "Ficción breve que juega con los límites del deseo y la fantasía en una atmósfera onírica.", desc_en: "Short fiction playing with the limits of desire and fantasy in a dreamlike atmosphere." },
-            { title_es: "las marias", title_en: "las marias", category: "advertising", images: ["assets/Marias_Thumbnail_1.png", "assets/Marias_Thumbnail_2.png", "assets/Marias_Thumbnail_3.png"], yt: "", director: "alejandro berger parrado", prod: "navajo films", desc_es: "Pieza con formato video inmersivo documental publicitaria sobre la tradición yerbatera argentina.", desc_en: "Immersive video documentary advertising piece on the Argentine yerba mate tradition." },
-            { title_es: "todo lo que recuerdo", title_en: "all I remember", category: "cortometraje", images: ["assets/TodoLoQueRecuerdo_Thumbnail_1.png"], yt: "", director: "nicolas fernandez melian", prod: "", desc_es: "Un viaje sensorial por la memoria fragmentada. Selección oficial del Festival Internacional de Cine de Mar del Plata.", desc_en: "A sensory journey through fragmented memory. Official selection at the Mar del Plata International Film Festival." }
+            { title_es: "menem", title_en: "menem", category: "serie", images: ["assets/Menem_Thumbnail_1.jpg", "assets/Menem_Thumbnail_2.jpg", "assets/Menem_Thumbnail_3.png"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", desc_es: "Biopic que recorre el ascenso al poder de Carlos Menem.", desc_en: "Biopic tracing Carlos Menem's rise to power." },
+            { title_es: "OREO - Sigamos divirtiéndonos", title_en: "OREO - Keep on playing", category: "advertising", images: ["assets/Oreo_Thumbnail_1.png", "assets/Oreo_Thumbnail_2.png"], yt: "7Cllu0Rme74", director: "Martín Jalfen", prod: "Pop Studios", desc_es: "Campaña publicitaria global.", desc_en: "Global advertising campaign." },
+            { title_es: "el tiempo de las moscas", title_en: "time of the flies", category: "serie", images: ["assets/Moscas_Thumbnail_1.jpg", "assets/Moscas_Thumbnail_2.png"], yt: "A0d6wnlMRRk", director: "Ana Katz", prod: "netflix", desc_es: "Dos mujeres reconstruyendo sus vidas.", desc_en: "Two women rebuilding their lives." },
+            { title_es: "coppola, el representante", title_en: "coppola, the agent", category: "serie", images: ["assets/Coppola_Thumbnail_2.jpg", "assets/Coppola_Thumbnail_3.png"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films / disney+", desc_es: "La historia del representante más famoso.", desc_en: "The story of the most famous manager." },
+            { title_es: "blair - Todo lo que tengo", title_en: "blair - All I have", category: "music video", images: ["assets/Blair_Thumbnail_1.jpg", "assets/Blair_Thumbnail_2.png"], yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster", desc_es: "Adelanto Bar Scorpios (2025)", desc_en: "Preview Bar Scorpios (2025)" }
         ];
 
         let filteredProjects = [...projects];
 
         const translations = {
-            es: { 
-                all_projects: "todos", narrative: "ficción", advertising: "publicidad", music_video: "videoclips", 
-                dir: "dir", prod: "prod", imdb: "CRÉDITOS_IMDB ↗", 
-                about: "/ biografía", contact: "/ contacto", projects: "proyectos",
-                back: "[ volver ]", close: "[ CERRAR ]",
-                about_body: "Leandro Bruno es un editor de cine y publicidad con base en Buenos Aires. Se especializa en montaje rítmico y narrativa para plataformas globales como Netflix, Disney+ y Prime Video." 
-            },
-            en: { 
-                all_projects: "all", narrative: "fiction", advertising: "advertising", music_video: "music videos", 
-                dir: "dir", prod: "prod", imdb: "IMDB_CREDITS ↗", 
-                about: "/ biography", contact: "/ contact", projects: "projects",
-                back: "[ back ]", close: "[ CLOSE ]",
-                about_body: "Leandro Bruno is a film and advertising editor based in Buenos Aires. He specializes in rhythmic editing and narrative for global platforms such as Netflix, Disney+, and Prime Video." 
-            }
+            es: { all_projects: "todos", narrative: "ficción", advertising: "publicidad", music_video: "videoclips", dir: "dir", prod: "prod", about: "/ biografía", back: "[ volver ]", about_body: "Leandro Bruno es un editor de cine y publicidad con base en Buenos Aires." },
+            en: { all_projects: "all", narrative: "fiction", advertising: "advertising", music_video: "music videos", dir: "dir", prod: "prod", about: "/ biography", back: "[ back ]", about_body: "Leandro Bruno is a film and advertising editor based in Buenos Aires." }
         };
-
-        // --- Lógica de Carousel Vertical con Ruedita ---
-        window.addEventListener('wheel', (e) => {
-            if(isWheelLocked || document.getElementById('about-section').style.display === 'block') return;
-            isWheelLocked = true;
-            
-            if(e.deltaY > 0) currentIndex = (currentIndex + 1) % filteredProjects.length;
-            else currentIndex = (currentIndex - 1 + filteredProjects.length) % filteredProjects.length;
-            
-            updateDisplay();
-            resetIntervals();
-            setTimeout(() => { isWheelLocked = false; }, 800);
-        }, { passive: true });
 
         function setLanguage(lang) {
             currentLang = lang;
-            const t = translations[lang];
             document.getElementById('btn-es').className = lang === 'es' ? 'active-lang' : '';
             document.getElementById('btn-en').className = lang === 'en' ? 'active-lang' : '';
-            document.getElementById('nav-about').innerText = t.about;
-            document.getElementById('nav-contact').innerText = t.contact;
-            document.getElementById('opt-all').innerText = "/ " + t.all_projects;
-            document.getElementById('opt-narrative').innerText = "/ " + t.narrative;
-            document.getElementById('opt-advertising').innerText = "/ " + t.advertising;
-            document.getElementById('opt-music').innerText = "/ " + t.music_video;
-            document.getElementById('current-filter-text').innerText = t.projects + ' / ' + t[currentFilterKey];
-            document.getElementById('txt-back').innerText = t.back;
-            document.getElementById('txt-close-v').innerText = t.close;
-            document.getElementById('txt-close-g').innerText = t.close;
-            document.getElementById('txt-about-body').innerText = t.about_body;
-            document.getElementById('txt-imdb').innerText = t.imdb;
+            document.getElementById('nav-about').innerText = translations[lang].about;
+            document.getElementById('txt-back').innerText = translations[lang].back;
+            document.getElementById('txt-about-body').innerText = translations[lang].about_body;
             updateDisplay(true);
         }
 
-        function toggleDropdown(e) {
-            e.stopPropagation();
-            document.getElementById('filter-options').classList.toggle('select-show');
-        }
-
+        function toggleDropdown(e) { e.stopPropagation(); document.getElementById('filter-options').classList.toggle('select-show'); }
         window.onclick = () => document.getElementById('filter-options').classList.remove('select-show');
 
-        function filterBy(val, dictKey) {
-            currentFilterKey = dictKey;
+        function filterBy(val, key) {
             if(val === 'all') filteredProjects = [...projects];
             else if(val === 'ficción') filteredProjects = projects.filter(p => p.category === 'serie' || p.category === 'cortometraje');
             else filteredProjects = projects.filter(p => p.category === val);
             currentIndex = 0;
-            const t = translations[currentLang];
-            document.getElementById('current-filter-text').innerText = t.projects + ' / ' + t[dictKey];
             updateDisplay();
-            resetIntervals();
+            resetTimers();
         }
 
         function updateDisplay(onlyText = false) {
             const current = filteredProjects[currentIndex];
-            if(!current) return;
             const container = document.getElementById('image-container');
             const details = document.getElementById('p-details');
 
             if(!onlyText) {
-                container.classList.add('fade-out');
-                details.classList.add('fade-out');
+                container.classList.add('fade-transition');
+                details.classList.add('fade-transition');
                 
                 setTimeout(() => {
-                    container.innerHTML = current.images.map((src, idx) => `<img src="${src}" class="${idx === 0 ? 'active-slide' : ''}">`).join('');
+                    container.innerHTML = current.images.map((src, i) => `<img src="${src}" class="${i === 0 ? 'active-slide' : ''}">`).join('');
                     slideIndex = 0;
-                    renderDetails(current);
+                    renderText(current);
                     renderThumbnails();
-                    container.classList.remove('fade-out');
-                    details.classList.remove('fade-out');
-                    resetSlideTimer();
+                    container.classList.remove('fade-transition');
+                    details.classList.remove('fade-transition');
                     scrollThumbIntoView();
+                    startSlideShow();
                 }, 400);
-            } else { renderDetails(current); }
+            } else { renderText(current); }
         }
 
-        function renderDetails(current) {
-            document.getElementById('p-title').innerText = currentLang === 'es' ? current.title_es : current.title_en;
-            document.getElementById('p-category').innerText = current.category;
-            document.getElementById('p-description').innerText = currentLang === 'es' ? current.desc_es : current.desc_en;
-            const prodText = current.prod ? `<br><strong>${translations[currentLang].prod}:</strong> ${current.prod}` : "";
-            document.getElementById('p-meta-top').innerHTML = `<strong>${translations[currentLang].dir}:</strong> ${current.director}${prodText}`;
-            document.getElementById('play-icon').innerText = current.yt ? "▶" : "⛶";
-            
-            const platCont = document.getElementById('p-platform-container');
-            platCont.innerHTML = '';
-            const prodLower = (current.prod || "").toLowerCase();
-            let logo = "";
-            if(prodLower.includes("netflix")) logo = "https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg";
-            else if(prodLower.includes("disney")) logo = "https://upload.wikimedia.org/wikipedia/commons/3/3e/Disney%2B_logo.svg";
-            else if(prodLower.includes("prime")) logo = "https://upload.wikimedia.org/wikipedia/commons/f/f1/Prime_Video.png";
-            
-            if(logo) {
-                platCont.innerHTML = `<img src="${logo}" class="platform-logo">`;
-            }
+        function renderText(p) {
+            document.getElementById('p-title').innerText = currentLang === 'es' ? p.title_es : p.title_en;
+            document.getElementById('p-category').innerText = p.category;
+            document.getElementById('p-description').innerText = currentLang === 'es' ? p.desc_es : p.desc_en;
+            document.getElementById('p-meta-top').innerHTML = `<strong>${translations[currentLang].dir}:</strong> ${p.director}<br><strong>${translations[currentLang].prod}:</strong> ${p.prod}`;
         }
 
         function renderThumbnails() {
-            document.getElementById('thumbnail-list').innerHTML = filteredProjects.map((p, idx) => `
-                <div class="thumb-item ${idx === currentIndex ? 'active-thumb' : ''}" data-index="${idx}" onclick="selectProject(${idx})">
+            document.getElementById('thumbnail-list').innerHTML = filteredProjects.map((p, i) => `
+                <div class="thumb-item ${i === currentIndex ? 'active-thumb' : ''}" onclick="goToProject(${i})">
                     <img src="${p.images[0]}">
                 </div>
             `).join('');
         }
 
+        function goToProject(i) { currentIndex = i; updateDisplay(); resetTimers(); }
+
         function scrollThumbIntoView() {
-            const activeThumb = document.querySelector(`.thumb-item[data-index="${currentIndex}"]`);
-            if (activeThumb) activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            const active = document.querySelector('.active-thumb');
+            if(active) active.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
-        function handleMainClick() {
-            const p = filteredProjects[currentIndex];
-            if(p.yt) {
-                document.getElementById('modal-v').style.display = 'flex';
-                if (p.yt.length < 20) {
-                    document.getElementById('video-player').innerHTML = `<div id="yt-player-container"></div>`;
-                    ytPlayer = new YT.Player('yt-player-container', {
-                        height: '100%', width: '100%', videoId: p.yt,
-                        playerVars: { 'autoplay': 1, 'rel': 0, 'modestbranding': 1 },
-                        events: { 'onStateChange': (e) => { if(e.data === YT.PlayerState.ENDED) closeModals(); } }
-                    });
-                } else {
-                    const url = `https://drive.google.com/file/d/${p.yt}/preview`;
-                    document.getElementById('video-player').innerHTML = `<iframe width="100%" height="100%" src="${url}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
-                }
-            } else {
-                modalSlideIndex = 0;
-                document.getElementById('modal-g').style.display = 'flex';
-                updateGalleryImg();
-            }
-        }
-
-        function selectProject(idx) { currentIndex = idx; updateDisplay(); resetIntervals(); }
-
-        function manualSlide(dir) {
-            const imgs = document.querySelectorAll('#image-container img');
-            if(imgs.length <= 1) return;
-            imgs[slideIndex].classList.remove('active-slide');
-            slideIndex = (slideIndex + dir + imgs.length) % imgs.length;
-            imgs[slideIndex].classList.add('active-slide');
-            resetSlideTimer();
-        }
-
-        function resetIntervals() {
+        function resetTimers() {
             clearInterval(mainRotation);
-            mainRotation = setInterval(() => { 
-                currentIndex = (currentIndex + 1) % filteredProjects.length; 
-                updateDisplay(); 
-            }, 8000);
+            mainRotation = setInterval(() => {
+                currentIndex = (currentIndex + 1) % filteredProjects.length;
+                updateDisplay();
+            }, 7500);
         }
 
-        function resetSlideTimer() {
+        function startSlideShow() {
             clearInterval(slideRotation);
             const imgs = document.querySelectorAll('#image-container img');
             if(imgs.length > 1) {
@@ -452,39 +289,39 @@
             }
         }
 
+        window.addEventListener('wheel', (e) => {
+            if(isWheelLocked || document.getElementById('about-section').style.display === 'block') return;
+            isWheelLocked = true;
+            if(e.deltaY > 0) currentIndex = (currentIndex + 1) % filteredProjects.length;
+            else currentIndex = (currentIndex - 1 + filteredProjects.length) % filteredProjects.length;
+            updateDisplay();
+            resetTimers();
+            setTimeout(() => isWheelLocked = false, 1100);
+        });
+
         function showSection(sec) {
-            const work = document.getElementById('work-section');
-            const about = document.getElementById('about-section');
-            if(sec === 'about') {
-                work.style.display = 'none';
-                about.style.display = 'block';
+            document.getElementById('work-section').style.display = sec === 'work' ? 'block' : 'none';
+            document.getElementById('about-section').style.display = sec === 'about' ? 'block' : 'none';
+            if(sec === 'about') clearInterval(mainRotation); else resetTimers();
+        }
+
+        function handleMainClick() {
+            const p = filteredProjects[currentIndex];
+            if(p.yt) {
+                document.getElementById('modal-v').style.display = 'flex';
+                document.getElementById('video-player').innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${p.yt}?autoplay=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
                 clearInterval(mainRotation);
-            } else {
-                work.style.display = 'block';
-                about.style.display = 'none';
-                resetIntervals();
             }
         }
 
         function closeModals() {
-            document.querySelectorAll('.video-modal, .gallery-modal').forEach(m => m.style.display = 'none');
+            document.getElementById('modal-v').style.display = 'none';
             document.getElementById('video-player').innerHTML = '';
-            if(ytPlayer && ytPlayer.destroy) ytPlayer.destroy();
+            resetTimers();
         }
 
-        function modalGalleryNav(dir) {
-            const imgs = filteredProjects[currentIndex].images;
-            modalSlideIndex = (modalSlideIndex + dir + imgs.length) % imgs.length;
-            updateGalleryImg();
-        }
-
-        function updateGalleryImg() {
-            document.getElementById('gallery-img').src = filteredProjects[currentIndex].images[modalSlideIndex];
-        }
-
-        // Init
         setLanguage('es');
-        resetIntervals();
+        resetTimers();
     </script>
 </body>
 </html>
