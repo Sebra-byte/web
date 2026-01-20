@@ -40,31 +40,34 @@
             transition: opacity 0.3s ease;
         }
 
+        /* LAYOUT AJUSTADO PARA SER FLUIDO */
         .main-layout {
             display: grid;
-            /* Definimos anchos fijos a los lados y el centro flexible (1fr) */
-            grid-template-columns: 260px 1fr 200px; 
+            grid-template-columns: 280px 1fr 220px; 
             height: 100vh;
-            padding: 30px 40px;
-            gap: 30px; /* Espacio uniforme entre columnas */
+            padding: 35px;
+            gap: 30px;
         }
 
         /* PANEL IZQUIERDO */
-        .left-panel { display: flex; flex-direction: column; gap: 50px; z-index: 100; }
-        .brand { font-weight: 300; font-size: 1rem; line-height: 1; text-transform: none; cursor: pointer; color: var(--text); }
-        .brand strong { display: block; font-size: 2.8rem; font-weight: 800; letter-spacing: -0.04em; margin-bottom: 2px; text-transform: uppercase; line-height: 0.85; }
+        .left-panel { display: flex; flex-direction: column; gap: 60px; z-index: 100; }
+        .brand { font-weight: 300; font-size: 1.1rem; line-height: 1.1; text-transform: none; cursor: pointer; color: var(--text); }
+        .brand strong { display: block; font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 2px; text-transform: uppercase; }
         
         .nav-links { display: flex; flex-direction: column; gap: 25px; }
         
-        .lang-switch { font-size: 0.8rem; font-weight: 800; display: flex; gap: 12px; margin-bottom: 5px; }
-        .lang-switch span { cursor: pointer; opacity: 0.2; transition: 0.3s; padding: 5px 0; }
-        .lang-switch span.active-lang { opacity: 1; border-bottom: 2px solid var(--text); }
+        .lang-switch { font-size: 0.85rem; font-weight: 800; display: flex; gap: 5px; margin-bottom: 5px; margin-left: -8px; }
+        .lang-switch span { cursor: pointer; position: relative; padding: 8px 12px; opacity: 0.2; transition: all 0.3s ease; display: inline-block; }
+        .lang-switch span::after { content: ''; position: absolute; bottom: 5px; left: 12px; width: 0; height: 2px; background-color: var(--text); transition: width 0.3s ease; }
+        .lang-switch span.active-lang { opacity: 1; }
+        .lang-switch span.active-lang::after { width: calc(100% - 24px); }
+        .lang-switch span:hover { opacity: 0.7; background: rgba(255, 255, 228, 0.05); }
 
         .custom-select-container { position: relative; }
-        .select-selected { font-size: 0.9rem; font-weight: 700; border-bottom: 1px solid rgba(255, 255, 228, 0.2); padding-bottom: 5px; display: inline-block; cursor: pointer; }
+        .select-selected { font-size: 0.9rem; font-weight: 700; border-bottom: 1px solid rgba(255, 255, 228, 0.2); padding-bottom: 4px; display: inline-block; cursor: pointer; }
         .select-items {
-            position: absolute; background-color: #111; top: 100%; left: 0; z-index: 99; border: 1px solid rgba(255, 255, 228, 0.1);
-            margin-top: 10px; display: none; min-width: 180px;
+            position: absolute; background-color: #111; top: 100%; left: 0; z-index: 99; border: 1px solid rgba(255, 255, 228, 0.05);
+            margin-top: 10px; display: none; min-width: 200px;
         }
         .select-items div { padding: 12px 15px; font-size: 0.8rem; cursor: pointer; }
         .select-items div:hover { background-color: var(--text); color: #000; }
@@ -73,21 +76,21 @@
         .nav-links a { text-decoration: none; color: var(--text); font-size: 0.9rem; font-weight: 500; opacity: 0.5; transition: 0.3s; cursor: pointer; }
         .nav-links a:hover { opacity: 1; }
 
-        /* PANEL CENTRAL FLUÍDO */
+        /* PANEL CENTRAL - AHORA SIN MAX-WIDTH PARA FLUIDEZ */
         .center-panel { 
             width: 100%; 
             position: relative; 
             overflow-y: auto; 
             scrollbar-width: none; 
+            scroll-behavior: smooth;
             display: flex;
             flex-direction: column;
-            align-items: center; /* Centramos el contenido en el espacio disponible */
+            align-items: center; 
         }
         .center-panel::-webkit-scrollbar { display: none; }
 
         .main-viewer {
-            width: 100%; /* Ocupa todo el 1fr del grid */
-            max-width: 100%; /* Quitamos el límite de píxeles fijos */
+            width: 100%;
             aspect-ratio: 21 / 9; 
             background: #000; 
             border: 1px solid rgba(255, 255, 228, 0.05); 
@@ -101,49 +104,69 @@
         .main-viewer img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity 0.6s ease; opacity: 0; }
         .main-viewer img.active-slide { opacity: 1; z-index: 2; }
         
+        /* FLECHAS RECUPERADAS */
         .slide-nav { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: space-between; z-index: 15; pointer-events: none; }
         .nav-arrow { pointer-events: auto; width: 60px; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; opacity: 0; transition: 0.3s; color: rgba(255, 255, 228, 0.5); user-select: none; }
         .main-viewer:hover .nav-arrow { opacity: 1; }
 
-        .play-indicator { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); color: var(--text); font-size: 1.5rem; display: none; z-index: 20; opacity: 0.7; pointer-events: none; }
+        /* INDICADOR DE PLAY / EXPAND */
+        .play-indicator { 
+            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); 
+            color: var(--text); font-size: 1.5rem; display: none; z-index: 20; opacity: 0.7; pointer-events: none; 
+        }
         .main-viewer:hover .play-indicator { display: block; }
 
-        .project-details { 
-            width: 100%; 
-            margin-top: 35px; 
-            padding-bottom: 100px; 
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
-        .project-details h2 { font-size: 5rem; margin: 5px 0; font-weight: 800; line-height: 0.85; text-transform: uppercase; letter-spacing: -0.05em; color: var(--text); }
-        .category-label { font-size: 0.7rem; font-weight: 700; color: #555; display: block; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 15px; }
+        .project-details { width: 100%; margin-top: 35px; padding-bottom: 100px; }
+        .project-details h2 { font-size: 4.5rem; margin: 0; font-weight: 800; line-height: 0.85; text-transform: uppercase; letter-spacing: -0.05em; color: var(--text); }
+        .category-label { font-size: 0.7rem; font-weight: 700; color: #555; margin-bottom: 15px; display: block; text-transform: uppercase; letter-spacing: 0.15em; }
         
         .meta { font-size: 0.9rem; line-height: 1.8; color: #888; margin-top: 20px; }
         .meta strong { color: var(--text); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; }
 
         .p-description { margin-top: 25px; max-width: 800px; text-transform: none; font-weight: 300; color: #777; line-height: 1.6; font-size: 1rem; }
 
-        .platform-logo { margin-top: 35px; height: auto; max-height: 35px; max-width: 140px; filter: brightness(0) invert(98%) sepia(10%) saturate(400%) hue-rotate(320deg); opacity: 0.4; transition: 0.3s; }
+        /* ANIMACIÓN DE LOGO RECUPERADA */
+        @keyframes logoEntry {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 0.4; transform: translateY(0); }
+        }
+
+        .platform-logo {
+            margin-top: 35px; height: auto; max-height: 35px; max-width: 140px; display: block;
+            filter: brightness(0) invert(98%) sepia(10%) saturate(400%) hue-rotate(320deg);
+            opacity: 0.4; transition: opacity 0.3s, transform 0.3s;
+            animation: logoEntry 0.6s ease-out forwards;
+        }
         .platform-logo:hover { opacity: 0.8; transform: scale(1.02); }
 
-        .back-link { font-size: 0.75rem; color: var(--text); font-weight: 700; cursor: pointer; padding: 8px 16px; border: 1px solid rgba(255, 255, 228, 0.3); transition: all 0.3s; display: inline-block; opacity: 0.6; margin-left: 20px; text-transform: lowercase; }
+        .back-link {
+            font-size: 0.75rem; color: var(--text); font-weight: 700; cursor: pointer;
+            padding: 8px 16px; border: 1px solid rgba(255, 255, 228, 0.3);
+            transition: all 0.3s; display: inline-block; opacity: 0.6;
+            margin-left: 20px; text-transform: lowercase;
+        }
         .back-link:hover { opacity: 1; background: rgba(255, 255, 228, 0.1); border-color: var(--text); }
 
         /* PANEL DERECHO */
-        .right-panel { display: flex; flex-direction: column; gap: 20px; overflow-y: auto; padding-right: 15px; scrollbar-width: thin; scrollbar-color: rgba(255, 255, 228, 0.1) transparent; }
+        .right-panel { 
+            display: flex; flex-direction: column; gap: 25px; 
+            overflow-y: auto; padding-right: 15px; scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 228, 0.1) transparent; scroll-behavior: smooth;
+        }
         .right-panel::-webkit-scrollbar { width: 2px; }
         .right-panel::-webkit-scrollbar-thumb { background: rgba(255, 255, 228, 0.1); }
 
         .thumb-item { width: 100%; aspect-ratio: 16 / 9; background: #000; border: 1px solid rgba(255, 255, 228, 0.05); overflow: hidden; transition: 0.5s; flex-shrink: 0; cursor: pointer; }
-        .thumb-item img { width: 100%; height: 100%; object-fit: cover; opacity: 0.2; filter: grayscale(1); transition: 0.5s; }
-        .thumb-item:hover img, .thumb-item.active-thumb img { opacity: 1; filter: grayscale(0); }
+        .thumb-item img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); opacity: 0.2; transition: 0.5s; }
+        .thumb-item:hover img, .thumb-item.active-thumb img { filter: grayscale(0); opacity: 1; }
         .thumb-item.active-thumb { border-color: rgba(255, 255, 228, 0.5); transform: translateX(-5px); }
 
         /* MODALES */
         .video-modal, .gallery-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); display: none; z-index: 1000; justify-content: center; align-items: center; }
-        .video-wrapper, .gallery-wrapper { width: 85%; max-width: 1400px; aspect-ratio: 16 / 9; position: relative; }
+        .video-wrapper { width: 76.5%; max-width: 1200px; aspect-ratio: 16 / 9; position: relative; }
+        .gallery-wrapper { width: 90%; max-width: 1400px; aspect-ratio: 16 / 9; position: relative; }
         .gallery-wrapper img { width: 100%; height: 100%; object-fit: contain; }
+        
         .close-btn { position: fixed; top: 40px; right: 40px; color: var(--text); font-size: 0.8rem; z-index: 1010; font-weight: 700; cursor: pointer; opacity: 0.7; }
         .close-btn:hover { opacity: 1; }
         
@@ -153,11 +176,10 @@
         .arrow-right { right: -80px; }
 
         @media (max-width: 1100px) {
-            .main-layout { grid-template-columns: 1fr; height: auto; overflow-y: auto; padding: 20px; }
+            .main-layout { grid-template-columns: 1fr; height: auto; overflow-y: auto; }
             .right-panel { flex-direction: row; height: 140px; margin-top: 20px; overflow-x: auto; overflow-y: hidden; padding-bottom: 10px; }
             .thumb-item { width: 220px; }
-            .project-details h2 { font-size: 3rem; }
-            .left-panel { gap: 30px; }
+            .project-details h2 { font-size: 2.5rem; }
         }
     </style>
 </head>
@@ -248,17 +270,17 @@
         let currentFilterKey = 'all_projects';
 
         const projects = [
-            { title_es: "menem", title_en: "menem", category: "serie", images: ["assets/Menem_Thumbnail_1.jpg", "assets/Menem_Thumbnail_2.jpg", "assets/Menem_Thumbnail_3.png", "assets/Menem_Thumbnail_4.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", desc_es: "Biopic que recorre el ascenso al poder de Carlos Menem en los años 90. Una exploración sobre el carisma, la política y la cultura argentina de una era inolvidable.", desc_en: "Biopic tracing Carlos Menem's rise to power in the 1990s. An exploration of the charisma, politics, and culture." },
+            { title_es: "menem", title_en: "menem", category: "serie", images: ["assets/Menem_Thumbnail_1.jpg", "assets/Menem_Thumbnail_2.jpg", "assets/Menem_Thumbnail_3.png", "assets/Menem_Thumbnail_4.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", desc_es: "Biopic que recorre el ascenso al poder de Carlos Menem en los años 90.", desc_en: "Biopic tracing Carlos Menem's rise to power in the 1990s." },
             { title_es: "OREO - Sigamos divirtiéndonos", title_en: "OREO - Keep on playing", category: "advertising", images: ["assets/Oreo_Thumbnail_1.png", "assets/Oreo_Thumbnail_2.png", "assets/Oreo_Thumbnail_3.png", "assets/Oreo_Thumbnail_4.png", "assets/Oreo_Thumbnail_5.png"], yt: "7Cllu0Rme74", director: "Martín Jalfen", prod: "Pop Studios - México", desc_es: "Campaña publicitaria global para Oreo, destacando dinamismo y ritmo visual.", desc_en: "Global advertising campaign for Oreo." },
             { title_es: "el tiempo de las moscas", title_en: "time of the flies", category: "serie", images: ["assets/Moscas_Thumbnail_1.jpg", "assets/Moscas_Thumbnail_2.png", "assets/Moscas_Thumbnail_3.png", "assets/Moscas_Thumbnail_4.png", "assets/Moscas_Thumbnail_5.png"], yt: "A0d6wnlMRRk", director: "Benjamín Naishtat y Ana Katz", prod: "netflix", desc_es: "Dos mujeres intentan reconstruir sus vidas tras salir de prisión.", desc_en: "Two women attempt to rebuild their lives after prison." },
             { title_es: "levis x winona riders", title_en: "levis x winona riders", category: "advertising", images: ["assets/Levis_Thumbnail_v01.jpg", "assets/Levis_Thumbnail_2.png", "assets/Levis_Thumbnail_3.png", "assets/Levis_Thumbnail_5.png", "assets/Levis_Thumbnail_6.png", "assets/Levis_Thumbnail_7.png"], yt: "1eE588vXvqSECtESSjgwN_vpRmMFaUpRg", director: "Nico Alarcos", prod: "primo", desc_es: "Campaña de gira de Winona Riders por el norte de Argentina.", desc_en: "Winona Riders commercial tour." },
             { title_es: "coppola, el representante", title_en: "coppola, the agent", category: "serie", images: ["assets/Coppola_Thumbnail_2.jpg", "assets/Coppola_Thumbnail_3.png", "assets/Coppola_Thumbnail_4.jpg"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films / disney+", desc_es: "La historia de Guillermo Coppola, el representante más famoso de Argentina.", desc_en: "The story of Guillermo Coppola." },
-            { title_es: "blair - Todo lo que tengo", title_en: "blair - All I have", category: "music video", images: ["assets/Blair_Thumbnail_1.jpg", "assets/Blair_Thumbnail_2.png", "assets/Blair_Thumbnail_3.png", "assets/Blair_Thumbnail_4.png", "assets/Blair_Thumbnail_5.png"], yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster", desc_es: "Primer adelanto del disco Bar Scorpios (2025)", desc_en: "First preview of the album Bar Scorpios." },
-            { title_es: "las manos de la abuela", title_en: "grandmother's hands", category: "cortometraje", images: ["assets/MA_Thumbnail_1.png", "assets/MA_Thumbnail_3.png", "assets/MA_Thumbnail_4.png", "assets/MA_Thumbnail_5.png"], yt: "", director: "camila migliore", prod: "calesita films", desc_es: "Explora la memoria y el legado familiar.", desc_en: "Explores memory and legacy." },
-            { title_es: "ratones paranoicos", title_en: "ratones paranoicos", category: "music video", images: ["assets/RP_Thumbmail_1.png", "assets/RP_Thumbmail_2.png", "assets/RP_Thumbmail_3.png", "assets/RP_Thumbmail_4.png"], yt: "", director: "alex roux", prod: "poster", desc_es: "Pieza para la legendaria banda de rock argentina.", desc_en: "Piece for the legendary rock band." },
-            { title_es: "besos brujos", title_en: "witch kisses", category: "cortometraje", images: ["assets/BB_Thumbnail_1.png", "assets/BB_Thumbnail_2.png", "assets/BB_Thumbnail_3.png"], yt: "", director: "karina flonembaum", prod: "", desc_es: "Ficción breve onírica.", desc_en: "Dreamlike short fiction." },
-            { title_es: "las marias", title_en: "las marias", category: "advertising", images: ["assets/Marias_Thumbnail_1.png", "assets/Marias_Thumbnail_2.png", "assets/Marias_Thumbnail_3.png"], yt: "", director: "alejandro berger parrado", prod: "navajo films", desc_es: "Documental publicitario sobre la yerba mate.", desc_en: "Advertising documentary." },
-            { title_es: "todo lo que recuerdo", title_en: "all I remember", category: "cortometraje", images: ["assets/TodoLoQueRecuerdo_Thumbnail_1.png"], yt: "", director: "nicolas fernandez melian", prod: "", desc_es: "Viaje sensorial por la memoria fragmentada.", desc_en: "Sensory journey through memory." }
+            { title_es: "blair - Todo lo que tengo", title_en: "blair - All I have", category: "music video", images: ["assets/Blair_Thumbnail_1.jpg", "assets/Blair_Thumbnail_2.png", "assets/Blair_Thumbnail_3.png", "assets/Blair_Thumbnail_4.png", "assets/Blair_Thumbnail_5.png"], yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster", desc_es: "Primer adelanto del disco Bar Scorpios (2025)", desc_en: "First preview of the album Bar Scorpios (2025)" },
+            { title_es: "las manos de la abuela", title_en: "grandmother's hands", category: "cortometraje", images: ["assets/MA_Thumbnail_1.png", "assets/MA_Thumbnail_3.png", "assets/MA_Thumbnail_4.png", "assets/MA_Thumbnail_5.png"], yt: "", director: "camila migliore", prod: "calesita films", desc_es: "Explora la memoria y el legado familiar.", desc_en: "Explores memory and family legacy." },
+            { title_es: "ratones paranoicos", title_en: "ratones paranoicos", category: "music video", images: ["assets/RP_Thumbmail_1.png", "assets/RP_Thumbmail_2.png", "assets/RP_Thumbmail_3.png", "assets/RP_Thumbmail_4.png"], yt: "", director: "alex roux", prod: "poster", desc_es: "Pieza audiovisual para la legendaria banda de rock argentina.", desc_en: "Audiovisual piece for the legendary rock band." },
+            { title_es: "besos brujos", title_en: "witch kisses", category: "cortometraje", images: ["assets/BB_Thumbnail_1.png", "assets/BB_Thumbnail_2.png", "assets/BB_Thumbnail_3.png"], yt: "", director: "karina flonembaum", prod: "", desc_es: "Ficción breve en atmósfera onírica.", desc_en: "Short fiction in dreamlike atmosphere." },
+            { title_es: "las marias", title_en: "las marias", category: "advertising", images: ["assets/Marias_Thumbnail_1.png", "assets/Marias_Thumbnail_2.png", "assets/Marias_Thumbnail_3.png"], yt: "", director: "alejandro berger parrado", prod: "navajo films", desc_es: "Documental sobre la tradición yerbatera argentina.", desc_en: "Documentary on the yerba mate tradition." },
+            { title_es: "todo lo que recuerdo", title_en: "all I remember", category: "cortometraje", images: ["assets/TodoLoQueRecuerdo_Thumbnail_1.png"], yt: "", director: "nicolas fernandez melian", prod: "", desc_es: "Un viaje sensorial por la memoria fragmentada.", desc_en: "A sensory journey through memory." }
         ];
 
         let filteredProjects = [...projects];
@@ -338,6 +360,10 @@
             const prodText = current.prod ? `<br><strong>${translations[currentLang].prod}:</strong> ${current.prod}` : "";
             document.getElementById('p-meta-top').innerHTML = `<strong>${translations[currentLang].dir}:</strong> ${current.director}${prodText}`;
             
+            // LÓGICA DE ICONO DE PLAY O EXPANDIR RECUPERADA
+            const playIcon = document.getElementById('play-icon');
+            playIcon.innerText = current.yt ? "▶" : "⛶"; 
+
             const platCont = document.getElementById('p-platform-container');
             platCont.innerHTML = '';
             const prodLower = (current.prod || "").toLowerCase();
@@ -345,6 +371,7 @@
             if(prodLower.includes("netflix")) logo = "https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg";
             else if(prodLower.includes("disney")) logo = "https://upload.wikimedia.org/wikipedia/commons/3/3e/Disney%2B_logo.svg";
             else if(prodLower.includes("prime")) logo = "https://upload.wikimedia.org/wikipedia/commons/f/f1/Prime_Video.png";
+            
             if(logo) {
                 platCont.innerHTML = `<img src="${logo}" class="platform-logo" style="animation: none; opacity: 0;">`;
                 setTimeout(() => { 
