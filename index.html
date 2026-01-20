@@ -86,25 +86,27 @@
         .lang-switch span.active-lang::after { content: ''; position: absolute; bottom: 5px; left: 12px;
             width: calc(100% - 24px); height: 2px; background-color: var(--text); }
 
+        /* --- SELECT PERSONALIZADO --- */
         .custom-select-container { position: relative; }
         .select-selected { font-size: 0.9rem; font-weight: 700;
             border-bottom: 1px solid rgba(255, 255, 228, 0.2); padding-bottom: 4px; display: inline-block; cursor: pointer;
         }
-        .select-items { position: absolute; background-color: #111; top: 100%; left: 0; z-index: 99;
-            border: 1px solid rgba(255, 255, 228, 0.05); margin-top: 10px; display: none; min-width: 200px;
+        .select-items { position: absolute; background-color: #111; top: 100%; left: 0; z-index: 999;
+            border: 1px solid rgba(255, 255, 228, 0.05); margin-top: 10px; display: none; min-width: 220px;
         }
         .select-items div { padding: 12px 15px; font-size: 0.8rem; cursor: pointer; }
         .select-items div:hover { background-color: var(--text); color: #000; }
-        .select-show { display: block; }
+        .select-show { display: block !important; }
 
-        /* Estilo para el contenedor de resultado sumado */
+        /* Estilo para el bloque de cálculo sumado */
         .contenedor-resultado {
             padding: 15px;
             border-top: 1px solid rgba(255, 255, 228, 0.1);
             background-color: #111;
             cursor: default !important;
         }
-        .contenedor-resultado p { margin: 0 0 10px 0; font-size: 0.8rem; }
+        .contenedor-resultado:hover { background-color: #111 !important; color: var(--text) !important; }
+        .contenedor-resultado p { margin: 0 0 10px 0; font-size: 0.8rem; text-transform: lowercase; }
         .contenedor-resultado button {
             background: transparent;
             color: var(--text);
@@ -237,7 +239,7 @@
                             <div id="opt-music" onclick="filterBy('videoclip', 'music_video')"></div>
                             
                             <div class="contenedor-resultado" onclick="event.stopPropagation()">
-                                <p id="txt-calc-label">el resultado de la operación es: <span id="resultado-valor">0</span></p>
+                                <p id="txt-calc-label">el resultado es: <span id="resultado-valor">0</span></p>
                                 <button id="btn-calc" onclick="calcular()">actualizar datos</button>
                             </div>
                         </div>
@@ -432,18 +434,14 @@
         let filteredProjects = [...projects];
         const translations = {
             es: { 
-                all_projects: "todos", narrative: "ficción", advertising: "publicidad", music_video: "videos musicales", 
-                dir: "dir", prod: "prod", imdb: "CRÉDITOS_IMDB ", about: "/ biografía", contact: "/ contacto", 
-                projects: "proyectos", back: "[ volver ]", close: "[ CERRAR ]", 
+                all_projects: "todos", narrative: "ficción", advertising: "publicidad", music_video: "videoclips", dir: "dir", prod: "prod", imdb: "CRÉDITOS_IMDB ", about: "/ biografía", contact: "/ contacto", projects: "proyectos", back: "[ volver ]", close: "[ CERRAR ]", 
                 about_body: "Leandro Bruno es un editor de cine y publicidad con base en Buenos Aires. Se especializa en montaje rítmico y narrativa para plataformas globales como Netflix, Disney+ y Prime Video.",
-                calc_label: "el resultado de la operación es: ", calc_btn: "actualizar datos"
+                calc_label: "el resultado es: ", calc_btn: "actualizar datos"
             },
             en: { 
-                all_projects: "all", narrative: "fiction", advertising: "advertising", music_video: "music videos", 
-                dir: "dir", prod: "prod", imdb: "IMDB_CREDITS ", about: "/ biography", contact: "/ contact", 
-                projects: "projects", back: "[ back ]", close: "[ CLOSE ]", 
+                all_projects: "all", narrative: "fiction", advertising: "advertising", music_video: "music videos", dir: "dir", prod: "prod", imdb: "IMDB_CREDITS ", about: "/ biography", contact: "/ contact", projects: "projects", back: "[ back ]", close: "[ CLOSE ]", 
                 about_body: "Leandro Bruno is a film and advertising editor based in Buenos Aires. He specializes in rhythmic editing and narrative for global platforms such as Netflix, Disney+, and Prime Video.",
-                calc_label: "the operation result is: ", calc_btn: "update data"
+                calc_label: "the result is: ", calc_btn: "update data"
             }
         };
 
@@ -600,12 +598,18 @@
             if(sec === 'work') resetIntervals(); else clearInterval(mainRotation);
         }
 
-        function toggleDropdown(e) { e.stopPropagation(); document.getElementById("filter-options").classList.toggle("select-show"); }
-        window.onclick = () => document.getElementById("filter-options").classList.remove("select-show");
+        function toggleDropdown(e) { 
+            e.stopPropagation(); 
+            document.getElementById("filter-options").classList.toggle("select-show"); 
+        }
+
+        window.onclick = () => {
+            const dropdown = document.getElementById("filter-options");
+            if(dropdown) dropdown.classList.remove("select-show");
+        };
         
         function calcular() {
-            const valor = Math.floor(Math.random() * 100);
-            document.getElementById('resultado-valor').innerText = valor;
+            document.getElementById('resultado-valor').innerText = Math.floor(Math.random() * 100);
         }
 
         window.onload = () => { setLanguage('es'); updateDisplay(); resetIntervals(); };
