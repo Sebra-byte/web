@@ -162,24 +162,32 @@
 
     <div class="blueprint-bg"></div>
 
-    <main class="main-layout">
-        <section class="left-panel">
-            <div class="top-nav-group">
-                <div class="brand" onclick="showSection('work')"><strong>Leandro Bruno</strong>film editor</div>
-                <nav class="nav-links">
-                    <div class="custom-select-container">
-                        <div class="select-selected" id="current-filter-text" onclick="toggleDropdown(event)"></div>
-                        <div class="select-items" id="filter-options">
-                            <div id="opt-all" onclick="filterBy('all', 'all_projects')"></div>
-                            <div id="opt-narrative" onclick="filterBy('ficción', 'narrative')"></div>
-                            <div id="opt-advertising" onclick="filterBy('publicidad', 'advertising')"></div>
-                            <div id="opt-music" onclick="filterBy('videoclip', 'music_video')"></div>
+<main class="main-layout">
+    <section class="left-panel">
+        <div class="top-nav-group">
+            <div class="brand" onclick="showSection('work')">
+                <strong>Leandro Bruno</strong> film editor
+            </div>
+            <nav class="nav-links">
+                <div class="custom-select-container">
+                    <div class="select-items" id="filter-options">
+                        <div id="opt-all" onclick="filterBy('all', 'all_projects')">Todos</div>
+                        <div id="opt-narrative" onclick="filterBy('ficción', 'narrative')">Ficción</div>
+                        <div id="opt-advertising" onclick="filterBy('advertising', 'advertising')">Publicidad</div>
+                        <div id="opt-music" onclick="filterBy('music_video', 'music_video')">Videos Musicales</div>
+
+                        <div class="contenedor-resultado">
+                            <p>El resultado de la operación es: <span id="resultado-valor">0</span></p>
+                            <button onclick="calcular()">Actualizar Datos</button>
                         </div>
                     </div>
-                    <a id="nav-about" onclick="showSection('about')"></a>
-                    <a id="nav-contact" href="mailto:leandrobrunoeditor@gmail.com"></a>
-                </nav>
-            </div>
+                </div>
+                <a id="nav-about" onclick="showSection('about')" style="cursor:pointer">Bio</a>
+                <a id="nav-contact" href="mailto:leandrobrunoeditor@gmail.com">Contacto</a>
+            </nav>
+        </div>
+    </section>
+</main>
             
             <div class="lang-switch">
                 <span id="btn-es" onclick="setLanguage('es')">ES</span>
