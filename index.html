@@ -11,12 +11,12 @@
     <style>
         /* --- CONFIGURACIÓN GENERAL --- */
         * { 
-            box-sizing: border-box; 
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23FFFFE4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><line x1="20" y1="4" x2="8.12" y2="15.88"></line><line x1="14.47" y1="14.48" x2="20" y2="20"></line><line x1="8.12" y1="8.12" x2="12" y2="12"></line></svg>'), auto !important;
+            box-sizing: border-box;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23FFFFE4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><line x1="20" y1="4" x2="8.12" y2="15.88"></line><line x1="14.47" y1="14.48" x2="20" y2="20"></line><line x1="8.12" y1="8.12" x2="12" y2="12"></svg>'), auto !important;
         }
 
         :root { 
-            --bg: #1E1E1E; 
+            --bg: #1E1E1E;
             --text: #FFFFE4; 
             --line-grid: rgba(255, 255, 228, 0.04); 
             --font-main: 'Manrope', sans-serif;
@@ -24,7 +24,8 @@
         }
         
         body, html { 
-            margin: 0; padding: 0; width: 100%; height: 100%; 
+            margin: 0;
+            padding: 0; width: 100%; height: 100%; 
             background: var(--bg); color: var(--text); 
             font-family: var(--font-main); text-transform: lowercase;
             overflow: hidden; letter-spacing: -0.01em;
@@ -37,15 +38,46 @@
         ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 228, 0.2); }
 
         .blueprint-bg {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
             background-image: 
                 linear-gradient(var(--line-grid) 1px, transparent 1px), 
                 linear-gradient(90deg, var(--line-grid) 1px, transparent 1px);
             background-size: 40px 40px; z-index: -1;
         }
 
+        /* --- NUEVAS LÍNEAS: SELECTOR DE IDIOMA APARTADO --- */
+        .lang-switch { 
+            position: fixed;
+            top: 35px;
+            right: 35px;
+            font-size: 0.75rem; 
+            font-weight: 800; 
+            display: flex;
+            gap: 15px; 
+            z-index: 2000; /* Asegura que esté por encima de todo */
+        }
+        .lang-switch span { 
+            cursor: pointer;
+            opacity: 0.3; 
+            transition: all 0.3s ease;
+            letter-spacing: 0.05em;
+        }
+        .lang-switch span.active-lang { 
+            opacity: 1;
+        }
+        .lang-switch span.active-lang::after { 
+            content: ''; 
+            display: block;
+            width: 100%;
+            height: 1px; 
+            background-color: var(--text);
+            margin-top: 2px;
+        }
+
         #transition-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
             background: #000; z-index: 3000; opacity: 0; pointer-events: none;
             transition: opacity 0.3s ease;
         }
@@ -64,10 +96,6 @@
         .brand strong { display: block; font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 2px; text-transform: uppercase; }
         
         .nav-links { display: flex; flex-direction: column; gap: 25px; }
-        .lang-switch { font-size: 0.85rem; font-weight: 800; display: flex; gap: 5px; margin-bottom: 5px; margin-left: -8px; }
-        .lang-switch span { cursor: pointer; position: relative; padding: 8px 12px; opacity: 0.2; transition: all 0.3s ease; }
-        .lang-switch span.active-lang { opacity: 1; }
-        .lang-switch span.active-lang::after { content: ''; position: absolute; bottom: 5px; left: 12px; width: calc(100% - 24px); height: 2px; background-color: var(--text); }
 
         .custom-select-container { position: relative; }
         .select-selected { font-size: 0.9rem; font-weight: 700; border-bottom: 1px solid rgba(255, 255, 228, 0.2); padding-bottom: 4px; display: inline-block; cursor: pointer; }
@@ -99,20 +127,8 @@
         .play-indicator { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); color: var(--text); font-size: 1.5rem; display: none; z-index: 20; opacity: 0.7; pointer-events: none; }
         .main-viewer:hover .play-indicator { display: block; }
 
-        /* HEADER DE PROYECTO */
         .project-details { display: flex; flex-direction: column; margin-top: 35px; }
-        
-        /* CATEGORÍA: AHORA COLOR HUESO Y PESO 300 COMO DIR/PROD */
-        .category-label { 
-            font-size: 0.75rem; 
-            font-weight: 300; 
-            color: var(--text); 
-            margin-bottom: 15px; 
-            display: block; 
-            text-transform: uppercase; 
-            letter-spacing: 0.1em; 
-            opacity: 0.9;
-        }
+        .category-label { font-size: 0.75rem; font-weight: 300; color: var(--text); margin-bottom: 15px; display: block; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.9; }
         
         .project-header { display: flex; align-items: center; gap: 30px; }
         .project-details h2 { font-size: 4rem; margin: 0; font-weight: 800; line-height: 0.85; text-transform: uppercase; letter-spacing: -0.05em; color: var(--text); }
@@ -121,16 +137,7 @@
         .meta { font-size: 0.9rem; line-height: 1.8; color: #888; margin-top: 20px; }
         .meta strong { color: var(--text); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; }
 
-        /* DESCRIPCIÓN: VUELVE A GRIS Y ABAJO */
-        .p-description { 
-            margin-top: 25px; 
-            max-width: 650px; 
-            text-transform: none; 
-            font-weight: 300; 
-            color: #777; 
-            line-height: 1.6; 
-            font-size: 0.95rem; 
-        }
+        .p-description { margin-top: 25px; max-width: 650px; text-transform: none; font-weight: 300; color: #777; line-height: 1.6; font-size: 0.95rem; }
 
         /* PANEL DERECHO */
         .right-panel { display: flex; flex-direction: column; gap: 25px; overflow-y: auto; padding-right: 15px; scrollbar-behavior: smooth; }
@@ -142,6 +149,7 @@
         /* --- ESQUEMA MÓVIL --- */
         @media (max-width: 900px) {
             body, html { overflow-y: auto; }
+            .lang-switch { top: 20px; right: 20px; }
             .main-layout { display: flex; flex-direction: column; padding: 0; gap: 0; height: auto; }
             .left-panel { position: sticky; top: 0; background: var(--bg); padding: 20px; gap: 15px; border-bottom: 1px solid var(--line-grid); z-index: 1000; }
             .brand strong { font-size: 1.8rem; }
@@ -149,11 +157,9 @@
             .main-viewer { display: none; }
             .right-panel { order: 2; flex-direction: row; overflow-x: auto; overflow-y: hidden; padding: 20px; gap: 15px; scrollbar-width: none; }
             .thumb-item { width: 220px; transform: none !important; }
-            .thumb-item img { opacity: 1; filter: grayscale(0); }
             .center-panel { order: 3; padding: 0 20px 40px 20px; height: auto; overflow: visible; }
             .project-header { flex-direction: column; align-items: flex-start; gap: 10px; margin-top: 15px; }
             .project-details h2 { font-size: 2.5rem; }
-            .p-description { max-width: 100%; margin-top: 20px; margin-bottom: 0; }
         }
 
         /* MODALES */
@@ -163,7 +169,6 @@
         .gallery-wrapper img { width: 100%; height: 100%; object-fit: contain; }
         .close-btn { position: fixed; top: 30px; right: 30px; color: var(--text); font-size: 0.8rem; z-index: 4010; font-weight: 700; cursor: pointer; }
         .modal-arrow { position: absolute; top: 50%; transform: translateY(-50%); font-size: 3rem; color: var(--text); opacity: 0.2; cursor: pointer; transition: 0.3s; padding: 20px; user-select: none; }
-        .arrow-left { left: -80px; } .arrow-right { right: -80px; }
     </style>
 </head>
 <body>
@@ -171,16 +176,17 @@
     <div id="transition-overlay"></div>
     <div class="blueprint-bg"></div>
 
+    <div class="lang-switch">
+        <span id="btn-es" onclick="setLanguage('es')">ES</span>
+        <span id="btn-en" onclick="setLanguage('en')">EN</span>
+    </div>
+
     <script src="https://www.youtube.com/iframe_api"></script>
 
     <main class="main-layout">
         <section class="left-panel">
             <div class="brand" onclick="showSection('work')"><strong>Leandro Bruno</strong>film editor</div>
             <nav class="nav-links">
-                <div class="lang-switch">
-                    <span id="btn-es" onclick="setLanguage('es')">ES</span>
-                    <span id="btn-en" onclick="setLanguage('en')">EN</span>
-                </div>
                 <div class="custom-select-container">
                     <div class="select-selected" id="current-filter-text" onclick="toggleDropdown(event)"></div>
                     <div class="select-items" id="filter-options">
@@ -202,7 +208,7 @@
                         <div class="nav-arrow" onclick="event.stopPropagation(); manualSlide(-1)">‹</div>
                         <div class="nav-arrow" onclick="event.stopPropagation(); manualSlide(1)">›</div>
                     </div>
-                    <div id="play-icon" class="play-indicator">▶</div>
+                    <div id="play-icon" class="play-indicator"></div>
                     <div id="image-container"></div>
                 </div>
                 
@@ -264,39 +270,16 @@
 
         let filteredProjects = [...projects];
 
-        // --- CORRECCIÓN DE TRADUCCIONES AQUÍ ---
         const translations = {
             es: { 
-                all_projects: "todos", 
-                narrative: "ficción", 
-                advertising: "publicidad", 
-                music_video: "videoclips", 
-                "music video": "videoclips", // Mapeo para la categoría individual
-                dir: "dir", 
-                prod: "prod", 
-                imdb: "CRÉDITOS_IMDB ", 
-                about: "/ biografía", 
-                contact: "/ contacto", 
-                projects: "proyectos", 
-                back: "[ volver ]", 
-                close: "[ CERRAR ]", 
-                about_body: "Leandro Bruno es un editor de cine y publicidad con base en Buenos Aires. Se especializa en montaje rítmico y narrativa para plataformas globales como Netflix, Disney+ y Prime Video." 
+                all_projects: "todos", narrative: "ficción", advertising: "publicidad", music_video: "videoclips", "music video": "videoclips",
+                dir: "dir", prod: "prod", imdb: "CRÉDITOS_IMDB ", about: "/ biografía", contact: "/ contacto", projects: "proyectos", 
+                back: "[ volver ]", close: "[ CERRAR ]", about_body: "Leandro Bruno es un editor de cine y publicidad con base en Buenos Aires. Se especializa en montaje rítmico y narrativa para plataformas globales como Netflix, Disney+ y Prime Video."
             },
             en: { 
-                all_projects: "all", 
-                narrative: "fiction", 
-                advertising: "advertising", 
-                music_video: "music videos", 
-                "music video": "music video",
-                dir: "dir", 
-                prod: "prod", 
-                imdb: "IMDB_CREDITS ", 
-                about: "/ biography", 
-                contact: "/ contact", 
-                projects: "projects", 
-                back: "[ back ]", 
-                close: "[ CLOSE ]", 
-                about_body: "Leandro Bruno is a film and advertising editor based in Buenos Aires. He specializes in rhythmic editing and narrative for global platforms such as Netflix, Disney+, and Prime Video." 
+                all_projects: "all", narrative: "fiction", advertising: "advertising", music_video: "music videos", "music video": "music video",
+                dir: "dir", prod: "prod", imdb: "IMDB_CREDITS ", about: "/ biography", contact: "/ contact", projects: "projects", 
+                back: "[ back ]", close: "[ CLOSE ]", about_body: "Leandro Bruno is a film and advertising editor based in Buenos Aires. He specializes in rhythmic editing and narrative for global platforms such as Netflix, Disney+, and Prime Video." 
             }
         };
 
@@ -337,27 +320,17 @@
             if(!current) return;
             const container = document.getElementById('image-container');
             const details = document.getElementById('p-details');
-
             if(!onlyText) {
                 if(immediate) {
                     container.innerHTML = current.images.map((src, idx) => `<img src="${src}" class="${idx === 0 ? 'active-slide' : ''}">`).join('');
-                    slideIndex = 0;
-                    renderDetails(current);
-                    renderThumbnails();
-                    resetSlideTimer();
-                    scrollThumbIntoView();
+                    slideIndex = 0; renderDetails(current); renderThumbnails(); resetSlideTimer(); scrollThumbIntoView();
                 } else {
-                    container.classList.add('fade-out');
-                    details.classList.add('fade-out');
+                    container.classList.add('fade-out'); details.classList.add('fade-out');
                     setTimeout(() => {
                         container.innerHTML = current.images.map((src, idx) => `<img src="${src}" class="${idx === 0 ? 'active-slide' : ''}">`).join('');
-                        slideIndex = 0;
-                        renderDetails(current);
-                        renderThumbnails();
-                        container.classList.remove('fade-out');
-                        details.classList.remove('fade-out');
-                        resetSlideTimer();
-                        scrollThumbIntoView();
+                        slideIndex = 0; renderDetails(current); renderThumbnails();
+                        container.classList.remove('fade-out'); details.classList.remove('fade-out');
+                        resetSlideTimer(); scrollThumbIntoView();
                     }, 400);
                 }
             } else { renderDetails(current); }
@@ -365,7 +338,8 @@
 
         function renderDetails(current) {
             document.getElementById('p-title').innerText = currentLang === 'es' ? current.title_es : current.title_en;
-            document.getElementById('p-category').innerText = current.category;
+            const categoryTranslated = translations[currentLang][current.category] || current.category;
+            document.getElementById('p-category').innerText = categoryTranslated;
             document.getElementById('p-description').innerText = currentLang === 'es' ? current.desc_es : current.desc_en;
             const prodText = current.prod ? `<br><strong>${translations[currentLang].prod}:</strong> ${current.prod}` : "";
             document.getElementById('p-meta-top').innerHTML = `<strong>${translations[currentLang].dir}:</strong> ${current.director}${prodText}`;
@@ -388,18 +362,11 @@
             `).join('');
         }
 
-        function selectProject(idx) {
-            currentIndex = idx;
-            updateDisplay();
-            resetIntervals();
-            if(window.innerWidth < 900) { handleMainClick(); }
-        }
+        function selectProject(idx) { currentIndex = idx; updateDisplay(); resetIntervals(); if(window.innerWidth < 900) { handleMainClick(); } }
 
         function scrollThumbIntoView() {
             const activeThumb = document.querySelector(`.thumb-item[data-index="${currentIndex}"]`);
-            if (activeThumb) {
-                activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-            }
+            if (activeThumb) { activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }); }
         }
 
         function handleMainClick() {
@@ -418,9 +385,7 @@
                     document.getElementById('video-player').innerHTML = `<iframe width="100%" height="100%" src="${url}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
                 }
             } else {
-                modalSlideIndex = 0;
-                document.getElementById('modal-g').style.display = 'flex';
-                updateGalleryImg();
+                modalSlideIndex = 0; document.getElementById('modal-g').style.display = 'flex'; updateGalleryImg();
             }
         }
 
@@ -448,10 +413,7 @@
 
         function resetIntervals() {
             clearInterval(mainRotation);
-            mainRotation = setInterval(() => { 
-                currentIndex = (currentIndex + 1) % filteredProjects.length; 
-                updateDisplay(); 
-            }, 8000);
+            mainRotation = setInterval(() => { currentIndex = (currentIndex + 1) % filteredProjects.length; updateDisplay(); }, 8000);
         }
 
         function resetSlideTimer() {
