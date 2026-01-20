@@ -12,9 +12,11 @@
         }
 
         :root { 
-            --bg: #0b0b0b; 
+            /* PRUEBA AQUÍ LOS COLORES: */
+            /* Azul Oxford: #1A222E | Verde: #161B16 | Grafito: #1E1E1E */
+            --bg: #1A222E; 
             --text: #FFFFE4; 
-            --line-grid: rgba(255, 255, 228, 0.03); 
+            --line-grid: rgba(255, 255, 228, 0.04); 
             --font-main: 'Manrope', sans-serif;
             --transition-speed: 0.5s;
         }
@@ -50,7 +52,6 @@
 
         .left-panel { display: flex; flex-direction: column; gap: 60px; z-index: 100; }
         .brand { font-weight: 300; font-size: 1.1rem; line-height: 1.1; text-transform: none; cursor: pointer; color: var(--text); }
-        /* LOGO EN MAYÚSCULAS */
         .brand strong { display: block; font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 2px; text-transform: uppercase; }
         
         .nav-links { display: flex; flex-direction: column; gap: 25px; }
@@ -147,7 +148,6 @@
             font-weight: 300; color: #777; line-height: 1.6; font-size: 0.95rem;
         }
 
-        /* Animación para el Logo */
         @keyframes logoEntry {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 0.4; transform: translateY(0); }
