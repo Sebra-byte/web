@@ -50,7 +50,8 @@
 
         .left-panel { display: flex; flex-direction: column; gap: 60px; z-index: 100; }
         .brand { font-weight: 300; font-size: 1.1rem; line-height: 1.1; text-transform: none; cursor: pointer; color: var(--text); }
-        .brand strong { display: block; font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 2px; }
+        /* LOGO EN MAYÚSCULAS */
+        .brand strong { display: block; font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 2px; text-transform: uppercase; }
         
         .nav-links { display: flex; flex-direction: column; gap: 25px; }
         
@@ -177,7 +178,7 @@
             display: flex; flex-direction: column; gap: 25px; 
             overflow-y: auto; padding-right: 15px; scrollbar-width: thin;
             scrollbar-color: rgba(255, 255, 228, 0.1) transparent;
-            scroll-behavior: smooth; /* Movimiento suave */
+            scroll-behavior: smooth; 
         }
         .right-panel::-webkit-scrollbar { width: 2px; }
         .right-panel::-webkit-scrollbar-thumb { background: rgba(255, 255, 228, 0.1); }
@@ -417,7 +418,6 @@
             else if(prodLower.includes("prime")) logo = "https://upload.wikimedia.org/wikipedia/commons/f/f1/Prime_Video.png";
             
             if(logo) {
-                // El inline style asegura que la animación se dispare al re-renderizar
                 platCont.innerHTML = `<img src="${logo}" class="platform-logo" style="animation: none; opacity: 0;">`;
                 setTimeout(() => { 
                     const img = platCont.querySelector('img');
@@ -549,11 +549,7 @@
 
         window.onclick = () => document.getElementById("filter-options").classList.remove("select-show");
         
-        window.onload = () => { 
-            setLanguage('es'); 
-            updateDisplay(); 
-            resetIntervals(); 
-        };
+        window.onload = () => { setLanguage('es'); updateDisplay(); resetIntervals(); };
     </script>
 </body>
 </html>
