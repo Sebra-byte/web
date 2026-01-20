@@ -97,6 +97,25 @@
         .select-items div:hover { background-color: var(--text); color: #000; }
         .select-show { display: block; }
 
+        /* Estilo para el contenedor de resultado sumado */
+        .contenedor-resultado {
+            padding: 15px;
+            border-top: 1px solid rgba(255, 255, 228, 0.1);
+            background-color: #111;
+            cursor: default !important;
+        }
+        .contenedor-resultado p { margin: 0 0 10px 0; font-size: 0.8rem; }
+        .contenedor-resultado button {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid var(--text);
+            padding: 5px 10px;
+            cursor: pointer;
+            font-family: var(--font-main);
+            font-size: 0.75rem;
+            text-transform: lowercase;
+        }
+
         .nav-links a { text-decoration: none; color: var(--text); font-size: 0.9rem; font-weight: 500;
             opacity: 0.5; transition: 0.3s; cursor: pointer; }
         .nav-links a:hover, .nav-links a.active-nav { opacity: 1; }
@@ -198,24 +217,6 @@
             transform: translateY(-50%); font-size: 3rem; color: var(--text); opacity: 0.2; cursor: pointer; transition: 0.3s; padding: 20px; user-select: none;
         }
         .arrow-left { left: -80px; } .arrow-right { right: -80px; }
-
-        /* Estilo sumado para el contenedor de resultado */
-        .contenedor-resultado {
-            margin-top: 15px;
-            padding: 15px;
-            border-top: 1px solid rgba(255, 255, 228, 0.1);
-            font-size: 0.8rem;
-        }
-        .contenedor-resultado button {
-            background: transparent;
-            color: var(--text);
-            border: 1px solid var(--text);
-            padding: 5px 10px;
-            cursor: pointer;
-            text-transform: lowercase;
-            margin-top: 10px;
-            font-family: var(--font-main);
-        }
     </style>
 </head>
 <body>
@@ -228,21 +229,21 @@
                 <div class="brand" onclick="showSection('work')"><strong>Leandro Bruno</strong>film editor</div>
                 <nav class="nav-links">
                     <div class="custom-select-container">
-                        <div class="select-selected" id="current-filter-text" onclick="toggleDropdown(event)">proyectos / todos</div>
+                        <div class="select-selected" id="current-filter-text" onclick="toggleDropdown(event)"></div>
                         <div class="select-items" id="filter-options">
-                            <div id="opt-all" onclick="filterBy('all', 'all_projects')">/ todos</div>
-                            <div id="opt-narrative" onclick="filterBy('ficción', 'narrative')">/ ficción</div>
-                            <div id="opt-advertising" onclick="filterBy('publicidad', 'advertising')">/ publicidad</div>
-                            <div id="opt-music" onclick="filterBy('videoclip', 'music_video')">/ videos musicales</div>
+                            <div id="opt-all" onclick="filterBy('all', 'all_projects')"></div>
+                            <div id="opt-narrative" onclick="filterBy('ficción', 'narrative')"></div>
+                            <div id="opt-advertising" onclick="filterBy('publicidad', 'advertising')"></div>
+                            <div id="opt-music" onclick="filterBy('videoclip', 'music_video')"></div>
                             
-                            <div class="contenedor-resultado">
-                                <p>el resultado de la operación es: <span id="resultado-valor">0</span></p>
-                                <button onclick="calcular()">actualizar datos</button>
+                            <div class="contenedor-resultado" onclick="event.stopPropagation()">
+                                <p id="txt-calc-label">el resultado de la operación es: <span id="resultado-valor">0</span></p>
+                                <button id="btn-calc" onclick="calcular()">actualizar datos</button>
                             </div>
                         </div>
                     </div>
-                    <a id="nav-about" onclick="showSection('about')">bio</a>
-                    <a id="nav-contact" href="mailto:leandrobrunoeditor@gmail.com">contacto</a>
+                    <a id="nav-about" onclick="showSection('about')"></a>
+                    <a id="nav-contact" href="mailto:leandrobrunoeditor@gmail.com"></a>
                 </nav>
             </div>
             
@@ -296,12 +297,6 @@
 
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-        // Función de cálculo añadida para que el botón funcione
-        function calcular() {
-            const valor = Math.floor(Math.random() * 100);
-            document.getElementById('resultado-valor').innerText = valor;
-        }
-
         let currentLang = 'es';
         let currentIndex = 0;
         let slideIndex = 0;
@@ -436,8 +431,20 @@
 
         let filteredProjects = [...projects];
         const translations = {
-            es: { all_projects: "todos", narrative: "ficción", advertising: "publicidad", music_video: "videos musicales", dir: "dir", prod: "prod", imdb: "CRÉDITOS_IMDB ", about: "bio", contact: "contacto", projects: "proyectos", back: "[ volver ]", close: "[ CERRAR ]", about_body: "Leandro Bruno es un editor de cine y publicidad con base en Buenos Aires. Se especializa en montaje rítmico y narrativa para plataformas globales como Netflix, Disney+ y Prime Video." },
-            en: { all_projects: "all", narrative: "fiction", advertising: "advertising", music_video: "music videos", dir: "dir", prod: "prod", imdb: "IMDB_CREDITS ", about: "about", contact: "contact", projects: "projects", back: "[ back ]", close: "[ CLOSE ]", about_body: "Leandro Bruno is a film and advertising editor based in Buenos Aires. He specializes in rhythmic editing and narrative for global platforms such as Netflix, Disney+, and Prime Video." }
+            es: { 
+                all_projects: "todos", narrative: "ficción", advertising: "publicidad", music_video: "videos musicales", 
+                dir: "dir", prod: "prod", imdb: "CRÉDITOS_IMDB ", about: "/ biografía", contact: "/ contacto", 
+                projects: "proyectos", back: "[ volver ]", close: "[ CERRAR ]", 
+                about_body: "Leandro Bruno es un editor de cine y publicidad con base en Buenos Aires. Se especializa en montaje rítmico y narrativa para plataformas globales como Netflix, Disney+ y Prime Video.",
+                calc_label: "el resultado de la operación es: ", calc_btn: "actualizar datos"
+            },
+            en: { 
+                all_projects: "all", narrative: "fiction", advertising: "advertising", music_video: "music videos", 
+                dir: "dir", prod: "prod", imdb: "IMDB_CREDITS ", about: "/ biography", contact: "/ contact", 
+                projects: "projects", back: "[ back ]", close: "[ CLOSE ]", 
+                about_body: "Leandro Bruno is a film and advertising editor based in Buenos Aires. He specializes in rhythmic editing and narrative for global platforms such as Netflix, Disney+, and Prime Video.",
+                calc_label: "the operation result is: ", calc_btn: "update data"
+            }
         };
 
         function setLanguage(lang) {
@@ -457,6 +464,11 @@
             document.getElementById('txt-close-g').innerText = t.close;
             document.getElementById('txt-about-body').innerText = t.about_body;
             document.getElementById('txt-imdb').innerText = t.imdb;
+            
+            // Traducción del bloque de cálculo
+            document.getElementById('txt-calc-label').innerHTML = t.calc_label + '<span id="resultado-valor">' + document.getElementById('resultado-valor').innerText + '</span>';
+            document.getElementById('btn-calc').innerText = t.calc_btn;
+
             updateDisplay(true);
         }
 
@@ -590,6 +602,12 @@
 
         function toggleDropdown(e) { e.stopPropagation(); document.getElementById("filter-options").classList.toggle("select-show"); }
         window.onclick = () => document.getElementById("filter-options").classList.remove("select-show");
+        
+        function calcular() {
+            const valor = Math.floor(Math.random() * 100);
+            document.getElementById('resultado-valor').innerText = valor;
+        }
+
         window.onload = () => { setLanguage('es'); updateDisplay(); resetIntervals(); };
         
         document.addEventListener('keydown', (e) => {
