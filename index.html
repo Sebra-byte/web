@@ -17,7 +17,7 @@
             --line-grid: rgba(255, 255, 228, 0.03); 
             --font-main: 'Manrope', sans-serif;
             --transition-speed: 0.5s;
-            --sidebar-width: 350px;
+            --sidebar-width: 180px; /* Reducido al 50% aprox */
         }
         
         body, html { 
@@ -39,7 +39,7 @@
             display: grid;
             grid-template-columns: 280px 1fr var(--sidebar-width);
             height: 100vh;
-            padding: 35px 0 35px 35px; /* Quitamos padding derecho para pegar la tira al borde */
+            padding: 35px 0 35px 35px;
             gap: 40px;
         }
 
@@ -128,25 +128,22 @@
         }
         .back-link:hover { opacity: 1; background: rgba(255, 255, 228, 0.1); border-color: var(--text); }
 
-        /* PANEL DERECHO (SCROLLBAR + TIRA) */
+        /* PANEL DERECHO (TIRA) */
         .right-panel { 
             position: relative;
-            perspective: 2000px;
+            perspective: 1200px;
             overflow-y: auto;
             overflow-x: hidden;
-            padding-right: 15px; /* Espacio para la scrollbar */
-            scrollbar-width: thin;
-            scrollbar-color: rgba(255, 255, 228, 0.2) transparent;
+            padding-right: 10px;
+            scrollbar-width: none; /* Ocultamos barra por estética, pero el scroll funciona */
         }
-
-        .right-panel::-webkit-scrollbar { width: 4px; }
-        .right-panel::-webkit-scrollbar-thumb { background: rgba(255, 255, 228, 0.2); border-radius: 10px; }
+        .right-panel::-webkit-scrollbar { display: none; }
 
         .thumb-stack {
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            padding-bottom: 200px;
+            gap: 12px;
+            padding-bottom: 300px;
             transform-style: preserve-3d;
         }
 
@@ -162,11 +159,10 @@
             transform-origin: center top;
         }
 
-        /* Estilo base para los que están DEBAJO del activo */
         .thumb-item.is-below {
-            transform: rotateX(-25deg) translateZ(-50px);
+            transform: rotateX(-30deg) translateZ(-40px);
             opacity: 0.4;
-            filter: grayscale(0.8) blur(1px);
+            filter: grayscale(0.8);
         }
 
         .thumb-item img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
@@ -175,12 +171,10 @@
             border-color: var(--text);
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             opacity: 1 !important; 
-            filter: grayscale(0) blur(0) !important;
-            transform: rotateX(0deg) translateZ(0px) scale(1.02) !important;
+            filter: grayscale(0) !important;
+            transform: rotateX(0deg) translateZ(10px) scale(1.05) !important;
             z-index: 10;
         }
-
-        .thumb-item:hover { opacity: 1; filter: grayscale(0); }
 
         /* MODALES */
         .video-modal, .gallery-modal { 
@@ -196,7 +190,7 @@
         .arrow-left { left: -80px; } .arrow-right { right: -80px; }
 
         @media (max-width: 1100px) {
-            .main-layout { grid-template-columns: 1fr; height: auto; overflow-y: auto; padding-right: 35px; }
+            .main-layout { grid-template-columns: 1fr; height: auto; padding-right: 35px; }
             .right-panel { display: none; }
         }
     </style>
@@ -256,7 +250,7 @@
             </div>
         </section>
 
-        <section class="right-panel" id="right-scroll-container">
+        <section class="right-panel">
             <div class="thumb-stack" id="thumbnail-list"></div>
         </section>
     </main>
@@ -265,7 +259,6 @@
         <div class="close-btn" id="txt-close-v" onclick="closeModals()"></div>
         <div class="video-wrapper" id="video-player"></div>
     </div>
-
     <div class="gallery-modal" id="modal-g">
         <div class="close-btn" id="txt-close-g" onclick="closeModals()"></div>
         <div class="gallery-wrapper">
@@ -299,21 +292,28 @@
         ];
 
         const translations = {
-            es: { 
-                all_projects: "todos", narrative: "ficción", advertising: "publicidad", music_video: "videoclips", 
-                dir: "dir", prod: "prod", imdb: "CRÉDITOS_IMDB ↗", 
-                about: "/ biografía", contact: "/ contacto", projects: "proyectos",
-                back: "[ volver ]", close: "[ CERRAR ]",
-                about_body: "Leandro Bruno es un editor de cine y publicidad con base en Buenos Aires." 
-            },
-            en: { 
-                all_projects: "all", narrative: "fiction", advertising: "advertising", music_video: "music videos", 
-                dir: "dir", prod: "prod", imdb: "IMDB_CREDITS ↗", 
-                about: "/ biography", contact: "/ contact", projects: "projects",
-                back: "[ back ]", close: "[ CLOSE ]",
-                about_body: "Leandro Bruno is a film and advertising editor based in Buenos Aires." 
-            }
+            es: { all_projects: "todos", narrative: "ficción", advertising: "publicidad", music_video: "videoclips", dir: "dir", prod: "prod", imdb: "CRÉDITOS_IMDB ↗", about: "/ biografía", contact: "/ contacto", projects: "proyectos", back: "[ volver ]", close: "[ CERRAR ]", about_body: "Leandro Bruno es un editor de cine y publicidad con base en Buenos Aires." },
+            en: { all_projects: "all", narrative: "fiction", advertising: "advertising", music_video: "music videos", dir: "dir", prod: "prod", imdb: "IMDB_CREDITS ↗", about: "/ biography", contact: "/ contact", projects: "projects", back: "[ back ]", close: "[ CLOSE ]", about_body: "Leandro Bruno is a film and advertising editor based in Buenos Aires." }
         };
+
+        // Manejo de Teclado
+        document.addEventListener('keydown', (e) => {
+            const isModalV = document.getElementById('modal-v').style.display === 'flex';
+            const isModalG = document.getElementById('modal-g').style.display === 'flex';
+            const isAbout = document.getElementById('about-section').style.display === 'block';
+
+            if (e.key === 'Escape') closeModals();
+
+            if (!isModalV && !isModalG && !isAbout) {
+                if (e.key === 'ArrowDown') selectProject((currentIndex + 1) % filteredProjects.length);
+                if (e.key === 'ArrowUp') selectProject((currentIndex - 1 + filteredProjects.length) % filteredProjects.length);
+            }
+
+            if (isModalG) {
+                if (e.key === 'ArrowRight') modalGalleryNav(1);
+                if (e.key === 'ArrowLeft') modalGalleryNav(-1);
+            }
+        });
 
         function setLanguage(lang) {
             currentLang = lang;
@@ -389,10 +389,8 @@
         function renderThumbnails() {
             const list = document.getElementById('thumbnail-list');
             list.innerHTML = filteredProjects.map((p, idx) => {
-                // Solo los que están debajo del actual tienen animación
                 const isBelow = idx > currentIndex ? 'is-below' : '';
                 const isActive = idx === currentIndex ? 'active-thumb' : '';
-                
                 return `
                     <div class="thumb-item ${isActive} ${isBelow}" 
                          onclick="selectProject(${idx})">
@@ -406,10 +404,9 @@
             currentIndex = idx; 
             updateDisplay(); 
             resetIntervals(); 
-            // Hacer scroll suave hacia la miniatura seleccionada
             const thumbs = document.querySelectorAll('.thumb-item');
             if(thumbs[idx]) {
-                thumbs[idx].scrollIntoView({ behavior: 'smooth', block: 'start' });
+                thumbs[idx].scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         }
 
@@ -417,7 +414,6 @@
             document.getElementById('work-section').style.display = s === 'work' ? 'block' : 'none';
             document.getElementById('about-section').style.display = s === 'about' ? 'block' : 'none';
             document.querySelector('.right-panel').style.opacity = s === 'work' ? '1' : '0';
-            document.querySelector('.right-panel').style.visibility = s === 'work' ? 'visible' : 'hidden';
         }
 
         function handleMainClick() {
