@@ -54,19 +54,18 @@
         
         .nav-links { display: flex; flex-direction: column; gap: 25px; }
         
-        /* Lang Switch Mejorado */
         .lang-switch { 
             font-size: 0.85rem; 
             font-weight: 800; 
             display: flex; 
             gap: 5px; 
             margin-bottom: 5px;
-            margin-left: -8px; /* Para alinear el área de clic visualmente */
+            margin-left: -8px;
         }
         .lang-switch span { 
             cursor: pointer; 
             position: relative; 
-            padding: 8px 12px; /* Área de clic más grande */
+            padding: 8px 12px;
             opacity: 0.2;
             transition: all 0.3s ease;
             display: inline-block;
@@ -147,11 +146,17 @@
             font-weight: 300; color: #777; line-height: 1.6; font-size: 0.95rem;
         }
 
+        /* Logos con Tonalidad Off-White */
         .platform-logo {
-            margin-top: 30px; height: 38px;
-            filter: brightness(0) invert(1) sepia(5%) saturate(200%) hue-rotate(20deg);
-            opacity: 0.7; display: block;
+            margin-top: 30px; 
+            height: 24px; /* Un poco más elegante, menos invasivo */
+            display: block;
+            /* El filtro convierte el logo a #FFFFE4 aprox */
+            filter: brightness(0) invert(98%) sepia(10%) saturate(400%) hue-rotate(320deg);
+            opacity: 0.4;
+            transition: opacity 0.3s;
         }
+        .platform-logo:hover { opacity: 0.8; }
 
         .back-link {
             font-size: 0.75rem; color: var(--text); font-weight: 700; cursor: pointer;
@@ -405,7 +410,10 @@
             if(prodLower.includes("netflix")) logo = "https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg";
             else if(prodLower.includes("disney")) logo = "https://upload.wikimedia.org/wikipedia/commons/3/3e/Disney%2B_logo.svg";
             else if(prodLower.includes("prime")) logo = "https://upload.wikimedia.org/wikipedia/commons/f/f1/Prime_Video.png";
-            if(logo) platCont.innerHTML = `<img src="${logo}" class="platform-logo">`;
+            
+            if(logo) {
+                platCont.innerHTML = `<img src="${logo}" class="platform-logo">`;
+            }
         }
 
         function renderThumbnails() {
