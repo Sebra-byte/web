@@ -72,8 +72,25 @@
         .select-items div:hover { background-color: var(--text); color: #000; }
         .select-show { display: block; }
 
-        .nav-links a { text-decoration: none; color: var(--text); font-size: 0.9rem; font-weight: 500; opacity: 0.5; transition: 0.3s; cursor: pointer; }
+        /* ESTILOS LINKS NAVEGACION Y ESTADO ACTIVO */
+        .nav-links a { 
+            text-decoration: none; 
+            color: var(--text); 
+            font-size: 0.9rem; 
+            font-weight: 500; 
+            opacity: 0.5; 
+            transition: 0.3s; 
+            cursor: pointer; 
+            position: relative;
+            display: inline-block;
+            width: fit-content;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background-color: var(--text); transition: width 0.3s ease;
+        }
         .nav-links a:hover { opacity: 1; }
+        .nav-links a.active-nav { opacity: 1; font-weight: 700; }
+        .nav-links a.active-nav::after { width: 100%; }
 
         /* PANEL CENTRAL */
         .center-panel { 
@@ -115,7 +132,6 @@
 
         .project-details { width: 100%; margin-top: 35px; padding-bottom: 100px; }
         
-        /* LOGO AL LADO DEL TÍTULO */
         .title-row {
             display: flex;
             align-items: center;
@@ -498,9 +514,20 @@
         }
 
         function showSection(sec) {
+            // Manejo de visibilidad
             document.getElementById('work-section').style.display = sec === 'work' ? 'block' : 'none';
             document.getElementById('about-section').style.display = sec === 'about' ? 'flex' : 'none';
             document.getElementById('thumbnail-list').style.display = sec === 'work' ? 'flex' : 'none';
+            
+            // Manejo del estado visual del menú (subrayado)
+            const aboutLink = document.getElementById('nav-about');
+            if (sec === 'about') {
+                aboutLink.classList.add('active-nav');
+            } else {
+                aboutLink.classList.remove('active-nav');
+            }
+
+            // Control de rotación
             sec === 'work' ? resetIntervals() : clearInterval(mainRotation);
             if(sec === 'work') scrollThumbIntoView();
         }
