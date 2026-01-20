@@ -17,6 +17,7 @@
             --line-grid: rgba(255, 255, 228, 0.03); 
             --font-main: 'Manrope', sans-serif;
             --transition-speed: 0.5s;
+            --sidebar-width: 350px;
         }
         
         body, html { 
@@ -36,9 +37,9 @@
 
         .main-layout {
             display: grid;
-            grid-template-columns: 280px 1fr 220px; /* Tamaño de miniatura reducido para dar espacio */
+            grid-template-columns: 280px 1fr var(--sidebar-width);
             height: 100vh;
-            padding: 35px;
+            padding: 35px 0 35px 35px; /* Quitamos padding derecho para pegar la tira al borde */
             gap: 40px;
         }
 
@@ -127,50 +128,59 @@
         }
         .back-link:hover { opacity: 1; background: rgba(255, 255, 228, 0.1); border-color: var(--text); }
 
-        /* PANEL DERECHO (ANIMACIÓN 3D) */
+        /* PANEL DERECHO (SCROLLBAR + TIRA) */
         .right-panel { 
             position: relative;
-            perspective: 1500px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.5s ease, visibility 0.5s;
+            perspective: 2000px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-right: 15px; /* Espacio para la scrollbar */
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 228, 0.2) transparent;
         }
 
+        .right-panel::-webkit-scrollbar { width: 4px; }
+        .right-panel::-webkit-scrollbar-thumb { background: rgba(255, 255, 228, 0.2); border-radius: 10px; }
+
         .thumb-stack {
-            position: relative;
-            width: 100%;
-            height: 85vh;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding-bottom: 200px;
             transform-style: preserve-3d;
         }
 
         .thumb-item { 
-            position: absolute;
             width: 100%; 
             aspect-ratio: 16 / 9; 
             background: #000; 
             border: 1px solid rgba(255, 255, 228, 0.1); 
             overflow: hidden; 
-            transition: all 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+            transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
             cursor: pointer;
             border-radius: 2px;
-            
-            transform: 
-                translateY(calc(var(--offset) * 110%)) 
-                translateZ(calc(var(--abs-offset) * -120px)) 
-                rotateX(calc(var(--direction) * -15deg));
-            
-            opacity: calc(1 - (var(--abs-offset) * 0.35));
-            filter: grayscale(calc(var(--abs-offset) * 0.4)) blur(calc(var(--abs-offset) * 1px));
-            z-index: calc(10 - var(--abs-offset));
+            transform-origin: center top;
+        }
+
+        /* Estilo base para los que están DEBAJO del activo */
+        .thumb-item.is-below {
+            transform: rotateX(-25deg) translateZ(-50px);
+            opacity: 0.4;
+            filter: grayscale(0.8) blur(1px);
         }
 
         .thumb-item img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+        
         .thumb-item.active-thumb { 
             border-color: var(--text);
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            opacity: 1; filter: grayscale(0) blur(0);
+            opacity: 1 !important; 
+            filter: grayscale(0) blur(0) !important;
+            transform: rotateX(0deg) translateZ(0px) scale(1.02) !important;
+            z-index: 10;
         }
+
+        .thumb-item:hover { opacity: 1; filter: grayscale(0); }
 
         /* MODALES */
         .video-modal, .gallery-modal { 
@@ -186,12 +196,12 @@
         .arrow-left { left: -80px; } .arrow-right { right: -80px; }
 
         @media (max-width: 1100px) {
-            .main-layout { grid-template-columns: 1fr; height: auto; overflow-y: auto; }
+            .main-layout { grid-template-columns: 1fr; height: auto; overflow-y: auto; padding-right: 35px; }
             .right-panel { display: none; }
         }
     </style>
 </head>
-<body onwheel="handleWheel(event)">
+<body>
 
     <div class="blueprint-bg"></div>
 
@@ -246,7 +256,7 @@
             </div>
         </section>
 
-        <section class="right-panel">
+        <section class="right-panel" id="right-scroll-container">
             <div class="thumb-stack" id="thumbnail-list"></div>
         </section>
     </main>
@@ -273,10 +283,6 @@
         let mainRotation, slideRotation;
         let filteredProjects = [];
         let currentFilterKey = 'all_projects';
-        
-        // Control de Scroll Trackpad
-        let isWheeling = false;
-        let scrollAccumulator = 0;
 
         const projects = [
             { title_es: "menem", title_en: "menem", category: "serie", images: ["assets/Menem_Thumbnail_1.jpg", "assets/Menem_Thumbnail_2.jpg", "assets/Menem_Thumbnail_3.png", "assets/Menem_Thumbnail_4.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", desc_es: "Biopic que recorre el ascenso al poder de Carlos Menem en los años 90.", desc_en: "Biopic tracing Carlos Menem's rise to power in the 1990s." },
@@ -341,23 +347,6 @@
             resetIntervals();
         }
 
-        function handleWheel(e) {
-            if (document.getElementById('about-section').style.display === 'block') return;
-            e.preventDefault();
-            scrollAccumulator += e.deltaY;
-            if (!isWheeling) {
-                isWheeling = true;
-                setTimeout(() => {
-                    if (Math.abs(scrollAccumulator) > 40) {
-                        if (scrollAccumulator > 0) selectProject((currentIndex + 1) % filteredProjects.length);
-                        else selectProject((currentIndex - 1 + filteredProjects.length) % filteredProjects.length);
-                    }
-                    scrollAccumulator = 0;
-                    isWheeling = false;
-                }, 150);
-            }
-        }
-
         function updateDisplay(onlyText = false) {
             const current = filteredProjects[currentIndex];
             if(!current) return;
@@ -400,25 +389,33 @@
         function renderThumbnails() {
             const list = document.getElementById('thumbnail-list');
             list.innerHTML = filteredProjects.map((p, idx) => {
-                let offset = idx - currentIndex;
-                const absOffset = Math.abs(offset);
-                const direction = Math.sign(offset);
+                // Solo los que están debajo del actual tienen animación
+                const isBelow = idx > currentIndex ? 'is-below' : '';
+                const isActive = idx === currentIndex ? 'active-thumb' : '';
+                
                 return `
-                    <div class="thumb-item ${idx === currentIndex ? 'active-thumb' : ''}" 
-                         onclick="selectProject(${idx})"
-                         style="--offset: ${offset}; --abs-offset: ${absOffset}; --direction: ${direction}">
+                    <div class="thumb-item ${isActive} ${isBelow}" 
+                         onclick="selectProject(${idx})">
                         <img src="${p.images[0]}">
                     </div>
                 `;
             }).join('');
         }
 
-        function selectProject(idx) { currentIndex = idx; updateDisplay(); resetIntervals(); }
+        function selectProject(idx) { 
+            currentIndex = idx; 
+            updateDisplay(); 
+            resetIntervals(); 
+            // Hacer scroll suave hacia la miniatura seleccionada
+            const thumbs = document.querySelectorAll('.thumb-item');
+            if(thumbs[idx]) {
+                thumbs[idx].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
 
         function showSection(s) {
             document.getElementById('work-section').style.display = s === 'work' ? 'block' : 'none';
             document.getElementById('about-section').style.display = s === 'about' ? 'block' : 'none';
-            // Ocultar panel derecho para que no haya animaciones en About
             document.querySelector('.right-panel').style.opacity = s === 'work' ? '1' : '0';
             document.querySelector('.right-panel').style.visibility = s === 'work' ? 'visible' : 'hidden';
         }
