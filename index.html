@@ -41,13 +41,14 @@
             transform: translate(-50%, -50%) scale(1.6);
         }
 
-        /* --- LAYOUT PRINCIPAL (ALINEADO ARRIBA) --- */
+        /* --- HOME LAYOUT (ALINEACIÓN ABAJO) --- */
         #home-section {
             height: 100vh;
             width: 100%;
             display: flex;
             justify-content: space-between;
-            padding: 80px 60px; /* Padding superior para alineación */
+            align-items: flex-end; /* Alinea ambos bloques al fondo */
+            padding: 0 60px 80px; /* Padding inferior para dar aire al contact */
             position: relative;
             z-index: 10;
         }
@@ -56,7 +57,7 @@
         .list-container { display: flex; flex-direction: column; }
         .section-label { 
             font-size: 0.75rem; 
-            margin-bottom: 30px; 
+            margin-bottom: 25px; 
             font-weight: 700; 
             opacity: 0.3; 
             letter-spacing: 0.15em; 
@@ -82,10 +83,10 @@
         }
         .side-nav a:hover { opacity: 1; font-style: italic; }
 
-        /* --- SELECTOR DE IDIOMA (ABAJO IZQUIERDA) --- */
+        /* --- SELECTOR DE IDIOMA --- */
         .lang-switcher {
             position: fixed;
-            bottom: 40px;
+            bottom: 30px;
             left: 60px;
             z-index: 5000;
             display: flex;
@@ -137,7 +138,7 @@
         .detail-info-footer h2 { font-size: 3.5rem; font-weight: 800; text-transform: uppercase; line-height: 0.85; }
 
         @media (max-width: 900px) {
-            #home-section { flex-direction: column; padding: 40px 30px; height: auto; }
+            #home-section { flex-direction: column; padding: 40px 30px; height: auto; align-items: flex-start; }
             .sidebar { text-align: left; align-items: flex-start; margin-top: 40px; }
             .lang-switcher { position: relative; bottom: 0; left: 0; margin-top: 50px; }
             .film-item { font-size: 2.8rem; }
@@ -154,18 +155,18 @@
 
     <section id="home-section">
         <div class="list-container">
-            <p class="section-label" data-i18n="selected_works">selected works</p>
+            <p class="section-label" data-i18n="selected_works">trabajos seleccionados</p>
             <div id="featured-list"></div>
         </div>
 
         <div class="sidebar">
             <div class="brand" onclick="showSection('home')">
                 <h1>Leandro Bruno</h1>
-                <p data-i18n="editor">film editor</p>
+                <p data-i18n="editor">editor de cine</p>
             </div>
             <nav class="side-nav">
-                <a href="#" id="nav-all" onclick="showSection('all')">/ <span data-i18n="all_projects">all projects</span></a>
-                <a href="mailto:leandrobrunoeditor@gmail.com">/ <span data-i18n="contact">contact</span></a>
+                <a href="#" id="nav-all" onclick="showSection('all')">/ <span data-i18n="all_projects">todos los proyectos</span></a>
+                <a href="mailto:leandrobrunoeditor@gmail.com">/ <span data-i18n="contact">contacto</span></a>
             </nav>
         </div>
     </section>
@@ -180,7 +181,7 @@
     </section>
 
     <div id="project-detail">
-        <div class="close-btn" onclick="closeDetail()">[ <span data-i18n="close">close</span> / esc ]</div>
+        <div class="close-btn" onclick="closeDetail()">[ <span data-i18n="close">cerrar</span> / esc ]</div>
         <div id="detail-dynamic-content"></div>
     </div>
 
@@ -226,13 +227,10 @@
         function setLang(lang) {
             currentLang = lang;
             document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.innerText.toLowerCase() === lang));
-            
-            // Traducir estáticos
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 el.innerText = i18n[lang][key];
             });
-
             renderLists();
         }
 
@@ -242,7 +240,6 @@
             featList.innerHTML = '';
             indexList.innerHTML = '';
 
-            // Selected Works
             projects.filter(p => p.yt).forEach((p, idx) => {
                 const a = document.createElement('a');
                 a.className = "film-item " + (idx === currentIdx ? 'active' : '');
@@ -252,7 +249,6 @@
                 featList.appendChild(a);
             });
 
-            // All Projects
             const categories = [...new Set(projects.map(p => p.category))];
             categories.forEach(cat => {
                 const sep = document.createElement('div');
