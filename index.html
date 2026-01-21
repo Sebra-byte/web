@@ -3,597 +3,284 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>leandro bruno | film editor</title>
-    
+    <title>Leandro Bruno | film editor</title>
     <link rel="icon" type="image/png" href="assets/favicom_250120.png">
-    
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;500;700;800&display=swap" rel="stylesheet">
     <style>
-        /* --- CONFIGURACIÓN GENERAL --- */
-        * { 
-            box-sizing: border-box;
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23FFFFE4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><line x1="20" y1="4" x2="8.12" y2="15.88"></line><line x1="14.47" y1="14.48" x2="20" y2="20"></line><line x1="8.12" y1="8.12" x2="12" y2="12"></line></svg>'), auto !important;
-        }
-
-        :root { 
-            --bg: #1E1E1E;
-            --text: #FFFFE4; 
-            --line-grid: rgba(255, 255, 228, 0.04); 
+        :root {
+            --bg: #0a0a0a;
+            --hueso: #FFFFE4;
             --font-main: 'Manrope', sans-serif;
-            --transition-speed: 0.5s;
-        }
-        
-        body, html { 
-            margin: 0;
-            padding: 0; width: 100%; height: 100%; 
-            background: var(--bg); color: var(--text); 
-            font-family: var(--font-main); text-transform: lowercase;
-            overflow: hidden; letter-spacing: -0.01em;
         }
 
-        ::-webkit-scrollbar { width: 3px; height: 3px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 228, 0.1); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 228, 0.2); }
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: crosshair; }
 
-        .blueprint-bg {
+        body {
+            background-color: var(--bg);
+            color: var(--hueso);
+            font-family: var(--font-main);
+            text-transform: lowercase;
+            overflow: hidden;
+        }
+
+        header {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: 
-                linear-gradient(var(--line-grid) 1px, transparent 1px), 
-                linear-gradient(90deg, var(--line-grid) 1px, transparent 1px);
-            background-size: 40px 40px; z-index: -1;
-        }
-
-        /* --- LAYOUT ESCRITORIO --- */
-        .main-layout {
-            display: grid;
-            grid-template-columns: 280px 1fr 220px; 
-            height: 100vh;
-            padding: 35px;
-            gap: 30px;
-        }
-
-        .left-panel { 
+            top: 0; width: 100%;
             display: flex;
-            flex-direction: column; 
-            justify-content: space-between; 
-            height: 100%; 
-            z-index: 100; 
-        }
-        
-        .top-nav-group {
-            display: flex;
-            flex-direction: column;
-            gap: 60px;
+            justify-content: space-between;
+            padding: 40px 50px;
+            z-index: 5000;
+            mix-blend-mode: difference;
         }
 
-        .brand { font-weight: 300; font-size: 1.1rem; line-height: 1.1;
-            text-transform: none; cursor: pointer; color: var(--text); }
-        .brand strong { display: block;
-            font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 2px; text-transform: uppercase;
-        }
-        
-        .nav-links { display: flex;
-            flex-direction: column; gap: 25px; }
+        .brand h1 { font-size: 1.5rem; font-weight: 800; text-transform: uppercase; line-height: 0.8; letter-spacing: -0.03em; cursor: pointer; }
+        .brand p { font-size: 0.8rem; font-weight: 300; margin-top: 5px; opacity: 0.8; }
 
-        .lang-switch { font-size: 0.85rem; font-weight: 800; display: flex;
-            gap: 5px; margin-bottom: 5px; margin-left: -8px; }
-        .lang-switch span { cursor: pointer;
-            position: relative; padding: 8px 12px; opacity: 0.2; transition: all 0.3s ease;
-        }
-        .lang-switch span.active-lang { opacity: 1; }
-        .lang-switch span.active-lang::after { content: ''; position: absolute; bottom: 5px; left: 12px;
-            width: calc(100% - 24px); height: 2px; background-color: var(--text); }
+        nav ul { list-style: none; text-align: right; display: flex; gap: 20px; }
+        nav ul li a { text-decoration: none; color: var(--hueso); font-size: 0.8rem; font-weight: 500; opacity: 0.6; transition: 0.3s; }
+        nav ul li a:hover, .active-nav { opacity: 1; }
 
-        /* --- SELECT / DROPDOWN --- */
-        .custom-select-container { position: relative; }
-        .select-selected { font-size: 0.9rem; font-weight: 700;
-            border-bottom: 1px solid rgba(255, 255, 228, 0.2); padding-bottom: 4px; display: inline-block; cursor: pointer;
-        }
-        .select-items { position: absolute; background-color: #111; top: 100%; left: 0; z-index: 999;
-            border: 1px solid rgba(255, 255, 228, 0.05); margin-top: 10px; display: none; min-width: 220px;
-        }
-        .select-items div { padding: 12px 15px; font-size: 0.8rem; cursor: pointer; }
-        .select-items div:hover { background-color: var(--text); color: #000; }
-        .select-show { display: block !important; }
-
-        /* Bloque Calculadora */
-        .contenedor-resultado {
-            padding: 15px; border-top: 1px solid rgba(255, 255, 228, 0.1);
-            background-color: #111; cursor: default !important;
-        }
-        .contenedor-resultado:hover { background-color: #111 !important; color: var(--text) !important; }
-        .contenedor-resultado p { margin: 0 0 10px 0; font-size: 0.8rem; }
-        .contenedor-resultado button {
-            background: transparent; color: var(--text); border: 1px solid var(--text);
-            padding: 5px 10px; cursor: pointer; font-family: var(--font-main); font-size: 0.75rem;
+        /* --- CONTENEDORES DE VIDEO (CROSSFADE) --- */
+        .bg-preview-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1; background: var(--bg); overflow: hidden;
         }
 
-        .nav-links a { text-decoration: none; color: var(--text); font-size: 0.9rem; font-weight: 500;
-            opacity: 0.5; transition: 0.3s; cursor: pointer; }
-        .nav-links a:hover, .nav-links a.active-nav { opacity: 1; }
-
-        .center-panel { width: 100%; position: relative; overflow-y: auto; scrollbar-width: none; scroll-behavior: smooth; }
-        .center-panel::-webkit-scrollbar { display: none; }
-
-        .main-viewer {
-            width: 100%;
-            aspect-ratio: 21 / 9; background: #000; 
-            border: 1px solid rgba(255, 255, 228, 0.05); overflow: hidden; position: relative;
-        }
-        #image-container, .project-details { transition: opacity var(--transition-speed) ease-in-out; }
-        .fade-out { opacity: 0 !important; }
-
-        .main-viewer img { position: absolute; top: 0; left: 0; width: 100%;
-            height: 100%; object-fit: cover; transition: opacity 0.6s ease; opacity: 0; }
-        .main-viewer img.active-slide { opacity: 1; z-index: 2; }
-        
-        .slide-nav { position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: space-between; z-index: 15; pointer-events: none;
-        }
-        .nav-arrow { pointer-events: auto; width: 60px; height: 100%; display: flex; align-items: center;
-            justify-content: center; font-size: 1.2rem; opacity: 0; transition: 0.3s; color: rgba(255, 255, 228, 0.5); user-select: none;
-        }
-        .main-viewer:hover .nav-arrow { opacity: 1; }
-
-        .play-indicator { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); color: var(--text);
-            font-size: 1.5rem; display: none; z-index: 20; opacity: 0.7; pointer-events: none;
-        }
-        .main-viewer:hover .play-indicator { display: block; }
-
-        .project-details { display: flex; flex-direction: column; margin-top: 35px; }
-        .category-label { font-size: 0.75rem; font-weight: 300; color: var(--text); margin-bottom: 15px; display: block;
-            text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.9; }
-        
-        .project-details h2 { font-size: 4rem;
-            margin: 0; font-weight: 800; line-height: 0.85; text-transform: uppercase; letter-spacing: -0.05em; color: var(--text);
-        }
-        
-        .platform-logo { 
-            max-height: 30px; max-width: 120px; display: block; margin-top: 30px; 
-            filter: brightness(0) invert(98%) sepia(10%) saturate(400%) hue-rotate(320deg); 
-            opacity: 0.5; transition: 0.3s;
+        .bg-video {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0; transition: opacity 1.5s ease-in-out;
         }
 
-        .meta { font-size: 0.9rem; line-height: 1.8; color: #888; margin-top: 20px; }
-        .meta strong { color: var(--text); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; }
-        .p-description { margin-top: 25px; max-width: 650px; text-transform: none; font-weight: 300; color: #777;
-            line-height: 1.6; font-size: 0.95rem; }
+        .bg-video.active { opacity: 0.35; }
 
-        .right-panel { display: flex; flex-direction: column; gap: 25px;
-            overflow-y: auto; padding-right: 15px; scrollbar-behavior: smooth; }
-        .thumb-item { width: 100%;
-            aspect-ratio: 16 / 9; background: #000; border: 1px solid rgba(255, 255, 228, 0.05); overflow: hidden; transition: 0.5s; flex-shrink: 0;
-            cursor: pointer; }
-        .thumb-item img { width: 100%; height: 100%; object-fit: cover;
-            filter: grayscale(1); opacity: 0.2; transition: 0.5s; }
-        .thumb-item:hover img, .thumb-item.active-thumb img { filter: grayscale(0);
-            opacity: 1; }
-        .thumb-item.active-thumb { border-color: rgba(255, 255, 228, 0.5); transform: translateX(-5px); }
+        .bg-video iframe {
+            width: 150vw; height: 150vh;
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(1.5);
+            pointer-events: none;
+        }
+
+        /* --- SECCIÓN HOME (LISTADO IZQUIERDA) --- */
+        #home-section {
+            height: 100vh; width: 100%;
+            display: flex; flex-direction: column;
+            justify-content: center; padding-left: 50px;
+            position: relative; z-index: 10;
+        }
+
+        .list-container p { 
+            font-size: 0.75rem; margin-bottom: 20px; font-weight: 700; 
+            opacity: 0.4; letter-spacing: 0.1em; text-transform: uppercase;
+        }
+
+        .film-item {
+            font-size: 4rem; font-weight: 800; text-transform: uppercase;
+            line-height: 0.85; letter-spacing: -0.04em; color: transparent;
+            -webkit-text-stroke: 1px rgba(255, 255, 228, 0.2);
+            transition: all 0.4s ease; display: block;
+            text-decoration: none; margin-bottom: 2px; width: fit-content;
+        }
+
+        .film-item.active, .film-item:hover {
+            color: var(--hueso); -webkit-text-stroke: 0px; transform: translateX(15px);
+        }
+
+        /* --- SECCIÓN ALL PROJECTS (GRID) --- */
+        #all-projects-section {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg); z-index: 4000;
+            display: none; flex-direction: column;
+            padding: 120px 50px 50px; overflow-y: auto;
+        }
+
+        .project-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr);
+            gap: 40px; margin-top: 40px;
+        }
+
+        .grid-card { cursor: pointer; margin-bottom: 40px; }
+        .grid-thumb { width: 100%; aspect-ratio: 16/9; background: #111; overflow: hidden; margin-bottom: 15px; }
+        .grid-thumb img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .grid-card:hover img { transform: scale(1.05); }
+
+        /* --- VISTA DETALLE --- */
+        #project-detail {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg); z-index: 6000;
+            display: none; flex-direction: column;
+            padding: 100px 50px 50px; overflow-y: auto;
+        }
+
+        .close-btn {
+            position: fixed; top: 40px; right: 50px;
+            font-size: 0.75rem; font-weight: 800; color: var(--hueso);
+            cursor: pointer; z-index: 6100; text-transform: uppercase;
+        }
+
+        .detail-video-box { width: 100%; aspect-ratio: 16/9; background: #000; margin-bottom: 50px; }
+        .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; padding-bottom: 100px; }
+        .detail-grid h2 { font-size: 3.5rem; font-weight: 800; text-transform: uppercase; line-height: 0.85; }
+        .detail-meta { font-size: 0.9rem; line-height: 1.6; color: rgba(255, 255, 228, 0.7); }
+        .detail-meta strong { display: block; color: var(--hueso); text-transform: uppercase; font-size: 0.7rem; font-weight: 800; margin-top: 20px; }
 
         @media (max-width: 900px) {
-            body, html { overflow-y: auto; }
-            .main-layout { display: flex; flex-direction: column; padding: 0; gap: 0; height: auto; }
-            .left-panel { position: sticky; top: 0; background: var(--bg); padding: 20px; border-bottom: 1px solid var(--line-grid); z-index: 1000; height: auto; }
-            .brand strong { font-size: 1.8rem; }
-            .nav-links { flex-direction: row; gap: 15px; flex-wrap: wrap; }
-            .main-viewer { display: none; }
-            .right-panel { order: 2; flex-direction: row; overflow-x: auto; padding: 20px; gap: 15px; }
-            .thumb-item { width: 220px; transform: none !important; }
-            .center-panel { order: 3; padding: 0 20px 40px 20px; height: auto; }
-            .project-details h2 { font-size: 2.5rem; }
+            .project-grid { grid-template-columns: 1fr; }
+            .detail-grid { grid-template-columns: 1fr; gap: 40px; }
+            .film-item { font-size: 2.5rem; }
         }
-
-        .video-modal, .gallery-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); display: none; z-index: 4000; justify-content: center; align-items: center; }
-        .video-wrapper, .gallery-wrapper { width: 76.5%; max-width: 1200px; aspect-ratio: 16 / 9; position: relative; }
-        .gallery-wrapper img { width: 100%; height: 100%; object-fit: contain; }
-        .close-btn { position: fixed; top: 30px; right: 30px; color: var(--text); font-size: 0.8rem; z-index: 4010; font-weight: 700; cursor: pointer; }
-        .modal-arrow { position: absolute; top: 50%; transform: translateY(-50%); font-size: 3rem; color: var(--text); opacity: 0.2; cursor: pointer; transition: 0.3s; padding: 20px; }
-        .arrow-left { left: -80px; } .arrow-right { right: -80px; }
     </style>
 </head>
 <body>
 
-    <div class="blueprint-bg"></div>
-
-    <main class="main-layout">
-        <section class="left-panel">
-            <div class="top-nav-group">
-                <div class="brand" onclick="showSection('work')"><strong>Leandro Bruno</strong>film editor</div>
-                <nav class="nav-links">
-                    <div class="custom-select-container">
-                        <div class="select-selected" id="current-filter-text" onclick="toggleDropdown(event)"></div>
-                        <div class="select-items" id="filter-options">
-                            <div id="opt-all" onclick="filterBy('all', 'all_projects')"></div>
-                            <div id="opt-narrative" onclick="filterBy('ficción', 'narrative')"></div>
-                            <div id="opt-advertising" onclick="filterBy('publicidad', 'advertising')"></div>
-                            <div id="opt-music" onclick="filterBy('music video', 'music_video')"></div>
-                            
-                            <div class="contenedor-resultado" onclick="event.stopPropagation()">
-                                <p id="txt-calc-label">el resultado es: <span id="resultado-valor">0</span></p>
-                                <button id="btn-calc" onclick="calcular()">actualizar datos</button>
-                            </div>
-                        </div>
-                    </div>
-                    <a id="nav-about" onclick="showSection('about')"></a>
-                    <a id="nav-contact" href="mailto:leandrobrunoeditor@gmail.com"></a>
-                </nav>
-            </div>
-            
-            <div class="lang-switch">
-                <span id="btn-es" onclick="setLanguage('es')">ES</span>
-                <span id="btn-en" onclick="setLanguage('en')">EN</span>
-            </div>
-        </section>
-
-        <section class="center-panel">
-            <div id="work-section">
-                <div class="main-viewer" id="viewer" onclick="handleMainClick()">
-                    <div class="slide-nav">
-                        <div class="nav-arrow" onclick="event.stopPropagation(); manualSlide(-1)">‹</div>
-                        <div class="nav-arrow" onclick="event.stopPropagation(); manualSlide(1)">›</div>
-                    </div>
-                    <div id="play-icon" class="play-indicator"></div>
-                    <div id="image-container"></div>
-                </div>
-                
-                <div class="project-details" id="p-details">
-                    <span class="category-label" id="p-category"></span>
-                    <h2 id="p-title"></h2>
-                    <div class="meta" id="p-meta-top"></div>
-                    <div class="p-description" id="p-description"></div>
-                    <div id="p-platform-container"></div>
-                </div>
-            </div>
-
-            <div id="about-section" style="display:none; flex-direction: column; padding-top: 40px;">
-                <div id="txt-about-body" style="font-size:1.3rem; line-height:1.4; max-width:600px; font-weight: 300; margin-bottom: 40px; color: #999;"></div>
-                <div style="display: flex; gap: 20px; align-items: center;">
-                    <a id="txt-imdb" href="https://www.imdb.com/es/name/nm11460466/" target="_blank" style="color:var(--text); text-decoration:none; font-weight:700; font-size:0.8rem; border-bottom:1px solid var(--text);"></a>
-                    <span id="txt-back" style="cursor:pointer; opacity:0.6; font-size:0.8rem; border: 1px solid rgba(255, 255, 228, 0.3); padding: 8px 16px;" onclick="showSection('work')"></span>
-                </div>
-            </div>
-        </section>
-
-        <section class="right-panel" id="thumbnail-list"></section>
-    </main>
-
-    <div class="video-modal" id="modal-v"><div class="close-btn" id="txt-close-v" onclick="closeModals()"></div><div class="video-wrapper" id="video-player"></div></div>
-    <div class="gallery-modal" id="modal-g">
-        <div class="close-btn" id="txt-close-g" onclick="closeModals()"></div>
-        <div class="gallery-wrapper">
-            <div class="modal-arrow arrow-left" onclick="modalGalleryNav(-1)">‹</div>
-            <img id="gallery-img" src="">
-            <div class="modal-arrow arrow-right" onclick="modalGalleryNav(1)">›</div>
+    <header>
+        <div class="brand" onclick="showSection('home')">
+            <h1>Leandro Bruno</h1>
+            <p>film editor</p>
         </div>
+        <nav>
+            <ul>
+                <li><a href="#" id="nav-all" onclick="showSection('all')">/ all projects</a></li>
+                <li><a href="mailto:leandrobrunoeditor@gmail.com">/ contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="bg-preview-container">
+        <div id="pane-1" class="bg-video"></div>
+        <div id="pane-2" class="bg-video"></div>
     </div>
 
-    <script src="https://www.youtube.com/iframe_api"></script>
-    <script>
-        let currentLang = 'es';
-        let currentIndex = 0;
-        let slideIndex = 0;
-        let modalSlideIndex = 0;
-        let slideRotation, mainRotation;
-        let ytPlayer;
-        let currentFilterKey = 'all_projects';
+    <section id="home-section">
+        <div class="list-container">
+            <p>selected works</p>
+            <div id="featured-list"></div>
+        </div>
+    </section>
 
+    <section id="all-projects-section">
+        <div class="list-container">
+            <p>index / all projects</p>
+            <div class="project-grid" id="grid-container"></div>
+        </div>
+    </section>
+
+    <section id="project-detail">
+        <div class="close-btn" onclick="closeDetail()">[ close ]</div>
+        <div id="detail-dynamic-content"></div>
+    </section>
+
+    <script>
         const projects = [
-            {
-                title_es: "menem",
-                title_en: "menem",
-                category: "serie",
-                images: ["assets/Menem_Thumbnail_1.jpg", "assets/Menem_Thumbnail_2.jpg", "assets/Menem_Thumbnail_3.png", "assets/Menem_Thumbnail_4.jpg"],
-                yt: "-2AmqmciWXE",
-                director: "ariel winograd",
-                prod: "claxon / prime video",
-                desc_es: "Biopic que recorre el ascenso al poder de Carlos Menem en los años 90. Una exploración sobre el carisma, la política y la cultura argentina de una era inolvidable.",
-                desc_en: "Biopic tracing Carlos Menem's rise to power in the 1990s. An exploration of the charisma, politics, and culture of an unforgettable Argentine era."
-            },
-            {
-                title_es: "OREO - Sigamos divirtiendonos",
-                title_en: "OREO - Keep on playing",
-                category: "advertising",
-                images: ["assets/Oreo_Thumbnail_5.png", "assets/Oreo_Thumbnail_1.png", "assets/Oreo_Thumbnail_2.png", "assets/Oreo_Thumbnail_3.png", "assets/Oreo_Thumbnail_4.png"],
-                yt: "7Cllu0Rme74",
-                director: "Martín Jalfen",
-                prod: "Pop Studios - México",
-                desc_es: "Campaña publicitaria global para Oreo, destacando dinamismo y ritmo visual.",
-                desc_en: "Global advertising campaign for Oreo, highlighting dynamism and visual rhythm."
-            },
-            {
-                title_es: "el tiempo de las moscas",
-                title_en: "time of the flies",
-                category: "serie",
-                images: ["assets/Moscas_Thumbnail_1.jpg", "assets/Moscas_Thumbnail_2.png", "assets/Moscas_Thumbnail_3.png", "assets/Moscas_Thumbnail_4.png", "assets/Moscas_Thumbnail_5.png"],
-                yt: "A0d6wnlMRRk",
-                director: "Benjamín Naishtat y Ana Katz",
-                prod: "netflix",
-                desc_es: "Dos mujeres intentan reconstruir sus vidas tras salir de prisión, enfrentando un mundo que ha cambiado radicalmente mientras ellas estaban encerradas.",
-                desc_en: "Two women attempt to rebuild their lives after being released from prison, facing a world that has radically changed while they were locked up."
-            },
-            {
-                title_es: "levis x winona riders",
-                title_en: "levis x winona riders",
-                category: "advertising",
-                images: ["assets/Levis_Thumbnail_v01.jpg", "assets/Levis_Thumbnail_2.png", "assets/Levis_Thumbnail_3.png", "assets/Levis_Thumbnail_5.png", "assets/Levis_Thumbnail_6.png", "assets/Levis_Thumbnail_7.png"],
-                yt: "1eE588vXvqSECtESSjgwN_vpRmMFaUpRg",
-                director: "Nico Alarcos",
-                prod: "primo",
-                desc_es: "Campaña de gira de Winona Riders por el norte de Argentina.",
-                desc_en: "Winona Riders commercial tour of northern Argentina."
-            },
-            {
-                title_es: "coppola, el representante",
-                title_en: "coppola, the agent",
-                category: "serie",
-                images: ["assets/Coppola_Thumbnail_2.jpg", "assets/Coppola_Thumbnail_3.png", "assets/Coppola_Thumbnail_4.jpg"],
-                yt: "ecr24akKDbs",
-                director: "ariel winograd",
-                prod: "pampa films / disney+",
-                desc_es: "La historia de Guillermo Coppola, el representante más famoso de Argentina, en una travesía llena de excesos, humor y nostalgia noventera.",
-                desc_en: "The story of Guillermo Coppola, Argentina's most famous manager, in a journey filled with excess, humor, and nineties nostalgia."
-            },
-            {
-                title_es: "blair - Todo lo que tengo",
-                title_en: "blair - All I have",
-                category: "music video",
-                images: ["assets/Blair_Thumbnail_1.jpg", "assets/Blair_Thumbnail_2.png", "assets/Blair_Thumbnail_3.png", "assets/Blair_Thumbnail_4.png", "assets/Blair_Thumbnail_5.png"],
-                yt: "ItX5aqhqsmo",
-                director: "dana campanello",
-                prod: "poster",
-                desc_es: "Primer adelanto del disco Bar Scorpios (2025)",
-                desc_en: "First preview of the album Bar Scorpios (2025)"
-            },
-            {
-                title_es: "las manos de la abuela",
-                title_en: "grandmother's hands",
-                category: "cortometraje",
-                images: ["assets/MA_Thumbnail_1.png", "assets/MA_Thumbnail_3.png", "assets/MA_Thumbnail_4.png", "assets/MA_Thumbnail_5.png"],
-                yt: "",
-                director: "camila migliore",
-                prod: "calesita films",
-                desc_es: "Cortometraje que explora la memoria y el legado familiar a través de los gestos y las historias grabadas en las manos de una abuela.",
-                desc_en: "Short film that exploring memory and family legacy through the gestures and stories etched into a grandmother's hands."
-            },
-            {
-                title_es: "ratones paranoicos",
-                title_en: "ratones paranoicos",
-                category: "music video",
-                images: ["assets/RP_Thumbmail_1.png", "assets/RP_Thumbmail_2.png", "assets/RP_Thumbmail_3.png", "assets/RP_Thumbmail_4.png"],
-                yt: "",
-                director: "alex roux",
-                prod: "poster",
-                desc_es: "Pieza audiovisual para la legendaria banda de rock argentina.",
-                desc_en: "Audiovisual piece for the legendary Argentine rock band."
-            },
-            {
-                title_es: "besos brujos",
-                title_en: "witch kisses",
-                category: "cortometraje",
-                images: ["assets/BB_Thumbnail_1.png", "assets/BB_Thumbnail_2.png", "assets/BB_Thumbnail_3.png"],
-                yt: "",
-                director: "karina flonembaum",
-                prod: "",
-                desc_es: "Ficción breve que juega con los límites del deseo y la fantasía en una atmósfera onírica.",
-                desc_en: "Short fiction playing with the limits of desire and fantasy in a dreamlike atmosphere."
-            },
-            {
-                title_es: "las marias",
-                title_en: "las marias",
-                category: "advertising",
-                images: ["assets/Marias_Thumbnail_1.png", "assets/Marias_Thumbnail_2.png", "assets/Marias_Thumbnail_3.png"],
-                yt: "",
-                director: "alejandro berger parrado",
-                prod: "navajo films",
-                desc_es: "Pieza con formato video inmersivo documental publicitaria sobre la tradición yerbatera argentina.",
-                desc_en: "Immersive video documentary advertising piece on the Argentine yerba mate tradition."
-            },
-            {
-                title_es: "todo lo que recuerdo",
-                title_en: "all I remember",
-                category: "cortometraje",
-                images: ["assets/TodoLoQueRecuerdo_Thumbnail_1.png"],
-                yt: "",
-                director: "nicolas fernandez melian",
-                prod: "",
-                desc_es: "Un viaje sensorial por la memoria fragmentada. Selección oficial del Festival Internacional de Cine de Mar del Plata.",
-                desc_en: "A sensory journey through fragmented memory. Official selection at the Mar del Plata International Film Festival."
-            }
+            { title_es: "menem", category: "serie", images: ["assets/Menem_Thumbnail_1.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", desc_es: "Biopic que recorre el ascenso al poder de Carlos Menem en los años 90." },
+            { title_es: "OREO - Sigamos divirtiendonos", category: "advertising", images: ["assets/Oreo_Thumbnail_5.png"], yt: "7Cllu0Rme74", director: "Martín Jalfen", prod: "Pop Studios - México", desc_es: "Campaña publicitaria global para Oreo, destacando dinamismo y ritmo visual." },
+            { title_es: "el tiempo de las moscas", category: "serie", images: ["assets/Moscas_Thumbnail_1.jpg"], yt: "A0d6wnlMRRk", director: "Benjamín Naishtat y Ana Katz", prod: "netflix", desc_es: "Dos mujeres intentan reconstruir sus vidas tras salir de prisión." },
+            { title_es: "levis x winona riders", category: "advertising", images: ["assets/Levis_Thumbnail_v01.jpg"], yt: "1eE588vXvqSECtESSjgwN_vpRmMFaUpRg", director: "Nico Alarcos", prod: "primo", desc_es: "Campaña de gira de Winona Riders por el norte de Argentina." },
+            { title_es: "coppola, el representante", category: "serie", images: ["assets/Coppola_Thumbnail_2.jpg"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films / disney+", desc_es: "La historia de Guillermo Coppola, el representante más famoso de Argentina." },
+            { title_es: "blair - Todo lo que tengo", category: "music video", images: ["assets/Blair_Thumbnail_1.jpg"], yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster", desc_es: "Primer adelanto del disco Bar Scorpios (2025)" },
+            { title_es: "las manos de la abuela", category: "cortometraje", images: ["assets/MA_Thumbnail_1.png"], yt: "", director: "camila migliore", prod: "calesita films", desc_es: "Cortometraje que explora la memoria y el legado familiar." },
+            { title_es: "ratones paranoicos", category: "music video", images: ["assets/RP_Thumbmail_1.png"], yt: "", director: "alex roux", prod: "poster", desc_es: "Pieza audiovisual para la legendaria banda de rock argentina." },
+            { title_es: "besos brujos", category: "cortometraje", images: ["assets/BB_Thumbnail_1.png"], yt: "", director: "karina flonembaum", prod: "", desc_es: "Ficción breve que juega con los límites del deseo y la fantasía." },
+            { title_es: "las marias", category: "advertising", images: ["assets/Marias_Thumbnail_1.png"], yt: "", director: "alejandro berger parrado", prod: "navajo films", desc_es: "Documental publicitaria sobre la tradición yerbatera argentina." },
+            { title_es: "todo lo que recuerdo", category: "cortometraje", images: ["assets/TodoLoQueRecuerdo_Thumbnail_1.png"], yt: "", director: "nicolas fernandez melian", prod: "", desc_es: "Un viaje sensorial por la memoria fragmentada." }
         ];
 
-        let filteredProjects = [...projects];
-        const translations = {
-            es: { 
-                all_projects: "todos", narrative: "ficción", advertising: "publicidad", music_video: "videoclips", dir: "dir", prod: "prod", imdb: "CRÉDITOS_IMDB ", about: "/ biografía", contact: "/ contacto", projects: "proyectos", back: "[ volver ]", close: "[ CERRAR ]", 
-                about_body: "Leandro Bruno es un editor de cine y publicidad con base en Buenos Aires. Se especializa en montaje rítmico y narrativa para plataformas globales como Netflix, Disney+ y Prime Video.",
-                calc_label: "el resultado es: ", calc_btn: "actualizar datos"
-            },
-            en: { 
-                all_projects: "all projects", narrative: "fiction", advertising: "advertising", music_video: "music videos", dir: "dir", prod: "prod", imdb: "IMDB_CREDITS ", about: "/ biography", contact: "/ contact", projects: "projects", back: "[ back ]", close: "[ CLOSE ]", 
-                about_body: "Leandro Bruno is a film and advertising editor based in Buenos Aires. He specializes in rhythmic editing and narrative for global platforms such as Netflix, Disney+, and Prime Video.",
-                calc_label: "the result is: ", calc_btn: "update data"
-            }
-        };
+        let currentIdx = 0;
+        let isHovering = false;
+        let activePane = 1;
+        let rotationTimer;
 
-        function setLanguage(lang) {
-            currentLang = lang;
-            const t = translations[lang];
-            document.getElementById('btn-es').className = lang === 'es' ? 'active-lang' : '';
-            document.getElementById('btn-en').className = lang === 'en' ? 'active-lang' : '';
-            document.getElementById('nav-about').innerText = t.about;
-            document.getElementById('nav-contact').innerText = t.contact;
-            document.getElementById('opt-all').innerText = "/ " + t.all_projects;
-            document.getElementById('opt-narrative').innerText = "/ " + t.narrative;
-            document.getElementById('opt-advertising').innerText = "/ " + t.advertising;
-            document.getElementById('opt-music').innerText = "/ " + t.music_video;
-            document.getElementById('current-filter-text').innerText = t.projects + ' / ' + t[currentFilterKey];
-            document.getElementById('txt-back').innerText = t.back;
-            document.getElementById('txt-close-v').innerText = t.close;
-            document.getElementById('txt-close-g').innerText = t.close;
-            document.getElementById('txt-about-body').innerText = t.about_body;
-            document.getElementById('txt-imdb').innerText = t.imdb;
-            document.getElementById('txt-calc-label').innerHTML = t.calc_label + '<span id="resultado-valor">' + document.getElementById('resultado-valor').innerText + '</span>';
-            document.getElementById('btn-calc').innerText = t.calc_btn;
-            updateDisplay(true);
-        }
+        function init() {
+            const featList = document.getElementById('featured-list');
+            const gridCont = document.getElementById('grid-container');
 
-        function filterBy(val, dictKey) {
-            currentFilterKey = dictKey;
-            if(val === 'all') filteredProjects = [...projects];
-            else if(val === 'ficción') filteredProjects = projects.filter(p => p.category === 'serie' || p.category === 'cortometraje');
-            else filteredProjects = projects.filter(p => p.category === val);
-            currentIndex = 0;
-            const t = translations[currentLang];
-            document.getElementById('current-filter-text').innerText = t.projects + ' / ' + t[dictKey];
-            updateDisplay();
-            resetIntervals();
-        }
-
-        function updateDisplay(onlyText = false) {
-            const current = filteredProjects[currentIndex];
-            if(!current) return;
-            const container = document.getElementById('image-container');
-            const details = document.getElementById('p-details');
-            if(!onlyText) {
-                container.classList.add('fade-out');
-                details.classList.add('fade-out');
-                setTimeout(() => {
-                    container.innerHTML = current.images.map((src, idx) => `<img src="${src}" class="${idx === 0 ? 'active-slide' : ''}">`).join('');
-                    slideIndex = 0;
-                    renderDetails(current);
-                    renderThumbnails();
-                    container.classList.remove('fade-out');
-                    details.classList.remove('fade-out');
-                    resetSlideTimer();
-                    scrollThumbIntoView();
-                }, 400);
-            } else { renderDetails(current); }
-        }
-
-        function renderDetails(current) {
-            document.getElementById('p-title').innerText = currentLang === 'es' ? current.title_es : current.title_en;
-            document.getElementById('p-category').innerText = current.category;
-            document.getElementById('p-description').innerText = currentLang === 'es' ? current.desc_es : current.desc_en;
-            const prodText = current.prod ? `<br><strong>${translations[currentLang].prod}:</strong> ${current.prod}` : "";
-            document.getElementById('p-meta-top').innerHTML = `<strong>${translations[currentLang].dir}:</strong> ${current.director}${prodText}`;
-            const platCont = document.getElementById('p-platform-container');
-            platCont.innerHTML = '';
-            const prodLower = (current.prod || "").toLowerCase();
-            let logo = "";
-            if(prodLower.includes("netflix")) logo = "https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg";
-            else if(prodLower.includes("disney")) logo = "https://upload.wikimedia.org/wikipedia/commons/3/3e/Disney%2B_logo.svg";
-            else if(prodLower.includes("prime")) logo = "https://upload.wikimedia.org/wikipedia/commons/f/f1/Prime_Video.png";
-            if(logo) platCont.innerHTML = `<img src="${logo}" class="platform-logo">`;
-        }
-
-        function renderThumbnails() {
-            document.getElementById('thumbnail-list').innerHTML = filteredProjects.map((p, idx) => `
-                <div class="thumb-item ${idx === currentIndex ? 'active-thumb' : ''}" data-index="${idx}" onclick="selectProject(${idx})">
-                    <img src="${p.images[0]}">
-                </div>
-            `).join('');
-        }
-
-        function selectProject(idx) { currentIndex = idx; updateDisplay(); resetIntervals(); }
-
-        function scrollThumbIntoView() {
-            const active = document.querySelector(`.thumb-item[data-index="${currentIndex}"]`);
-            if(active) active.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-
-        function handleMainClick() {
-            const p = filteredProjects[currentIndex];
-            if(p.yt) {
-                document.getElementById('modal-v').style.display = 'flex';
-                const container = document.getElementById('video-player');
-                if(p.yt.length < 25) { // YT ID estándar
-                    container.innerHTML = `<div id="yt-player-container"></div>`;
-                    ytPlayer = new YT.Player('yt-player-container', {
-                        height: '100%', width: '100%', videoId: p.yt,
-                        playerVars: { 'autoplay': 1, 'rel': 0 },
-                        events: { 'onStateChange': (e) => { if(e.data === YT.PlayerState.ENDED) closeModals(); } }
-                    });
-                } else { // Link de Drive u otro
-                    container.innerHTML = `<iframe width="100%" height="100%" src="https://drive.google.com/file/d/${p.yt}/preview" frameborder="0" allow="autoplay" allowfullscreen></iframe>`;
+            projects.forEach((p, idx) => {
+                // Lista Home (Solo los 6 primeros con video)
+                if(p.yt) {
+                    const a = document.createElement('a');
+                    a.className = "film-item";
+                    a.innerText = p.title_es;
+                    a.onmouseenter = () => { isHovering = true; changeHeroProject(idx); };
+                    a.onmouseleave = () => { isHovering = false; };
+                    a.onclick = (e) => { e.preventDefault(); openDetail(p); };
+                    featList.appendChild(a);
                 }
-            } else {
-                modalSlideIndex = 0;
-                document.getElementById('modal-g').style.display = 'flex'; updateGalleryImg();
+
+                // Grid All Projects
+                const card = document.createElement('div');
+                card.className = "grid-card";
+                card.innerHTML = `
+                    <div class="grid-thumb"><img src="${p.images[0]}" alt="${p.title_es}"></div>
+                    <div style="display:flex; justify-content:space-between; align-items:baseline;">
+                        <h4 style="text-transform:uppercase; font-weight:800;">${p.title_es}</h4>
+                        <span style="font-size:0.7rem; opacity:0.5;">${p.category}</span>
+                    </div>
+                `;
+                card.onclick = () => openDetail(p);
+                gridCont.appendChild(card);
+            });
+
+            changeHeroProject(0);
+            startRotation();
+        }
+
+        function changeHeroProject(idx) {
+            const items = document.querySelectorAll('.film-item');
+            items.forEach(item => item.classList.remove('active'));
+            if(items[idx]) items[idx].classList.add('active');
+
+            const nextPaneIdx = activePane === 1 ? 2 : 1;
+            const currentPane = document.getElementById(`pane-${activePane}`);
+            const nextPane = document.getElementById(`pane-${nextPaneIdx}`);
+
+            const p = projects[idx];
+            if(p && p.yt) {
+                nextPane.innerHTML = `<iframe src="https://www.youtube.com/embed/${p.yt}?autoplay=1&mute=1&controls=0&loop=1&playlist=${p.yt}&modestbranding=1&rel=0" frameborder="0"></iframe>`;
+                setTimeout(() => {
+                    nextPane.classList.add('active');
+                    currentPane.classList.remove('active');
+                    activePane = nextPaneIdx;
+                    setTimeout(() => { currentPane.innerHTML = ''; }, 1500);
+                }, 500);
             }
+            currentIdx = idx;
         }
 
-        function updateGalleryImg() { document.getElementById('gallery-img').src = filteredProjects[currentIndex].images[modalSlideIndex]; }
-        function modalGalleryNav(dir) {
-            const imgs = filteredProjects[currentIndex].images;
-            modalSlideIndex = (modalSlideIndex + dir + imgs.length) % imgs.length;
-            updateGalleryImg();
-        }
-
-        function closeModals() {
-            document.querySelectorAll('.video-modal, .gallery-modal').forEach(m => m.style.display = 'none');
-            document.getElementById('video-player').innerHTML = '';
-            if(ytPlayer) { ytPlayer.destroy(); ytPlayer = null; }
-        }
-
-        function manualSlide(dir) {
-            const imgs = document.querySelectorAll('#image-container img');
-            if(imgs.length <= 1) return;
-            imgs[slideIndex].classList.remove('active-slide');
-            slideIndex = (slideIndex + dir + imgs.length) % imgs.length;
-            imgs[slideIndex].classList.add('active-slide');
-            resetSlideTimer();
-        }
-
-        function resetIntervals() {
-            clearInterval(mainRotation);
-            mainRotation = setInterval(() => { currentIndex = (currentIndex + 1) % filteredProjects.length; updateDisplay(); }, 8000);
-        }
-
-        function resetSlideTimer() {
-            clearInterval(slideRotation);
-            if(document.querySelectorAll('#image-container img').length > 1) {
-                slideRotation = setInterval(() => manualSlide(1), 2800);
-            }
+        function startRotation() {
+            rotationTimer = setInterval(() => {
+                if (!isHovering) {
+                    let next = (currentIdx + 1) % projects.length;
+                    while(!projects[next].yt) { next = (next + 1) % projects.length; }
+                    changeHeroProject(next);
+                }
+            }, 6000);
         }
 
         function showSection(sec) {
-            document.getElementById('work-section').style.display = sec === 'work' ? 'block' : 'none';
-            document.getElementById('about-section').style.display = sec === 'about' ? 'flex' : 'none';
-            document.getElementById('thumbnail-list').style.display = sec === 'about' ? 'none' : 'flex';
-            document.getElementById('nav-about').classList.toggle('active-nav', sec === 'about');
-            if(sec === 'work') resetIntervals(); else clearInterval(mainRotation);
+            document.getElementById('all-projects-section').style.display = sec === 'all' ? 'flex' : 'none';
+            document.getElementById('nav-all').classList.toggle('active-nav', sec === 'all');
         }
 
-        function toggleDropdown(e) { 
-            e.stopPropagation(); 
-            document.getElementById("filter-options").classList.toggle("select-show"); 
+        function openDetail(p) {
+            const detail = document.getElementById('project-detail');
+            detail.style.display = 'flex';
+            document.getElementById('detail-dynamic-content').innerHTML = `
+                <div class="detail-video-box">
+                    ${p.yt ? `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${p.yt}?autoplay=1" frameborder="0" allowfullscreen></iframe>` : `<img src="${p.images[0]}" style="width:100%; height:100%; object-fit:cover;">`}
+                </div>
+                <div class="detail-grid">
+                    <div><h2>${p.title_es}</h2><p style="opacity:0.4; margin-top:10px; font-weight:800;">${p.category}</p></div>
+                    <div class="detail-meta">
+                        <p>${p.desc_es}</p>
+                        <strong>director</strong><p>${p.director}</p>
+                        <strong>production</strong><p>${p.prod}</p>
+                    </div>
+                </div>
+            `;
         }
 
-        window.onclick = () => {
-            const dropdown = document.getElementById("filter-options");
-            if(dropdown) dropdown.classList.remove("select-show");
-        };
-        
-        function calcular() {
-            document.getElementById('resultado-valor').innerText = Math.floor(Math.random() * 100);
-        }
+        function closeDetail() { document.getElementById('project-detail').style.display = 'none'; }
 
-        window.onload = () => { setLanguage('es'); updateDisplay(); resetIntervals(); };
-        
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeModals();
-            if (document.getElementById('modal-g').style.display === 'flex') {
-                if (e.key === 'ArrowRight') modalGalleryNav(1);
-                if (e.key === 'ArrowLeft') modalGalleryNav(-1);
-            } else if (document.getElementById('work-section').style.display !== 'none') {
-                if (e.key === 'ArrowUp') selectProject((currentIndex - 1 + filteredProjects.length) % filteredProjects.length);
-                if (e.key === 'ArrowDown') selectProject((currentIndex + 1) % filteredProjects.length);
-                if (e.key === 'ArrowRight') manualSlide(1);
-                if (e.key === 'ArrowLeft') manualSlide(-1);
-            }
-        });
+        window.onload = init;
     </script>
 </body>
 </html>
