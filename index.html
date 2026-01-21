@@ -42,7 +42,7 @@
             transform: translate(-50%, -50%) scale(1.6);
         }
 
-        /* --- NAVEGACIÓN BRAND (DERECHA) --- */
+        /* --- NAVEGACIÓN BRAND --- */
         .sidebar {
             position: fixed; top: 60px; right: 60px;
             display: flex; flex-direction: column; text-align: right;
@@ -59,7 +59,6 @@
         }
         .side-nav a:hover, .side-nav a.active { opacity: 1; font-style: italic; }
 
-        /* --- IDIOMA (ABAJO IZQUIERDA) --- */
         .lang-switcher {
             position: fixed; bottom: 40px; left: 60px;
             z-index: 5000; display: flex; gap: 15px;
@@ -71,36 +70,22 @@
         }
         .lang-btn.active { opacity: 1; text-decoration: underline; }
 
-        /* --- ALL PROJECTS --- */
+        /* --- ALL PROJECTS SECTION --- */
         #all-projects-section {
             display: none; padding: 180px 0 100px;
             position: relative; z-index: 100; background: var(--bg-grafito); min-height: 100vh;
         }
-        
         .all-projects-grid {
-            display: grid;
-            grid-template-columns: 180px 1px 1fr;
-            gap: 40px;
-            max-width: 1600px;
-            margin: 0;
-            padding: 0 60px;
-            align-items: start;
+            display: grid; grid-template-columns: 180px 1px 1fr;
+            gap: 40px; max-width: 1600px; margin: 0; padding: 0 60px; align-items: start;
         }
-
-        .cat-nav-column {
-            position: sticky;
-            top: 180px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
+        .cat-nav-column { position: sticky; top: 180px; display: flex; flex-direction: column; gap: 15px; }
         .cat-link {
             text-decoration: none; color: var(--hueso); font-size: 0.7rem;
             font-weight: 800; text-transform: uppercase; letter-spacing: 0.2em;
             opacity: 0.25; transition: 0.3s;
         }
         .cat-link:hover { opacity: 1; }
-
         .v-line { width: 1px; background: rgba(255, 255, 228, 0.1); height: 100%; min-height: 70vh; }
 
         .category-group { margin-bottom: 80px; }
@@ -111,15 +96,12 @@
         }
         
         .project-row { 
-            display: grid; 
-            grid-template-columns: 280px 1fr 120px;
-            gap: 50px; 
-            padding: 35px 0; border-bottom: 1px solid rgba(255, 255, 228, 0.05); 
+            display: grid; grid-template-columns: 280px 1fr 120px;
+            gap: 50px; padding: 35px 0; border-bottom: 1px solid rgba(255, 255, 228, 0.05); 
             align-items: center; transition: var(--transition-smooth); 
             text-decoration: none; color: inherit; 
         }
         .project-row:hover { background-color: rgba(255, 255, 228, 0.02); padding-left: 15px; }
-
         .thumb-box { width: 100%; aspect-ratio: 16/9; overflow: hidden; background: #000; }
         .thumb-box img { width: 100%; height: 100%; object-fit: cover; opacity: 0.4; transition: var(--transition-smooth); }
         .project-row:hover .thumb-box img { opacity: 1; transform: scale(1.03); }
@@ -128,28 +110,19 @@
         .info-box .meta-line { font-size: 0.85rem; opacity: 0.5; font-weight: 400; letter-spacing: 0.05em; margin-bottom: 4px; }
         .info-box .meta-line strong { opacity: 1; color: var(--hueso); margin-right: 4px; }
 
-        .logos-box { 
-            display: flex; 
-            justify-content: flex-end; 
-            align-items: center; 
-            opacity: 0.2; 
-            transition: 0.3s; 
-        }
-        .project-row:hover .logos-box { opacity: 0.8; }
-        .logos-box img { max-height: 25px; max-width: 80px; filter: brightness(0) invert(1); object-fit: contain; }
+        .logos-box { display: flex; justify-content: flex-end; align-items: center; opacity: 0.3; transition: 0.3s; }
+        .project-row:hover .logos-box { opacity: 1; }
+        .logos-box img { max-height: 25px; max-width: 90px; filter: brightness(0) invert(1); object-fit: contain; }
 
         /* --- MODAL DETALLE --- */
         #project-detail {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0,0,0,0.92); z-index: 6000; display: none;
-            align-items: center; justify-content: center;
-            backdrop-filter: blur(15px);
+            background: rgba(0,0,0,0.95); z-index: 6000; display: none;
+            align-items: center; justify-content: center; backdrop-filter: blur(20px);
         }
         .detail-wrapper {
-            width: 92vw; height: 85vh;
-            display: grid; grid-template-columns: 8fr 2fr;
-            background: #000; position: relative;
-            box-shadow: 0 50px 100px rgba(0,0,0,0.5);
+            width: 92vw; height: 85vh; display: grid; grid-template-columns: 8fr 2fr;
+            background: #000; position: relative; overflow: hidden;
         }
         .close-btn { 
             position: fixed; top: 40px; right: 60px; font-size: 0.75rem; 
@@ -158,17 +131,30 @@
         }
         .close-btn:hover { opacity: 1; }
 
-        .detail-video-side { background: #000; width: 100%; height: 100%; overflow-y: auto; }
+        /* Lado media (Video/Fotos) */
+        .detail-video-side { background: #000; width: 100%; height: 100%; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
         .detail-video-side iframe { width: 100%; height: 100%; border: none; }
         
-        /* Galería de imágenes cuando no hay video */
-        .image-gallery { display: flex; flex-direction: column; gap: 10px; padding: 10px; }
-        .image-gallery img { width: 100%; height: auto; object-fit: contain; }
+        /* Galería con flechas */
+        .gallery-container { width: 100%; height: 100%; position: relative; display: flex; align-items: center; justify-content: center; }
+        .gallery-container img { max-width: 100%; max-height: 100%; object-fit: contain; display: none; }
+        .gallery-container img.active { display: block; }
+        
+        .gallery-nav { 
+            position: absolute; top: 50%; width: 100%; display: flex; 
+            justify-content: space-between; padding: 0 30px; transform: translateY(-50%);
+            pointer-events: none;
+        }
+        .gallery-arrow { 
+            pointer-events: auto; font-size: 2rem; color: var(--hueso); 
+            opacity: 0.3; cursor: pointer; transition: 0.3s; font-weight: 200;
+        }
+        .gallery-arrow:hover { opacity: 1; transform: scale(1.2); }
 
         .detail-info-side {
             padding: 50px 40px; display: flex; flex-direction: column;
             justify-content: flex-end; border-left: 1px solid rgba(255,255,228,0.1);
-            background: var(--bg-grafito);
+            background: var(--bg-grafito); overflow-y: auto;
         }
         .detail-info-side h2 { font-size: 2.2rem; font-weight: 800; text-transform: uppercase; line-height: 0.9; margin-bottom: 40px; }
         .detail-meta-group { margin-bottom: 20px; }
@@ -178,8 +164,7 @@
 
         /* --- HOME SECTION --- */
         #home-section {
-            height: 100vh; width: 100%;
-            display: flex; align-items: center;
+            height: 100vh; width: 100%; display: flex; align-items: center;
             padding-left: 60px; position: relative; z-index: 10;
         }
         .section-label { font-size: 0.75rem; margin-bottom: 25px; font-weight: 700; opacity: 0.3; letter-spacing: 0.15em; text-transform: uppercase; }
@@ -193,10 +178,9 @@
         .film-item.active, .film-item:hover { color: var(--hueso); -webkit-text-stroke: 0px; transform: translateX(20px); }
 
         @media (max-width: 1200px) {
-            .all-projects-grid { grid-template-columns: 1fr; margin: 0 auto; }
+            .all-projects-grid { grid-template-columns: 1fr; }
             .cat-nav-column, .v-line { display: none; }
             .project-row { grid-template-columns: 1fr 1fr; }
-            .logos-box { display: none; }
             .detail-wrapper { grid-template-columns: 1fr; height: 95vh; }
             .detail-info-side { border-left: none; border-top: 1px solid rgba(255,255,228,0.1); }
         }
@@ -271,6 +255,7 @@
         let activePaneId = 1;
         let currentIdx = 0;
         let previewTimer;
+        let galleryIdx = 0;
 
         function setLang(lang) {
             currentLang = lang;
@@ -285,7 +270,6 @@
             const catNav = document.getElementById('category-nav');
             featList.innerHTML = ''; indexList.innerHTML = ''; catNav.innerHTML = '';
 
-            // Home: Solo los que tienen video para el Hero
             projects.filter(p => p.yt).forEach((p, idx) => {
                 const a = document.createElement('a');
                 a.className = "film-item " + (idx === currentIdx ? 'active' : '');
@@ -295,7 +279,6 @@
                 featList.appendChild(a);
             });
 
-            // All Projects: Categorización completa
             const categories = [...new Set(projects.map(p => p.category))];
             categories.forEach(cat => {
                 const catId = `cat-${cat.replace(/\s/g, '')}`;
@@ -314,7 +297,7 @@
                         <div class="info-box">
                             <h3>${p[`title_${currentLang}`]}</h3>
                             <div class="meta-line"><strong>D:</strong> ${p.director}</div>
-                            <div class="meta-line"><strong>P:</strong> ${p.prod}</div>
+                            <div class="meta-line"><strong>P:</strong> ${p.prod || '—'}</div>
                         </div>
                         <div class="logos-box">${p.logo ? `<img src="${p.logo}">` : ''}</div>`;
                     row.onclick = (e) => { e.preventDefault(); openDetail(p.id); };
@@ -327,7 +310,6 @@
         function changeHeroProject(idx) {
             clearTimeout(previewTimer);
             const featured = projects.filter(p => p.yt);
-            
             document.querySelectorAll('.film-item').forEach((el, i) => {
                 if(i === idx) el.classList.add('active');
                 else el.classList.remove('active');
@@ -363,16 +345,23 @@
             const p = projects.find(proj => proj.id === id);
             const detail = document.getElementById('project-detail');
             const container = document.getElementById('detail-dynamic-content');
-            
-            // Lógica para Video vs Galería de Imágenes
+            galleryIdx = 0;
+
             let mediaHtml = '';
             if (p.yt) {
                 mediaHtml = `<iframe id="modal-iframe" src="https://www.youtube.com/embed/${p.yt}?autoplay=1&rel=0&modestbranding=1" allow="autoplay"></iframe>`;
             } else {
-                mediaHtml = `<div class="image-gallery">`;
-                p.images.forEach(img => {
-                    mediaHtml += `<img src="${img}" alt="${p.title_es}">`;
+                mediaHtml = `<div class="gallery-container" id="gallery-host">`;
+                p.images.forEach((img, i) => {
+                    mediaHtml += `<img src="${img}" class="${i === 0 ? 'active' : ''}">`;
                 });
+                if (p.images.length > 1) {
+                    mediaHtml += `
+                    <div class="gallery-nav">
+                        <div class="gallery-arrow" onclick="moveGallery(-1)">←</div>
+                        <div class="gallery-arrow" onclick="moveGallery(1)">→</div>
+                    </div>`;
+                }
                 mediaHtml += `</div>`;
             }
 
@@ -388,6 +377,14 @@
             
             detail.style.display = 'flex';
             document.body.style.overflow = 'hidden';
+        }
+
+        function moveGallery(step) {
+            const imgs = document.querySelectorAll('#gallery-host img');
+            if (imgs.length <= 1) return;
+            imgs[galleryIdx].classList.remove('active');
+            galleryIdx = (galleryIdx + step + imgs.length) % imgs.length;
+            imgs[galleryIdx].classList.add('active');
         }
 
         function closeDetail() {
@@ -417,7 +414,14 @@
             }
         }
 
-        document.addEventListener('keydown', (e) => { if (e.key === "Escape") closeDetail(); });
+        document.addEventListener('keydown', (e) => { 
+            if (e.key === "Escape") closeDetail();
+            if (document.getElementById('project-detail').style.display === 'flex') {
+                if (e.key === "ArrowRight") moveGallery(1);
+                if (e.key === "ArrowLeft") moveGallery(-1);
+            }
+        });
+
         window.onload = () => { renderLists(); setTimeout(() => changeHeroProject(0), 1000); };
     </script>
 </body>
