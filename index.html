@@ -41,20 +41,24 @@
             transform: translate(-50%, -50%) scale(1.6);
         }
 
-        /* --- HOME LAYOUT (ALINEACIÓN ABAJO) --- */
+        /* --- HOME LAYOUT --- */
         #home-section {
             height: 100vh;
             width: 100%;
             display: flex;
             justify-content: space-between;
-            align-items: flex-end; /* Alinea ambos bloques al fondo */
-            padding: 0 60px 80px; /* Padding inferior para dar aire al contact */
+            padding: 60px;
             position: relative;
             z-index: 10;
         }
 
-        /* COLUMNA IZQUIERDA */
-        .list-container { display: flex; flex-direction: column; }
+        /* TRABAJOS (IZQUIERDA - ELEVADOS) */
+        .list-container { 
+            display: flex; 
+            flex-direction: column; 
+            align-self: center; /* Elevado hacia el centro visual */
+            margin-top: 40px;
+        }
         .section-label { 
             font-size: 0.75rem; 
             margin-bottom: 25px; 
@@ -64,15 +68,16 @@
             text-transform: uppercase;
         }
 
-        /* COLUMNA DERECHA */
+        /* BRAND Y NAV (ARRIBA DERECHA) */
         .sidebar {
             display: flex;
             flex-direction: column;
             text-align: right;
             align-items: flex-end;
+            align-self: flex-start; /* Anclado arriba */
         }
 
-        .brand { margin-bottom: 50px; cursor: pointer; }
+        .brand { margin-bottom: 40px; cursor: pointer; }
         .brand h1 { font-size: 2.6rem; font-weight: 800; text-transform: uppercase; line-height: 0.8; letter-spacing: -0.04em; }
         .brand p { font-size: 0.95rem; font-weight: 200; margin-top: 8px; opacity: 0.8; letter-spacing: 0.05em; }
 
@@ -85,12 +90,8 @@
 
         /* --- SELECTOR DE IDIOMA --- */
         .lang-switcher {
-            position: fixed;
-            bottom: 30px;
-            left: 60px;
-            z-index: 5000;
-            display: flex;
-            gap: 15px;
+            position: fixed; bottom: 40px; left: 60px;
+            z-index: 5000; display: flex; gap: 15px;
         }
         .lang-btn {
             background: none; border: none; color: var(--hueso);
@@ -138,11 +139,11 @@
         .detail-info-footer h2 { font-size: 3.5rem; font-weight: 800; text-transform: uppercase; line-height: 0.85; }
 
         @media (max-width: 900px) {
-            #home-section { flex-direction: column; padding: 40px 30px; height: auto; align-items: flex-start; }
+            #home-section { flex-direction: column; padding: 40px 30px; }
             .sidebar { text-align: left; align-items: flex-start; margin-top: 40px; }
+            .list-container { margin-top: 0; align-self: flex-start; }
             .lang-switcher { position: relative; bottom: 0; left: 0; margin-top: 50px; }
             .film-item { font-size: 2.8rem; }
-            .project-row { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -162,7 +163,7 @@
         <div class="sidebar">
             <div class="brand" onclick="showSection('home')">
                 <h1>Leandro Bruno</h1>
-                <p data-i18n="editor">editor de cine</p>
+                <p>film editor</p>
             </div>
             <nav class="side-nav">
                 <a href="#" id="nav-all" onclick="showSection('all')">/ <span data-i18n="all_projects">todos los proyectos</span></a>
@@ -191,7 +192,6 @@
         const i18n = {
             es: {
                 selected_works: "trabajos seleccionados",
-                editor: "editor de cine",
                 all_projects: "todos los proyectos",
                 contact: "contacto",
                 close: "cerrar",
@@ -201,7 +201,6 @@
             },
             en: {
                 selected_works: "selected works",
-                editor: "film editor",
                 all_projects: "all projects",
                 contact: "contact",
                 close: "close",
