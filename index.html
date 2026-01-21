@@ -22,7 +22,7 @@
             color: var(--hueso);
             font-family: var(--font-main);
             text-transform: lowercase;
-            overflow-x: hidden;
+            overflow: hidden; /* Evitamos scroll general en la home */
         }
 
         /* --- FONDO VIDEO HOME --- */
@@ -42,7 +42,7 @@
             transform: translate(-50%, -50%) scale(1.6);
         }
 
-        /* --- NAVEGACIÓN BRAND --- */
+        /* --- NAVEGACIÓN --- */
         .sidebar {
             position: fixed; top: 60px; right: 60px;
             display: flex; flex-direction: column; text-align: right;
@@ -73,13 +73,14 @@
         /* --- ALL PROJECTS SECTION --- */
         #all-projects-section {
             display: none; padding: 180px 0 100px;
-            position: relative; z-index: 100; background: var(--bg-grafito); min-height: 100vh;
+            position: relative; z-index: 100; background: var(--bg-grafito); 
+            height: 100vh; overflow-y: auto;
         }
         .all-projects-grid {
             display: grid; grid-template-columns: 180px 1px 1fr;
             gap: 40px; max-width: 1600px; margin: 0; padding: 0 60px; align-items: start;
         }
-        .cat-nav-column { position: sticky; top: 180px; display: flex; flex-direction: column; gap: 15px; }
+        .cat-nav-column { position: sticky; top: 0; display: flex; flex-direction: column; gap: 15px; }
         .cat-link {
             text-decoration: none; color: var(--hueso); font-size: 0.7rem;
             font-weight: 800; text-transform: uppercase; letter-spacing: 0.2em;
@@ -110,14 +111,21 @@
         .info-box .meta-line { font-size: 0.85rem; opacity: 0.5; font-weight: 400; letter-spacing: 0.05em; margin-bottom: 4px; }
         .info-box .meta-line strong { opacity: 1; color: var(--hueso); margin-right: 4px; }
 
-        .logos-box { display: flex; justify-content: flex-end; align-items: center; opacity: 0.3; transition: 0.3s; }
-        .project-row:hover .logos-box { opacity: 1; }
-        .logos-box img { max-height: 25px; max-width: 90px; filter: brightness(0) invert(1); object-fit: contain; }
+        .logos-box { display: flex; justify-content: flex-end; align-items: center; }
+        .logos-box img { 
+            max-height: 25px; 
+            max-width: 90px; 
+            filter: brightness(0) invert(1); 
+            object-fit: contain; 
+            opacity: 0.3;
+            transition: 0.3s;
+        }
+        .project-row:hover .logos-box img { opacity: 1; }
 
         /* --- MODAL DETALLE --- */
         #project-detail {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0,0,0,0.95); z-index: 6000; display: none;
+            background: rgba(0,0,0,0.96); z-index: 6000; display: none;
             align-items: center; justify-content: center; backdrop-filter: blur(20px);
         }
         .detail-wrapper {
@@ -131,25 +139,27 @@
         }
         .close-btn:hover { opacity: 1; }
 
-        /* Lado media (Video/Fotos) */
-        .detail-video-side { background: #000; width: 100%; height: 100%; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        .detail-video-side { 
+            background: #000; width: 100%; height: 100%; 
+            position: relative; overflow: hidden; 
+            display: flex; align-items: center; justify-content: center; 
+        }
         .detail-video-side iframe { width: 100%; height: 100%; border: none; }
         
-        /* Galería con flechas */
         .gallery-container { width: 100%; height: 100%; position: relative; display: flex; align-items: center; justify-content: center; }
         .gallery-container img { max-width: 100%; max-height: 100%; object-fit: contain; display: none; }
         .gallery-container img.active { display: block; }
         
         .gallery-nav { 
-            position: absolute; top: 50%; width: 100%; display: flex; 
-            justify-content: space-between; padding: 0 30px; transform: translateY(-50%);
-            pointer-events: none;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 40px; pointer-events: none;
         }
         .gallery-arrow { 
-            pointer-events: auto; font-size: 2rem; color: var(--hueso); 
-            opacity: 0.3; cursor: pointer; transition: 0.3s; font-weight: 200;
+            pointer-events: auto; font-size: 3rem; color: var(--hueso); 
+            opacity: 0.2; cursor: pointer; transition: 0.3s; font-weight: 200;
         }
-        .gallery-arrow:hover { opacity: 1; transform: scale(1.2); }
+        .gallery-arrow:hover { opacity: 1; }
 
         .detail-info-side {
             padding: 50px 40px; display: flex; flex-direction: column;
@@ -238,17 +248,17 @@
         };
 
         const projects = [
-            { id: 0, title_es: "menem", title_en: "menem", category: "serie", images: ["assets/Menem_Thumbnail_1.jpg", "assets/Menem_Thumbnail_2.jpg", "assets/Menem_Thumbnail_3.png", "assets/Menem_Thumbnail_4.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", logo: "assets/prime.png", desc_es: "Biopic que recorre el ascenso al poder de Carlos Menem en los años 90. Una exploración sobre el carisma, la política y la cultura argentina de una era inolvidable.", desc_en: "Biopic tracing Carlos Menem's rise to power in the 1990s. An exploration of the charisma, politics, and culture of an unforgettable Argentine era." },
-            { id: 1, title_es: "OREO - Sigamos divirtiendonos", title_en: "OREO - Keep on playing", category: "advertising", images: ["assets/Oreo_Thumbnail_5.png", "assets/Oreo_Thumbnail_1.png", "assets/Oreo_Thumbnail_2.png", "assets/Oreo_Thumbnail_3.png", "assets/Oreo_Thumbnail_4.png"], yt: "7Cllu0Rme74", director: "Martín Jalfen", prod: "Pop Studios - México", desc_es: "Campaña publicitaria global para Oreo, destacando dinamismo y ritmo visual.", desc_en: "Global advertising campaign for Oreo, highlighting dynamism and visual rhythm." },
-            { id: 2, title_es: "el tiempo de las moscas", title_en: "time of the flies", category: "serie", images: ["assets/Moscas_Thumbnail_1.jpg", "assets/Moscas_Thumbnail_2.png", "assets/Moscas_Thumbnail_3.png", "assets/Moscas_Thumbnail_4.png", "assets/Moscas_Thumbnail_5.png"], yt: "A0d6wnlMRRk", director: "Benjamín Naishtat y Ana Katz", prod: "netflix", logo: "assets/netflix.png", desc_es: "Dos mujeres intentan reconstruir sus vidas tras salir de prisión, enfrentando un mundo que ha cambiado radicalmente mientras ellas estaban encerradas.", desc_en: "Two women attempt to rebuild their lives after being released from prison, facing a world that has radically changed while they were locked up." },
-            { id: 3, title_es: "levis x winona riders", title_en: "levis x winona riders", category: "advertising", images: ["assets/Levis_Thumbnail_v01.jpg", "assets/Levis_Thumbnail_2.png", "assets/Levis_Thumbnail_3.png", "assets/Levis_Thumbnail_5.png", "assets/Levis_Thumbnail_6.png", "assets/Levis_Thumbnail_7.png"], yt: "mb2RPesGf7Q", director: "Nico Alarcos", prod: "primo", desc_es: "Campaña de gira de Winona Riders por el norte de Argentina.", desc_en: "Winona Riders commercial tour of northern Argentina." },
-            { id: 4, title_es: "coppola, el representante", title_en: "coppola, the agent", category: "serie", images: ["assets/Coppola_Thumbnail_2.jpg", "assets/Coppola_Thumbnail_3.png", "assets/Coppola_Thumbnail_4.jpg"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films / disney+", logo: "assets/disney.png", desc_es: "La historia de Guillermo Coppola, el representante más famoso de Argentina, en una travesía llena de excesos, humor y nostalgia noventera.", desc_en: "The story of Guillermo Coppola, Argentina's most famous manager, in a journey filled with excess, humor, and nineties nostalgia." },
+            { id: 0, title_es: "menem", title_en: "menem", category: "serie", images: ["assets/Menem_Thumbnail_1.jpg", "assets/Menem_Thumbnail_2.jpg", "assets/Menem_Thumbnail_3.png", "assets/Menem_Thumbnail_4.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", logo: "assets/prime.png", desc_es: "Biopic que recorre el ascenso al poder de Carlos Menem en los años 90.", desc_en: "Biopic tracing Carlos Menem's rise to power in the 1990s." },
+            { id: 1, title_es: "OREO - Sigamos divirtiendonos", title_en: "OREO - Keep on playing", category: "advertising", images: ["assets/Oreo_Thumbnail_5.png", "assets/Oreo_Thumbnail_1.png", "assets/Oreo_Thumbnail_2.png", "assets/Oreo_Thumbnail_3.png", "assets/Oreo_Thumbnail_4.png"], yt: "7Cllu0Rme74", director: "Martín Jalfen", prod: "Pop Studios - México", desc_es: "Campaña publicitaria global para Oreo.", desc_en: "Global advertising campaign for Oreo." },
+            { id: 2, title_es: "el tiempo de las moscas", title_en: "time of the flies", category: "serie", images: ["assets/Moscas_Thumbnail_1.jpg", "assets/Moscas_Thumbnail_2.png", "assets/Moscas_Thumbnail_3.png", "assets/Moscas_Thumbnail_4.png", "assets/Moscas_Thumbnail_5.png"], yt: "A0d6wnlMRRk", director: "Benjamín Naishtat y Ana Katz", prod: "netflix", logo: "assets/netflix.png", desc_es: "Dos mujeres intentan reconstruir sus vidas tras salir de prisión.", desc_en: "Two women attempt to rebuild their lives after being released from prison." },
+            { id: 3, title_es: "levis x winona riders", title_en: "levis x winona riders", category: "advertising", images: ["assets/Levis_Thumbnail_v01.jpg", "assets/Levis_Thumbnail_2.png", "assets/Levis_Thumbnail_3.png", "assets/Levis_Thumbnail_5.png", "assets/Levis_Thumbnail_6.png", "assets/Levis_Thumbnail_7.png"], yt: "mb2RPesGf7Q", director: "Nico Alarcos", prod: "primo", desc_es: "Campaña de gira de Winona Riders.", desc_en: "Winona Riders commercial tour." },
+            { id: 4, title_es: "coppola, el representante", title_en: "coppola, the agent", category: "serie", images: ["assets/Coppola_Thumbnail_2.jpg", "assets/Coppola_Thumbnail_3.png", "assets/Coppola_Thumbnail_4.jpg"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films / disney+", logo: "assets/disney.png", desc_es: "La historia de Guillermo Coppola.", desc_en: "The story of Guillermo Coppola." },
             { id: 5, title_es: "blair - Todo lo que tengo", title_en: "blair - All I have", category: "music video", images: ["assets/Blair_Thumbnail_1.jpg", "assets/Blair_Thumbnail_2.png", "assets/Blair_Thumbnail_3.png", "assets/Blair_Thumbnail_4.png", "assets/Blair_Thumbnail_5.png"], yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster", desc_es: "Primer adelanto del disco Bar Scorpios (2025)", desc_en: "First preview of the album Bar Scorpios (2025)" },
-            { id: 6, title_es: "las manos de la abuela", title_en: "grandmother's hands", category: "cortometraje", images: ["assets/MA_Thumbnail_1.png", "assets/MA_Thumbnail_3.png", "assets/MA_Thumbnail_4.png", "assets/MA_Thumbnail_5.png"], yt: "", director: "camila migliore", prod: "calesita films", desc_es: "Cortometraje que explora la memoria y el legado familiar a través de los gestos y las historias grabadas en las manos de una abuela.", desc_en: "Short film exploring memory and family legacy through the gestures and stories etched into a grandmother's hands." },
-            { id: 7, title_es: "ratones paranoicos", title_en: "ratones paranoicos", category: "music video", images: ["assets/RP_Thumbmail_1.png", "assets/RP_Thumbmail_2.png", "assets/RP_Thumbmail_3.png", "assets/RP_Thumbmail_4.png"], yt: "", director: "alex roux", prod: "poster", desc_es: "Pieza audiovisual para la legendaria banda de rock argentina.", desc_en: "Audiovisual piece for the legendary Argentine rock band." },
-            { id: 8, title_es: "besos brujos", title_en: "witch kisses", category: "cortometraje", images: ["assets/BB_Thumbnail_1.png", "assets/BB_Thumbnail_2.png", "assets/BB_Thumbnail_3.png"], yt: "", director: "karina flonembaum", prod: "", desc_es: "Ficción breve que juega con los límites del deseo y la fantasía en una atmósfera onírica.", desc_en: "Short fiction playing with the limits of desire and fantasy in a dreamlike atmosphere." },
-            { id: 9, title_es: "las marias", title_en: "las marias", category: "advertising", images: ["assets/Marias_Thumbnail_1.png", "assets/Marias_Thumbnail_2.png", "assets/Marias_Thumbnail_3.png"], yt: "", director: "alejandro berger parrado", prod: "navajo films", desc_es: "Pieza con formato video inmersivo documental publicitaria sobre la tradición yerbatera argentina.", desc_en: "Immersive video documentary advertising piece on the Argentine yerba mate tradition." },
-            { id: 10, title_es: "todo lo que recuerdo", title_en: "all I remember", category: "cortometraje", images: ["assets/TodoLoQueRecuerdo_Thumbnail_1.png"], yt: "", director: "nicolas fernandez melian", prod: "", desc_es: "Un viaje sensorial por la memoria fragmentada. Selección oficial del Festival Internacional de Cine de Mar del Plata.", desc_en: "A sensory journey through fragmented memory. Official selection at the Mar del Plata International Film Festival." }
+            { id: 6, title_es: "las manos de la abuela", title_en: "grandmother's hands", category: "cortometraje", images: ["assets/MA_Thumbnail_1.png", "assets/MA_Thumbnail_3.png", "assets/MA_Thumbnail_4.png", "assets/MA_Thumbnail_5.png"], yt: "", director: "camila migliore", prod: "calesita films", desc_es: "Cortometraje sobre la memoria.", desc_en: "Short film about memory." },
+            { id: 7, title_es: "ratones paranoicos", title_en: "ratones paranoicos", category: "music video", images: ["assets/RP_Thumbmail_1.png", "assets/RP_Thumbmail_2.png", "assets/RP_Thumbmail_3.png", "assets/RP_Thumbmail_4.png"], yt: "", director: "alex roux", prod: "poster", desc_es: "Pieza para la legendaria banda de rock.", desc_en: "Piece for the legendary rock band." },
+            { id: 8, title_es: "besos brujos", title_en: "witch kisses", category: "cortometraje", images: ["assets/BB_Thumbnail_1.png", "assets/BB_Thumbnail_2.png", "assets/BB_Thumbnail_3.png"], yt: "", director: "karina flonembaum", prod: "", desc_es: "Ficción breve onírica.", desc_en: "Short dreamlike fiction." },
+            { id: 9, title_es: "las marias", title_en: "las marias", category: "advertising", images: ["assets/Marias_Thumbnail_1.png", "assets/Marias_Thumbnail_2.png", "assets/Marias_Thumbnail_3.png"], yt: "", director: "alejandro berger parrado", prod: "navajo films", desc_es: "Docu-publicidad sobre la tradición yerbatera.", desc_en: "Ad-documentary about yerba mate tradition." },
+            { id: 10, title_es: "todo lo que recuerdo", title_en: "all I remember", category: "cortometraje", images: ["assets/TodoLoQueRecuerdo_Thumbnail_1.png"], yt: "", director: "nicolas fernandez melian", prod: "", desc_es: "Viaje sensorial por la memoria.", desc_en: "Sensory journey through memory." }
         ];
 
         let currentLang = 'es';
