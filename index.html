@@ -82,16 +82,27 @@
             text-align: right;
         }
         .side-menu-overlay.active { right: 0; }
-        .side-menu-links { display: flex; flex-direction: column; gap: 20px; }
+        .side-menu-links { display: flex; flex-direction: column; gap: 20px; margin-bottom: 40px; }
         .side-menu-links a {
             text-decoration: none; color: var(--hueso); font-size: 1.2rem;
             font-weight: 500; opacity: 0.5; transition: 0.3s;
         }
         .side-menu-links a:hover { opacity: 1; font-style: italic; }
 
-        /* --- SELECTOR IDIOMA --- */
+        .side-menu-categories { 
+            display: flex; flex-direction: column; gap: 12px; 
+            border-top: 1px solid rgba(255, 255, 228, 0.1); padding-top: 30px; 
+        }
+        .side-menu-categories a {
+            text-decoration: none; color: var(--hueso); font-size: 0.7rem;
+            font-weight: 800; text-transform: uppercase; letter-spacing: 0.25em;
+            opacity: 0.3; transition: 0.3s;
+        }
+        .side-menu-categories a:hover { opacity: 1; padding-right: 5px; }
+
+        /* --- SELECTOR IDIOMA (DERECHA) --- */
         .lang-switcher {
-            position: fixed; bottom: 40px; left: 60px;
+            position: fixed; bottom: 40px; right: 60px;
             z-index: 5000; display: flex; gap: 15px;
         }
         .lang-btn {
@@ -101,7 +112,7 @@
         }
         .lang-btn.active { opacity: 1; text-decoration: underline; }
 
-        /* --- ALL PROJECTS SECTION (MEJORADA) --- */
+        /* --- ALL PROJECTS SECTION (CENTRADO) --- */
         #all-projects-section {
             display: none; padding: 140px 0 100px;
             position: relative; z-index: 100; background: var(--bg-grafito); 
@@ -109,79 +120,51 @@
         }
         
         .all-projects-grid {
-            display: grid; 
-            grid-template-columns: 140px 1px 1fr; /* El primer valor define el ancho del área de categorías */
-            gap: 60px; 
-            max-width: 100%; 
-            margin: 0; 
-            padding: 0 60px; /* Alineado con los 60px de los botones de idioma */
-            align-items: start;
+            max-width: 1100px;
+            margin: 0 auto; 
+            padding: 0 60px;
         }
 
-        .cat-nav-column { 
-            position: sticky; 
-            top: 140px; 
-            display: flex; 
-            flex-direction: column; 
-            gap: 15px;
-            text-align: left;
-        }
-        .cat-link {
-            text-decoration: none; color: var(--hueso); font-size: 0.6rem;
-            font-weight: 800; text-transform: uppercase; letter-spacing: 0.25em;
-            opacity: 0.2; transition: 0.4s;
-        }
-        .cat-link:hover { opacity: 1; transform: translateX(5px); }
-        .v-line { width: 1px; background: rgba(255, 255, 228, 0.08); height: 80vh; position: sticky; top: 140px; }
-
-        .category-group { margin-bottom: 80px; }
+        .category-group { margin-bottom: 100px; }
         .category-separator { 
             font-size: 0.7rem; font-weight: 800; text-transform: uppercase; 
-            letter-spacing: 0.5em; opacity: 0.1; padding-bottom: 20px; 
-            border-bottom: 1px solid rgba(255, 255, 228, 0.1); margin-bottom: 20px;
+            letter-spacing: 0.5em; opacity: 0.1; padding-bottom: 25px; 
+            border-bottom: 1px solid rgba(255, 255, 228, 0.1); margin-bottom: 30px;
         }
         
         .project-row { 
             display: grid; 
-            grid-template-columns: 280px 1fr auto;
-            gap: 50px; 
-            padding: 35px 20px; 
-            border-bottom: 1px solid rgba(255, 255, 228, 0.03); 
+            grid-template-columns: 320px 1fr auto;
+            gap: 60px; 
+            padding: 40px 0; 
+            border-bottom: 1px solid rgba(255, 255, 228, 0.05); 
             align-items: center; 
             transition: var(--transition-smooth); 
             text-decoration: none; color: inherit;
-            border-radius: 4px;
         }
-        .project-row:hover { 
-            background-color: rgba(255, 255, 228, 0.02); 
-            transform: scale(1.01);
-            border-bottom-color: rgba(255, 255, 228, 0.15);
-        }
+        .project-row:hover { background: rgba(255, 255, 228, 0.02); padding-left: 20px; }
 
         .thumb-box { 
             width: 100%; aspect-ratio: 16/9; overflow: hidden; 
             background: #000; border-radius: 2px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
         .thumb-box img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; transition: var(--transition-smooth); }
-        .project-row:hover .thumb-box img { opacity: 1; transform: scale(1.08); }
+        .project-row:hover .thumb-box img { opacity: 1; transform: scale(1.05); }
 
         .info-box h3 { 
-            font-size: 2.2rem; font-weight: 800; text-transform: uppercase; 
-            line-height: 0.9; margin-bottom: 12px; letter-spacing: -0.03em;
-            transition: 0.3s;
+            font-size: 2.4rem; font-weight: 800; text-transform: uppercase; 
+            line-height: 0.9; margin-bottom: 15px; letter-spacing: -0.03em;
         }
-        .project-row:hover .info-box h3 { color: #fff; }
-        .info-box .meta-line { font-size: 0.8rem; opacity: 0.4; font-weight: 400; margin-bottom: 4px; }
+        .info-box .meta-line { font-size: 0.85rem; opacity: 0.4; font-weight: 400; margin-bottom: 4px; }
         .info-box .meta-line strong { opacity: 0.7; color: var(--hueso); margin-right: 6px; font-weight: 700; }
 
-        .logos-box { display: flex; align-items: center; justify-content: flex-end; width: 120px; }
+        .logos-box { display: flex; align-items: center; justify-content: flex-end; width: 140px; }
         .logos-box img { 
-            max-height: 22px; max-width: 100px; 
+            max-height: 25px; max-width: 120px; 
             filter: brightness(0) invert(1); object-fit: contain; 
             opacity: 0.15; transition: 0.5s ease;
         }
-        .project-row:hover .logos-box img { opacity: 1; transform: scale(1.1); }
+        .project-row:hover .logos-box img { opacity: 0.9; transform: scale(1.1); }
 
         /* --- MODAL DETALLE --- */
         #project-detail {
@@ -192,26 +175,25 @@
         .detail-wrapper {
             width: 92vw; height: 85vh; display: grid; grid-template-columns: 7.2fr 2.8fr;
             background: #000; position: relative; overflow: hidden;
-            box-shadow: 0 50px 100px rgba(0,0,0,0.5);
         }
         .close-btn { 
             position: fixed; top: 40px; right: 60px; font-size: 0.75rem; 
             font-weight: 800; cursor: pointer; z-index: 20100; 
             text-transform: uppercase; color: var(--hueso); opacity: 0.4; letter-spacing: 0.15em;
         }
-        .close-btn:hover { opacity: 1; color: #fff; }
+        .close-btn:hover { opacity: 1; }
 
         .detail-video-side { background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; }
         .detail-video-side iframe { width: 100%; height: 100%; border: none; }
         .gallery-container { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #000; }
-        .gallery-container img { max-width: 90%; max-height: 90%; object-fit: contain; }
+        .gallery-container img { max-width: 100%; max-height: 100%; object-fit: contain; }
         
         .detail-info-side {
             padding: 60px 50px; display: flex; flex-direction: column;
             justify-content: flex-end; border-left: 1px solid rgba(255,255,228,0.08);
-            background: #111; overflow-y: auto;
+            background: var(--bg-grafito); overflow-y: auto;
         }
-        .detail-info-side h2 { font-size: 2.4rem; font-weight: 800; text-transform: uppercase; line-height: 0.9; margin-bottom: 40px; letter-spacing: -0.02em; }
+        .detail-info-side h2 { font-size: 2.2rem; font-weight: 800; text-transform: uppercase; line-height: 0.9; margin-bottom: 40px; }
         .detail-meta-group { margin-bottom: 22px; }
         .detail-meta-group strong { display: block; font-size: 0.65rem; opacity: 0.3; text-transform: uppercase; letter-spacing: 0.25em; margin-bottom: 6px; }
         .detail-meta-group p { font-size: 1rem; font-weight: 400; opacity: 0.9; }
@@ -228,17 +210,15 @@
             line-height: 0.85; letter-spacing: -0.04em; color: transparent;
             -webkit-text-stroke: 1px rgba(255, 255, 228, 0.2);
             transition: all 0.5s ease; display: block;
-            text-decoration: none; margin-bottom: 8px; width: fit-content;
+            text-decoration: none; margin-bottom: 10px; width: fit-content;
         }
         .film-item.active, .film-item:hover { color: var(--hueso); -webkit-text-stroke: 0px; transform: translateX(25px); }
 
-        @media (max-width: 1200px) {
-            .all-projects-grid { grid-template-columns: 1fr; gap: 30px; padding: 0 40px; }
-            .cat-nav-column, .v-line { display: none; }
-            .project-row { grid-template-columns: 200px 1fr; gap: 30px; }
+        @media (max-width: 1000px) {
+            .project-row { grid-template-columns: 1fr; gap: 20px; }
             .logos-box { display: none; }
-            .detail-wrapper { grid-template-columns: 1fr; height: 95vh; }
-            .film-item { font-size: 3rem; }
+            .film-item { font-size: 3.2rem; }
+            .all-projects-grid { padding: 0 30px; }
         }
     </style>
 </head>
@@ -270,6 +250,7 @@
                 <a href="#" onclick="showSection('all'); toggleMenu();" data-i18n="all_projects">/ proyectos</a>
                 <a href="mailto:leandrobrunoeditor@gmail.com" data-i18n="contact">/ contacto</a>
             </div>
+            <div class="side-menu-categories" id="menu-categories"></div>
         </nav>
     </div>
 
@@ -287,8 +268,6 @@
 
     <section id="all-projects-section">
         <div class="all-projects-grid">
-            <div class="cat-nav-column" id="category-nav"></div>
-            <div class="v-line"></div>
             <div class="projects-list-body" id="full-index-list"></div>
         </div>
     </section>
@@ -311,26 +290,26 @@
                 title_es: "menem", title_en: "menem", category: "serie",
                 images: ["assets/Menem_Thumbnail_1.jpg", "assets/Menem_Thumbnail_2.jpg", "assets/Menem_Thumbnail_3.png", "assets/Menem_Thumbnail_4.jpg"],
                 yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", logo: "assets/prime.png",
-                desc_es: "Biopic que recorre el ascenso al poder de Carlos Menem en los años 90.",
-                desc_en: "Biopic tracing Carlos Menem's rise to power in the 1990s."
+                desc_es: "Biopic que recorre el ascenso al poder de Carlos Menem en los años 90. Una exploración sobre el carisma, la política y la cultura argentina de una era inolvidable.",
+                desc_en: "Biopic tracing Carlos Menem's rise to power in the 1990s. An exploration of the charisma, politics, and culture of an unforgettable Argentine era."
             },
             {
                 title_es: "OREO - Sigamos divirtiendonos", title_en: "OREO - Keep on playing", category: "advertising",
                 images: ["assets/Oreo_Thumbnail_5.png", "assets/Oreo_Thumbnail_1.png", "assets/Oreo_Thumbnail_2.png", "assets/Oreo_Thumbnail_3.png", "assets/Oreo_Thumbnail_4.png"],
                 yt: "7Cllu0Rme74", director: "Martín Jalfen", prod: "Pop Studios - México",
-                desc_es: "Campaña publicitaria global para Oreo.",
-                desc_en: "Global advertising campaign for Oreo."
+                desc_es: "Campaña publicitaria global para Oreo, destacando dinamismo y ritmo visual.",
+                desc_en: "Global advertising campaign for Oreo, highlighting dynamism and visual rhythm."
             },
             {
                 title_es: "el tiempo de las moscas", title_en: "time of the flies", category: "serie",
                 images: ["assets/Moscas_Thumbnail_1.jpg", "assets/Moscas_Thumbnail_2.png", "assets/Moscas_Thumbnail_3.png", "assets/Moscas_Thumbnail_4.png", "assets/Moscas_Thumbnail_5.png"],
                 yt: "A0d6wnlMRRk", director: "Benjamín Naishtat y Ana Katz", prod: "netflix", logo: "assets/netflix.png",
-                desc_es: "Dos mujeres intentan reconstruir sus vidas tras salir de prisión.",
-                desc_en: "Two women attempt to rebuild their lives after being released from prison."
+                desc_es: "Dos mujeres intentan reconstruir sus vidas tras salir de prisión, enfrentando un mundo que ha cambiado radicalmente mientras ellas estaban encerradas.",
+                desc_en: "Two women attempt to rebuild their lives after being released from prison, facing a world that has radically changed while they were locked up."
             },
             {
                 title_es: "levis x winona riders", title_en: "levis x winona riders", category: "advertising",
-                images: ["assets/Levis_Thumbnail_v01.jpg", "assets/Levis_Thumbnail_2.png", "assets/Levis_Thumbnail_3.png", "assets/Levis_Thumbnail_5.png"],
+                images: ["assets/Levis_Thumbnail_v01.jpg", "assets/Levis_Thumbnail_2.png", "assets/Levis_Thumbnail_3.png", "assets/Levis_Thumbnail_5.png", "assets/Levis_Thumbnail_6.png", "assets/Levis_Thumbnail_7.png"],
                 yt: "1eE588vXvqSECtESSjgwN_vpRmMFaUpRg", director: "Nico Alarcos", prod: "primo",
                 desc_es: "Campaña de gira de Winona Riders por el norte de Argentina.",
                 desc_en: "Winona Riders commercial tour of northern Argentina."
@@ -339,50 +318,50 @@
                 title_es: "coppola, el representante", title_en: "coppola, the agent", category: "serie",
                 images: ["assets/Coppola_Thumbnail_2.jpg", "assets/Coppola_Thumbnail_3.png", "assets/Coppola_Thumbnail_4.jpg"],
                 yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films / disney+", logo: "assets/disney.png",
-                desc_es: "La historia de Guillermo Coppola, el representante más famoso.",
-                desc_en: "The story of Guillermo Coppola, the most famous manager."
+                desc_es: "La historia de Guillermo Coppola, el representante más famoso de Argentina, en una travesía llena de excesos, humor y nostalgia noventera.",
+                desc_en: "The story of Guillermo Coppola, Argentina's most famous manager, in a journey filled with excess, humor, and nineties nostalgia."
             },
             {
                 title_es: "blair - Todo lo que tengo", title_en: "blair - All I have", category: "music video",
-                images: ["assets/Blair_Thumbnail_1.jpg", "assets/Blair_Thumbnail_2.png", "assets/Blair_Thumbnail_3.png"],
+                images: ["assets/Blair_Thumbnail_1.jpg", "assets/Blair_Thumbnail_2.png", "assets/Blair_Thumbnail_3.png", "assets/Blair_Thumbnail_4.png", "assets/Blair_Thumbnail_5.png"],
                 yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster",
                 desc_es: "Primer adelanto del disco Bar Scorpios (2025)",
                 desc_en: "First preview of the album Bar Scorpios (2025)"
             },
             {
                 title_es: "las manos de la abuela", title_en: "grandmother's hands", category: "cortometraje",
-                images: ["assets/MA_Thumbnail_1.png", "assets/MA_Thumbnail_3.png"],
+                images: ["assets/MA_Thumbnail_1.png", "assets/MA_Thumbnail_3.png", "assets/MA_Thumbnail_4.png", "assets/MA_Thumbnail_5.png"],
                 yt: "", director: "camila migliore", prod: "calesita films",
-                desc_es: "Cortometraje que explora la memoria y el legado familiar.",
-                desc_en: "Short film exploring memory and family legacy."
+                desc_es: "Cortometraje que explora la memoria y el legado familiar a través de los gestos y las historias grabadas en las manos de una abuela.",
+                desc_en: "Short film that exploring memory and family legacy through the gestures and stories etched into a grandmother's hands."
             },
             {
                 title_es: "ratones paranoicos", title_en: "ratones paranoicos", category: "music video",
-                images: ["assets/RP_Thumbmail_1.png", "assets/RP_Thumbmail_2.png"],
+                images: ["assets/RP_Thumbmail_1.png", "assets/RP_Thumbmail_2.png", "assets/RP_Thumbmail_3.png", "assets/RP_Thumbmail_4.png"],
                 yt: "", director: "alex roux", prod: "poster",
-                desc_es: "Pieza audiovisual para la legendaria banda de rock.",
-                desc_en: "Audiovisual piece for the legendary rock band."
+                desc_es: "Pieza audiovisual para la legendaria banda de rock argentina.",
+                desc_en: "Audiovisual piece for the legendary Argentine rock band."
             },
             {
                 title_es: "besos brujos", title_en: "witch kisses", category: "cortometraje",
-                images: ["assets/BB_Thumbnail_1.png", "assets/BB_Thumbnail_2.png"],
+                images: ["assets/BB_Thumbnail_1.png", "assets/BB_Thumbnail_2.png", "assets/BB_Thumbnail_3.png"],
                 yt: "", director: "karina flonembaum", prod: "",
-                desc_es: "Ficción breve sobre el deseo y la fantasía.",
-                desc_en: "Short fiction about desire and fantasy."
+                desc_es: "Ficción breve que juega con los límites del deseo y la fantasía en una atmósfera onírica.",
+                desc_en: "Short fiction playing with the limits of desire and fantasy in a dreamlike atmosphere."
             },
             {
                 title_es: "las marias", title_en: "las marias", category: "advertising",
-                images: ["assets/Marias_Thumbnail_1.png", "assets/Marias_Thumbnail_2.png"],
+                images: ["assets/Marias_Thumbnail_1.png", "assets/Marias_Thumbnail_2.png", "assets/Marias_Thumbnail_3.png"],
                 yt: "", director: "alejandro berger parrado", prod: "navajo films",
-                desc_es: "Documental sobre la tradición yerbatera argentina.",
-                desc_en: "Documentary about the Argentine yerba mate tradition."
+                desc_es: "Pieza con formato video inmersivo documental publicitaria sobre la tradición yerbatera argentina.",
+                desc_en: "Immersive video documentary advertising piece on the Argentine yerba mate tradition."
             },
             {
                 title_es: "todo lo que recuerdo", title_en: "all I remember", category: "cortometraje",
                 images: ["assets/TodoLoQueRecuerdo_Thumbnail_1.png"],
                 yt: "", director: "nicolas fernandez melian", prod: "",
-                desc_es: "Un viaje sensorial por la memoria fragmentada.",
-                desc_en: "A sensory journey through fragmented memory."
+                desc_es: "Un viaje sensorial por la memoria fragmentada. Selección oficial del Festival Internacional de Cine de Mar del Plata.",
+                desc_en: "A sensory journey through fragmented memory. Official selection at the Mar del Plata International Film Festival."
             }
         ];
 
@@ -406,21 +385,15 @@
         function renderLists() {
             const featList = document.getElementById('featured-list');
             const indexList = document.getElementById('full-index-list');
-            const catNav = document.getElementById('category-nav');
-            featList.innerHTML = ''; indexList.innerHTML = ''; catNav.innerHTML = '';
+            const menuCats = document.getElementById('menu-categories');
+            featList.innerHTML = ''; indexList.innerHTML = ''; menuCats.innerHTML = '';
 
             const featured = projects.filter(p => p.yt);
             featured.forEach((p, idx) => {
                 const a = document.createElement('a');
                 a.className = "film-item " + (idx === currentIdx ? 'active' : '');
                 a.innerText = p[`title_${currentLang}`];
-                a.onmouseenter = () => { 
-                    if(idx !== currentIdx) {
-                        currentIdx = idx;
-                        updateHomeActiveUI();
-                        changeHeroProject(idx);
-                    }
-                };
+                a.onmouseenter = () => { if(idx !== currentIdx) { currentIdx = idx; updateHomeActiveUI(); changeHeroProject(idx); } };
                 a.onclick = (e) => { e.preventDefault(); openDetailByTitle(p.title_es); };
                 featList.appendChild(a);
             });
@@ -428,9 +401,10 @@
             const categories = [...new Set(projects.map(p => p.category))];
             categories.forEach(cat => {
                 const catId = `cat-${cat.replace(/\s/g, '')}`;
-                const cLink = document.createElement('a');
-                cLink.className = "cat-link"; cLink.href = `#${catId}`; cLink.innerText = cat;
-                catNav.appendChild(cLink);
+                const mLink = document.createElement('a');
+                mLink.href = `#${catId}`; mLink.innerText = `/ ${cat}`;
+                mLink.onclick = () => { showSection('all'); toggleMenu(); };
+                menuCats.appendChild(mLink);
 
                 const group = document.createElement('div');
                 group.className = "category-group";
@@ -455,9 +429,7 @@
         }
 
         function updateHomeActiveUI() {
-            document.querySelectorAll('.film-item').forEach((el, i) => {
-                el.classList.toggle('active', i === currentIdx);
-            });
+            document.querySelectorAll('.film-item').forEach((el, i) => { el.classList.toggle('active', i === currentIdx); });
         }
 
         function changeHeroProject(idx) {
@@ -480,11 +452,7 @@
                         currentPane.classList.remove('active');
                         activePaneId = nextPaneId;
                         setTimeout(() => { currentPane.innerHTML = ''; }, 2000);
-                        previewTimer = setTimeout(() => {
-                            currentIdx = (currentIdx + 1) % featured.length;
-                            updateHomeActiveUI();
-                            changeHeroProject(currentIdx);
-                        }, 10000);
+                        previewTimer = setTimeout(() => { currentIdx = (currentIdx + 1) % featured.length; updateHomeActiveUI(); changeHeroProject(currentIdx); }, 10000);
                     }
                 }
             });
@@ -495,54 +463,21 @@
             const p = projects.find(proj => proj.title_es === title);
             const detail = document.getElementById('project-detail');
             const container = document.getElementById('detail-dynamic-content');
-
-            let mediaHtml = p.yt ? 
-                `<iframe src="https://www.youtube.com/embed/${p.yt}?autoplay=1&rel=0" allow="autoplay"></iframe>` :
-                `<div class="gallery-container"><img src="${p.images[0]}"></div>`;
-
-            container.innerHTML = `
-                <div class="detail-video-side">${mediaHtml}</div>
-                <div class="detail-info-side">
-                    <h2>${p[`title_${currentLang}`]}</h2>
-                    <div class="detail-meta-group"><strong>${i18n[currentLang].director}</strong><p>${p.director}</p></div>
-                    <div class="detail-meta-group"><strong>${i18n[currentLang].prod}</strong><p>${p.prod}</p></div>
-                    <div class="detail-meta-group"><strong>${i18n[currentLang].editor_label}</strong><p>leandro bruno</p></div>
-                    <p class="detail-desc">${p[`desc_${currentLang}`] || ''}</p>
-                </div>`;
-            detail.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
+            let mediaHtml = p.yt ? `<iframe src="https://www.youtube.com/embed/${p.yt}?autoplay=1&rel=0" allow="autoplay"></iframe>` : `<div class="gallery-container"><img src="${p.images[0]}"></div>`;
+            container.innerHTML = `<div class="detail-video-side">${mediaHtml}</div><div class="detail-info-side"><h2>${p[`title_${currentLang}`]}</h2><div class="detail-meta-group"><strong>${i18n[currentLang].director}</strong><p>${p.director}</p></div><div class="detail-meta-group"><strong>${i18n[currentLang].prod}</strong><p>${p.prod}</p></div><div class="detail-meta-group"><strong>${i18n[currentLang].editor_label}</strong><p>leandro bruno</p></div><p class="detail-desc">${p[`desc_${currentLang}`] || ''}</p></div>`;
+            detail.style.display = 'flex'; document.body.style.overflow = 'hidden';
         }
 
         function closeDetail() {
             document.getElementById('detail-dynamic-content').innerHTML = '';
             document.getElementById('project-detail').style.display = 'none';
-            const isAllVisible = document.getElementById('all-projects-section').style.display === 'block';
-            if(!isAllVisible) {
-                document.body.style.overflow = 'hidden';
-                changeHeroProject(currentIdx);
-            } else {
-                document.body.style.overflowY = 'auto';
-            }
+            if(document.getElementById('all-projects-section').style.display !== 'block') { document.body.style.overflow = 'hidden'; changeHeroProject(currentIdx); } else { document.body.style.overflowY = 'auto'; }
         }
 
         function showSection(sec) {
-            const home = document.getElementById('home-section');
-            const all = document.getElementById('all-projects-section');
-            const bg = document.getElementById('bg-container');
-            const navHome = document.getElementById('nav-home');
-            const navAll = document.getElementById('nav-all-projects');
-
-            if(sec === 'all') { 
-                home.style.display = 'none'; bg.style.display = 'none'; all.style.display = 'block'; 
-                navHome.style.display = 'none'; navAll.style.display = 'block';
-                document.body.style.overflowY = 'auto';
-                clearTimeout(previewTimer);
-            } else { 
-                home.style.display = 'flex'; bg.style.display = 'block'; all.style.display = 'none'; 
-                navHome.style.display = 'flex'; navAll.style.display = 'none';
-                document.body.style.overflowY = 'hidden'; 
-                changeHeroProject(currentIdx);
-            }
+            const home = document.getElementById('home-section'), all = document.getElementById('all-projects-section'), bg = document.getElementById('bg-container'), navHome = document.getElementById('nav-home'), navAll = document.getElementById('nav-all-projects');
+            if(sec === 'all') { home.style.display = 'none'; bg.style.display = 'none'; all.style.display = 'block'; navHome.style.display = 'none'; navAll.style.display = 'block'; document.body.style.overflowY = 'auto'; clearTimeout(previewTimer); } 
+            else { home.style.display = 'flex'; bg.style.display = 'block'; all.style.display = 'none'; navHome.style.display = 'flex'; navAll.style.display = 'none'; document.body.style.overflowY = 'hidden'; changeHeroProject(currentIdx); }
         }
 
         document.addEventListener('keydown', (e) => { if (e.key === "Escape") closeDetail(); });
