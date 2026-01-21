@@ -24,14 +24,14 @@
             overflow-x: hidden;
         }
 
-        /* --- FONDO VIDEO --- */
+        /* --- FONDO VIDEO CON CROSSFADE --- */
         .bg-preview-container {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: 1; background: var(--bg-grafito); overflow: hidden;
         }
         .bg-video {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            opacity: 0; transition: opacity 1.5s ease-in-out;
+            opacity: 0; transition: opacity 2s ease-in-out; /* Crossfade de 2 segundos */
             pointer-events: none;
         }
         .bg-video.active { opacity: 0.35; }
@@ -43,38 +43,23 @@
 
         /* --- HOME LAYOUT --- */
         #home-section {
-            height: 100vh;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            padding: 60px;
-            position: relative;
-            z-index: 10;
+            height: 100vh; width: 100%;
+            display: flex; justify-content: space-between;
+            padding: 60px; position: relative; z-index: 10;
         }
 
-        /* TRABAJOS (IZQUIERDA - ELEVADOS) */
         .list-container { 
-            display: flex; 
-            flex-direction: column; 
-            align-self: center; /* Elevado hacia el centro visual */
-            margin-top: 40px;
+            display: flex; flex-direction: column; 
+            align-self: center; margin-top: 40px;
         }
         .section-label { 
-            font-size: 0.75rem; 
-            margin-bottom: 25px; 
-            font-weight: 700; 
-            opacity: 0.3; 
-            letter-spacing: 0.15em; 
-            text-transform: uppercase;
+            font-size: 0.75rem; margin-bottom: 25px; font-weight: 700; 
+            opacity: 0.3; letter-spacing: 0.15em; text-transform: uppercase;
         }
 
-        /* BRAND Y NAV (ARRIBA DERECHA) */
         .sidebar {
-            display: flex;
-            flex-direction: column;
-            text-align: right;
-            align-items: flex-end;
-            align-self: flex-start; /* Anclado arriba */
+            display: flex; flex-direction: column; text-align: right;
+            align-items: flex-end; align-self: flex-start;
         }
 
         .brand { margin-bottom: 40px; cursor: pointer; }
@@ -88,7 +73,6 @@
         }
         .side-nav a:hover { opacity: 1; font-style: italic; }
 
-        /* --- SELECTOR DE IDIOMA --- */
         .lang-switcher {
             position: fixed; bottom: 40px; left: 60px;
             z-index: 5000; display: flex; gap: 15px;
@@ -115,17 +99,25 @@
             display: none; padding: 150px 60px 100px;
             position: relative; z-index: 100; background: var(--bg-grafito); min-height: 100vh;
         }
-        .category-separator { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.25em; opacity: 0.3; padding: 40px 0 15px; border-bottom: 1px solid rgba(255, 255, 228, 0.1); margin-bottom: 10px; }
-        .project-row { display: grid; grid-template-columns: 320px 1fr 180px; gap: 40px; padding: 25px 0; border-bottom: 1px solid rgba(255, 255, 228, 0.05); align-items: center; transition: 0.3s; text-decoration: none; color: inherit; }
+        .category-separator { 
+            font-size: 0.75rem; font-weight: 800; text-transform: uppercase; 
+            letter-spacing: 0.25em; opacity: 0.3; padding: 40px 0 15px; 
+            border-bottom: 1px solid rgba(255, 255, 228, 0.1); margin-bottom: 10px; 
+        }
+        .project-row { 
+            display: grid; grid-template-columns: 320px 1fr 180px; gap: 40px; 
+            padding: 25px 0; border-bottom: 1px solid rgba(255, 255, 228, 0.05); 
+            align-items: center; transition: 0.3s; text-decoration: none; color: inherit; 
+        }
         .project-row:hover { background-color: var(--bg-grafito-claro); padding-left: 20px; }
-        .project-row .thumb-box { width: 100%; aspect-ratio: 16/9; overflow: hidden; background: #000; }
+        .project-row .thumb-box { width: 100%; aspect-ratio: 16/9; overflow: hidden; background: #000; border-radius: 2px; }
         .project-row .thumb-box img { width: 100%; height: 100%; object-fit: cover; }
         .project-row .info-box h3 { font-size: 2.2rem; font-weight: 800; text-transform: uppercase; line-height: 0.9; }
-        .series-specs { display: inline-block; margin-left: 10px; font-size: 0.65rem; padding: 2px 6px; border: 1px solid rgba(255, 255, 228, 0.3); border-radius: 4px; vertical-align: middle; }
+        .series-specs { display: inline-block; margin-left: 10px; font-size: 0.65rem; padding: 2px 6px; border: 1px solid rgba(255, 255, 228, 0.3); border-radius: 4px; vertical-align: middle; opacity: 0.7; }
         .logos-box { display: flex; justify-content: flex-end; opacity: 0.6; }
         .logos-box img { height: 18px; filter: brightness(0) invert(1); }
 
-        /* --- DETALLE --- */
+        /* --- MODAL DETALLE --- */
         #project-detail {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: var(--bg-grafito); z-index: 6000; display: none;
@@ -144,6 +136,7 @@
             .list-container { margin-top: 0; align-self: flex-start; }
             .lang-switcher { position: relative; bottom: 0; left: 0; margin-top: 50px; }
             .film-item { font-size: 2.8rem; }
+            .project-row { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -190,24 +183,8 @@
 
     <script>
         const i18n = {
-            es: {
-                selected_works: "trabajos seleccionados",
-                all_projects: "todos los proyectos",
-                contact: "contacto",
-                close: "cerrar",
-                director: "director",
-                prod: "producción",
-                editor_label: "editor"
-            },
-            en: {
-                selected_works: "selected works",
-                all_projects: "all projects",
-                contact: "contact",
-                close: "close",
-                director: "director",
-                prod: "production",
-                editor_label: "editor"
-            }
+            es: { selected_works: "trabajos seleccionados", all_projects: "todos los proyectos", contact: "contacto", close: "cerrar", director: "director", prod: "producción", editor_label: "editor" },
+            en: { selected_works: "selected works", all_projects: "all projects", contact: "contact", close: "close", director: "director", prod: "production", editor_label: "editor" }
         };
 
         const projects = [
@@ -216,12 +193,14 @@
             { id: 2, title: {es: "coppola, el representante", en: "coppola, the agent"}, category: "serie", images: ["assets/Coppola_Thumbnail_2.jpg"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films", specs: {es: "6 episodios", en: "6 episodes"}, logo: "assets/Disney_logo.png" },
             { id: 3, title: {es: "oreo", en: "oreo"}, category: "advertising", images: ["assets/Oreo_Thumbnail_5.png"], yt: "7Cllu0Rme74", director: "Martín Jalfen", prod: "Pop Studios" },
             { id: 4, title: {es: "levis x winona riders", en: "levis x winona riders"}, category: "advertising", images: ["assets/Levis_Thumbnail_v01.jpg"], yt: "mb2RPesGf7Q", director: "Nico Alarcos", prod: "primo" },
-            { id: 5, title: {es: "blair - todo lo que tengo", en: "blair - all i have"}, category: "music video", images: ["assets/Blair_Thumbnail_1.jpg"], yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster" }
+            { id: 5, title: {es: "blair - todo lo que tengo", en: "blair - all i have"}, category: "music video", images: ["assets/Blair_Thumbnail_1.jpg"], yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster" },
+            { id: 6, title: {es: "las manos de la abuela", en: "grandma's hands"}, category: "cortometraje", images: ["assets/MA_Thumbnail_1.png"], yt: "", director: "camila migliore", prod: "calesita films" }
         ];
 
         let currentLang = 'es';
-        let activePane = 1;
+        let activePaneId = 1;
         let currentIdx = 0;
+        let previewTimer;
 
         function setLang(lang) {
             currentLang = lang;
@@ -265,33 +244,50 @@
         }
 
         function changeHeroProject(idx) {
+            clearTimeout(previewTimer);
             const featured = projects.filter(p => p.yt);
             const items = document.querySelectorAll('.film-item');
             items.forEach((item, i) => item.classList.toggle('active', i === idx));
             
-            const nextPaneIdx = activePane === 1 ? 2 : 1;
-            const currentPane = document.getElementById(`pane-${activePane}`);
-            const nextPane = document.getElementById(`pane-${nextPaneIdx}`);
+            const nextPaneId = activePaneId === 1 ? 2 : 1;
+            const currentPane = document.getElementById(`pane-${activePaneId}`);
+            const nextPane = document.getElementById(`pane-${nextPaneId}`);
             const p = featured[idx];
 
             const playerDivId = `yt-player-${Date.now()}`;
             nextPane.innerHTML = `<div id="${playerDivId}"></div>`;
+
             new YT.Player(playerDivId, {
                 videoId: p.yt,
-                playerVars: { autoplay: 1, mute: 1, controls: 0, modestbranding: 1, rel: 0 },
+                playerVars: { 
+                    autoplay: 1, 
+                    mute: 1, 
+                    controls: 0, 
+                    modestbranding: 1, 
+                    rel: 0, 
+                    start: 10,
+                    playlist: p.yt,
+                    loop: 1
+                },
                 events: {
-                    onStateChange: (e) => { if (e.data === YT.PlayerState.ENDED) { currentIdx = (currentIdx + 1) % featured.length; changeHeroProject(currentIdx); } }
+                    onReady: (e) => {
+                        // El crossfade ocurre cuando el nuevo video está listo
+                        nextPane.classList.add('active');
+                        currentPane.classList.remove('active');
+                        activePaneId = nextPaneId;
+
+                        // Timer para la siguiente rotación (10 segundos)
+                        previewTimer = setTimeout(() => {
+                            currentIdx = (currentIdx + 1) % featured.length;
+                            changeHeroProject(currentIdx);
+                        }, 10000);
+                    }
                 }
             });
-
-            setTimeout(() => {
-                nextPane.classList.add('active');
-                currentPane.classList.remove('active');
-                activePane = nextPaneIdx;
-            }, 200);
         }
 
         function openDetail(id) {
+            clearTimeout(previewTimer);
             const p = projects.find(proj => proj.id === id);
             const detail = document.getElementById('project-detail');
             detail.style.display = 'flex';
@@ -310,7 +306,9 @@
 
         function closeDetail() {
             document.getElementById('project-detail').style.display = 'none';
-            document.body.style.overflowY = document.getElementById('all-projects-section').style.display === 'block' ? 'auto' : 'hidden';
+            const isAllVisible = document.getElementById('all-projects-section').style.display === 'block';
+            document.body.style.overflowY = isAllVisible ? 'auto' : 'hidden';
+            if(!isAllVisible) changeHeroProject(currentIdx);
         }
 
         function showSection(sec) {
@@ -318,8 +316,15 @@
             const all = document.getElementById('all-projects-section');
             const bg = document.getElementById('bg-container');
             const switcher = document.querySelector('.lang-switcher');
-            if(sec === 'all') { home.style.display = 'none'; bg.style.display = 'none'; all.style.display = 'block'; document.body.style.overflowY = 'auto'; switcher.style.display = 'none'; }
-            else { home.style.display = 'flex'; bg.style.display = 'block'; all.style.display = 'none'; document.body.style.overflowY = 'hidden'; switcher.style.display = 'flex'; }
+            if(sec === 'all') { 
+                clearTimeout(previewTimer);
+                home.style.display = 'none'; bg.style.display = 'none'; all.style.display = 'block'; 
+                document.body.style.overflowY = 'auto'; switcher.style.display = 'none'; 
+            } else { 
+                home.style.display = 'flex'; bg.style.display = 'block'; all.style.display = 'none'; 
+                document.body.style.overflowY = 'hidden'; switcher.style.display = 'flex'; 
+                changeHeroProject(currentIdx);
+            }
         }
 
         document.addEventListener('keydown', (e) => { if (e.key === "Escape") closeDetail(); });
