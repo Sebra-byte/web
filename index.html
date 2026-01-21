@@ -3,45 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leandro Bruno | film editor</title>
+    [cite_start]<title>Leandro Bruno | film editor [cite: 184, 185]</title>
     <link rel="icon" type="image/png" href="assets/favicom_250120.png">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;500;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #0a0a0a;
-            --hueso: #FFFFE4;
-            --font-main: 'Manrope', sans-serif;
+            [cite_start]--hueso: #FFFFE4; [cite: 188]
+            [cite_start]--font-main: 'Manrope', sans-serif; [cite: 188]
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: crosshair; }
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: crosshair; [cite_start]} [cite: 186, 189, 190]
 
         body {
-            background-color: var(--bg);
-            color: var(--hueso);
-            font-family: var(--font-main);
-            text-transform: lowercase;
-            overflow: hidden;
+            [cite_start]background-color: var(--bg); [cite: 190]
+            [cite_start]color: var(--hueso); [cite: 190]
+            [cite_start]font-family: var(--font-main); [cite: 190]
+            [cite_start]text-transform: lowercase; [cite: 190]
+            [cite_start]overflow: hidden; [cite: 190]
         }
 
-        /* --- NAVEGACIÓN --- */
         header {
             position: fixed;
             top: 0; width: 100%;
             display: flex;
             justify-content: space-between;
-            padding: 40px 50px;
+            [cite_start]padding: 40px 50px; [cite: 199]
             z-index: 3000;
             mix-blend-mode: difference;
         }
 
-        .brand h1 { font-size: 1.5rem; font-weight: 800; text-transform: uppercase; line-height: 0.8; letter-spacing: -0.03em; }
-        .brand p { font-size: 0.8rem; font-weight: 300; margin-top: 5px; opacity: 0.8; }
+        .brand h1 { font-size: 1.5rem; font-weight: 800; text-transform: uppercase; line-height: 0.8; letter-spacing: -0.03em; [cite_start]} [cite: 203]
+        .brand p { font-size: 0.8rem; font-weight: 300; margin-top: 5px; opacity: 0.8; [cite_start]} [cite: 202]
 
         nav ul { list-style: none; text-align: right; }
-        nav ul li a { text-decoration: none; color: var(--hueso); font-size: 0.8rem; font-weight: 500; opacity: 0.6; transition: 0.3s; }
-        nav ul li a:hover, .active-nav { opacity: 1; }
+        nav ul li a { text-decoration: none; color: var(--hueso); font-size: 0.8rem; font-weight: 500; opacity: 0.6; transition: 0.3s; [cite_start]} [cite: 219]
+        nav ul li a:hover, .active-nav { opacity: 1; [cite_start]} [cite: 220]
 
-        /* --- FONDO DINÁMICO CON ZOOM --- */
+        /* --- SISTEMA DE CROSSFADE PARA VIDEOS --- */
         .bg-preview-container {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -54,7 +53,7 @@
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             opacity: 0;
-            transition: opacity 1.2s ease-in-out;
+            transition: opacity 1.5s ease-in-out; /* Transición suave */
         }
 
         .bg-video.active { opacity: 0.35; }
@@ -68,77 +67,52 @@
             pointer-events: none;
         }
 
-        /* --- LISTADO (SELECTED WORKS) A LA IZQUIERDA --- */
+        /* --- LISTADO IZQUIERDA --- */
         #films-list-section {
-            height: 100vh;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding-left: 50px;
-            position: relative;
-            z-index: 10;
+            height: 100vh; width: 100%;
+            display: flex; flex-direction: column;
+            justify-content: center; padding-left: 50px;
+            position: relative; z-index: 10;
         }
 
         .list-container p { 
-            font-size: 0.75rem; 
-            margin-bottom: 20px; 
-            font-weight: 700; 
-            opacity: 0.4; 
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
+            font-size: 0.75rem; margin-bottom: 20px; font-weight: 700; 
+            opacity: 0.4; letter-spacing: 0.1em; text-transform: uppercase;
         }
 
         .film-item {
-            font-size: 4.5rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            line-height: 0.85;
-            letter-spacing: -0.04em;
-            color: transparent;
+            font-size: 4.5rem; font-weight: 800; text-transform: uppercase;
+            line-height: 0.85; letter-spacing: -0.04em; color: transparent;
             -webkit-text-stroke: 1px rgba(255, 255, 228, 0.2);
-            transition: all 0.4s ease;
-            display: block;
-            text-decoration: none;
-            margin-bottom: 2px;
-            width: fit-content;
+            transition: all 0.4s ease; display: block;
+            text-decoration: none; margin-bottom: 2px; width: fit-content;
         }
 
-        /* Clase para cuando el proyecto está "activo" (por hover o rotación auto) */
         .film-item.active, .film-item:hover {
             color: var(--hueso);
             -webkit-text-stroke: 0px;
             transform: translateX(15px);
         }
 
-        /* --- VISTA DETALLE --- */
+        /* --- DETALLE --- */
         #project-detail-section {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg);
-            z-index: 4000;
-            display: none;
-            flex-direction: column;
-            padding: 100px 50px 50px;
-            overflow-y: auto;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg); z-index: 4000;
+            display: none; flex-direction: column;
+            padding: 100px 50px 50px; overflow-y: auto;
         }
 
         .close-detail {
-            position: fixed;
-            top: 40px; right: 50px;
-            font-size: 0.75rem;
-            font-weight: 800;
-            color: var(--hueso);
-            cursor: pointer;
-            z-index: 4100;
-            text-transform: uppercase;
+            position: fixed; top: 40px; right: 50px;
+            font-size: 0.75rem; font-weight: 800; color: var(--hueso);
+            cursor: pointer; z-index: 4100; text-transform: uppercase;
         }
 
         .detail-video-box { width: 100%; aspect-ratio: 16/9; background: #000; margin-bottom: 50px; }
         .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; padding-bottom: 100px; }
-        .detail-grid h2 { font-size: 4rem; font-weight: 800; text-transform: uppercase; line-height: 0.85; }
-        .detail-meta-column { font-size: 0.9rem; line-height: 1.6; text-transform: none; color: rgba(255, 255, 228, 0.7); }
-        .detail-meta-column strong { display: block; color: var(--hueso); text-transform: uppercase; font-size: 0.7rem; font-weight: 800; margin-top: 20px; }
+        .detail-grid h2 { font-size: 4rem; font-weight: 800; text-transform: uppercase; line-height: 0.85; [cite_start]} [cite: 240, 241]
+        .detail-meta-column { font-size: 0.9rem; line-height: 1.6; text-transform: none; color: rgba(255, 255, 228, 0.7); [cite_start]} [cite: 246]
+        .detail-meta-column strong { display: block; color: var(--hueso); text-transform: uppercase; font-size: 0.7rem; font-weight: 800; margin-top: 20px; [cite_start]} [cite: 245]
 
         @media (max-width: 900px) {
             #films-list-section { padding-left: 20px; }
@@ -162,7 +136,10 @@
         </nav>
     </header>
 
-    <div class="bg-preview-container" id="bg-container"></div>
+    <div class="bg-preview-container">
+        <div id="video-pane-1" class="bg-video"></div>
+        <div id="video-pane-2" class="bg-video"></div>
+    </div>
 
     <section id="films-list-section">
         <div class="list-container">
@@ -172,88 +149,74 @@
     </section>
 
     <section id="project-detail-section">
-        <div class="close-detail" onclick="closeDetail()">[ close ]</div>
+        [cite_start]<div class="close-detail" onclick="closeDetail()">[ close ]</div> [cite: 324]
         <div id="detail-dynamic-content"></div>
     </section>
 
     <script>
         const featured = [
-            { title: "menem", cat: "serie", yt: "-2AmqmciWXE", dir: "ariel winograd", prod: "claxon / prime video", desc: "biopic sobre el ascenso al poder de carlos menem en los 90." },
-            { title: "oreo", cat: "advertising", yt: "7Cllu0Rme74", dir: "martín jalfen", prod: "pop studios", desc: "campaña publicitaria global destacando el ritmo visual." },
-            { title: "moscas", cat: "serie", yt: "A0d6wnlMRRk", dir: "b. naishtat & a. katz", prod: "netflix", desc: "dos mujeres reconstruyendo sus vidas tras la prisión." },
-            { title: "blair", cat: "music video", yt: "ItX5aqhqsmo", dir: "dana campanello", prod: "poster", desc: "pieza visual rítmica y atmosférica." },
-            { title: "coppola", cat: "serie", yt: "ecr24akKDbs", dir: "ariel winograd", prod: "disney+", desc: "la historia del representante más famoso de argentina." }
+            [cite_start]{ title: "menem", cat: "serie", yt: "-2AmqmciWXE", dir: "ariel winograd", prod: "claxon / prime video", desc: "biopic sobre el ascenso al poder de carlos menem en los 90. [cite: 292]" },
+            [cite_start]{ title: "oreo", cat: "advertising", yt: "7Cllu0Rme74", dir: "martín jalfen", prod: "pop studios", desc: "campaña publicitaria global destacando el ritmo visual. [cite: 295]" },
+            [cite_start]{ title: "moscas", cat: "serie", yt: "A0d6wnlMRRk", dir: "b. naishtat & a. katz", prod: "netflix", desc: "dos mujeres reconstruyendo sus vidas tras la prisión. [cite: 297]" },
+            [cite_start]{ title: "blair", cat: "music video", yt: "ItX5aqhqsmo", dir: "dana campanello", prod: "poster", desc: "pieza visual rítmica y atmosférica. [cite: 305]" },
+            [cite_start]{ title: "coppola", cat: "serie", yt: "ecr24akKDbs", dir: "ariel winograd", prod: "disney+", desc: "la historia del representante más famoso de argentina. [cite: 302]" }
         ];
 
-        let autoRotationInterval;
         let currentActiveIdx = 0;
         let isUserHovering = false;
+        let activePane = 1;
 
         function init() {
             const list = document.getElementById('films-anchor-list');
-            
             featured.forEach((p, idx) => {
                 const a = document.createElement('a');
                 a.href = "#";
                 a.className = "film-item";
-                a.id = `item-${idx}`;
                 a.innerText = p.title;
-
-                a.onmouseenter = () => {
-                    isUserHovering = true;
-                    setActiveProject(idx);
-                };
-                
-                a.onmouseleave = () => {
-                    isUserHovering = false;
-                };
-
-                a.onclick = (e) => {
-                    e.preventDefault();
-                    openDetail(p);
-                };
-
+                a.onmouseenter = () => { isUserHovering = true; setActiveProject(idx); };
+                a.onmouseleave = () => { isUserHovering = false; };
+                a.onclick = (e) => { e.preventDefault(); openDetail(p); };
                 list.appendChild(a);
             });
-
-            startAutoRotation();
+            setActiveProject(0);
+            setInterval(() => {
+                if (!isUserHovering) {
+                    currentActiveIdx = (currentActiveIdx + 1) % featured.length;
+                    setActiveProject(currentActiveIdx);
+                }
+            }, 6000);
         }
 
         function setActiveProject(idx) {
-            const bgContainer = document.getElementById('bg-container');
             const items = document.querySelectorAll('.film-item');
-            
-            // Limpiar activos previos
             items.forEach(item => item.classList.remove('active'));
-            
-            // Activar actual
             items[idx].classList.add('active');
-            
-            // Cambiar Video de Fondo (Loop, Mute, Zoom)
+
+            const nextPaneIdx = activePane === 1 ? 2 : 1;
+            const currentPane = document.getElementById(`video-pane-${activePane}`);
+            const nextPane = document.getElementById(`video-pane-${nextPaneIdx}`);
+
             const p = featured[idx];
-            bgContainer.innerHTML = `
-                <div class="bg-video active">
-                    <iframe src="https://www.youtube.com/embed/${p.yt}?autoplay=1&mute=1&controls=0&loop=1&playlist=${p.yt}&modestbranding=1&rel=0" frameborder="0"></iframe>
-                </div>`;
+            
+            // Cargamos el nuevo video en el panel oculto
+            nextPane.innerHTML = `<iframe src="https://www.youtube.com/embed/${p.yt}?autoplay=1&mute=1&controls=0&loop=1&playlist=${p.yt}&modestbranding=1&rel=0&iv_load_policy=3" frameborder="0"></iframe>`;
+            
+            // Pequeño delay para que el iframe empiece a cargar antes de mostrarlo
+            setTimeout(() => {
+                nextPane.classList.add('active');
+                currentPane.classList.remove('active');
+                activePane = nextPaneIdx;
+                
+                // Limpiamos el panel que quedó oculto después de la transición
+                setTimeout(() => {
+                    currentPane.innerHTML = '';
+                }, 1500);
+            }, 500);
             
             currentActiveIdx = idx;
         }
 
-        function startAutoRotation() {
-            // Cambia cada 5 segundos si el usuario no tiene el mouse encima
-            autoRotationInterval = setInterval(() => {
-                if (!isUserHovering) {
-                    let nextIdx = (currentActiveIdx + 1) % featured.length;
-                    setActiveProject(nextIdx);
-                }
-            }, 5000);
-            
-            // Primera activación
-            setActiveProject(0);
-        }
-
         function openDetail(p) {
-            clearInterval(autoRotationInterval);
             const section = document.getElementById('project-detail-section');
             const content = document.getElementById('detail-dynamic-content');
             section.style.display = 'flex';
@@ -262,24 +225,12 @@
                     <iframe width="100%" height="100%" src="https://www.youtube.com/embed/${p.yt}?autoplay=1&rel=0" frameborder="0" allowfullscreen></iframe>
                 </div>
                 <div class="detail-grid">
-                    <div>
-                        <h2>${p.title}</h2>
-                        <p style="opacity: 0.4; margin-top: 10px; font-weight: 700;">${p.cat}</p>
-                    </div>
-                    <div class="detail-meta-column">
-                        <p>${p.desc}</p>
-                        <strong>director</strong><p>${p.dir}</p>
-                        <strong>production</strong><p>${p.prod}</p>
-                    </div>
-                </div>
-            `;
+                    <div><h2>${p.title}</h2><p style="opacity: 0.4; margin-top: 10px;">${p.cat}</p></div>
+                    <div class="detail-meta-column"><p>${p.desc}</p><strong>director</strong><p>${p.dir}</p><strong>production</strong><p>${p.prod}</p></div>
+                </div>`;
         }
 
-        function closeDetail() {
-            document.getElementById('project-detail-section').style.display = 'none';
-            document.getElementById('detail-dynamic-content').innerHTML = '';
-            startAutoRotation(); // Reiniciar rotación al cerrar
-        }
+        function closeDetail() { document.getElementById('project-detail-section').style.display = 'none'; }
 
         window.onload = init;
     </script>
