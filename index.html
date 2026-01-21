@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leandro Bruno | film editor</title>
     <link rel="icon" type="image/png" href="assets/favicom_250120.png">
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;500;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-grafito: #1a1a1a;
@@ -41,31 +41,30 @@
             transform: translate(-50%, -50%) scale(1.6);
         }
 
-        /* --- HOME LAYOUT --- */
+        /* --- HOME LAYOUT (SIMETRÍA REFINADA) --- */
         #home-section {
             height: 100vh;
             width: 100%;
             display: flex;
-            align-items: center; /* Centrado vertical del contenido principal */
+            align-items: center; /* Centrado vertical general */
             justify-content: space-between;
-            padding: 0 50px;
+            padding: 0 60px;
             position: relative;
             z-index: 10;
         }
 
-        /* BLOQUE IZQUIERDO (TRABAJOS) */
+        /* BLOQUE IZQUIERDO */
         .list-container {
             display: flex;
             flex-direction: column;
-            align-self: center; /* Asegura que el bloque esté centrado */
+            margin-top: -20px; /* Ajuste fino para calzar con el logo */
         }
-
         .section-label { 
-            font-size: 0.8rem; 
+            font-size: 0.7rem; 
             margin-bottom: 25px; 
             font-weight: 700; 
-            opacity: 0.4; 
-            letter-spacing: 0.1em; 
+            opacity: 0.3; 
+            letter-spacing: 0.15em; 
             text-transform: uppercase;
         }
 
@@ -75,71 +74,82 @@
             flex-direction: column;
             text-align: right;
             align-items: flex-end;
-            align-self: center; /* Alineación vertical con la izquierda */
+            margin-top: -20px;
         }
 
-        /* Alineamos la parte superior de la marca con Selected Works */
-        /* Ajustamos el margin-top para que visualmente la primera línea de texto coincida */
-        .brand { margin-bottom: 50px; cursor: pointer; margin-top: 35px; } 
-        .brand h1 { font-size: 2.2rem; font-weight: 800; text-transform: uppercase; line-height: 0.8; letter-spacing: -0.03em; }
-        .brand p { font-size: 1rem; font-weight: 300; margin-top: 8px; opacity: 0.8; }
+        .brand { margin-bottom: 50px; cursor: pointer; }
+        .brand h1 { 
+            font-size: 2.6rem; 
+            font-weight: 800; 
+            text-transform: uppercase; 
+            line-height: 0.8; 
+            letter-spacing: -0.04em;
+        }
+        .brand p { 
+            font-size: 0.95rem; 
+            font-weight: 200; 
+            margin-top: 8px; 
+            opacity: 0.8; 
+            letter-spacing: 0.05em;
+        }
 
-        .side-nav { display: flex; flex-direction: column; gap: 15px; }
+        .side-nav { display: flex; flex-direction: column; gap: 10px; }
         .side-nav a { 
             text-decoration: none; 
             color: var(--hueso); 
-            font-size: 1.1rem; 
+            font-size: 1rem; 
             font-weight: 500; 
-            opacity: 0.6; 
-            transition: 0.3s; 
-            width: fit-content;
+            opacity: 0.5; 
+            transition: 0.3s ease;
         }
-        .side-nav a:hover, .active-nav { opacity: 1; }
+        .side-nav a:hover { 
+            opacity: 1; 
+            font-style: italic; 
+        }
 
-        /* --- ELEMENTOS DE LISTA --- */
+        /* --- LISTA DE TRABAJOS --- */
         .film-item {
-            font-size: 4.5rem; font-weight: 800; text-transform: uppercase;
+            font-size: 4.2rem; font-weight: 800; text-transform: uppercase;
             line-height: 0.85; letter-spacing: -0.04em; color: transparent;
             -webkit-text-stroke: 1px rgba(255, 255, 228, 0.2);
             transition: all 0.4s ease; display: block;
-            text-decoration: none; margin-bottom: 2px; width: fit-content;
+            text-decoration: none; margin-bottom: 4px; width: fit-content;
         }
         .film-item.active, .film-item:hover { color: var(--hueso); -webkit-text-stroke: 0px; transform: translateX(15px); }
 
-        /* --- ALL PROJECTS SECTION --- */
+        /* --- SECCIÓN ALL PROJECTS --- */
         #all-projects-section {
-            display: none; padding: 150px 50px 100px;
+            display: none; padding: 180px 60px 100px;
             position: relative; z-index: 100; background: var(--bg-grafito); min-height: 100vh;
         }
-        .category-separator { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.25em; opacity: 0.3; padding: 40px 0 15px; border-bottom: 1px solid rgba(255, 255, 228, 0.1); margin-bottom: 10px; }
-        .project-row { display: grid; grid-template-columns: 320px 1fr 200px; gap: 40px; padding: 25px 0; border-bottom: 1px solid rgba(255, 255, 228, 0.05); align-items: center; transition: 0.3s; text-decoration: none; color: inherit; }
+        .category-separator { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.2em; opacity: 0.3; padding: 40px 0 15px; border-bottom: 1px solid rgba(255, 255, 228, 0.1); margin-bottom: 10px; }
+        .project-row { display: grid; grid-template-columns: 320px 1fr 180px; gap: 40px; padding: 25px 0; border-bottom: 1px solid rgba(255, 255, 228, 0.05); align-items: center; transition: 0.3s; text-decoration: none; color: inherit; }
         .project-row:hover, .project-row.selected { background-color: var(--bg-grafito-claro); padding-left: 20px; }
-        .project-row .thumb-box { width: 100%; aspect-ratio: 16/9; overflow: hidden; background: #000; }
+        .project-row .thumb-box { width: 100%; aspect-ratio: 16/9; overflow: hidden; background: #000; border-radius: 2px; }
         .project-row .thumb-box img { width: 100%; height: 100%; object-fit: cover; }
         .project-row .info-box h3 { font-size: 2rem; font-weight: 800; text-transform: uppercase; line-height: 0.95; }
-        .series-specs { display: inline-block; margin-left: 10px; font-size: 0.65rem; padding: 2px 6px; border: 1px solid rgba(255, 255, 228, 0.3); border-radius: 4px; vertical-align: middle; }
+        .series-specs { display: inline-block; margin-left: 10px; font-size: 0.6rem; padding: 2px 6px; border: 1px solid rgba(255, 255, 228, 0.3); border-radius: 4px; vertical-align: middle; opacity: 0.7; }
+        .logos-box { display: flex; justify-content: flex-end; opacity: 0.6; }
+        .logos-box img { height: 18px; filter: brightness(0) invert(1); }
 
         /* --- MODAL DETALLE --- */
         #project-detail {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: var(--bg-grafito); z-index: 6000; display: none;
-            flex-direction: column; padding: 60px 50px 40px; overflow: hidden;
+            flex-direction: column; padding: 60px 60px 40px; overflow: hidden;
         }
-        .close-btn { position: fixed; top: 40px; right: 50px; font-size: 0.8rem; font-weight: 800; cursor: pointer; z-index: 6100; text-transform: uppercase; }
+        .close-btn { position: fixed; top: 40px; right: 60px; font-size: 0.8rem; font-weight: 800; cursor: pointer; z-index: 6100; text-transform: uppercase; }
         #detail-dynamic-content { height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
         .detail-video-box { width: 100%; flex-grow: 1; max-height: 62vh; background: #000; position: relative; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; overflow: hidden; }
         .detail-video-box iframe, .detail-video-box img { width: 100%; height: 100%; object-fit: contain; }
-        .nav-arrow { position: absolute; top: 50%; transform: translateY(-50%); font-size: 2.5rem; color: var(--hueso); background: rgba(0,0,0,0.2); padding: 20px; cursor: pointer; z-index: 10; transition: 0.3s; }
-        .detail-thumbnails { display: flex; gap: 10px; margin-bottom: 20px; justify-content: center; }
-        .mini-thumb { width: 80px; aspect-ratio: 16/9; opacity: 0.4; cursor: pointer; transition: 0.3s; border: 1px solid transparent; }
-        .mini-thumb.active { opacity: 1; border-color: var(--hueso); transform: translateY(-3px); }
         .detail-info-footer { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: flex-end; padding-bottom: 10px; }
         .detail-info-footer h2 { font-size: 3rem; font-weight: 800; text-transform: uppercase; line-height: 0.9; }
         .detail-info-footer .meta { font-size: 1rem; line-height: 1.4; opacity: 0.8; }
 
         @media (max-width: 900px) {
-            #home-section { flex-direction: column; justify-content: center; padding: 0 20px; align-items: flex-start; }
-            .sidebar { text-align: left; align-items: flex-start; order: -1; margin-bottom: 40px; }
+            #home-section { flex-direction: column; justify-content: center; padding: 0 30px; align-items: flex-start; }
+            .sidebar { text-align: left; align-items: flex-start; order: -1; margin-bottom: 40px; margin-top: 0; }
+            .list-container { margin-top: 0; }
             .film-item { font-size: 2.5rem; }
             .project-row { grid-template-columns: 1fr; }
         }
@@ -164,8 +174,8 @@
                 <p>film editor</p>
             </div>
             <nav class="side-nav">
-                <a href="#" id="nav-all" onclick="showSection('all')">all projects</a>
-                <a href="mailto:leandrobrunoeditor@gmail.com">contact</a>
+                <a href="#" id="nav-all" onclick="showSection('all')">/ all projects</a>
+                <a href="mailto:leandrobrunoeditor@gmail.com">/ contact</a>
             </nav>
         </div>
     </section>
@@ -183,24 +193,17 @@
 
     <script>
         const projects = [
-            { id: 0, title_es: "menem", category: "serie", images: ["assets/Menem_Thumbnail_1.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", specs: "6 episodios" },
-            { id: 1, title_es: "el tiempo de las moscas", category: "serie", images: ["assets/Moscas_Thumbnail_1.jpg"], yt: "A0d6wnlMRRk", director: "Ana Katz", prod: "netflix", specs: "6 episodios" },
-            { id: 2, title_es: "coppola, el representante", category: "serie", images: ["assets/Coppola_Thumbnail_2.jpg"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films", specs: "6 episodios" },
+            { id: 0, title_es: "menem", category: "serie", images: ["assets/Menem_Thumbnail_1.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", specs: "6 episodios", logo: "assets/Prime_logo.png" },
+            { id: 1, title_es: "el tiempo de las moscas", category: "serie", images: ["assets/Moscas_Thumbnail_1.jpg"], yt: "A0d6wnlMRRk", director: "Ana Katz", prod: "netflix", specs: "6 episodios", logo: "assets/Netflix_logo.png" },
+            { id: 2, title_es: "coppola, el representante", category: "serie", images: ["assets/Coppola_Thumbnail_2.jpg"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films", specs: "6 episodios", logo: "assets/Disney_logo.png" },
             { id: 3, title_es: "oreo", category: "advertising", images: ["assets/Oreo_Thumbnail_5.png"], yt: "7Cllu0Rme74", director: "Martín Jalfen", prod: "Pop Studios" },
             { id: 4, title_es: "levis x winona riders", category: "advertising", images: ["assets/Levis_Thumbnail_v01.jpg"], yt: "mb2RPesGf7Q", director: "Nico Alarcos", prod: "primo" },
-            { id: 5, title_es: "las marias", category: "advertising", images: ["assets/Marias_Thumbnail_1.png"], yt: "", director: "alejandro berger", prod: "navajo films" },
-            { id: 6, title_es: "blair - todo lo que tengo", category: "music video", images: ["assets/Blair_Thumbnail_1.jpg"], yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster" },
-            { id: 7, title_es: "ratones paranoicos", category: "music video", images: ["assets/RP_Thumbmail_1.png"], yt: "", director: "alex roux", prod: "poster" },
-            { id: 8, title_es: "las manos de la abuela", category: "cortometraje", images: ["assets/MA_Thumbnail_1.png", "assets/MA_Thumbnail_2.png", "assets/MA_Thumbnail_3.png"], yt: "", director: "camila migliore", prod: "calesita films" },
-            { id: 9, title_es: "besos brujos", category: "cortometraje", images: ["assets/BB_Thumbnail_1.png", "assets/BB_Thumbnail_2.png"], yt: "", director: "karina flonembaum", prod: "calesita films" },
-            { id: 10, title_es: "todo lo que recuerdo", category: "cortometraje", images: ["assets/TodoLoQueRecuerdo_Thumbnail_1.png"], yt: "", director: "nicolas melian", prod: "u n m a" }
+            { id: 5, title_es: "blair - todo lo que tengo", category: "music video", images: ["assets/Blair_Thumbnail_1.jpg"], yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster" },
+            { id: 6, title_es: "las manos de la abuela", category: "cortometraje", images: ["assets/MA_Thumbnail_1.png"], yt: "", director: "camila migliore", prod: "calesita films" }
         ];
 
         let activePane = 1;
-        let isHovering = false;
         let currentIdx = 0;
-        let listSelectionIdx = 0;
-        let currentGalleryIdx = 0;
 
         function init() {
             const featList = document.getElementById('featured-list');
@@ -210,8 +213,7 @@
                 const a = document.createElement('a');
                 a.className = "film-item";
                 a.innerText = p.title_es;
-                a.onmouseenter = () => { isHovering = true; currentIdx = idx; changeHeroProject(idx); };
-                a.onmouseleave = () => { isHovering = false; };
+                a.onmouseenter = () => { currentIdx = idx; changeHeroProject(idx); };
                 a.onclick = (e) => { e.preventDefault(); openDetail(p.id); };
                 featList.appendChild(a);
             });
@@ -226,7 +228,7 @@
                     const row = document.createElement('a');
                     row.className = "project-row";
                     row.id = `row-${p.id}`;
-                    row.innerHTML = `<div class="thumb-box"><img src="${p.images[0]}"></div><div class="info-box"><h3>${p.title_es}</h3><p>${p.director} | ${p.prod}</p></div><div class="logos-box"></div>`;
+                    row.innerHTML = `<div class="thumb-box"><img src="${p.images[0]}"></div><div class="info-box"><h3>${p.title_es} ${p.specs ? `<span class="series-specs">${p.specs}</span>` : ''}</h3><p>${p.director} | ${p.prod}</p></div><div class="logos-box">${p.logo ? `<img src="${p.logo}">` : ''}</div>`;
                     row.onclick = (e) => { e.preventDefault(); openDetail(p.id); };
                     indexList.appendChild(row);
                 });
@@ -269,8 +271,6 @@
 
         function openDetail(id) {
             const p = projects.find(proj => proj.id === id);
-            listSelectionIdx = id;
-            updateListSelection();
             const detail = document.getElementById('project-detail');
             detail.style.display = 'flex';
             document.body.style.overflow = 'hidden';
@@ -278,11 +278,10 @@
         }
 
         function renderDetailContent(p) {
-            currentGalleryIdx = 0;
             const container = document.getElementById('detail-dynamic-content');
             let mediaHtml = p.yt ? 
                 `<div class="detail-video-box"><iframe src="https://www.youtube.com/embed/${p.yt}?autoplay=1&rel=0" frameborder="0" allowfullscreen></iframe></div>` :
-                `<div class="detail-video-box">${p.images.length > 1 ? `<div class="nav-arrow arrow-left" onclick="changeImage(-1, ${p.id})">‹</div>` : ''}<img id="gallery-main" src="${p.images[0]}">${p.images.length > 1 ? `<div class="nav-arrow arrow-right" onclick="changeImage(1, ${p.id})">›</div>` : ''}</div>${p.images.length > 1 ? `<div class="detail-thumbnails">${p.images.map((img, i) => `<img src="${img}" class="mini-thumb ${i===0?'active':''}" onclick="setGalleryImage(${i}, ${p.id})">`).join('')}</div>` : ''}`;
+                `<div class="detail-video-box"><img src="${p.images[0]}"></div>`;
 
             container.innerHTML = `
                 ${mediaHtml}
@@ -292,36 +291,16 @@
                 </div>`;
         }
 
-        function changeImage(dir, pId) {
-            const p = projects.find(proj => proj.id === pId);
-            currentGalleryIdx = (currentGalleryIdx + dir + p.images.length) % p.images.length;
-            setGalleryImage(currentGalleryIdx, pId);
-        }
-
-        function setGalleryImage(idx, pId) {
-            currentGalleryIdx = idx;
-            const p = projects.find(proj => proj.id === pId);
-            const mainImg = document.getElementById('gallery-main');
-            if(mainImg) mainImg.src = p.images[idx];
-            document.querySelectorAll('.mini-thumb').forEach((m, i) => m.classList.toggle('active', i === idx));
-        }
-
         function closeDetail() {
             document.getElementById('project-detail').style.display = 'none';
             document.body.style.overflowY = document.getElementById('all-projects-section').style.display === 'block' ? 'auto' : 'hidden';
-        }
-
-        function updateListSelection() {
-            document.querySelectorAll('.project-row').forEach(r => r.classList.remove('selected'));
-            const activeRow = document.getElementById(`row-${listSelectionIdx}`);
-            if(activeRow) activeRow.classList.add('selected');
         }
 
         function showSection(sec) {
             const home = document.getElementById('home-section');
             const all = document.getElementById('all-projects-section');
             const bg = document.getElementById('bg-container');
-            if(sec === 'all') { home.style.display = 'none'; bg.style.display = 'none'; all.style.display = 'block'; document.body.style.overflowY = 'auto'; updateListSelection(); }
+            if(sec === 'all') { home.style.display = 'none'; bg.style.display = 'none'; all.style.display = 'block'; document.body.style.overflowY = 'auto'; }
             else { home.style.display = 'flex'; bg.style.display = 'block'; all.style.display = 'none'; document.body.style.overflowY = 'hidden'; }
         }
 
