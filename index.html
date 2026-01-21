@@ -9,12 +9,14 @@
     <style>
         :root {
             --bg-grafito: #1a1a1a;
-            --bg-grafito-claro: #2a2a2a;
             --hueso: #FFFFE4;
             --font-main: 'Manrope', sans-serif;
+            --transition-smooth: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: crosshair; }
+
+        html { scroll-behavior: smooth; }
 
         body {
             background-color: var(--bg-grafito);
@@ -24,7 +26,7 @@
             overflow-x: hidden;
         }
 
-        /* --- FONDO VIDEO CON CROSSFADE --- */
+        /* --- FONDO VIDEO HOME --- */
         .bg-preview-container {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: 1; background: var(--bg-grafito); overflow: hidden;
@@ -41,27 +43,12 @@
             transform: translate(-50%, -50%) scale(1.6);
         }
 
-        /* --- HOME LAYOUT --- */
-        #home-section {
-            height: 100vh; width: 100%;
-            display: flex; justify-content: space-between;
-            padding: 60px; position: relative; z-index: 10;
-        }
-
-        .list-container { 
-            display: flex; flex-direction: column; 
-            align-self: center; margin-top: 40px;
-        }
-        .section-label { 
-            font-size: 0.75rem; margin-bottom: 25px; font-weight: 700; 
-            opacity: 0.3; letter-spacing: 0.15em; text-transform: uppercase;
-        }
-
+        /* --- NAVEGACIÓN FIJA --- */
         .sidebar {
+            position: fixed; top: 60px; right: 60px;
             display: flex; flex-direction: column; text-align: right;
-            align-items: flex-end; align-self: flex-start;
+            align-items: flex-end; z-index: 5000;
         }
-
         .brand { margin-bottom: 40px; cursor: pointer; }
         .brand h1 { font-size: 2.6rem; font-weight: 800; text-transform: uppercase; line-height: 0.8; letter-spacing: -0.04em; }
         .brand p { font-size: 0.95rem; font-weight: 200; margin-top: 8px; opacity: 0.8; letter-spacing: 0.05em; }
@@ -71,8 +58,21 @@
             text-decoration: none; color: var(--hueso); font-size: 1.1rem; 
             font-weight: 500; opacity: 0.5; transition: 0.3s; 
         }
-        .side-nav a:hover { opacity: 1; font-style: italic; }
+        .side-nav a:hover, .side-nav a.active { opacity: 1; font-style: italic; }
 
+        /* --- FILTRO CATEGORÍAS (SÓLO EN ALL PROJECTS) --- */
+        #category-nav {
+            display: none; position: fixed; top: 60px; left: 60px;
+            z-index: 5000; flex-direction: column; gap: 8px;
+        }
+        .cat-link {
+            text-decoration: none; color: var(--hueso); font-size: 0.75rem;
+            font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em;
+            opacity: 0.3; transition: 0.3s;
+        }
+        .cat-link:hover { opacity: 1; }
+
+        /* --- IDIOMA --- */
         .lang-switcher {
             position: fixed; bottom: 40px; left: 60px;
             z-index: 5000; display: flex; gap: 15px;
@@ -84,7 +84,13 @@
         }
         .lang-btn.active { opacity: 1; text-decoration: underline; }
 
-        /* --- FILM ITEMS --- */
+        /* --- HOME SECTION --- */
+        #home-section {
+            height: 100vh; width: 100%;
+            display: flex; align-items: center;
+            padding-left: 60px; position: relative; z-index: 10;
+        }
+        .section-label { font-size: 0.75rem; margin-bottom: 25px; font-weight: 700; opacity: 0.3; letter-spacing: 0.15em; text-transform: uppercase; }
         .film-item {
             font-size: 4.5rem; font-weight: 800; text-transform: uppercase;
             line-height: 0.85; letter-spacing: -0.04em; color: transparent;
@@ -94,55 +100,58 @@
         }
         .film-item.active, .film-item:hover { color: var(--hueso); -webkit-text-stroke: 0px; transform: translateX(20px); }
 
-        /* --- ALL PROJECTS INDEX --- */
+        /* --- ALL PROJECTS SECTION --- */
         #all-projects-section {
-            display: none; padding: 150px 60px 100px;
+            display: none; padding: 180px 60px 100px;
             position: relative; z-index: 100; background: var(--bg-grafito); min-height: 100vh;
         }
         .category-separator { 
             font-size: 0.75rem; font-weight: 800; text-transform: uppercase; 
-            letter-spacing: 0.25em; opacity: 0.3; padding: 40px 0 15px; 
-            border-bottom: 1px solid rgba(255, 255, 228, 0.1); margin-bottom: 10px; 
+            letter-spacing: 0.25em; opacity: 0.3; padding: 80px 0 20px; 
+            border-bottom: 1px solid rgba(255, 255, 228, 0.15); margin-bottom: 0;
+            scroll-margin-top: 100px;
         }
+        
         .project-row { 
-            display: grid; grid-template-columns: 320px 1fr 180px; gap: 40px; 
-            padding: 30px 0; border-bottom: 1px solid rgba(255, 255, 228, 0.05); 
-            align-items: center; transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
+            display: grid; grid-template-columns: 340px 1fr 200px; gap: 50px; 
+            padding: 35px 0; border-bottom: 1px solid rgba(255, 255, 228, 0.05); 
+            align-items: center; transition: var(--transition-smooth); 
             text-decoration: none; color: inherit; 
         }
-        .project-row:hover { background-color: rgba(255, 255, 228, 0.03); padding-left: 20px; }
+        .project-row:hover { background-color: rgba(255, 255, 228, 0.02); padding-left: 20px; }
+
+        .thumb-box { width: 100%; aspect-ratio: 16/9; overflow: hidden; border-radius: 2px; background: #000; }
+        .thumb-box img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; transition: var(--transition-smooth); }
+        .project-row:hover .thumb-box img { opacity: 1; transform: scale(1.05); }
+
+        .info-box h3 { font-size: 2.6rem; font-weight: 800; text-transform: uppercase; line-height: 0.9; margin-bottom: 10px; }
+        .info-box p { font-size: 1rem; opacity: 0.4; font-weight: 300; }
         
-        .thumb-box { width: 100%; aspect-ratio: 16/9; overflow: hidden; background: #000; border-radius: 2px; }
-        .thumb-box img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s; opacity: 0.8; }
-        .project-row:hover .thumb-box img { transform: scale(1.05); opacity: 1; }
-
-        .info-box h3 { font-size: 2.2rem; font-weight: 800; text-transform: uppercase; line-height: 0.9; margin-bottom: 8px; }
-        .info-box p { font-size: 0.9rem; opacity: 0.5; font-weight: 300; }
-
-        .logos-box { display: flex; justify-content: flex-end; opacity: 0.4; }
+        .logos-box { display: flex; justify-content: flex-end; align-items: center; opacity: 0.3; transition: 0.3s; }
+        .project-row:hover .logos-box { opacity: 0.8; }
         .logos-box img { height: 20px; filter: brightness(0) invert(1); }
 
         /* --- DETALLE --- */
         #project-detail {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: var(--bg-grafito); z-index: 6000; display: none;
-            flex-direction: column; padding: 60px 60px 40px; overflow: hidden;
+            flex-direction: column; padding: 60px; overflow: hidden;
         }
         .close-btn { position: fixed; top: 40px; right: 60px; font-size: 0.8rem; font-weight: 800; cursor: pointer; z-index: 6100; text-transform: uppercase; }
         #detail-dynamic-content { height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
-        .detail-video-box { width: 100%; flex-grow: 1; max-height: 62vh; background: #000; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+        .detail-video-box { width: 100%; flex-grow: 1; max-height: 65vh; background: #000; display: flex; align-items: center; justify-content: center; }
         .detail-video-box iframe, .detail-video-box img { width: 100%; height: 100%; border: none; object-fit: contain; }
-        .detail-info-footer { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: flex-end; padding-bottom: 15px; }
-        .detail-info-footer h2 { font-size: 3.5rem; font-weight: 800; text-transform: uppercase; line-height: 0.85; }
-        .detail-info-footer .meta p { margin-bottom: 4px; font-size: 0.95rem; }
+        .detail-info-footer { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: flex-end; padding-top: 30px; border-top: 1px solid rgba(255,255,228,0.1); }
+        .detail-info-footer h2 { font-size: 4rem; font-weight: 800; text-transform: uppercase; line-height: 0.8; }
+        .detail-meta p { font-size: 0.95rem; margin-bottom: 4px; }
 
-        @media (max-width: 900px) {
-            #home-section { flex-direction: column; padding: 40px 30px; }
-            .sidebar { text-align: left; align-items: flex-start; margin-top: 40px; }
-            .list-container { margin-top: 0; align-self: flex-start; }
-            .lang-switcher { position: relative; bottom: 0; left: 0; margin-top: 50px; }
-            .film-item { font-size: 2.8rem; }
-            .project-row { grid-template-columns: 1fr; }
+        @media (max-width: 1000px) {
+            .sidebar { right: 30px; top: 30px; }
+            #home-section { padding-left: 30px; }
+            #category-nav { display: none !important; }
+            .project-row { grid-template-columns: 1fr; gap: 20px; }
+            .logos-box { justify-content: flex-start; }
+            .film-item { font-size: 3rem; }
         }
     </style>
 </head>
@@ -153,21 +162,23 @@
         <div id="pane-2" class="bg-video"></div>
     </div>
 
+    <div id="category-nav"></div>
+
+    <div class="sidebar">
+        <div class="brand" onclick="showSection('home')">
+            <h1>Leandro Bruno</h1>
+            <p>film editor</p>
+        </div>
+        <nav class="side-nav">
+            <a href="#" id="nav-all" onclick="showSection('all')">/ <span data-i18n="all_projects">todos los proyectos</span></a>
+            <a href="mailto:leandrobrunoeditor@gmail.com">/ <span data-i18n="contact">contacto</span></a>
+        </nav>
+    </div>
+
     <section id="home-section">
         <div class="list-container">
             <p class="section-label" data-i18n="selected_works">trabajos seleccionados</p>
             <div id="featured-list"></div>
-        </div>
-
-        <div class="sidebar">
-            <div class="brand" onclick="showSection('home')">
-                <h1>Leandro Bruno</h1>
-                <p>film editor</p>
-            </div>
-            <nav class="side-nav">
-                <a href="#" id="nav-all" onclick="showSection('all')">/ <span data-i18n="all_projects">todos los proyectos</span></a>
-                <a href="mailto:leandrobrunoeditor@gmail.com">/ <span data-i18n="contact">contacto</span></a>
-            </nav>
         </div>
     </section>
 
@@ -198,7 +209,7 @@
             { id: 1, title_es: "OREO - Sigamos divirtiendonos", title_en: "OREO - Keep on playing", category: "advertising", images: ["assets/Oreo_Thumbnail_5.png"], yt: "7Cllu0Rme74", director: "Martín Jalfen", prod: "Pop Studios - México", desc_es: "Campaña publicitaria global para Oreo.", desc_en: "Global advertising campaign for Oreo." },
             { id: 2, title_es: "el tiempo de las moscas", title_en: "time of the flies", category: "serie", images: ["assets/Moscas_Thumbnail_1.jpg"], yt: "A0d6wnlMRRk", director: "Benjamín Naishtat y Ana Katz", prod: "netflix", desc_es: "Dos mujeres intentan reconstruir sus vidas tras salir de prisión.", desc_en: "Two women attempt to rebuild their lives after being released from prison.", logo: "assets/Netflix_logo.png" },
             { id: 3, title_es: "levis x winona riders", title_en: "levis x winona riders", category: "advertising", images: ["assets/Levis_Thumbnail_v01.jpg"], yt: "mb2RPesGf7Q", director: "Nico Alarcos", prod: "primo", desc_es: "Campaña de gira de Winona Riders por el norte de Argentina.", desc_en: "Winona Riders commercial tour of northern Argentina." },
-            { id: 4, title_es: "coppola, el representante", title_en: "coppola, the agent", category: "serie", images: ["assets/Coppola_Thumbnail_2.jpg"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films / disney+", desc_es: "La historia de Guillermo Coppola, el representante más famoso de Argentina.", desc_en: "The story of Guillermo Coppola, Argentina's most famous manager.", logo: "assets/Disney_logo.png" },
+            { id: 4, title_es: "coppola, el representante", title_en: "coppola, the agent", category: "serie", images: ["assets/Coppola_Thumbnail_2.jpg"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films / disney+", desc_es: "La historia de Guillermo Coppola en una travesía llena de excesos.", desc_en: "The story of Guillermo Coppola in a journey filled with excess.", logo: "assets/Disney_logo.png" },
             { id: 5, title_es: "blair - Todo lo que tengo", title_en: "blair - All I have", category: "music video", images: ["assets/Blair_Thumbnail_1.jpg"], yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster", desc_es: "Primer adelanto del disco Bar Scorpios (2025)", desc_en: "First preview of the album Bar Scorpios (2025)" },
             { id: 6, title_es: "las manos de la abuela", title_en: "grandmother's hands", category: "cortometraje", images: ["assets/MA_Thumbnail_1.png"], yt: "", director: "camila migliore", prod: "calesita films", desc_es: "Cortometraje que explora la memoria y el legado familiar.", desc_en: "Short film exploring memory and family legacy." },
             { id: 7, title_es: "ratones paranoicos", title_en: "ratones paranoicos", category: "music video", images: ["assets/RP_Thumbmail_1.png"], yt: "", director: "alex roux", prod: "poster", desc_es: "Pieza audiovisual para la legendaria banda de rock argentina.", desc_en: "Audiovisual piece for the legendary Argentine rock band." },
@@ -225,12 +236,14 @@
         function renderLists() {
             const featList = document.getElementById('featured-list');
             const indexList = document.getElementById('full-index-list');
+            const catNav = document.getElementById('category-nav');
+            
             featList.innerHTML = '';
             indexList.innerHTML = '';
+            catNav.innerHTML = '';
 
-            // Solo los primeros 6 proyectos (o los que tengan YT) para el home
-            const featured = projects.filter(p => p.yt);
-            featured.forEach((p, idx) => {
+            // Home List
+            projects.filter(p => p.yt).forEach((p, idx) => {
                 const a = document.createElement('a');
                 a.className = "film-item " + (idx === currentIdx ? 'active' : '');
                 a.innerText = p[`title_${currentLang}`];
@@ -239,17 +252,27 @@
                 featList.appendChild(a);
             });
 
-            // Index Completo por Categorías
+            // Index por Categorías
             const categories = [...new Set(projects.map(p => p.category))];
             categories.forEach(cat => {
+                // Link en el menú lateral izquierdo
+                const cLink = document.createElement('a');
+                cLink.className = "cat-link";
+                cLink.href = `#cat-${cat.replace(/\s/g, '')}`;
+                cLink.innerText = cat;
+                catNav.appendChild(cLink);
+
+                // Separador en la lista
                 const sep = document.createElement('div');
                 sep.className = "category-separator";
+                sep.id = `cat-${cat.replace(/\s/g, '')}`;
                 sep.innerText = cat;
                 indexList.appendChild(sep);
 
                 projects.filter(p => p.category === cat).forEach(p => {
                     const row = document.createElement('a');
                     row.className = "project-row";
+                    row.href = "#";
                     row.innerHTML = `
                         <div class="thumb-box"><img src="${p.images[0]}"></div>
                         <div class="info-box">
@@ -308,12 +331,12 @@
             container.innerHTML = `
                 ${mediaHtml}
                 <div class="detail-info-footer">
-                    <div><h2>${p[`title_${currentLang}`]}</h2><p style="opacity:0.4; font-weight:800; text-transform:uppercase; font-size:0.75rem;">${p.category}</p></div>
-                    <div class="meta">
+                    <div><h2>${p[`title_${currentLang}`]}</h2><p style="opacity:0.3; font-weight:800; text-transform:uppercase; font-size:0.8rem; margin-top:10px;">${p.category}</p></div>
+                    <div class="detail-meta">
                         <p><strong>${i18n[currentLang].director}:</strong> ${p.director}</p>
                         <p><strong>${i18n[currentLang].prod}:</strong> ${p.prod}</p>
                         <p><strong>${i18n[currentLang].editor_label}:</strong> leandro bruno</p>
-                        <p style="margin-top:10px; opacity:0.7; font-weight:300;">${p[`desc_${currentLang}`]}</p>
+                        <p style="margin-top:15px; opacity:0.6; font-weight:300; max-width:400px; line-height:1.4;">${p[`desc_${currentLang}`]}</p>
                     </div>
                 </div>`;
         }
@@ -329,14 +352,18 @@
             const home = document.getElementById('home-section');
             const all = document.getElementById('all-projects-section');
             const bg = document.getElementById('bg-container');
-            const switcher = document.querySelector('.lang-switcher');
+            const catNav = document.getElementById('category-nav');
+            const navAll = document.getElementById('nav-all');
+
             if(sec === 'all') { 
                 clearTimeout(previewTimer);
                 home.style.display = 'none'; bg.style.display = 'none'; all.style.display = 'block'; 
-                document.body.style.overflowY = 'auto'; switcher.style.display = 'none'; 
+                document.body.style.overflowY = 'auto'; catNav.style.display = 'flex'; 
+                navAll.classList.add('active');
             } else { 
                 home.style.display = 'flex'; bg.style.display = 'block'; all.style.display = 'none'; 
-                document.body.style.overflowY = 'hidden'; switcher.style.display = 'flex'; 
+                document.body.style.overflowY = 'hidden'; catNav.style.display = 'none'; 
+                navAll.classList.remove('active');
                 changeHeroProject(currentIdx);
             }
         }
