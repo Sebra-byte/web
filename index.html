@@ -42,7 +42,7 @@
             transform: translate(-50%, -50%) scale(1.6);
         }
 
-        /* --- NAVEGACIÓN HOME --- */
+        /* --- NAVEGACIÓN --- */
         .sidebar-home {
             position: fixed; top: 60px; right: 60px;
             display: flex; flex-direction: column; text-align: right;
@@ -89,21 +89,19 @@
         }
         .side-menu-links a:hover { opacity: 1; font-style: italic; }
 
-        /* ACORDEÓN CATEGORÍAS */
         .side-menu-categories { 
-            display: none; /* Oculto por defecto */
-            flex-direction: column; gap: 12px; 
+            display: none; flex-direction: column; gap: 12px; 
             padding: 20px 0 30px; 
         }
         .side-menu-categories.open { display: flex; }
         .side-menu-categories a {
-            text-decoration: none; color: var(--hueso); font-size: 0.7rem;
+            text-decoration: none; color: var(--hueso); font-size: 0.75rem;
             font-weight: 800; text-transform: uppercase; letter-spacing: 0.25em;
             opacity: 0.3; transition: 0.3s;
         }
         .side-menu-categories a:hover { opacity: 1; }
 
-        /* --- SELECTOR IDIOMA --- */
+        /* --- IDIOMAS --- */
         .lang-switcher {
             position: fixed; bottom: 40px; right: 60px;
             z-index: 5000; display: flex; gap: 15px;
@@ -115,61 +113,42 @@
         }
         .lang-btn.active { opacity: 1; text-decoration: underline; }
 
-        /* --- ALL PROJECTS SECTION (SIN ESPACIOS VACÍOS) --- */
+        /* --- ALL PROJECTS SECTION (OPTIMIZADO) --- */
         #all-projects-section {
-            display: none; 
-            padding: 60px 0 100px; /* Reducido padding superior */
+            display: none; padding: 60px 0 100px;
             position: relative; z-index: 100; background: var(--bg-grafito); 
             height: 100vh; overflow-y: auto;
         }
-        
-        .all-projects-grid {
-            max-width: 1400px; /* Más ancho para aprovechar espacio */
-            margin: 0 auto; 
-            padding: 0 60px;
-        }
+        .all-projects-grid { max-width: 1500px; margin: 0 auto; padding: 0 60px; }
 
-        .category-group { margin-bottom: 80px; }
+        .category-group { margin-bottom: 100px; }
         .category-separator { 
-            font-size: 0.7rem; font-weight: 800; text-transform: uppercase; 
-            letter-spacing: 0.5em; opacity: 0.1; padding-bottom: 15px; 
-            border-bottom: 1px solid rgba(255, 255, 228, 0.1); margin-bottom: 20px;
+            font-size: 0.8rem; font-weight: 800; text-transform: uppercase; 
+            letter-spacing: 0.5em; opacity: 0.15; padding-bottom: 20px; 
+            border-bottom: 1px solid rgba(255, 255, 228, 0.1); margin-bottom: 30px;
         }
         
         .project-row { 
-            display: grid; 
-            grid-template-columns: 350px 1.5fr 1fr auto; /* Nueva columna para descripción */
-            gap: 40px; 
-            padding: 30px 0; 
+            display: grid; grid-template-columns: 420px 1.4fr 1.2fr auto;
+            gap: 60px; padding: 45px 0; 
             border-bottom: 1px solid rgba(255, 255, 228, 0.05); 
-            align-items: start; 
-            transition: var(--transition-smooth); 
+            align-items: start; transition: var(--transition-smooth); 
             text-decoration: none; color: inherit;
         }
         .project-row:hover { background: rgba(255, 255, 228, 0.02); }
 
-        .thumb-box { 
-            width: 100%; aspect-ratio: 16/9; overflow: hidden; 
-            background: #000; border-radius: 2px;
-        }
-        .thumb-box img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; transition: var(--transition-smooth); }
+        .thumb-box { width: 100%; aspect-ratio: 16/9; overflow: hidden; background: #000; border-radius: 2px; }
+        .thumb-box img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: var(--transition-smooth); }
         .project-row:hover .thumb-box img { opacity: 1; }
 
-        .info-box h3 { 
-            font-size: 2.2rem; font-weight: 800; text-transform: uppercase; 
-            line-height: 0.9; margin-bottom: 12px; letter-spacing: -0.03em;
-        }
-        .info-box .meta-line { font-size: 0.8rem; opacity: 0.4; font-weight: 400; margin-bottom: 4px; }
-        .info-box .meta-line strong { opacity: 0.7; color: var(--hueso); margin-right: 6px; font-weight: 700; }
+        .info-box h3 { font-size: 2.8rem; font-weight: 800; text-transform: uppercase; line-height: 0.85; margin-bottom: 18px; letter-spacing: -0.03em; }
+        .info-box .meta-line { font-size: 0.9rem; opacity: 0.45; font-weight: 400; margin-bottom: 5px; }
+        .info-box .meta-line strong { opacity: 0.8; color: var(--hueso); margin-right: 8px; font-weight: 700; }
 
-        .desc-box { font-size: 0.85rem; opacity: 0.5; line-height: 1.5; font-weight: 300; padding-top: 10px; }
+        .desc-box { font-size: 0.95rem; opacity: 0.45; line-height: 1.6; font-weight: 300; padding-top: 10px; }
 
         .logos-box { display: flex; align-items: center; justify-content: flex-end; width: 120px; padding-top: 10px; }
-        .logos-box img { 
-            max-height: 22px; max-width: 100px; 
-            filter: brightness(0) invert(1); object-fit: contain; 
-            opacity: 0.15; transition: 0.5s ease;
-        }
+        .logos-box img { max-height: 24px; filter: brightness(0) invert(1); opacity: 0.15; transition: 0.5s ease; }
         .project-row:hover .logos-box img { opacity: 0.8; }
 
         /* --- MODAL DETALLE --- */
@@ -178,55 +157,25 @@
             background: rgba(0,0,0,0.98); z-index: 20000; display: none;
             align-items: center; justify-content: center; backdrop-filter: blur(30px);
         }
-        .detail-wrapper {
-            width: 92vw; height: 85vh; display: grid; grid-template-columns: 7.2fr 2.8fr;
-            background: #000; position: relative; overflow: hidden;
-        }
-        .close-btn { 
-            position: fixed; top: 40px; right: 60px; font-size: 0.75rem; 
-            font-weight: 800; cursor: pointer; z-index: 20100; 
-            text-transform: uppercase; color: var(--hueso); opacity: 0.4; letter-spacing: 0.15em;
-        }
+        .detail-wrapper { width: 92vw; height: 85vh; display: grid; grid-template-columns: 7.2fr 2.8fr; background: #000; position: relative; }
+        .close-btn { position: fixed; top: 40px; right: 60px; font-size: 0.75rem; font-weight: 800; cursor: pointer; z-index: 20100; text-transform: uppercase; color: var(--hueso); opacity: 0.4; letter-spacing: 0.15em; }
 
         .detail-video-side { background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; }
         .detail-video-side iframe { width: 100%; height: 100%; border: none; }
-        .gallery-container { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #000; }
-        .gallery-container img { max-width: 90%; max-height: 90%; object-fit: contain; }
         
-        .detail-info-side {
-            padding: 60px 50px; display: flex; flex-direction: column;
-            justify-content: flex-end; border-left: 1px solid rgba(255,255,228,0.08);
-            background: #111; overflow-y: auto;
-        }
-        .detail-info-side h2 { font-size: 2.4rem; font-weight: 800; text-transform: uppercase; line-height: 0.9; margin-bottom: 40px; }
+        .detail-info-side { padding: 60px 50px; display: flex; flex-direction: column; justify-content: flex-end; border-left: 1px solid rgba(255,255,228,0.08); background: #111; overflow-y: auto; }
+        .detail-info-side h2 { font-size: 2.8rem; font-weight: 800; text-transform: uppercase; line-height: 0.9; margin-bottom: 40px; }
         .detail-meta-group { margin-bottom: 22px; }
         .detail-meta-group strong { display: block; font-size: 0.65rem; opacity: 0.3; text-transform: uppercase; letter-spacing: 0.25em; margin-bottom: 6px; }
-        .detail-meta-group p { font-size: 1rem; font-weight: 400; opacity: 0.9; }
-        .detail-desc { margin-top: 30px; font-size: 0.85rem; opacity: 0.4; line-height: 1.7; font-weight: 300; }
+        .detail-meta-group p { font-size: 1.1rem; font-weight: 400; opacity: 0.9; }
 
         /* --- HOME SECTION --- */
-        #home-section {
-            height: 100vh; width: 100%; display: flex; align-items: center;
-            padding-left: 80px; position: relative; z-index: 10;
-        }
+        #home-section { height: 100vh; width: 100%; display: flex; align-items: center; padding-left: 80px; position: relative; z-index: 10; }
         .section-label { font-size: 0.75rem; margin-bottom: 25px; font-weight: 700; opacity: 0.3; letter-spacing: 0.15em; text-transform: uppercase; }
-        .film-item {
-            font-size: 4.8rem; font-weight: 800; text-transform: uppercase;
-            line-height: 0.85; letter-spacing: -0.04em; color: transparent;
-            -webkit-text-stroke: 1px rgba(255, 255, 228, 0.2);
-            transition: all 0.5s ease; display: block;
-            text-decoration: none; margin-bottom: 8px; width: fit-content;
-        }
+        .film-item { font-size: 4.8rem; font-weight: 800; text-transform: uppercase; line-height: 0.85; letter-spacing: -0.04em; color: transparent; -webkit-text-stroke: 1px rgba(255, 255, 228, 0.2); transition: all 0.5s ease; display: block; text-decoration: none; margin-bottom: 8px; width: fit-content; }
         .film-item.active, .film-item:hover { color: var(--hueso); -webkit-text-stroke: 0px; transform: translateX(25px); }
 
-        @media (max-width: 1200px) {
-            .project-row { grid-template-columns: 300px 1fr; }
-            .desc-box, .logos-box { display: none; }
-        }
-        @media (max-width: 800px) {
-            .project-row { grid-template-columns: 1fr; }
-            .film-item { font-size: 3rem; }
-        }
+        @media (max-width: 1250px) { .project-row { grid-template-columns: 350px 1fr; } .desc-box, .logos-box { display: none; } }
     </style>
 </head>
 <body>
@@ -237,10 +186,7 @@
     </div>
 
     <div class="sidebar-home" id="nav-home">
-        <div class="brand" onclick="showSection('home')">
-            <h1>Leandro Bruno</h1>
-            <p>film editor</p>
-        </div>
+        <div class="brand" onclick="showSection('home')"><h1>Leandro Bruno</h1><p>film editor</p></div>
         <nav class="side-nav">
             <a href="#" onclick="showSection('all')">/ <span data-i18n="all_projects">todos los proyectos</span></a>
             <a href="mailto:leandrobrunoeditor@gmail.com">/ <span data-i18n="contact">contacto</span></a>
@@ -248,15 +194,12 @@
     </div>
 
     <div class="nav-all-projects" id="nav-all-projects">
-        <div class="menu-toggle" id="menu-btn" onclick="toggleMenu()">
-            <span></span><span></span><span></span>
-        </div>
+        <div class="menu-toggle" id="menu-btn" onclick="toggleMenu()"><span></span><span></span><span></span></div>
         <nav class="side-menu-overlay" id="side-menu">
             <div class="side-menu-links">
                 <a href="#" onclick="showSection('home'); toggleMenu();">/ home</a>
                 <a onclick="toggleAccordion()">/ <span data-i18n="all_projects">proyectos</span></a>
                 <div class="side-menu-categories" id="menu-categories"></div>
-                
                 <a href="mailto:leandrobrunoeditor@gmail.com" data-i18n="contact">/ contacto</a>
             </div>
         </nav>
@@ -296,96 +239,98 @@
         const projects = [
             {
                 title_es: "menem", title_en: "menem", category: "serie", episodes: 8,
-                images: ["assets/Menem_Thumbnail_1.jpg"],
-                yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", logo: "assets/prime.png",
-                desc_es: "Biopic que recorre el ascenso al poder de Carlos Menem en los años 90.", 
-                desc_en: "Biopic tracing Carlos Menem's rise to power in the 1990s."
+                images: ["assets/Menem_Thumbnail_1.jpg", "assets/Menem_Thumbnail_2.jpg", "assets/Menem_Thumbnail_3.png", "assets/Menem_Thumbnail_4.jpg"],
+                yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video",
+                desc_es: "Biopic que recorre el ascenso al poder de Carlos Menem en los años 90. Una exploración sobre el carisma, la política y la cultura argentina de una era inolvidable.",
+                desc_en: "Biopic tracing Carlos Menem's rise to power in the 1990s. An exploration of the charisma, politics, and culture of an unforgettable Argentine era."
             },
             {
                 title_es: "OREO - Sigamos divirtiendonos", title_en: "OREO - Keep on playing", category: "advertising",
-                images: ["assets/Oreo_Thumbnail_5.png"],
+                images: ["assets/Oreo_Thumbnail_5.png", "assets/Oreo_Thumbnail_1.png", "assets/Oreo_Thumbnail_2.png", "assets/Oreo_Thumbnail_3.png", "assets/Oreo_Thumbnail_4.png"],
                 yt: "7Cllu0Rme74", director: "Martín Jalfen", prod: "Pop Studios - México",
-                desc_es: "Campaña publicitaria global para Oreo con alto ritmo visual.", 
-                desc_en: "Global advertising campaign for Oreo with high visual pace."
+                desc_es: "Campaña publicitaria global para Oreo, destacando dinamismo y ritmo visual.",
+                desc_en: "Global advertising campaign for Oreo, highlighting dynamism and visual rhythm."
             },
             {
                 title_es: "el tiempo de las moscas", title_en: "time of the flies", category: "serie", episodes: 6,
-                images: ["assets/Moscas_Thumbnail_1.jpg"],
-                yt: "A0d6wnlMRRk", director: "Benjamín Naishtat y Ana Katz", prod: "netflix", logo: "assets/netflix.png",
-                desc_es: "Dos mujeres intentan reconstruir sus vidas tras salir de prisión.", 
-                desc_en: "Two women attempt to rebuild their lives after prison."
+                images: ["assets/Moscas_Thumbnail_1.jpg", "assets/Moscas_Thumbnail_2.png", "assets/Moscas_Thumbnail_3.png", "assets/Moscas_Thumbnail_4.png", "assets/Moscas_Thumbnail_5.png"],
+                yt: "A0d6wnlMRRk", director: "Benjamín Naishtat y Ana Katz", prod: "netflix",
+                desc_es: "Dos mujeres intentan reconstruir sus vidas tras salir de prisión, enfrentando un mundo que ha cambiado radicalmente mientras ellas estaban encerradas.",
+                desc_en: "Two women attempt to rebuild their lives after being released from prison, facing a world that has radically changed while they were locked up."
             },
             {
                 title_es: "levis x winona riders", title_en: "levis x winona riders", category: "advertising",
-                images: ["assets/Levis_Thumbnail_v01.jpg"],
+                images: ["assets/Levis_Thumbnail_v01.jpg", "assets/Levis_Thumbnail_2.png", "assets/Levis_Thumbnail_3.png", "assets/Levis_Thumbnail_5.png", "assets/Levis_Thumbnail_6.png", "assets/Levis_Thumbnail_7.png"],
                 yt: "1eE588vXvqSECtESSjgwN_vpRmMFaUpRg", director: "Nico Alarcos", prod: "primo",
-                desc_es: "Campaña de gira de Winona Riders por el norte de Argentina.", 
+                desc_es: "Campaña de gira de Winona Riders por el norte de Argentina.",
                 desc_en: "Winona Riders commercial tour of northern Argentina."
             },
             {
                 title_es: "coppola, el representante", title_en: "coppola, the agent", category: "serie", episodes: 6,
-                images: ["assets/Coppola_Thumbnail_2.jpg"],
-                yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films / disney+", logo: "assets/disney.png",
-                desc_es: "La historia de Guillermo Coppola, el representante más famoso.", 
-                desc_en: "The story of Guillermo Coppola, the most famous manager."
+                images: ["assets/Coppola_Thumbnail_2.jpg", "assets/Coppola_Thumbnail_3.png", "assets/Coppola_Thumbnail_4.jpg"],
+                yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films / disney+",
+                desc_es: "La historia de Guillermo Coppola, el representante más famoso de Argentina, en una travesía llena de excesos, humor y nostalgia noventera.",
+                desc_en: "The story of Guillermo Coppola, Argentina's most famous manager, in a journey filled with excess, humor, and nineties nostalgia."
             },
             {
                 title_es: "blair - Todo lo que tengo", title_en: "blair - All I have", category: "music video",
-                images: ["assets/Blair_Thumbnail_1.jpg"],
+                images: ["assets/Blair_Thumbnail_1.jpg", "assets/Blair_Thumbnail_2.png", "assets/Blair_Thumbnail_3.png", "assets/Blair_Thumbnail_4.png", "assets/Blair_Thumbnail_5.png"],
                 yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster",
-                desc_es: "Videoclip oficial del adelanto de Bar Scorpios.", 
-                desc_en: "Official music video for Bar Scorpios preview."
+                desc_es: "Primer adelanto del disco Bar Scorpios (2025)",
+                desc_en: "First preview of the album Bar Scorpios (2025)"
             },
             {
                 title_es: "las manos de la abuela", title_en: "grandmother's hands", category: "cortometraje",
-                images: ["assets/MA_Thumbnail_1.png"],
+                images: ["assets/MA_Thumbnail_1.png", "assets/MA_Thumbnail_3.png", "assets/MA_Thumbnail_4.png", "assets/MA_Thumbnail_5.png"],
                 yt: "", director: "camila migliore", prod: "calesita films",
-                desc_es: "Cortometraje que explora la memoria y el legado familiar.", 
-                desc_en: "Short film exploring memory and family legacy."
+                desc_es: "Cortometraje que explora la memoria y el legado familiar a través de los gestos y las historias grabadas en las manos de una abuela.",
+                desc_en: "Short film that exploring memory and family legacy through the gestures and stories etched into a grandmother's hands."
             },
             {
                 title_es: "ratones paranoicos", title_en: "ratones paranoicos", category: "music video",
-                images: ["assets/RP_Thumbmail_1.png"],
+                images: ["assets/RP_Thumbmail_1.png", "assets/RP_Thumbmail_2.png", "assets/RP_Thumbmail_3.png", "assets/RP_Thumbmail_4.png"],
                 yt: "", director: "alex roux", prod: "poster",
-                desc_es: "Pieza audiovisual para la legendaria banda de rock.", 
-                desc_en: "Audiovisual piece for the legendary rock band."
+                desc_es: "Pieza audiovisual para la legendaria banda de rock argentina.",
+                desc_en: "Audiovisual piece for the legendary Argentine rock band."
+            },
+            {
+                title_es: "besos brujos", title_en: "witch kisses", category: "cortometraje",
+                images: ["assets/BB_Thumbnail_1.png", "assets/BB_Thumbnail_2.png", "assets/BB_Thumbnail_3.png"],
+                yt: "", director: "karina flonembaum", prod: "",
+                desc_es: "Ficción breve que juega con los límites del deseo y la fantasía en una atmósfera onírica.",
+                desc_en: "Short fiction playing with the limits of desire and fantasy in a dreamlike atmosphere."
+            },
+            {
+                title_es: "las marias", title_en: "las marias", category: "advertising",
+                images: ["assets/Marias_Thumbnail_1.png", "assets/Marias_Thumbnail_2.png", "assets/Marias_Thumbnail_3.png"],
+                yt: "", director: "alejandro berger parrado", prod: "navajo films",
+                desc_es: "Pieza con formato video inmersivo documental publicitaria sobre la tradición yerbatera argentina.",
+                desc_en: "Immersive video documentary advertising piece on the Argentine yerba mate tradition."
+            },
+            {
+                title_es: "todo lo que recuerdo", title_en: "all I remember", category: "cortometraje",
+                images: ["assets/TodoLoQueRecuerdo_Thumbnail_1.png"],
+                yt: "", director: "nicolas fernandez melian", prod: "",
+                desc_es: "Un viaje sensorial por la memoria fragmentada. Selección oficial del Festival Internacional de Cine de Mar del Plata.",
+                desc_en: "A sensory journey through fragmented memory. Official selection at the Mar del Plata International Film Festival."
             }
         ];
 
-        let currentLang = 'es';
-        let activePaneId = 1;
-        let currentIdx = 0;
-        let previewTimer;
+        let currentLang = 'es'; let activePaneId = 1; let currentIdx = 0; let previewTimer;
 
-        function toggleMenu() {
-            document.getElementById('menu-btn').classList.toggle('open');
-            document.getElementById('side-menu').classList.toggle('active');
-            // Cerrar acordeon al cerrar menu
-            document.getElementById('menu-categories').classList.remove('open');
-        }
-
-        function toggleAccordion() {
-            document.getElementById('menu-categories').classList.toggle('open');
-        }
-
-        function setLang(lang) {
-            currentLang = lang;
-            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(`btn-${lang}`).classList.add('active');
-            renderLists();
-        }
+        function toggleMenu() { document.getElementById('menu-btn').classList.toggle('open'); document.getElementById('side-menu').classList.toggle('active'); document.getElementById('menu-categories').classList.remove('open'); }
+        function toggleAccordion() { document.getElementById('menu-categories').classList.toggle('open'); }
+        function setLang(lang) { currentLang = lang; document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active')); document.getElementById(`btn-${lang}`).classList.add('active'); renderLists(); }
 
         function renderLists() {
-            const featList = document.getElementById('featured-list');
-            const indexList = document.getElementById('full-index-list');
+            const featList = document.getElementById('featured-list'); 
+            const indexList = document.getElementById('full-index-list'); 
             const menuCats = document.getElementById('menu-categories');
             featList.innerHTML = ''; indexList.innerHTML = ''; menuCats.innerHTML = '';
 
             const featured = projects.filter(p => p.yt);
             featured.forEach((p, idx) => {
-                const a = document.createElement('a');
-                a.className = "film-item " + (idx === currentIdx ? 'active' : '');
-                a.innerText = p[`title_${currentLang}`];
+                const a = document.createElement('a'); a.className = "film-item " + (idx === currentIdx ? 'active' : ''); a.innerText = p[`title_${currentLang}`];
                 a.onmouseenter = () => { if(idx !== currentIdx) { currentIdx = idx; updateHomeActiveUI(); changeHeroProject(idx); } };
                 a.onclick = (e) => { e.preventDefault(); openDetailByTitle(p.title_es); };
                 featList.appendChild(a);
@@ -394,18 +339,15 @@
             const categories = [...new Set(projects.map(p => p.category))];
             categories.forEach(cat => {
                 const catId = `cat-${cat.replace(/\s/g, '')}`;
-                const mLink = document.createElement('a');
-                mLink.href = `#${catId}`; mLink.innerText = `/ ${cat}`;
+                const mLink = document.createElement('a'); mLink.href = `#${catId}`; mLink.innerText = `/ ${cat}`;
                 mLink.onclick = () => { showSection('all'); toggleMenu(); };
                 menuCats.appendChild(mLink);
 
-                const group = document.createElement('div');
-                group.className = "category-group";
+                const group = document.createElement('div'); group.className = "category-group";
                 group.innerHTML = `<div class="category-separator" id="${catId}">${cat}</div>`;
                 
                 projects.filter(p => p.category === cat).forEach(p => {
-                    const row = document.createElement('a');
-                    row.className = "project-row";
+                    const row = document.createElement('a'); row.className = "project-row";
                     row.innerHTML = `
                         <div class="thumb-box"><img src="${p.images[0]}"></div>
                         <div class="info-box">
@@ -415,7 +357,7 @@
                             ${p.episodes ? `<div class="meta-line"><strong>${i18n[currentLang].episodes}:</strong> ${p.episodes}</div>` : ''}
                         </div>
                         <div class="desc-box">${p[`desc_${currentLang}`]}</div>
-                        <div class="logos-box">${p.logo ? `<img src="${p.logo}">` : ''}</div>`;
+                        <div class="logos-box"></div>`;
                     row.onclick = (e) => { e.preventDefault(); openDetailByTitle(p.title_es); };
                     group.appendChild(row);
                 });
@@ -423,51 +365,28 @@
             });
         }
 
-        function updateHomeActiveUI() {
-            document.querySelectorAll('.film-item').forEach((el, i) => { el.classList.toggle('active', i === currentIdx); });
-        }
+        function updateHomeActiveUI() { document.querySelectorAll('.film-item').forEach((el, i) => { el.classList.toggle('active', i === currentIdx); }); }
 
         function changeHeroProject(idx) {
-            clearTimeout(previewTimer);
-            const featured = projects.filter(p => p.yt);
-            if(featured.length === 0) return;
-            const nextPaneId = activePaneId === 1 ? 2 : 1;
-            const currentPane = document.getElementById(`pane-${activePaneId}`);
-            const nextPane = document.getElementById(`pane-${nextPaneId}`);
-            const p = featured[idx];
-            const playerDivId = `yt-player-${Date.now()}`;
+            clearTimeout(previewTimer); const featured = projects.filter(p => p.yt); if(featured.length === 0) return;
+            const nextPaneId = activePaneId === 1 ? 2 : 1; const currentPane = document.getElementById(`pane-${activePaneId}`); const nextPane = document.getElementById(`pane-${nextPaneId}`);
+            const p = featured[idx]; const playerDivId = `yt-player-${Date.now()}`;
             nextPane.innerHTML = `<div id="${playerDivId}"></div>`;
 
             new YT.Player(playerDivId, {
-                videoId: p.yt,
-                playerVars: { autoplay: 1, mute: 1, controls: 0, modestbranding: 1, rel: 0, start: 10, loop: 1, playlist: p.yt },
-                events: {
-                    onReady: (e) => {
-                        nextPane.classList.add('active');
-                        currentPane.classList.remove('active');
-                        activePaneId = nextPaneId;
-                        setTimeout(() => { currentPane.innerHTML = ''; }, 2000);
-                        previewTimer = setTimeout(() => { currentIdx = (currentIdx + 1) % featured.length; updateHomeActiveUI(); changeHeroProject(currentIdx); }, 10000);
-                    }
-                }
+                videoId: p.yt, playerVars: { autoplay: 1, mute: 1, controls: 0, modestbranding: 1, rel: 0, start: 10, loop: 1, playlist: p.yt },
+                events: { onReady: (e) => { nextPane.classList.add('active'); currentPane.classList.remove('active'); activePaneId = nextPaneId; setTimeout(() => { currentPane.innerHTML = ''; }, 2000); previewTimer = setTimeout(() => { currentIdx = (currentIdx + 1) % featured.length; updateHomeActiveUI(); changeHeroProject(currentIdx); }, 10000); } }
             });
         }
 
         function openDetailByTitle(title) {
-            clearTimeout(previewTimer);
-            const p = projects.find(proj => proj.title_es === title);
-            const detail = document.getElementById('project-detail');
-            const container = document.getElementById('detail-dynamic-content');
-            let mediaHtml = p.yt ? `<iframe src="https://www.youtube.com/embed/${p.yt}?autoplay=1&rel=0" allow="autoplay"></iframe>` : `<div class="gallery-container"><img src="${p.images[0]}"></div>`;
-            container.innerHTML = `<div class="detail-video-side">${mediaHtml}</div><div class="detail-info-side"><h2>${p[`title_${currentLang}`]}</h2><div class="detail-meta-group"><strong>${i18n[currentLang].director}</strong><p>${p.director}</p></div><div class="detail-meta-group"><strong>${i18n[currentLang].prod}</strong><p>${p.prod}</p></div><div class="detail-meta-group"><strong>${i18n[currentLang].editor_label}</strong><p>leandro bruno</p></div><p class="detail-desc">${p[`desc_${currentLang}`] || ''}</p></div>`;
+            clearTimeout(previewTimer); const p = projects.find(proj => proj.title_es === title); const detail = document.getElementById('project-detail'); const container = document.getElementById('detail-dynamic-content');
+            let mediaHtml = p.yt ? `<iframe src="https://www.youtube.com/embed/${p.yt}?autoplay=1&rel=0" allow="autoplay"></iframe>` : `<div class="gallery-container"><img src="${p.images[0]}" style="max-width:90%"></div>`;
+            container.innerHTML = `<div class="detail-video-side">${mediaHtml}</div><div class="detail-info-side"><h2>${p[`title_${currentLang}`]}</h2><div class="detail-meta-group"><strong>${i18n[currentLang].director}</strong><p>${p.director}</p></div><div class="detail-meta-group"><strong>${i18n[currentLang].prod}</strong><p>${p.prod}</p></div><div class="detail-meta-group"><strong>${i18n[currentLang].editor_label}</strong><p>leandro bruno</p></div></div>`;
             detail.style.display = 'flex'; document.body.style.overflow = 'hidden';
         }
 
-        function closeDetail() {
-            document.getElementById('detail-dynamic-content').innerHTML = '';
-            document.getElementById('project-detail').style.display = 'none';
-            if(document.getElementById('all-projects-section').style.display !== 'block') { document.body.style.overflow = 'hidden'; changeHeroProject(currentIdx); } else { document.body.style.overflowY = 'auto'; }
-        }
+        function closeDetail() { document.getElementById('detail-dynamic-content').innerHTML = ''; document.getElementById('project-detail').style.display = 'none'; if(document.getElementById('all-projects-section').style.display !== 'block') { document.body.style.overflow = 'hidden'; changeHeroProject(currentIdx); } else { document.body.style.overflowY = 'auto'; } }
 
         function showSection(sec) {
             const home = document.getElementById('home-section'), all = document.getElementById('all-projects-section'), bg = document.getElementById('bg-container'), navHome = document.getElementById('nav-home'), navAll = document.getElementById('nav-all-projects');
