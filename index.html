@@ -157,6 +157,18 @@
 
         .project-row .info-box strong { font-weight: 700; color: var(--hueso); margin-right: 8px; }
 
+        .series-specs {
+            display: inline-block;
+            margin-left: 10px;
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border: 1px solid rgba(255, 255, 228, 0.3);
+            border-radius: 4px;
+            vertical-align: middle;
+            opacity: 0.8;
+            text-transform: uppercase;
+        }
+
         .project-row .logos-box {
             display: flex;
             justify-content: flex-end;
@@ -165,7 +177,7 @@
         }
 
         .project-row .logos-box img {
-            max-height: 50px; /* Logos agrandados */
+            max-height: 50px;
             max-width: 130px;
             filter: brightness(0) invert(1);
             opacity: 0.9;
@@ -238,9 +250,36 @@
 
     <script>
         const projects = [
-            { title_es: "menem", category: "serie", images: ["assets/Menem_Thumbnail_1.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", platform: "https://upload.wikimedia.org/wikipedia/commons/f/f1/Prime_Video.png" },
-            { title_es: "el tiempo de las moscas", category: "serie", images: ["assets/Moscas_Thumbnail_1.jpg"], yt: "A0d6wnlMRRk", director: "Benjamín Naishtat y Ana Katz", prod: "netflix", platform: "https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" },
-            { title_es: "coppola, el representante", category: "serie", images: ["assets/Coppola_Thumbnail_2.jpg"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films / disney+", platform: "https://upload.wikimedia.org/wikipedia/commons/3/3e/Disney%2B_logo.svg" },
+            { 
+                title_es: "menem", 
+                category: "serie", 
+                images: ["assets/Menem_Thumbnail_1.jpg"], 
+                yt: "-2AmqmciWXE", 
+                director: "ariel winograd", 
+                prod: "claxon / prime video", 
+                platform: "https://upload.wikimedia.org/wikipedia/commons/f/f1/Prime_Video.png",
+                specs: "6 episodios" 
+            },
+            { 
+                title_es: "el tiempo de las moscas", 
+                category: "serie", 
+                images: ["assets/Moscas_Thumbnail_1.jpg"], 
+                yt: "A0d6wnlMRRk", 
+                director: "Benjamín Naishtat y Ana Katz", 
+                prod: "netflix", 
+                platform: "https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg",
+                specs: "6 episodios" 
+            },
+            { 
+                title_es: "coppola, el representante", 
+                category: "serie", 
+                images: ["assets/Coppola_Thumbnail_2.jpg"], 
+                yt: "ecr24akKDbs", 
+                director: "ariel winograd", 
+                prod: "pampa films / disney+", 
+                platform: "https://upload.wikimedia.org/wikipedia/commons/3/3e/Disney%2B_logo.svg",
+                specs: "6 episodios" 
+            },
             
             { title_es: "OREO - Sigamos divirtiendonos", category: "advertising", images: ["assets/Oreo_Thumbnail_5.png"], yt: "7Cllu0Rme74", director: "Martín Jalfen", prod: "Pop Studios - México", platform: "" },
             { title_es: "levis x winona riders", category: "advertising", images: ["assets/Levis_Thumbnail_v01.jpg"], yt: "mb2RPesGf7Q", director: "Nico Alarcos", prod: "primo", platform: "" },
@@ -287,7 +326,7 @@
                     row.innerHTML = `
                         <div class="thumb-box"><img src="${p.images[0]}" alt="${p.title_es}"></div>
                         <div class="info-box">
-                            <h3>${p.title_es}</h3>
+                            <h3>${p.title_es} ${p.specs ? `<span class="series-specs">${p.specs}</span>` : ''}</h3>
                             <p><strong>Director:</strong> ${p.director}</p>
                             <p><strong>Production:</strong> ${p.prod}</p>
                             <p><strong>Editor:</strong> Leandro Bruno</p>
@@ -361,7 +400,10 @@
                     ${p.yt ? `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${p.yt}?autoplay=1" frameborder="0" allowfullscreen></iframe>` : `<img src="${p.images[0]}" style="width:100%; height:100%; object-fit:cover;">`}
                 </div>
                 <div class="detail-grid">
-                    <div><h2>${p.title_es}</h2><p style="opacity:0.4; margin-top:10px; font-weight:800; text-transform:uppercase;">${p.category}</p></div>
+                    <div>
+                        <h2>${p.title_es}</h2>
+                        <p style="opacity:0.4; margin-top:10px; font-weight:800; text-transform:uppercase;">${p.category} ${p.specs ? ` — ${p.specs}` : ''}</p>
+                    </div>
                     <div style="font-size:1.1rem; line-height:1.6; opacity:0.8; text-transform:none;">
                         <p><strong>director:</strong> ${p.director}</p>
                         <p><strong>production:</strong> ${p.prod}</p>
