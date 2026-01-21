@@ -59,12 +59,12 @@
         }
         .side-nav a:hover { opacity: 1; font-style: italic; }
 
-        /* --- NAV TODOS LOS PROYECTOS (Logo y Hamburguesa juntos a la derecha) --- */
+        /* --- NAV TODOS LOS PROYECTOS --- */
         .nav-all-projects {
             position: fixed; top: 0; left: 0; width: 100%;
             padding: 60px 80px;
             display: none; 
-            justify-content: flex-end; /* Alinea contenido al final (derecha) */
+            justify-content: flex-end; /* Alineado a la derecha */
             align-items: flex-start;
             gap: 40px;
             z-index: 9999;
@@ -76,7 +76,7 @@
             text-align: right; 
             transition: transform 0.5s var(--transition-smooth), opacity 0.5s ease;
         }
-        /* Solo se anima el logo */
+        /* Solo el logo desaparece al scrollear */
         .brand-mini.scrolled {
             transform: translateY(-150%);
             opacity: 0;
@@ -88,7 +88,7 @@
         .menu-toggle {
             width: 30px; height: 18px; display: flex; flex-direction: column;
             justify-content: space-between; cursor: pointer; z-index: 10001; position: relative;
-            margin-top: 15px; /* Ajuste para alinear con el texto del logo */
+            margin-top: 15px;
         }
         .menu-toggle span { display: block; width: 100%; height: 2px; background: var(--hueso); transition: 0.4s; }
         .menu-toggle.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
@@ -132,39 +132,65 @@
         }
         .lang-btn.active { opacity: 1; text-decoration: underline; }
 
-        /* --- ALL PROJECTS SECTION --- */
+        /* --- ALL PROJECTS SECTION (CARROUSEL VERTICAL) --- */
         #all-projects-section {
-            display: none; padding: 220px 0 100px;
+            display: none; 
+            padding: 0; /* Sin padding global para que ocupe todo */
             position: relative; z-index: 100; background: var(--bg-grafito); 
             height: 100vh; overflow-y: auto;
+            /* Scroll Snap para efecto carrousel */
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
         }
-        .all-projects-grid { max-width: 1600px; margin: 0; padding: 0 80px; }
+        /* Ocultar barra de scroll para limpieza visual */
+        #all-projects-section::-webkit-scrollbar { display: none; }
+        #all-projects-section { -ms-overflow-style: none; scrollbar-width: none; }
 
-        .category-group { margin-bottom: 100px; }
-        .category-separator { 
-            font-size: 0.8rem; font-weight: 800; text-transform: uppercase; 
-            letter-spacing: 0.5em; opacity: 0.15; padding-bottom: 20px; 
-            border-bottom: 1px solid rgba(255, 255, 228, 0.1); margin-bottom: 30px;
+        .all-projects-grid { 
+            max-width: 100%; 
+            margin: 0; 
+            padding: 0;
+        }
+
+        /* Estructura del Slide (Carrousel Item) */
+        .project-row { 
+            display: grid; 
+            grid-template-columns: 50% 1fr; /* Mitad imagen, mitad info */
+            gap: 80px; 
+            padding: 0 80px; 
+            height: 100vh; /* Ocupa toda la pantalla */
+            width: 100%;
+            align-items: center; 
+            transition: var(--transition-smooth); 
+            text-decoration: none; color: inherit;
+            scroll-snap-align: start; /* Anclaje del scroll */
+            border-bottom: none; /* Quitamos linea divisoria */
         }
         
-        .project-row { 
-            display: grid; grid-template-columns: 420px 1.4fr 1.2fr; 
-            gap: 60px; padding: 45px 0; 
-            border-bottom: 1px solid rgba(255, 255, 228, 0.05); 
-            align-items: start; transition: var(--transition-smooth); 
-            text-decoration: none; color: inherit;
+        .thumb-box { 
+            width: 100%; 
+            height: 60vh; /* Thumbnail más grande */
+            overflow: hidden; background: #000; border-radius: 2px; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
         }
-        .project-row:hover { background: rgba(255, 255, 228, 0.02); }
+        .thumb-box img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: var(--transition-smooth); }
+        .project-row:hover .thumb-box img { opacity: 1; transform: scale(1.02); }
 
-        .thumb-box { width: 100%; aspect-ratio: 16/9; overflow: hidden; background: #000; border-radius: 2px; }
-        .thumb-box img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: var(--transition-smooth); }
-        .project-row:hover .thumb-box img { opacity: 1; }
+        .info-box { display: flex; flex-direction: column; justify-content: center; }
+        .info-box h3 { font-size: 4rem; font-weight: 800; text-transform: uppercase; line-height: 0.9; margin-bottom: 30px; letter-spacing: -0.03em; }
+        .info-box .meta-line { font-size: 1.1rem; opacity: 0.5; font-weight: 400; margin-bottom: 8px; }
+        .info-box .meta-line strong { opacity: 0.9; color: var(--hueso); margin-right: 10px; font-weight: 700; }
 
-        .info-box h3 { font-size: 2.8rem; font-weight: 800; text-transform: uppercase; line-height: 0.85; margin-bottom: 18px; letter-spacing: -0.03em; }
-        .info-box .meta-line { font-size: 0.9rem; opacity: 0.45; font-weight: 400; margin-bottom: 5px; }
-        .info-box .meta-line strong { opacity: 0.8; color: var(--hueso); margin-right: 8px; font-weight: 700; }
+        /* Categoría pequeña arriba del título */
+        .category-label {
+            font-size: 0.75rem; font-weight: 800; text-transform: uppercase; 
+            letter-spacing: 0.4em; opacity: 0.3; margin-bottom: 20px; display: block;
+        }
 
-        .desc-box { font-size: 0.95rem; opacity: 0.45; line-height: 1.6; font-weight: 300; padding-top: 10px; }
+        .list-platform-logo { height: 40px; width: auto; margin-top: 30px; opacity: 0.8; filter: grayscale(0.5); transition: 0.3s; }
+        .project-row:hover .list-platform-logo { opacity: 1; filter: grayscale(0); }
+
+        .desc-box { display: none; } /* En modo carrousel pantalla completa, la descripción larga ensucia, mejor dejarla para el detalle */
 
         /* --- MODAL DETALLE --- */
         #project-detail {
@@ -194,7 +220,7 @@
         
         .platform-logo { height: 45px; width: auto; opacity: 0.9; }
 
-        /* Galería UI */
+        /* Galería UI Flechas */
         .gallery-nav { position: absolute; top: 50%; left: 0; width: 100%; transform: translateY(-50%); display: flex; justify-content: space-between; padding: 0 40px; z-index: 10; pointer-events: none; }
         .nav-arrow { width: 60px; height: 60px; background: rgba(0,0,0,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; pointer-events: auto; transition: 0.3s; font-size: 1.5rem; opacity: 0.4; color: white; }
         .nav-arrow:hover { background: rgba(0,0,0,0.6); opacity: 1; transform: scale(1.1); }
@@ -214,9 +240,9 @@
         .film-item.active, .film-item:hover { color: var(--hueso); -webkit-text-stroke: 0px; transform: translateX(25px); }
 
         @media (max-width: 1250px) { 
-            .project-row { grid-template-columns: 1fr; } 
-            .all-projects-grid { padding: 0 40px; }
-            .desc-box { display: none; }
+            .project-row { grid-template-columns: 1fr; padding: 0 40px; justify-content: center; } 
+            .thumb-box { height: 40vh; margin-bottom: 30px; }
+            .info-box h3 { font-size: 2.5rem; }
             .nav-all-projects { padding: 40px; }
         }
     </style>
@@ -296,35 +322,42 @@
                 images: ["assets/Menem_Thumbnail_1.jpg", "assets/Menem_Thumbnail_2.jpg", "assets/Menem_Thumbnail_3.png", "assets/Menem_Thumbnail_4.jpg"],
                 yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video",
                 desc_es: "Biopic que recorre el ascenso al poder de Carlos Menem en los años 90. Una exploración sobre el carisma, la política y la cultura argentina de una era inolvidable.",
-                desc_en: "Biopic tracing Carlos Menem's rise to power in the 1990s."
+                desc_en: "Biopic tracing Carlos Menem's rise to power in the 1990s. An exploration of the charisma, politics, and culture of an unforgettable Argentine era."
+            },
+            {
+                title_es: "agujeros negros", title_en: "black holes", category: "cortometraje",
+                images: ["assets/Agujeros_Thumbnail_1.png"],
+                yt: "", director: "nombre director", prod: "productora",
+                desc_es: "Cortometraje sobre la inmensidad del espacio y la soledad humana.",
+                desc_en: "Short film about the vastness of space and human loneliness."
             },
             {
                 title_es: "OREO - Sigamos divirtiendonos", title_en: "OREO - Keep on playing", category: "advertising", platform: "",
                 images: ["assets/Oreo_Thumbnail_5.png", "assets/Oreo_Thumbnail_1.png", "assets/Oreo_Thumbnail_2.png"],
                 yt: "7Cllu0Rme74", director: "Martín Jalfen", prod: "Pop Studios - México",
                 desc_es: "Campaña publicitaria global para Oreo, destacando dinamismo y ritmo visual.",
-                desc_en: "Global advertising campaign for Oreo."
+                desc_en: "Global advertising campaign for Oreo, highlighting dynamism and visual rhythm."
             },
             {
                 title_es: "el tiempo de las moscas", title_en: "time of the flies", category: "serie", episodes: 6, platform: "netflix",
                 images: ["assets/Moscas_Thumbnail_1.jpg", "assets/Moscas_Thumbnail_2.png"],
                 yt: "A0d6wnlMRRk", director: "Benjamín Naishtat y Ana Katz", prod: "netflix",
                 desc_es: "Dos mujeres intentan reconstruir sus vidas tras salir de prisión, enfrentando un mundo que ha cambiado radicalmente.",
-                desc_en: "Two women attempt to rebuild their lives."
+                desc_en: "Two women attempt to rebuild their lives after being released from prison."
             },
             {
                 title_es: "levis x winona riders", title_en: "levis x winona riders", category: "advertising", platform: "",
                 images: ["assets/Levis_Thumbnail_v01.jpg", "assets/Levis_Thumbnail_2.png"],
-                yt: "mb2RPesGf7Q", director: "Nico Alarcos", prod: "primo",
+                yt: "1eE588vXvqSECtESSjgwN_vpRmMFaUpRg", director: "Nico Alarcos", prod: "primo",
                 desc_es: "Campaña de gira de Winona Riders por el norte de Argentina.",
-                desc_en: "Winona Riders commercial tour."
+                desc_en: "Winona Riders commercial tour of northern Argentina."
             },
             {
                 title_es: "coppola, el representante", title_en: "coppola, the agent", category: "serie", episodes: 6, platform: "disney",
                 images: ["assets/Coppola_Thumbnail_2.jpg", "assets/Coppola_Thumbnail_3.png"],
                 yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films / disney+",
-                desc_es: "La historia de Guillermo Coppola, el representante más famoso de Argentina.",
-                desc_en: "The story of Guillermo Coppola."
+                desc_es: "La historia de Guillermo Coppola, el representante más famoso de Argentina, en una travesía llena de excesos.",
+                desc_en: "The story of Guillermo Coppola, Argentina's most famous manager."
             },
             {
                 title_es: "blair - Todo lo que tengo", title_en: "blair - All I have", category: "music video", platform: "youtube",
@@ -335,38 +368,38 @@
             },
             {
                 title_es: "las manos de la abuela", title_en: "grandmother's hands", category: "cortometraje", platform: "",
-                images: ["assets/MA_Thumbnail_1.png", "assets/MA_Thumbnail_2.png", "assets/MA_Thumbnail_3.png", "assets/MA_Thumbnail_4.png", "assets/MA_Thumbnail_5.png"],
+                images: ["assets/MA_Thumbnail_1.png", "assets/MA_Thumbnail_3.png"],
                 yt: "", director: "camila migliore", prod: "calesita films",
                 desc_es: "Cortometraje que explora la memoria y el legado familiar.",
                 desc_en: "Short film exploring memory and family legacy."
             },
             {
                 title_es: "ratones paranoicos", title_en: "ratones paranoicos", category: "music video", platform: "youtube",
-                images: ["assets/RP_Thumbmail_1.png", "assets/RP_Thumbmail_2.png", "assets/RP_Thumbmail_3.png", "assets/RP_Thumbmail_4.png"],
+                images: ["assets/RP_Thumbmail_1.png"],
                 yt: "", director: "alex roux", prod: "poster",
                 desc_es: "Pieza audiovisual para la legendaria banda de rock argentina.",
                 desc_en: "Audiovisual piece for the legendary Argentine rock band."
             },
             {
                 title_es: "besos brujos", title_en: "witch kisses", category: "cortometraje", platform: "",
-                images: ["assets/BB_Thumbnail_1.png", "assets/BB_Thumbnail_2.png", "assets/BB_Thumbnail_3.png", "assets/BB_Thumbnail_4.png", "assets/BB_Thumbnail_5.png"],
+                images: ["assets/BB_Thumbnail_1.png"],
                 yt: "", director: "karina flonembaum", prod: "",
-                desc_es: "Ficción breve que juega con los límites del deseo.",
-                desc_en: "Short fiction playing with desire."
+                desc_es: "Ficción breve que juega con los límites del deseo y la fantasía en una atmósfera onírica.",
+                desc_en: "Short fiction playing with the limits of desire."
             },
             {
                 title_es: "las marias", title_en: "las marias", category: "advertising", platform: "",
-                images: ["assets/Marias_Thumbnail_1.png", "assets/Marias_Thumbnail_2.png", "assets/Marias_Thumbnail_3.png", "assets/Marias_Thumbnail_4.png"],
+                images: ["assets/Marias_Thumbnail_1.png"],
                 yt: "", director: "alejandro berger parrado", prod: "navajo films",
-                desc_es: "Documental publicitario sobre la tradición yerbatera argentina.",
-                desc_en: "Documentary advertising piece."
+                desc_es: "Pieza con formato video inmersivo documental publicitaria sobre la tradición yerbatera argentina.",
+                desc_en: "Immersive video documentary advertising piece."
             },
             {
                 title_es: "todo lo que recuerdo", title_en: "all I remember", category: "cortometraje", platform: "",
                 images: ["assets/TodoLoQueRecuerdo_Thumbnail_1.png"],
                 yt: "", director: "nicolas fernandez melian", prod: "",
-                desc_es: "Un viaje sensorial por la memoria fragmentada. Selección oficial del Festival de Mar del Plata.",
-                desc_en: "A sensory journey through memory."
+                desc_es: "Un viaje sensorial por la memoria fragmentada. Selección oficial del Festival Internacional de Cine de Mar del Plata.",
+                desc_en: "A sensory journey through fragmented memory."
             }
         ];
 
@@ -379,11 +412,8 @@
 
         allProjectsSection.addEventListener('scroll', () => {
             let st = allProjectsSection.scrollTop;
-            if (st > lastScrollTop && st > 50) {
-                brandMini.classList.add('scrolled'); 
-            } else {
-                brandMini.classList.remove('scrolled'); 
-            }
+            if (st > lastScrollTop && st > 50) brandMini.classList.add('scrolled');
+            else brandMini.classList.remove('scrolled');
             lastScrollTop = st <= 0 ? 0 : st;
         });
 
@@ -403,6 +433,7 @@
             const menuCats = document.getElementById('menu-categories');
             featList.innerHTML = ''; indexList.innerHTML = ''; menuCats.innerHTML = '';
 
+            // Home List
             const featured = projects.filter(p => p.yt);
             featured.forEach((p, idx) => {
                 const a = document.createElement('a'); a.className = "film-item " + (idx === currentIdx ? 'active' : ''); a.innerText = p[`title_${currentLang}`];
@@ -411,31 +442,30 @@
                 featList.appendChild(a);
             });
 
+            // Menu Categories
             const categories = [...new Set(projects.map(p => p.category))];
             categories.forEach(cat => {
-                const catId = `cat-${cat.replace(/\s/g, '')}`;
                 const mLink = document.createElement('a'); mLink.innerText = `/ ${cat}`;
-                mLink.onclick = () => { showSection('all'); toggleMenu(); document.getElementById(catId).scrollIntoView(); };
+                mLink.onclick = () => { showSection('all'); toggleMenu(); /* Scroll logic for carousel TBD if needed */ };
                 menuCats.appendChild(mLink);
+            });
 
-                const group = document.createElement('div'); group.className = "category-group";
-                group.innerHTML = `<div class="category-separator" id="${catId}">${cat}</div>`;
-                
-                projects.filter(p => p.category === cat).forEach(p => {
-                    const row = document.createElement('a'); row.className = "project-row";
-                    row.innerHTML = `
-                        <div class="thumb-box"><img src="${p.images[0]}"></div>
-                        <div class="info-box">
-                            <h3>${p[`title_${currentLang}`]}</h3>
-                            <div class="meta-line"><strong>D:</strong> ${p.director}</div>
-                            <div class="meta-line"><strong>P:</strong> ${p.prod}</div>
-                            ${p.episodes ? `<div class="meta-line"><strong>${i18n[currentLang].episodes}:</strong> ${p.episodes}</div>` : ''}
-                        </div>
-                        <div class="desc-box">${p[`desc_${currentLang}`]}</div>`;
-                    row.onclick = (e) => { e.preventDefault(); openDetailByTitle(p.title_es); };
-                    group.appendChild(row);
-                });
-                indexList.appendChild(group);
+            // Carousel List (Sin agrupar por divs, todo plano para el scroll snap)
+            projects.forEach(p => {
+                const row = document.createElement('a'); row.className = "project-row";
+                row.innerHTML = `
+                    <div class="thumb-box"><img src="${p.images[0]}"></div>
+                    <div class="info-box">
+                        <span class="category-label">${p.category}</span>
+                        <h3>${p[`title_${currentLang}`]}</h3>
+                        <div class="meta-line"><strong>D:</strong> ${p.director}</div>
+                        <div class="meta-line"><strong>P:</strong> ${p.prod}</div>
+                        ${p.episodes ? `<div class="meta-line"><strong>${i18n[currentLang].episodes}:</strong> ${p.episodes}</div>` : ''}
+                        ${p.platform ? `<img src="assets/${p.platform}.png" class="list-platform-logo">` : ''}
+                    </div>
+                    <div class="desc-box">${p[`desc_${currentLang}`]}</div>`;
+                row.onclick = (e) => { e.preventDefault(); openDetailByTitle(p.title_es); };
+                indexList.appendChild(row);
             });
         }
 
@@ -446,7 +476,6 @@
             const featured = projects.filter(p => p.yt); 
             if(featured.length === 0) return;
             const nextPaneId = activePaneId === 1 ? 2 : 1; 
-            const currentPane = document.getElementById(`pane-${activePaneId}`); 
             const nextPane = document.getElementById(`pane-${nextPaneId}`);
             const p = featured[idx]; 
             const playerDivId = `yt-player-${Date.now()}`;
@@ -455,8 +484,8 @@
                 videoId: p.yt, 
                 playerVars: { autoplay: 1, mute: 1, controls: 0, modestbranding: 1, rel: 0, start: 10, loop: 1, playlist: p.yt },
                 events: { onReady: () => { 
-                    nextPane.classList.add('active'); currentPane.classList.remove('active'); 
-                    activePaneId = nextPaneId; setTimeout(() => { currentPane.innerHTML = ''; }, 2000); 
+                    nextPane.classList.add('active'); document.getElementById(`pane-${activePaneId}`).classList.remove('active'); 
+                    activePaneId = nextPaneId; setTimeout(() => { document.getElementById(`pane-${activePaneId === 1 ? 2 : 1}`).innerHTML = ''; }, 2000);
                     previewTimer = setTimeout(() => { currentIdx = (currentIdx + 1) % featured.length; updateHomeActiveUI(); changeHeroProject(currentIdx); }, 10000); 
                 } }
             });
@@ -473,8 +502,7 @@
 
             if (currentProject.yt) {
                 bgContainer.innerHTML = `<iframe src="https://www.youtube.com/embed/${currentProject.yt}?autoplay=1&controls=1&mute=0&rel=0" allow="autoplay; encrypted-media"></iframe>`;
-                ui.style.display = 'none';
-                document.getElementById('img-counter').innerText = '';
+                ui.style.display = 'none'; document.getElementById('img-counter').innerText = '';
             } else {
                 updateGalleryImg();
                 ui.style.display = (currentProject.images.length > 1) ? 'flex' : 'none';
@@ -488,6 +516,7 @@
                         <div class="detail-meta-item"><strong>${i18n[currentLang].prod}</strong><p>${currentProject.prod}</p></div>
                         <div class="detail-meta-item"><strong>${i18n[currentLang].editor_label}</strong><p>leandro bruno</p></div>
                     </div>
+                    ${currentProject.platform ? `<img src="assets/${currentProject.platform}.png" class="platform-logo">` : ''}
                 </div>`;
             
             detail.style.display = 'block'; document.body.style.overflow = 'hidden';
