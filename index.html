@@ -280,10 +280,7 @@
                 const a = document.createElement('a');
                 a.className = "film-item " + (idx === currentIdx ? 'active' : '');
                 a.innerText = p[`title_${currentLang}`];
-                a.onmouseenter = () => { 
-                    currentIdx = idx; 
-                    changeHeroProject(idx); 
-                };
+                a.onmouseenter = () => { currentIdx = idx; changeHeroProject(idx); };
                 a.onclick = (e) => { e.preventDefault(); openDetail(p.id); };
                 featList.appendChild(a);
             });
@@ -320,7 +317,6 @@
             clearTimeout(previewTimer);
             const featured = projects.filter(p => p.yt);
             
-            // ACTUALIZACIÓN DE TEXTO: Esto corrige que el texto cambie automáticamente
             document.querySelectorAll('.film-item').forEach((el, i) => {
                 if(i === idx) el.classList.add('active');
                 else el.classList.remove('active');
@@ -341,6 +337,9 @@
                         nextPane.classList.add('active');
                         currentPane.classList.remove('active');
                         activePaneId = nextPaneId;
+                        // Limpiar el panel viejo después de la transición para que no se escuchen dos audios
+                        setTimeout(() => { currentPane.innerHTML = ''; }, 2000);
+                        
                         previewTimer = setTimeout(() => {
                             currentIdx = (idx + 1) % featured.length;
                             changeHeroProject(currentIdx);
@@ -356,7 +355,7 @@
             const detail = document.getElementById('project-detail');
             const container = document.getElementById('detail-dynamic-content');
             
-            let mediaHtml = p.yt ? `<iframe src="https://www.youtube.com/embed/${p.yt}?autoplay=1&rel=0&modestbranding=1" allow="autoplay"></iframe>` : `<img src="${p.images[0]}">`;
+            let mediaHtml = p.yt ? `<iframe id="modal-iframe" src="https://www.youtube.com/embed/${p.yt}?autoplay=1&rel=0&modestbranding=1" allow="autoplay"></iframe>` : `<img src="${p.images[0]}">`;
 
             container.innerHTML = `
                 <div class="detail-video-side">${mediaHtml}</div>
@@ -373,7 +372,13 @@
         }
 
         function closeDetail() {
-            document.getElementById('project-detail').style.display = 'none';
+            const detail = document.getElementById('project-detail');
+            const container = document.getElementById('detail-dynamic-content');
+            
+            // IMPORTANTE: Vaciar el contenedor mata el video de fondo
+            container.innerHTML = '';
+            detail.style.display = 'none';
+            
             const isAllVisible = document.getElementById('all-projects-section').style.display === 'block';
             document.body.style.overflowY = isAllVisible ? 'auto' : 'hidden';
             if(!isAllVisible) changeHeroProject(currentIdx);
@@ -396,7 +401,13 @@
             }
         }
 
-        document.addEventListener('keydown', (e) => { if (e.key === "Escape") closeDetail(); });
+        // --- ESCUCHA DE TECLADO MEJORADA ---
+        document.addEventListener('keydown', (e) => { 
+            if (e.key === "Escape") {
+                closeDetail();
+            }
+        });
+
         window.onload = () => { renderLists(); setTimeout(() => changeHeroProject(0), 1000); };
     </script>
 </body>
