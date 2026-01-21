@@ -158,8 +158,12 @@
         }
         .close-btn:hover { opacity: 1; }
 
-        .detail-video-side { background: #000; width: 100%; height: 100%; }
-        .detail-video-side iframe, .detail-video-side img { width: 100%; height: 100%; border: none; object-fit: contain; }
+        .detail-video-side { background: #000; width: 100%; height: 100%; overflow-y: auto; }
+        .detail-video-side iframe { width: 100%; height: 100%; border: none; }
+        
+        /* Galería de imágenes cuando no hay video */
+        .image-gallery { display: flex; flex-direction: column; gap: 10px; padding: 10px; }
+        .image-gallery img { width: 100%; height: auto; object-fit: contain; }
 
         .detail-info-side {
             padding: 50px 40px; display: flex; flex-direction: column;
@@ -250,12 +254,17 @@
         };
 
         const projects = [
-            { id: 0, title_es: "menem", title_en: "menem", category: "serie", images: ["assets/Menem_Thumbnail_1.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", logo: "assets/Prime_logo.png", desc_es: "Biopic sobre el ascenso al poder de Carlos Menem.", desc_en: "Biopic tracing Carlos Menem's rise to power." },
-            { id: 1, title_es: "OREO - Sigamos divirtiendonos", title_en: "OREO - Keep on playing", category: "advertising", images: ["assets/Oreo_Thumbnail_5.png"], yt: "7Cllu0Rme74", director: "Martín Jalfen", prod: "Pop Studios - México", desc_es: "Campaña global para Oreo.", desc_en: "Global campaign for Oreo." },
-            { id: 2, title_es: "el tiempo de las moscas", title_en: "time of the flies", category: "serie", images: ["assets/Moscas_Thumbnail_1.jpg"], yt: "A0d6wnlMRRk", director: "Benjamín Naishtat y Ana Katz", prod: "netflix", logo: "assets/Netflix_logo.png", desc_es: "Dos mujeres intentan reconstruir sus vidas.", desc_en: "Two women attempt to rebuild their lives." },
-            { id: 3, title_es: "levis x winona riders", title_en: "levis x winona riders", category: "advertising", images: ["assets/Levis_Thumbnail_v01.jpg"], yt: "mb2RPesGf7Q", director: "Nico Alarcos", prod: "primo", desc_es: "Colaboración entre Levis y Winona Riders.", desc_en: "Collaboration between Levis and Winona Riders." },
-            { id: 4, title_es: "coppola, el representante", title_en: "coppola, the agent", category: "serie", images: ["assets/Coppola_Thumbnail_2.jpg"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films / disney+", logo: "assets/Disney_logo.png", desc_es: "La historia del representante más famoso.", desc_en: "The story of the most famous agent." },
-            { id: 5, title_es: "blair - Todo lo que tengo", title_en: "blair - All I have", category: "music video", images: ["assets/Blair_Thumbnail_1.jpg"], yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster", desc_es: "Videoclip musical para Blair.", desc_en: "Music video for Blair." }
+            { id: 0, title_es: "menem", title_en: "menem", category: "serie", images: ["assets/Menem_Thumbnail_1.jpg", "assets/Menem_Thumbnail_2.jpg", "assets/Menem_Thumbnail_3.png", "assets/Menem_Thumbnail_4.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", logo: "assets/Prime_logo.png", desc_es: "Biopic que recorre el ascenso al poder de Carlos Menem en los años 90. Una exploración sobre el carisma, la política y la cultura argentina de una era inolvidable.", desc_en: "Biopic tracing Carlos Menem's rise to power in the 1990s. An exploration of the charisma, politics, and culture of an unforgettable Argentine era." },
+            { id: 1, title_es: "OREO - Sigamos divirtiendonos", title_en: "OREO - Keep on playing", category: "advertising", images: ["assets/Oreo_Thumbnail_5.png", "assets/Oreo_Thumbnail_1.png", "assets/Oreo_Thumbnail_2.png", "assets/Oreo_Thumbnail_3.png", "assets/Oreo_Thumbnail_4.png"], yt: "7Cllu0Rme74", director: "Martín Jalfen", prod: "Pop Studios - México", desc_es: "Campaña publicitaria global para Oreo, destacando dinamismo y ritmo visual.", desc_en: "Global advertising campaign for Oreo, highlighting dynamism and visual rhythm." },
+            { id: 2, title_es: "el tiempo de las moscas", title_en: "time of the flies", category: "serie", images: ["assets/Moscas_Thumbnail_1.jpg", "assets/Moscas_Thumbnail_2.png", "assets/Moscas_Thumbnail_3.png", "assets/Moscas_Thumbnail_4.png", "assets/Moscas_Thumbnail_5.png"], yt: "A0d6wnlMRRk", director: "Benjamín Naishtat y Ana Katz", prod: "netflix", logo: "assets/Netflix_logo.png", desc_es: "Dos mujeres intentan reconstruir sus vidas tras salir de prisión, enfrentando un mundo que ha cambiado radicalmente mientras ellas estaban encerradas.", desc_en: "Two women attempt to rebuild their lives after being released from prison, facing a world that has radically changed while they were locked up." },
+            { id: 3, title_es: "levis x winona riders", title_en: "levis x winona riders", category: "advertising", images: ["assets/Levis_Thumbnail_v01.jpg", "assets/Levis_Thumbnail_2.png", "assets/Levis_Thumbnail_3.png", "assets/Levis_Thumbnail_5.png", "assets/Levis_Thumbnail_6.png", "assets/Levis_Thumbnail_7.png"], yt: "mb2RPesGf7Q", director: "Nico Alarcos", prod: "primo", desc_es: "Campaña de gira de Winona Riders por el norte de Argentina.", desc_en: "Winona Riders commercial tour of northern Argentina." },
+            { id: 4, title_es: "coppola, el representante", title_en: "coppola, the agent", category: "serie", images: ["assets/Coppola_Thumbnail_2.jpg", "assets/Coppola_Thumbnail_3.png", "assets/Coppola_Thumbnail_4.jpg"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films / disney+", logo: "assets/Disney_logo.png", desc_es: "La historia de Guillermo Coppola, el representante más famoso de Argentina, en una travesía llena de excesos, humor y nostalgia noventera.", desc_en: "The story of Guillermo Coppola, Argentina's most famous manager, in a journey filled with excess, humor, and nineties nostalgia." },
+            { id: 5, title_es: "blair - Todo lo que tengo", title_en: "blair - All I have", category: "music video", images: ["assets/Blair_Thumbnail_1.jpg", "assets/Blair_Thumbnail_2.png", "assets/Blair_Thumbnail_3.png", "assets/Blair_Thumbnail_4.png", "assets/Blair_Thumbnail_5.png"], yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster", desc_es: "Primer adelanto del disco Bar Scorpios (2025)", desc_en: "First preview of the album Bar Scorpios (2025)" },
+            { id: 6, title_es: "las manos de la abuela", title_en: "grandmother's hands", category: "cortometraje", images: ["assets/MA_Thumbnail_1.png", "assets/MA_Thumbnail_3.png", "assets/MA_Thumbnail_4.png", "assets/MA_Thumbnail_5.png"], yt: "", director: "camila migliore", prod: "calesita films", desc_es: "Cortometraje que explora la memoria y el legado familiar a través de los gestos y las historias grabadas en las manos de una abuela.", desc_en: "Short film exploring memory and family legacy through the gestures and stories etched into a grandmother's hands." },
+            { id: 7, title_es: "ratones paranoicos", title_en: "ratones paranoicos", category: "music video", images: ["assets/RP_Thumbmail_1.png", "assets/RP_Thumbmail_2.png", "assets/RP_Thumbmail_3.png", "assets/RP_Thumbmail_4.png"], yt: "", director: "alex roux", prod: "poster", desc_es: "Pieza audiovisual para la legendaria banda de rock argentina.", desc_en: "Audiovisual piece for the legendary Argentine rock band." },
+            { id: 8, title_es: "besos brujos", title_en: "witch kisses", category: "cortometraje", images: ["assets/BB_Thumbnail_1.png", "assets/BB_Thumbnail_2.png", "assets/BB_Thumbnail_3.png"], yt: "", director: "karina flonembaum", prod: "", desc_es: "Ficción breve que juega con los límites del deseo y la fantasía en una atmósfera onírica.", desc_en: "Short fiction playing with the limits of desire and fantasy in a dreamlike atmosphere." },
+            { id: 9, title_es: "las marias", title_en: "las marias", category: "advertising", images: ["assets/Marias_Thumbnail_1.png", "assets/Marias_Thumbnail_2.png", "assets/Marias_Thumbnail_3.png"], yt: "", director: "alejandro berger parrado", prod: "navajo films", desc_es: "Pieza con formato video inmersivo documental publicitaria sobre la tradición yerbatera argentina.", desc_en: "Immersive video documentary advertising piece on the Argentine yerba mate tradition." },
+            { id: 10, title_es: "todo lo que recuerdo", title_en: "all I remember", category: "cortometraje", images: ["assets/TodoLoQueRecuerdo_Thumbnail_1.png"], yt: "", director: "nicolas fernandez melian", prod: "", desc_es: "Un viaje sensorial por la memoria fragmentada. Selección oficial del Festival Internacional de Cine de Mar del Plata.", desc_en: "A sensory journey through fragmented memory. Official selection at the Mar del Plata International Film Festival." }
         ];
 
         let currentLang = 'es';
@@ -276,6 +285,7 @@
             const catNav = document.getElementById('category-nav');
             featList.innerHTML = ''; indexList.innerHTML = ''; catNav.innerHTML = '';
 
+            // Home: Solo los que tienen video para el Hero
             projects.filter(p => p.yt).forEach((p, idx) => {
                 const a = document.createElement('a');
                 a.className = "film-item " + (idx === currentIdx ? 'active' : '');
@@ -285,6 +295,7 @@
                 featList.appendChild(a);
             });
 
+            // All Projects: Categorización completa
             const categories = [...new Set(projects.map(p => p.category))];
             categories.forEach(cat => {
                 const catId = `cat-${cat.replace(/\s/g, '')}`;
@@ -337,9 +348,7 @@
                         nextPane.classList.add('active');
                         currentPane.classList.remove('active');
                         activePaneId = nextPaneId;
-                        // Limpiar el panel viejo después de la transición para que no se escuchen dos audios
                         setTimeout(() => { currentPane.innerHTML = ''; }, 2000);
-                        
                         previewTimer = setTimeout(() => {
                             currentIdx = (idx + 1) % featured.length;
                             changeHeroProject(currentIdx);
@@ -355,14 +364,24 @@
             const detail = document.getElementById('project-detail');
             const container = document.getElementById('detail-dynamic-content');
             
-            let mediaHtml = p.yt ? `<iframe id="modal-iframe" src="https://www.youtube.com/embed/${p.yt}?autoplay=1&rel=0&modestbranding=1" allow="autoplay"></iframe>` : `<img src="${p.images[0]}">`;
+            // Lógica para Video vs Galería de Imágenes
+            let mediaHtml = '';
+            if (p.yt) {
+                mediaHtml = `<iframe id="modal-iframe" src="https://www.youtube.com/embed/${p.yt}?autoplay=1&rel=0&modestbranding=1" allow="autoplay"></iframe>`;
+            } else {
+                mediaHtml = `<div class="image-gallery">`;
+                p.images.forEach(img => {
+                    mediaHtml += `<img src="${img}" alt="${p.title_es}">`;
+                });
+                mediaHtml += `</div>`;
+            }
 
             container.innerHTML = `
                 <div class="detail-video-side">${mediaHtml}</div>
                 <div class="detail-info-side">
                     <h2>${p[`title_${currentLang}`]}</h2>
                     <div class="detail-meta-group"><strong>${i18n[currentLang].director}</strong><p>${p.director}</p></div>
-                    <div class="detail-meta-group"><strong>${i18n[currentLang].prod}</strong><p>${p.prod}</p></div>
+                    <div class="detail-meta-group"><strong>${i18n[currentLang].prod}</strong><p>${p.prod || '—'}</p></div>
                     <div class="detail-meta-group"><strong>${i18n[currentLang].editor_label}</strong><p>leandro bruno</p></div>
                     <p class="detail-desc">${p[`desc_${currentLang}`]}</p>
                 </div>`;
@@ -374,11 +393,8 @@
         function closeDetail() {
             const detail = document.getElementById('project-detail');
             const container = document.getElementById('detail-dynamic-content');
-            
-            // IMPORTANTE: Vaciar el contenedor mata el video de fondo
             container.innerHTML = '';
             detail.style.display = 'none';
-            
             const isAllVisible = document.getElementById('all-projects-section').style.display === 'block';
             document.body.style.overflowY = isAllVisible ? 'auto' : 'hidden';
             if(!isAllVisible) changeHeroProject(currentIdx);
@@ -401,13 +417,7 @@
             }
         }
 
-        // --- ESCUCHA DE TECLADO MEJORADA ---
-        document.addEventListener('keydown', (e) => { 
-            if (e.key === "Escape") {
-                closeDetail();
-            }
-        });
-
+        document.addEventListener('keydown', (e) => { if (e.key === "Escape") closeDetail(); });
         window.onload = () => { renderLists(); setTimeout(() => changeHeroProject(0), 1000); };
     </script>
 </body>
