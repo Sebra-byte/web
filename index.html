@@ -41,98 +41,89 @@
             transform: translate(-50%, -50%) scale(1.6);
         }
 
-        /* --- HOME LAYOUT (SIMETRÍA REFINADA) --- */
+        /* --- LAYOUT PRINCIPAL (ALINEADO ARRIBA) --- */
         #home-section {
             height: 100vh;
             width: 100%;
             display: flex;
-            align-items: center; /* Centrado vertical general */
             justify-content: space-between;
-            padding: 0 60px;
+            padding: 80px 60px; /* Padding superior para alineación */
             position: relative;
             z-index: 10;
         }
 
-        /* BLOQUE IZQUIERDO */
-        .list-container {
-            display: flex;
-            flex-direction: column;
-            margin-top: -20px; /* Ajuste fino para calzar con el logo */
-        }
+        /* COLUMNA IZQUIERDA */
+        .list-container { display: flex; flex-direction: column; }
         .section-label { 
-            font-size: 0.7rem; 
-            margin-bottom: 25px; 
+            font-size: 0.75rem; 
+            margin-bottom: 30px; 
             font-weight: 700; 
             opacity: 0.3; 
             letter-spacing: 0.15em; 
             text-transform: uppercase;
         }
 
-        /* BLOQUE DERECHO (LOGO Y NAV) */
+        /* COLUMNA DERECHA */
         .sidebar {
             display: flex;
             flex-direction: column;
             text-align: right;
             align-items: flex-end;
-            margin-top: -20px;
         }
 
         .brand { margin-bottom: 50px; cursor: pointer; }
-        .brand h1 { 
-            font-size: 2.6rem; 
-            font-weight: 800; 
-            text-transform: uppercase; 
-            line-height: 0.8; 
-            letter-spacing: -0.04em;
-        }
-        .brand p { 
-            font-size: 0.95rem; 
-            font-weight: 200; 
-            margin-top: 8px; 
-            opacity: 0.8; 
-            letter-spacing: 0.05em;
-        }
+        .brand h1 { font-size: 2.6rem; font-weight: 800; text-transform: uppercase; line-height: 0.8; letter-spacing: -0.04em; }
+        .brand p { font-size: 0.95rem; font-weight: 200; margin-top: 8px; opacity: 0.8; letter-spacing: 0.05em; }
 
         .side-nav { display: flex; flex-direction: column; gap: 10px; }
         .side-nav a { 
-            text-decoration: none; 
-            color: var(--hueso); 
-            font-size: 1rem; 
-            font-weight: 500; 
-            opacity: 0.5; 
-            transition: 0.3s ease;
+            text-decoration: none; color: var(--hueso); font-size: 1.1rem; 
+            font-weight: 500; opacity: 0.5; transition: 0.3s; 
         }
-        .side-nav a:hover { 
-            opacity: 1; 
-            font-style: italic; 
-        }
+        .side-nav a:hover { opacity: 1; font-style: italic; }
 
-        /* --- LISTA DE TRABAJOS --- */
+        /* --- SELECTOR DE IDIOMA (ABAJO IZQUIERDA) --- */
+        .lang-switcher {
+            position: fixed;
+            bottom: 40px;
+            left: 60px;
+            z-index: 5000;
+            display: flex;
+            gap: 15px;
+        }
+        .lang-btn {
+            background: none; border: none; color: var(--hueso);
+            font-family: var(--font-main); font-size: 0.8rem; font-weight: 700;
+            cursor: pointer; opacity: 0.3; transition: 0.3s;
+        }
+        .lang-btn.active { opacity: 1; text-decoration: underline; }
+
+        /* --- FILM ITEMS --- */
         .film-item {
-            font-size: 4.2rem; font-weight: 800; text-transform: uppercase;
+            font-size: 4.5rem; font-weight: 800; text-transform: uppercase;
             line-height: 0.85; letter-spacing: -0.04em; color: transparent;
             -webkit-text-stroke: 1px rgba(255, 255, 228, 0.2);
             transition: all 0.4s ease; display: block;
-            text-decoration: none; margin-bottom: 4px; width: fit-content;
+            text-decoration: none; margin-bottom: 5px; width: fit-content;
         }
-        .film-item.active, .film-item:hover { color: var(--hueso); -webkit-text-stroke: 0px; transform: translateX(15px); }
+        .film-item.active, .film-item:hover { color: var(--hueso); -webkit-text-stroke: 0px; transform: translateX(20px); }
 
-        /* --- SECCIÓN ALL PROJECTS --- */
+        /* --- ALL PROJECTS --- */
         #all-projects-section {
-            display: none; padding: 180px 60px 100px;
+            display: none; padding: 150px 60px 100px;
             position: relative; z-index: 100; background: var(--bg-grafito); min-height: 100vh;
         }
-        .category-separator { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.2em; opacity: 0.3; padding: 40px 0 15px; border-bottom: 1px solid rgba(255, 255, 228, 0.1); margin-bottom: 10px; }
+        .category-separator { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.25em; opacity: 0.3; padding: 40px 0 15px; border-bottom: 1px solid rgba(255, 255, 228, 0.1); margin-bottom: 10px; }
         .project-row { display: grid; grid-template-columns: 320px 1fr 180px; gap: 40px; padding: 25px 0; border-bottom: 1px solid rgba(255, 255, 228, 0.05); align-items: center; transition: 0.3s; text-decoration: none; color: inherit; }
-        .project-row:hover, .project-row.selected { background-color: var(--bg-grafito-claro); padding-left: 20px; }
-        .project-row .thumb-box { width: 100%; aspect-ratio: 16/9; overflow: hidden; background: #000; border-radius: 2px; }
+        .project-row:hover { background-color: var(--bg-grafito-claro); padding-left: 20px; }
+        .project-row .thumb-box { width: 100%; aspect-ratio: 16/9; overflow: hidden; background: #000; }
         .project-row .thumb-box img { width: 100%; height: 100%; object-fit: cover; }
-        .project-row .info-box h3 { font-size: 2rem; font-weight: 800; text-transform: uppercase; line-height: 0.95; }
-        .series-specs { display: inline-block; margin-left: 10px; font-size: 0.6rem; padding: 2px 6px; border: 1px solid rgba(255, 255, 228, 0.3); border-radius: 4px; vertical-align: middle; opacity: 0.7; }
+        .project-row .info-box h3 { font-size: 2.2rem; font-weight: 800; text-transform: uppercase; line-height: 0.9; }
+        .series-specs { display: inline-block; margin-left: 10px; font-size: 0.65rem; padding: 2px 6px; border: 1px solid rgba(255, 255, 228, 0.3); border-radius: 4px; vertical-align: middle; }
         .logos-box { display: flex; justify-content: flex-end; opacity: 0.6; }
         .logos-box img { height: 18px; filter: brightness(0) invert(1); }
 
-        /* --- MODAL DETALLE --- */
+        /* --- DETALLE --- */
         #project-detail {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: var(--bg-grafito); z-index: 6000; display: none;
@@ -140,17 +131,16 @@
         }
         .close-btn { position: fixed; top: 40px; right: 60px; font-size: 0.8rem; font-weight: 800; cursor: pointer; z-index: 6100; text-transform: uppercase; }
         #detail-dynamic-content { height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
-        .detail-video-box { width: 100%; flex-grow: 1; max-height: 62vh; background: #000; position: relative; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; overflow: hidden; }
+        .detail-video-box { width: 100%; flex-grow: 1; max-height: 62vh; background: #000; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; overflow: hidden; }
         .detail-video-box iframe, .detail-video-box img { width: 100%; height: 100%; object-fit: contain; }
-        .detail-info-footer { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: flex-end; padding-bottom: 10px; }
-        .detail-info-footer h2 { font-size: 3rem; font-weight: 800; text-transform: uppercase; line-height: 0.9; }
-        .detail-info-footer .meta { font-size: 1rem; line-height: 1.4; opacity: 0.8; }
+        .detail-info-footer { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: flex-end; padding-bottom: 15px; }
+        .detail-info-footer h2 { font-size: 3.5rem; font-weight: 800; text-transform: uppercase; line-height: 0.85; }
 
         @media (max-width: 900px) {
-            #home-section { flex-direction: column; justify-content: center; padding: 0 30px; align-items: flex-start; }
-            .sidebar { text-align: left; align-items: flex-start; order: -1; margin-bottom: 40px; margin-top: 0; }
-            .list-container { margin-top: 0; }
-            .film-item { font-size: 2.5rem; }
+            #home-section { flex-direction: column; padding: 40px 30px; height: auto; }
+            .sidebar { text-align: left; align-items: flex-start; margin-top: 40px; }
+            .lang-switcher { position: relative; bottom: 0; left: 0; margin-top: 50px; }
+            .film-item { font-size: 2.8rem; }
             .project-row { grid-template-columns: 1fr; }
         }
     </style>
@@ -164,60 +154,105 @@
 
     <section id="home-section">
         <div class="list-container">
-            <p class="section-label">selected works</p>
+            <p class="section-label" data-i18n="selected_works">selected works</p>
             <div id="featured-list"></div>
         </div>
 
         <div class="sidebar">
             <div class="brand" onclick="showSection('home')">
                 <h1>Leandro Bruno</h1>
-                <p>film editor</p>
+                <p data-i18n="editor">film editor</p>
             </div>
             <nav class="side-nav">
-                <a href="#" id="nav-all" onclick="showSection('all')">/ all projects</a>
-                <a href="mailto:leandrobrunoeditor@gmail.com">/ contact</a>
+                <a href="#" id="nav-all" onclick="showSection('all')">/ <span data-i18n="all_projects">all projects</span></a>
+                <a href="mailto:leandrobrunoeditor@gmail.com">/ <span data-i18n="contact">contact</span></a>
             </nav>
         </div>
     </section>
+
+    <div class="lang-switcher">
+        <button class="lang-btn active" onclick="setLang('es')">ES</button>
+        <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
 
     <section id="all-projects-section">
         <div class="projects-list" id="full-index-list"></div>
     </section>
 
     <div id="project-detail">
-        <div class="close-btn" onclick="closeDetail()">[ close / esc ]</div>
+        <div class="close-btn" onclick="closeDetail()">[ <span data-i18n="close">close</span> / esc ]</div>
         <div id="detail-dynamic-content"></div>
     </div>
 
     <script src="https://www.youtube.com/iframe_api"></script>
 
     <script>
+        const i18n = {
+            es: {
+                selected_works: "trabajos seleccionados",
+                editor: "editor de cine",
+                all_projects: "todos los proyectos",
+                contact: "contacto",
+                close: "cerrar",
+                director: "director",
+                prod: "producción",
+                editor_label: "editor"
+            },
+            en: {
+                selected_works: "selected works",
+                editor: "film editor",
+                all_projects: "all projects",
+                contact: "contact",
+                close: "close",
+                director: "director",
+                prod: "production",
+                editor_label: "editor"
+            }
+        };
+
         const projects = [
-            { id: 0, title_es: "menem", category: "serie", images: ["assets/Menem_Thumbnail_1.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", specs: "6 episodios", logo: "assets/Prime_logo.png" },
-            { id: 1, title_es: "el tiempo de las moscas", category: "serie", images: ["assets/Moscas_Thumbnail_1.jpg"], yt: "A0d6wnlMRRk", director: "Ana Katz", prod: "netflix", specs: "6 episodios", logo: "assets/Netflix_logo.png" },
-            { id: 2, title_es: "coppola, el representante", category: "serie", images: ["assets/Coppola_Thumbnail_2.jpg"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films", specs: "6 episodios", logo: "assets/Disney_logo.png" },
-            { id: 3, title_es: "oreo", category: "advertising", images: ["assets/Oreo_Thumbnail_5.png"], yt: "7Cllu0Rme74", director: "Martín Jalfen", prod: "Pop Studios" },
-            { id: 4, title_es: "levis x winona riders", category: "advertising", images: ["assets/Levis_Thumbnail_v01.jpg"], yt: "mb2RPesGf7Q", director: "Nico Alarcos", prod: "primo" },
-            { id: 5, title_es: "blair - todo lo que tengo", category: "music video", images: ["assets/Blair_Thumbnail_1.jpg"], yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster" },
-            { id: 6, title_es: "las manos de la abuela", category: "cortometraje", images: ["assets/MA_Thumbnail_1.png"], yt: "", director: "camila migliore", prod: "calesita films" }
+            { id: 0, title: {es: "menem", en: "menem"}, category: "serie", images: ["assets/Menem_Thumbnail_1.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", specs: {es: "6 episodios", en: "6 episodes"}, logo: "assets/Prime_logo.png" },
+            { id: 1, title: {es: "el tiempo de las moscas", en: "time of the flies"}, category: "serie", images: ["assets/Moscas_Thumbnail_1.jpg"], yt: "A0d6wnlMRRk", director: "Ana Katz", prod: "netflix", specs: {es: "6 episodios", en: "6 episodes"}, logo: "assets/Netflix_logo.png" },
+            { id: 2, title: {es: "coppola, el representante", en: "coppola, the agent"}, category: "serie", images: ["assets/Coppola_Thumbnail_2.jpg"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films", specs: {es: "6 episodios", en: "6 episodes"}, logo: "assets/Disney_logo.png" },
+            { id: 3, title: {es: "oreo", en: "oreo"}, category: "advertising", images: ["assets/Oreo_Thumbnail_5.png"], yt: "7Cllu0Rme74", director: "Martín Jalfen", prod: "Pop Studios" },
+            { id: 4, title: {es: "levis x winona riders", en: "levis x winona riders"}, category: "advertising", images: ["assets/Levis_Thumbnail_v01.jpg"], yt: "mb2RPesGf7Q", director: "Nico Alarcos", prod: "primo" },
+            { id: 5, title: {es: "blair - todo lo que tengo", en: "blair - all i have"}, category: "music video", images: ["assets/Blair_Thumbnail_1.jpg"], yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster" }
         ];
 
+        let currentLang = 'es';
         let activePane = 1;
         let currentIdx = 0;
 
-        function init() {
+        function setLang(lang) {
+            currentLang = lang;
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.innerText.toLowerCase() === lang));
+            
+            // Traducir estáticos
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                el.innerText = i18n[lang][key];
+            });
+
+            renderLists();
+        }
+
+        function renderLists() {
             const featList = document.getElementById('featured-list');
             const indexList = document.getElementById('full-index-list');
+            featList.innerHTML = '';
+            indexList.innerHTML = '';
 
-            projects.filter(p => p.yt).slice(0, 6).forEach((p, idx) => {
+            // Selected Works
+            projects.filter(p => p.yt).forEach((p, idx) => {
                 const a = document.createElement('a');
-                a.className = "film-item";
-                a.innerText = p.title_es;
+                a.className = "film-item " + (idx === currentIdx ? 'active' : '');
+                a.innerText = p.title[currentLang];
                 a.onmouseenter = () => { currentIdx = idx; changeHeroProject(idx); };
                 a.onclick = (e) => { e.preventDefault(); openDetail(p.id); };
                 featList.appendChild(a);
             });
 
+            // All Projects
             const categories = [...new Set(projects.map(p => p.category))];
             categories.forEach(cat => {
                 const sep = document.createElement('div');
@@ -227,20 +262,17 @@
                 projects.filter(p => p.category === cat).forEach(p => {
                     const row = document.createElement('a');
                     row.className = "project-row";
-                    row.id = `row-${p.id}`;
-                    row.innerHTML = `<div class="thumb-box"><img src="${p.images[0]}"></div><div class="info-box"><h3>${p.title_es} ${p.specs ? `<span class="series-specs">${p.specs}</span>` : ''}</h3><p>${p.director} | ${p.prod}</p></div><div class="logos-box">${p.logo ? `<img src="${p.logo}">` : ''}</div>`;
+                    row.innerHTML = `<div class="thumb-box"><img src="${p.images[0]}"></div><div class="info-box"><h3>${p.title[currentLang]} ${p.specs ? `<span class="series-specs">${p.specs[currentLang]}</span>` : ''}</h3><p>${p.director} | ${p.prod}</p></div><div class="logos-box">${p.logo ? `<img src="${p.logo}">` : ''}</div>`;
                     row.onclick = (e) => { e.preventDefault(); openDetail(p.id); };
                     indexList.appendChild(row);
                 });
             });
-            setTimeout(() => changeHeroProject(0), 1000);
         }
 
         function changeHeroProject(idx) {
             const featured = projects.filter(p => p.yt);
             const items = document.querySelectorAll('.film-item');
-            items.forEach(item => item.classList.remove('active'));
-            if(items[idx]) items[idx].classList.add('active');
+            items.forEach((item, i) => item.classList.toggle('active', i === idx));
             
             const nextPaneIdx = activePane === 1 ? 2 : 1;
             const currentPane = document.getElementById(`pane-${activePane}`);
@@ -253,12 +285,7 @@
                 videoId: p.yt,
                 playerVars: { autoplay: 1, mute: 1, controls: 0, modestbranding: 1, rel: 0 },
                 events: {
-                    onStateChange: (e) => {
-                        if (e.data === YT.PlayerState.ENDED) {
-                            currentIdx = (currentIdx + 1) % featured.length;
-                            changeHeroProject(currentIdx);
-                        }
-                    }
+                    onStateChange: (e) => { if (e.data === YT.PlayerState.ENDED) { currentIdx = (currentIdx + 1) % featured.length; changeHeroProject(currentIdx); } }
                 }
             });
 
@@ -274,20 +301,15 @@
             const detail = document.getElementById('project-detail');
             detail.style.display = 'flex';
             document.body.style.overflow = 'hidden';
-            renderDetailContent(p);
-        }
-
-        function renderDetailContent(p) {
+            
             const container = document.getElementById('detail-dynamic-content');
-            let mediaHtml = p.yt ? 
-                `<div class="detail-video-box"><iframe src="https://www.youtube.com/embed/${p.yt}?autoplay=1&rel=0" frameborder="0" allowfullscreen></iframe></div>` :
-                `<div class="detail-video-box"><img src="${p.images[0]}"></div>`;
+            let mediaHtml = p.yt ? `<div class="detail-video-box"><iframe src="https://www.youtube.com/embed/${p.yt}?autoplay=1&rel=0" frameborder="0" allowfullscreen></iframe></div>` : `<div class="detail-video-box"><img src="${p.images[0]}"></div>`;
 
             container.innerHTML = `
                 ${mediaHtml}
                 <div class="detail-info-footer">
-                    <div><h2>${p.title_es}</h2><p style="opacity:0.4; font-weight:800; text-transform:uppercase; font-size:0.75rem;">${p.category}</p></div>
-                    <div class="meta"><p><strong>director:</strong> ${p.director}</p><p><strong>production:</strong> ${p.prod}</p><p><strong>editor:</strong> leandro bruno</p></div>
+                    <div><h2>${p.title[currentLang]}</h2><p style="opacity:0.4; font-weight:800; text-transform:uppercase; font-size:0.75rem;">${p.category}</p></div>
+                    <div class="meta"><p><strong>${i18n[currentLang].director}:</strong> ${p.director}</p><p><strong>${i18n[currentLang].prod}:</strong> ${p.prod}</p><p><strong>${i18n[currentLang].editor_label}:</strong> leandro bruno</p></div>
                 </div>`;
         }
 
@@ -300,12 +322,13 @@
             const home = document.getElementById('home-section');
             const all = document.getElementById('all-projects-section');
             const bg = document.getElementById('bg-container');
-            if(sec === 'all') { home.style.display = 'none'; bg.style.display = 'none'; all.style.display = 'block'; document.body.style.overflowY = 'auto'; }
-            else { home.style.display = 'flex'; bg.style.display = 'block'; all.style.display = 'none'; document.body.style.overflowY = 'hidden'; }
+            const switcher = document.querySelector('.lang-switcher');
+            if(sec === 'all') { home.style.display = 'none'; bg.style.display = 'none'; all.style.display = 'block'; document.body.style.overflowY = 'auto'; switcher.style.display = 'none'; }
+            else { home.style.display = 'flex'; bg.style.display = 'block'; all.style.display = 'none'; document.body.style.overflowY = 'hidden'; switcher.style.display = 'flex'; }
         }
 
         document.addEventListener('keydown', (e) => { if (e.key === "Escape") closeDetail(); });
-        window.onload = init;
+        window.onload = () => { renderLists(); setTimeout(() => changeHeroProject(0), 1000); };
     </script>
 </body>
 </html>
