@@ -71,7 +71,7 @@
         }
         .lang-btn.active { opacity: 1; text-decoration: underline; }
 
-        /* --- ALL PROJECTS: ESTRUCTURA BALANCEADA --- */
+        /* --- ALL PROJECTS: AJUSTE DE ALINEACIÓN --- */
         #all-projects-section {
             display: none; padding: 180px 0 100px;
             position: relative; z-index: 100; background: var(--bg-grafito); min-height: 100vh;
@@ -79,22 +79,20 @@
         
         .all-projects-grid {
             display: grid;
-            grid-template-columns: 200px 1px 1fr;
-            gap: 60px;
-            max-width: 1400px;
-            margin: 0 auto;
+            grid-template-columns: 180px 1px 1fr; /* Columna de categorías más estrecha según captura */
+            gap: 40px; /* Reducido para que no flote en el centro */
+            max-width: 1600px;
+            margin: 0; /* Alineado a la izquierda */
             padding: 0 60px;
             align-items: start;
         }
 
-        /* Categorías alineadas horizontalmente con ES/EN (Left 60px) */
         .cat-nav-column {
             position: sticky;
             top: 180px;
             display: flex;
             flex-direction: column;
             gap: 15px;
-            padding-top: 0; /* Empieza exactamente con el listado */
         }
         .cat-link {
             text-decoration: none; color: var(--hueso); font-size: 0.7rem;
@@ -113,7 +111,9 @@
         }
         
         .project-row { 
-            display: grid; grid-template-columns: 280px 1fr 100px; gap: 50px; 
+            display: grid; 
+            grid-template-columns: 280px 1fr 120px; /* Tercera columna para el logo */
+            gap: 50px; 
             padding: 35px 0; border-bottom: 1px solid rgba(255, 255, 228, 0.05); 
             align-items: center; transition: var(--transition-smooth); 
             text-decoration: none; color: inherit; 
@@ -124,25 +124,31 @@
         .thumb-box img { width: 100%; height: 100%; object-fit: cover; opacity: 0.4; transition: var(--transition-smooth); }
         .project-row:hover .thumb-box img { opacity: 1; transform: scale(1.03); }
 
-        .info-box h3 { font-size: 2rem; font-weight: 800; text-transform: uppercase; line-height: 0.9; margin-bottom: 12px; }
+        .info-box h3 { font-size: 2.2rem; font-weight: 800; text-transform: uppercase; line-height: 0.9; margin-bottom: 12px; letter-spacing: -0.02em; }
         .info-box .meta-line { font-size: 0.85rem; opacity: 0.5; font-weight: 400; letter-spacing: 0.05em; margin-bottom: 4px; }
         .info-box .meta-line strong { opacity: 1; color: var(--hueso); margin-right: 4px; }
 
-        .logos-box { display: flex; justify-content: flex-end; align-items: center; opacity: 0.3; transition: 0.3s; }
-        .project-row:hover .logos-box { opacity: 1; }
-        .logos-box img { height: 18px; filter: brightness(0) invert(1); }
+        /* Logos alineados a la derecha (Círculo naranja de tu captura) */
+        .logos-box { 
+            display: flex; 
+            justify-content: flex-end; 
+            align-items: center; 
+            opacity: 0.2; 
+            transition: 0.3s; 
+        }
+        .project-row:hover .logos-box { opacity: 0.8; }
+        .logos-box img { max-height: 25px; max-width: 80px; filter: brightness(0) invert(1); object-fit: contain; }
 
-        /* --- MODAL DETALLE 80/20 CON FUNDIDO --- */
+        /* --- MODAL DETALLE --- */
         #project-detail {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0,0,0,0.92); /* Fundido oscuro */
-            z-index: 6000; display: none;
+            background: rgba(0,0,0,0.92); z-index: 6000; display: none;
             align-items: center; justify-content: center;
-            backdrop-filter: blur(15px); /* Fundido borroso */
+            backdrop-filter: blur(15px);
         }
         .detail-wrapper {
             width: 92vw; height: 85vh;
-            display: grid; grid-template-columns: 8fr 2fr; /* 80% video / 20% info */
+            display: grid; grid-template-columns: 8fr 2fr;
             background: #000; position: relative;
             box-shadow: 0 50px 100px rgba(0,0,0,0.5);
         }
@@ -184,8 +190,10 @@
         .film-item.active, .film-item:hover { color: var(--hueso); -webkit-text-stroke: 0px; transform: translateX(20px); }
 
         @media (max-width: 1200px) {
-            .all-projects-grid { grid-template-columns: 1fr; }
+            .all-projects-grid { grid-template-columns: 1fr; margin: 0 auto; }
             .cat-nav-column, .v-line { display: none; }
+            .project-row { grid-template-columns: 1fr 1fr; }
+            .logos-box { display: none; }
             .detail-wrapper { grid-template-columns: 1fr; height: 95vh; }
             .detail-info-side { border-left: none; border-top: 1px solid rgba(255,255,228,0.1); }
         }
@@ -243,11 +251,11 @@
         };
 
         const projects = [
-            { id: 0, title_es: "menem", title_en: "menem", category: "serie", images: ["assets/Menem_Thumbnail_1.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", specs: {es: "6 episodios", en: "6 episodes"}, logo: "assets/Prime_logo.png", desc_es: "Biopic sobre el ascenso al poder de Carlos Menem.", desc_en: "Biopic tracing Carlos Menem's rise to power." },
+            { id: 0, title_es: "menem", title_en: "menem", category: "serie", images: ["assets/Menem_Thumbnail_1.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", logo: "assets/Prime_logo.png", desc_es: "Biopic sobre el ascenso al poder de Carlos Menem.", desc_en: "Biopic tracing Carlos Menem's rise to power." },
             { id: 1, title_es: "OREO - Sigamos divirtiendonos", title_en: "OREO - Keep on playing", category: "advertising", images: ["assets/Oreo_Thumbnail_5.png"], yt: "7Cllu0Rme74", director: "Martín Jalfen", prod: "Pop Studios - México", desc_es: "Campaña global para Oreo.", desc_en: "Global campaign for Oreo." },
-            { id: 2, title_es: "el tiempo de las moscas", title_en: "time of the flies", category: "serie", images: ["assets/Moscas_Thumbnail_1.jpg"], yt: "A0d6wnlMRRk", director: "Benjamín Naishtat y Ana Katz", prod: "netflix", specs: {es: "6 episodios", en: "6 episodes"}, logo: "assets/Netflix_logo.png", desc_es: "Dos mujeres intentan reconstruir sus vidas.", desc_en: "Two women attempt to rebuild their lives." },
+            { id: 2, title_es: "el tiempo de las moscas", title_en: "time of the flies", category: "serie", images: ["assets/Moscas_Thumbnail_1.jpg"], yt: "A0d6wnlMRRk", director: "Benjamín Naishtat y Ana Katz", prod: "netflix", logo: "assets/Netflix_logo.png", desc_es: "Dos mujeres intentan reconstruir sus vidas.", desc_en: "Two women attempt to rebuild their lives." },
             { id: 3, title_es: "levis x winona riders", title_en: "levis x winona riders", category: "advertising", images: ["assets/Levis_Thumbnail_v01.jpg"], yt: "mb2RPesGf7Q", director: "Nico Alarcos", prod: "primo", desc_es: "Colaboración entre Levis y Winona Riders.", desc_en: "Collaboration between Levis and Winona Riders." },
-            { id: 4, title_es: "coppola, el representante", title_en: "coppola, the agent", category: "serie", images: ["assets/Coppola_Thumbnail_2.jpg"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films / disney+", specs: {es: "6 episodios", en: "6 episodes"}, logo: "assets/Disney_logo.png", desc_es: "La historia del representante más famoso.", desc_en: "The story of the most famous agent." },
+            { id: 4, title_es: "coppola, el representante", title_en: "coppola, the agent", category: "serie", images: ["assets/Coppola_Thumbnail_2.jpg"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films / disney+", logo: "assets/Disney_logo.png", desc_es: "La historia del representante más famoso.", desc_en: "The story of the most famous agent." },
             { id: 5, title_es: "blair - Todo lo que tengo", title_en: "blair - All I have", category: "music video", images: ["assets/Blair_Thumbnail_1.jpg"], yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster", desc_es: "Videoclip musical para Blair.", desc_en: "Music video for Blair." }
         ];
 
