@@ -42,20 +42,34 @@
             transform: translate(-50%, -50%) scale(1.6);
         }
 
-        /* --- NAVEGACIÓN (HAMBURGUESA) --- */
-        .nav-container {
-            position: fixed; top: 40px; right: 40px;
-            z-index: 9000; display: flex; flex-direction: column; align-items: flex-end;
+        /* --- NAVEGACIÓN HOME (ORIGINAL) --- */
+        .sidebar-home {
+            position: fixed; top: 60px; right: 60px;
+            display: flex; flex-direction: column; text-align: right;
+            align-items: flex-end; z-index: 5000;
+            transition: opacity 0.4s ease;
         }
+        .brand { margin-bottom: 40px; cursor: pointer; }
+        .brand h1 { font-size: 2.6rem; font-weight: 800; text-transform: uppercase; line-height: 0.8; letter-spacing: -0.04em; }
+        .brand p { font-size: 0.95rem; font-weight: 200; margin-top: 8px; opacity: 0.8; letter-spacing: 0.05em; }
 
+        .side-nav { display: flex; flex-direction: column; gap: 10px; }
+        .side-nav a { 
+            text-decoration: none; color: var(--hueso); font-size: 1.1rem; 
+            font-weight: 500; opacity: 0.5; transition: 0.3s; 
+        }
+        .side-nav a:hover { opacity: 1; font-style: italic; }
+
+        /* --- NAVEGACIÓN ALL PROJECTS (HAMBURGUESA) --- */
+        .nav-all-projects {
+            position: fixed; top: 40px; right: 40px;
+            z-index: 9000; display: none; /* Oculto por defecto */
+        }
         .menu-toggle {
             width: 30px; height: 18px; display: flex; flex-direction: column;
-            justify-content: space-between; cursor: pointer; transition: 0.3s;
+            justify-content: space-between; cursor: pointer;
         }
-        .menu-toggle span {
-            display: block; width: 100%; height: 2px; background: var(--hueso);
-            transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
+        .menu-toggle span { display: block; width: 100%; height: 2px; background: var(--hueso); transition: 0.3s; }
         .menu-toggle.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
         .menu-toggle.open span:nth-child(2) { opacity: 0; }
         .menu-toggle.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
@@ -65,20 +79,9 @@
             background: #0d0d0d; padding: 120px 50px;
             display: flex; flex-direction: column; gap: 40px;
             transition: var(--transition-smooth); text-align: right;
-            border-left: 1px solid rgba(255, 255, 228, 0.05);
-            z-index: 8500;
+            border-left: 1px solid rgba(255, 255, 228, 0.05); z-index: 8500;
         }
         .full-nav-menu.active { right: 0; }
-        
-        .nav-brand-menu h2 { font-size: 1.8rem; font-weight: 800; text-transform: uppercase; line-height: 0.8; margin-bottom: 10px; }
-        .nav-brand-menu p { font-size: 0.8rem; opacity: 0.5; font-weight: 200; }
-        
-        .side-nav-links { display: flex; flex-direction: column; gap: 15px; margin-top: 40px; }
-        .side-nav-links a { 
-            text-decoration: none; color: var(--hueso); font-size: 1.1rem; 
-            font-weight: 500; opacity: 0.5; transition: 0.3s; 
-        }
-        .side-nav-links a:hover { opacity: 1; font-style: italic; }
 
         .lang-switcher {
             position: fixed; bottom: 40px; left: 60px;
@@ -134,10 +137,8 @@
 
         .logos-box { display: flex; justify-content: flex-end; align-items: center; }
         .logos-box img { 
-            max-height: 22px; 
-            max-width: 90px; 
-            filter: brightness(0) invert(1); 
-            object-fit: contain; 
+            max-height: 22px; max-width: 90px; 
+            filter: brightness(0) invert(1); object-fit: contain; 
             opacity: 0.3; transition: 0.3s;
         }
         .project-row:hover .logos-box img { opacity: 1; }
@@ -212,6 +213,8 @@
             .cat-nav-column, .v-line { display: none; }
             .project-row { grid-template-columns: 1fr 1fr; }
             .detail-wrapper { grid-template-columns: 1fr; height: 95vh; }
+            .sidebar-home { top: 30px; right: 30px; }
+            .brand h1 { font-size: 2rem; }
         }
     </style>
 </head>
@@ -222,7 +225,18 @@
         <div id="pane-2" class="bg-video"></div>
     </div>
 
-    <div class="nav-container">
+    <div class="sidebar-home" id="nav-home">
+        <div class="brand" onclick="showSection('home')">
+            <h1>Leandro Bruno</h1>
+            <p>film editor</p>
+        </div>
+        <nav class="side-nav">
+            <a href="#" onclick="showSection('all')">/ <span data-i18n="all_projects">todos los proyectos</span></a>
+            <a href="mailto:leandrobrunoeditor@gmail.com">/ <span data-i18n="contact">contacto</span></a>
+        </nav>
+    </div>
+
+    <div class="nav-all-projects" id="nav-all-projects">
         <div class="menu-toggle" id="menu-btn" onclick="toggleMenu()">
             <span></span><span></span><span></span>
         </div>
@@ -279,7 +293,7 @@
         const projects = [
             { id: 0, title_es: "menem", title_en: "menem", category: "serie", images: ["assets/Menem_Thumbnail_1.jpg", "assets/Menem_Thumbnail_2.jpg", "assets/Menem_Thumbnail_3.png", "assets/Menem_Thumbnail_4.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", logo: "assets/prime.png", desc_es: "Biopic que recorre el ascenso al poder de Carlos Menem en los años 90.", desc_en: "Biopic tracing Carlos Menem's rise to power in the 1990s." },
             { id: 1, title_es: "OREO - Sigamos divirtiendonos", title_en: "OREO - Keep on playing", category: "advertising", images: ["assets/Oreo_Thumbnail_5.png"], yt: "7Cllu0Rme74", director: "Martín Jalfen", prod: "Pop Studios - México", desc_es: "Campaña publicitaria global para Oreo.", desc_en: "Global advertising campaign for Oreo." },
-            { id: 2, title_es: "el tiempo de las moscas", title_en: "time of the flies", category: "serie", images: ["assets/Moscas_Thumbnail_1.jpg"], yt: "A0d6wnlMRRk", director: "Benjamín Naishtat y Ana Katz", prod: "netflix", logo: "assets/netflix.png", desc_es: "Dos mujeres intentan reconstruir sus vidas tras salir de prisión.", desc_en: "Two women attempt to rebuild their lives after being released from prison." },
+            { id: 2, title_es: "el tiempo de las moscas", title_en: "time of the flies", category: "serie", images: ["assets/Moscas_Thumbnail_1.jpg"], yt: "A0d6wnlMRRk", director: "Benjamín Naishtat y Ana Katz", prod: "netflix", logo: "assets/netflix.png", desc_es: "Serie original de Netflix.", desc_en: "Netflix original series." },
             { id: 3, title_es: "levis x winona riders", title_en: "levis x winona riders", category: "advertising", images: ["assets/Levis_Thumbnail_v01.jpg"], yt: "mb2RPesGf7Q", director: "Nico Alarcos", prod: "primo", desc_es: "Campaña de gira de Winona Riders.", desc_en: "Winona Riders commercial tour." },
             { id: 4, title_es: "coppola, el representante", title_en: "coppola, the agent", category: "serie", images: ["assets/Coppola_Thumbnail_2.jpg"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films / disney+", logo: "assets/disney.png", desc_es: "La historia de Guillermo Coppola.", desc_en: "The story of Guillermo Coppola." },
             { id: 5, title_es: "blair - Todo lo que tengo", title_en: "blair - All I have", category: "music video", images: ["assets/Blair_Thumbnail_1.jpg"], yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster", desc_es: "Primer adelanto del disco Bar Scorpios (2025)", desc_en: "First preview of the album Bar Scorpios (2025)" },
@@ -416,11 +430,16 @@
             const home = document.getElementById('home-section');
             const all = document.getElementById('all-projects-section');
             const bg = document.getElementById('bg-container');
+            const navHome = document.getElementById('nav-home');
+            const navAll = document.getElementById('nav-all-projects');
+
             if(sec === 'all') { 
                 home.style.display = 'none'; bg.style.display = 'none'; all.style.display = 'block'; 
+                navHome.style.display = 'none'; navAll.style.display = 'block';
                 document.body.style.overflowY = 'auto';
             } else { 
                 home.style.display = 'flex'; bg.style.display = 'block'; all.style.display = 'none'; 
+                navHome.style.display = 'flex'; navAll.style.display = 'none';
                 document.body.style.overflowY = 'hidden'; changeHeroProject(currentIdx);
             }
         }
