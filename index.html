@@ -113,7 +113,7 @@
         }
         .lang-btn.active { opacity: 1; text-decoration: underline; }
 
-        /* --- ALL PROJECTS SECTION (OPTIMIZADO) --- */
+        /* --- ALL PROJECTS SECTION --- */
         #all-projects-section {
             display: none; padding: 60px 0 100px;
             position: relative; z-index: 100; background: var(--bg-grafito); 
@@ -147,27 +147,44 @@
 
         .desc-box { font-size: 0.95rem; opacity: 0.45; line-height: 1.6; font-weight: 300; padding-top: 10px; }
 
-        .logos-box { display: flex; align-items: center; justify-content: flex-end; width: 120px; padding-top: 10px; }
-        .logos-box img { max-height: 24px; filter: brightness(0) invert(1); opacity: 0.15; transition: 0.5s ease; }
-        .project-row:hover .logos-box img { opacity: 0.8; }
-
-        /* --- MODAL DETALLE --- */
+        /* --- MODAL DETALLE INMERSIVO --- */
         #project-detail {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0,0,0,0.98); z-index: 20000; display: none;
-            align-items: center; justify-content: center; backdrop-filter: blur(30px);
+            background: #000; z-index: 20000; display: none;
+            overflow: hidden;
         }
-        .detail-wrapper { width: 92vw; height: 85vh; display: grid; grid-template-columns: 7.2fr 2.8fr; background: #000; position: relative; }
-        .close-btn { position: fixed; top: 40px; right: 60px; font-size: 0.75rem; font-weight: 800; cursor: pointer; z-index: 20100; text-transform: uppercase; color: var(--hueso); opacity: 0.4; letter-spacing: 0.15em; }
-
-        .detail-video-side { background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .detail-video-side iframe { width: 100%; height: 100%; border: none; }
+        .detail-background {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1;
+        }
+        .detail-background iframe, .detail-background img {
+            width: 100%; height: 100%; object-fit: cover; border: none;
+        }
+        .detail-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0) 100%);
+            z-index: 2; pointer-events: none;
+        }
+        .detail-content {
+            position: relative; z-index: 3; width: 100%; height: 100%;
+            display: flex; flex-direction: column; justify-content: flex-end;
+            padding: 80px; pointer-events: none;
+        }
+        .detail-content * { pointer-events: auto; }
+        .detail-header h2 { font-size: 5rem; font-weight: 800; text-transform: uppercase; line-height: 0.8; letter-spacing: -0.04em; margin-bottom: 40px; }
         
-        .detail-info-side { padding: 60px 50px; display: flex; flex-direction: column; justify-content: flex-end; border-left: 1px solid rgba(255,255,228,0.08); background: #111; overflow-y: auto; }
-        .detail-info-side h2 { font-size: 2.8rem; font-weight: 800; text-transform: uppercase; line-height: 0.9; margin-bottom: 40px; }
-        .detail-meta-group { margin-bottom: 22px; }
-        .detail-meta-group strong { display: block; font-size: 0.65rem; opacity: 0.3; text-transform: uppercase; letter-spacing: 0.25em; margin-bottom: 6px; }
-        .detail-meta-group p { font-size: 1.1rem; font-weight: 400; opacity: 0.9; }
+        .detail-footer { display: flex; gap: 80px; align-items: flex-start; }
+        .detail-meta-item { display: flex; flex-direction: column; gap: 5px; }
+        .detail-meta-item strong { font-size: 0.7rem; text-transform: uppercase; opacity: 0.4; letter-spacing: 0.2em; }
+        .detail-meta-item p { font-size: 1.1rem; font-weight: 500; }
+
+        .close-btn { 
+            position: fixed; top: 40px; right: 60px; font-size: 0.75rem; font-weight: 800; 
+            cursor: pointer; z-index: 20100; text-transform: uppercase; color: var(--hueso); 
+            opacity: 0.6; letter-spacing: 0.15em; background: rgba(0,0,0,0.3);
+            padding: 10px 20px; border-radius: 50px; backdrop-filter: blur(10px);
+        }
+        .close-btn:hover { opacity: 1; background: rgba(0,0,0,0.6); }
 
         /* --- HOME SECTION --- */
         #home-section { height: 100vh; width: 100%; display: flex; align-items: center; padding-left: 80px; position: relative; z-index: 10; }
@@ -175,7 +192,12 @@
         .film-item { font-size: 4.8rem; font-weight: 800; text-transform: uppercase; line-height: 0.85; letter-spacing: -0.04em; color: transparent; -webkit-text-stroke: 1px rgba(255, 255, 228, 0.2); transition: all 0.5s ease; display: block; text-decoration: none; margin-bottom: 8px; width: fit-content; }
         .film-item.active, .film-item:hover { color: var(--hueso); -webkit-text-stroke: 0px; transform: translateX(25px); }
 
-        @media (max-width: 1250px) { .project-row { grid-template-columns: 350px 1fr; } .desc-box, .logos-box { display: none; } }
+        @media (max-width: 1250px) { 
+            .project-row { grid-template-columns: 350px 1fr; } 
+            .desc-box { display: none; }
+            .detail-header h2 { font-size: 3.5rem; }
+            .detail-footer { gap: 40px; flex-wrap: wrap; }
+        }
     </style>
 </head>
 <body>
@@ -218,14 +240,14 @@
     </section>
 
     <section id="all-projects-section">
-        <div class="all-projects-grid">
-            <div class="projects-list-body" id="full-index-list"></div>
-        </div>
+        <div class="all-projects-grid"><div class="projects-list-body" id="full-index-list"></div></div>
     </section>
 
     <div id="project-detail">
         <div class="close-btn" onclick="closeDetail()">[ <span data-i18n="close">cerrar</span> / esc ]</div>
-        <div class="detail-wrapper" id="detail-dynamic-content"></div>
+        <div class="detail-background" id="detail-bg"></div>
+        <div class="detail-overlay"></div>
+        <div class="detail-content" id="detail-dynamic-content"></div>
     </div>
 
     <script src="https://www.youtube.com/iframe_api"></script>
@@ -323,11 +345,8 @@
         function setLang(lang) { currentLang = lang; document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active')); document.getElementById(`btn-${lang}`).classList.add('active'); renderLists(); }
 
         function renderLists() {
-            const featList = document.getElementById('featured-list'); 
-            const indexList = document.getElementById('full-index-list'); 
-            const menuCats = document.getElementById('menu-categories');
+            const featList = document.getElementById('featured-list'); const indexList = document.getElementById('full-index-list'); const menuCats = document.getElementById('menu-categories');
             featList.innerHTML = ''; indexList.innerHTML = ''; menuCats.innerHTML = '';
-
             const featured = projects.filter(p => p.yt);
             featured.forEach((p, idx) => {
                 const a = document.createElement('a'); a.className = "film-item " + (idx === currentIdx ? 'active' : ''); a.innerText = p[`title_${currentLang}`];
@@ -335,17 +354,14 @@
                 a.onclick = (e) => { e.preventDefault(); openDetailByTitle(p.title_es); };
                 featList.appendChild(a);
             });
-
             const categories = [...new Set(projects.map(p => p.category))];
             categories.forEach(cat => {
                 const catId = `cat-${cat.replace(/\s/g, '')}`;
                 const mLink = document.createElement('a'); mLink.href = `#${catId}`; mLink.innerText = `/ ${cat}`;
                 mLink.onclick = () => { showSection('all'); toggleMenu(); };
                 menuCats.appendChild(mLink);
-
                 const group = document.createElement('div'); group.className = "category-group";
                 group.innerHTML = `<div class="category-separator" id="${catId}">${cat}</div>`;
-                
                 projects.filter(p => p.category === cat).forEach(p => {
                     const row = document.createElement('a'); row.className = "project-row";
                     row.innerHTML = `
@@ -372,7 +388,6 @@
             const nextPaneId = activePaneId === 1 ? 2 : 1; const currentPane = document.getElementById(`pane-${activePaneId}`); const nextPane = document.getElementById(`pane-${nextPaneId}`);
             const p = featured[idx]; const playerDivId = `yt-player-${Date.now()}`;
             nextPane.innerHTML = `<div id="${playerDivId}"></div>`;
-
             new YT.Player(playerDivId, {
                 videoId: p.yt, playerVars: { autoplay: 1, mute: 1, controls: 0, modestbranding: 1, rel: 0, start: 10, loop: 1, playlist: p.yt },
                 events: { onReady: (e) => { nextPane.classList.add('active'); currentPane.classList.remove('active'); activePaneId = nextPaneId; setTimeout(() => { currentPane.innerHTML = ''; }, 2000); previewTimer = setTimeout(() => { currentIdx = (currentIdx + 1) % featured.length; updateHomeActiveUI(); changeHeroProject(currentIdx); }, 10000); } }
@@ -380,13 +395,43 @@
         }
 
         function openDetailByTitle(title) {
-            clearTimeout(previewTimer); const p = projects.find(proj => proj.title_es === title); const detail = document.getElementById('project-detail'); const container = document.getElementById('detail-dynamic-content');
-            let mediaHtml = p.yt ? `<iframe src="https://www.youtube.com/embed/${p.yt}?autoplay=1&rel=0" allow="autoplay"></iframe>` : `<div class="gallery-container"><img src="${p.images[0]}" style="max-width:90%"></div>`;
-            container.innerHTML = `<div class="detail-video-side">${mediaHtml}</div><div class="detail-info-side"><h2>${p[`title_${currentLang}`]}</h2><div class="detail-meta-group"><strong>${i18n[currentLang].director}</strong><p>${p.director}</p></div><div class="detail-meta-group"><strong>${i18n[currentLang].prod}</strong><p>${p.prod}</p></div><div class="detail-meta-group"><strong>${i18n[currentLang].editor_label}</strong><p>leandro bruno</p></div></div>`;
-            detail.style.display = 'flex'; document.body.style.overflow = 'hidden';
+            clearTimeout(previewTimer); 
+            const p = projects.find(proj => proj.title_es === title); 
+            const detail = document.getElementById('project-detail');
+            const bgContainer = document.getElementById('detail-bg');
+            const contentContainer = document.getElementById('detail-dynamic-content');
+
+            // Set Background (Video o Imagen)
+            bgContainer.innerHTML = p.yt 
+                ? `<iframe src="https://www.youtube.com/embed/${p.yt}?autoplay=1&controls=0&mute=0&rel=0&modestbranding=1" allow="autoplay"></iframe>` 
+                : `<img src="${p.images[0]}">`;
+
+            // Set Content
+            contentContainer.innerHTML = `
+                <div class="detail-header">
+                    <h2>${p[`title_${currentLang}`]}</h2>
+                </div>
+                <div class="detail-footer">
+                    <div class="detail-meta-item"><strong>${i18n[currentLang].director}</strong><p>${p.director}</p></div>
+                    <div class="detail-meta-item"><strong>${i18n[currentLang].prod}</strong><p>${p.prod}</p></div>
+                    ${p.episodes ? `<div class="detail-meta-item"><strong>${i18n[currentLang].episodes}</strong><p>${p.episodes}</p></div>` : ''}
+                    <div class="detail-meta-item"><strong>${i18n[currentLang].editor_label}</strong><p>leandro bruno</p></div>
+                </div>`;
+            
+            detail.style.display = 'block'; 
+            document.body.style.overflow = 'hidden';
         }
 
-        function closeDetail() { document.getElementById('detail-dynamic-content').innerHTML = ''; document.getElementById('project-detail').style.display = 'none'; if(document.getElementById('all-projects-section').style.display !== 'block') { document.body.style.overflow = 'hidden'; changeHeroProject(currentIdx); } else { document.body.style.overflowY = 'auto'; } }
+        function closeDetail() { 
+            document.getElementById('detail-bg').innerHTML = ''; 
+            document.getElementById('project-detail').style.display = 'none'; 
+            if(document.getElementById('all-projects-section').style.display !== 'block') { 
+                document.body.style.overflow = 'hidden'; 
+                changeHeroProject(currentIdx); 
+            } else { 
+                document.body.style.overflowY = 'auto'; 
+            } 
+        }
 
         function showSection(sec) {
             const home = document.getElementById('home-section'), all = document.getElementById('all-projects-section'), bg = document.getElementById('bg-container'), navHome = document.getElementById('nav-home'), navAll = document.getElementById('nav-all-projects');
