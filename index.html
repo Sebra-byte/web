@@ -15,7 +15,6 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: crosshair; }
-
         html { scroll-behavior: smooth; }
 
         body {
@@ -43,7 +42,7 @@
             transform: translate(-50%, -50%) scale(1.6);
         }
 
-        /* --- NAVEGACIÓN FIJA --- */
+        /* --- NAVEGACIÓN --- */
         .sidebar {
             position: fixed; top: 60px; right: 60px;
             display: flex; flex-direction: column; text-align: right;
@@ -60,29 +59,18 @@
         }
         .side-nav a:hover, .side-nav a.active { opacity: 1; font-style: italic; }
 
-        /* --- FILTRO CATEGORÍAS (SÓLO EN ALL PROJECTS) --- */
+        /* --- FILTRO CATEGORÍAS (LEFT SIDE) --- */
         #category-nav {
-            display: none; position: fixed; top: 60px; left: 60px;
-            z-index: 5000; flex-direction: column; gap: 8px;
+            display: none; position: fixed; top: 180px; left: 60px;
+            z-index: 5000; flex-direction: column; gap: 15px;
         }
         .cat-link {
-            text-decoration: none; color: var(--hueso); font-size: 0.75rem;
-            font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em;
-            opacity: 0.3; transition: 0.3s;
+            text-decoration: none; color: var(--hueso); font-size: 0.7rem;
+            font-weight: 800; text-transform: uppercase; letter-spacing: 0.2em;
+            opacity: 0.25; transition: 0.3s; border-left: 0px solid var(--hueso);
+            padding-left: 0;
         }
-        .cat-link:hover { opacity: 1; }
-
-        /* --- IDIOMA --- */
-        .lang-switcher {
-            position: fixed; bottom: 40px; left: 60px;
-            z-index: 5000; display: flex; gap: 15px;
-        }
-        .lang-btn {
-            background: none; border: none; color: var(--hueso);
-            font-family: var(--font-main); font-size: 0.8rem; font-weight: 700;
-            cursor: pointer; opacity: 0.3; transition: 0.3s;
-        }
-        .lang-btn.active { opacity: 1; text-decoration: underline; }
+        .cat-link:hover { opacity: 1; padding-left: 10px; border-left: 1px solid var(--hueso); }
 
         /* --- HOME SECTION --- */
         #home-section {
@@ -100,36 +88,45 @@
         }
         .film-item.active, .film-item:hover { color: var(--hueso); -webkit-text-stroke: 0px; transform: translateX(20px); }
 
-        /* --- ALL PROJECTS SECTION --- */
+        /* --- ALL PROJECTS (CENTRALIZADO) --- */
         #all-projects-section {
-            display: none; padding: 180px 60px 100px;
+            display: none; padding: 180px 0 100px;
             position: relative; z-index: 100; background: var(--bg-grafito); min-height: 100vh;
         }
+        .projects-wrapper { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
+
         .category-separator { 
             font-size: 0.75rem; font-weight: 800; text-transform: uppercase; 
-            letter-spacing: 0.25em; opacity: 0.3; padding: 80px 0 20px; 
-            border-bottom: 1px solid rgba(255, 255, 228, 0.15); margin-bottom: 0;
+            letter-spacing: 0.3em; opacity: 0.2; padding: 100px 0 20px; 
+            border-bottom: 1px solid rgba(255, 255, 228, 0.1); margin-bottom: 10px;
             scroll-margin-top: 100px;
         }
         
         .project-row { 
-            display: grid; grid-template-columns: 340px 1fr 200px; gap: 50px; 
-            padding: 35px 0; border-bottom: 1px solid rgba(255, 255, 228, 0.05); 
+            display: grid; grid-template-columns: 280px 1fr 120px; gap: 60px; 
+            padding: 40px 0; border-bottom: 1px solid rgba(255, 255, 228, 0.05); 
             align-items: center; transition: var(--transition-smooth); 
             text-decoration: none; color: inherit; 
         }
-        .project-row:hover { background-color: rgba(255, 255, 228, 0.02); padding-left: 20px; }
+        .project-row:hover { background-color: rgba(255, 255, 228, 0.02); padding-left: 20px; padding-right: 20px; }
 
-        .thumb-box { width: 100%; aspect-ratio: 16/9; overflow: hidden; border-radius: 2px; background: #000; }
-        .thumb-box img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; transition: var(--transition-smooth); }
+        .thumb-box { width: 100%; aspect-ratio: 16/9; overflow: hidden; border-radius: 1px; background: #000; }
+        .thumb-box img { width: 100%; height: 100%; object-fit: cover; opacity: 0.5; transition: var(--transition-smooth); }
         .project-row:hover .thumb-box img { opacity: 1; transform: scale(1.05); }
 
-        .info-box h3 { font-size: 2.6rem; font-weight: 800; text-transform: uppercase; line-height: 0.9; margin-bottom: 10px; }
-        .info-box p { font-size: 1rem; opacity: 0.4; font-weight: 300; }
+        .info-box h3 { font-size: 2.2rem; font-weight: 800; text-transform: uppercase; line-height: 0.9; margin-bottom: 12px; }
+        .info-box .meta-line { font-size: 0.85rem; opacity: 0.5; font-weight: 400; letter-spacing: 0.05em; margin-bottom: 4px; }
+        .info-box .meta-line strong { opacity: 1; color: var(--hueso); font-weight: 700; margin-right: 5px; }
+
+        .series-tag { 
+            display: inline-block; font-size: 0.6rem; border: 1px solid rgba(255,255,228,0.3); 
+            padding: 2px 6px; border-radius: 2px; margin-left: 10px; vertical-align: middle;
+            font-weight: 700; opacity: 0.6;
+        }
         
-        .logos-box { display: flex; justify-content: flex-end; align-items: center; opacity: 0.3; transition: 0.3s; }
-        .project-row:hover .logos-box { opacity: 0.8; }
-        .logos-box img { height: 20px; filter: brightness(0) invert(1); }
+        .logos-box { display: flex; justify-content: flex-end; align-items: center; opacity: 0.4; filter: grayscale(1) invert(1); transition: 0.3s; }
+        .project-row:hover .logos-box { opacity: 1; filter: grayscale(0) invert(1); }
+        .logos-box img { height: 18px; width: auto; }
 
         /* --- DETALLE --- */
         #project-detail {
@@ -138,20 +135,17 @@
             flex-direction: column; padding: 60px; overflow: hidden;
         }
         .close-btn { position: fixed; top: 40px; right: 60px; font-size: 0.8rem; font-weight: 800; cursor: pointer; z-index: 6100; text-transform: uppercase; }
-        #detail-dynamic-content { height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
         .detail-video-box { width: 100%; flex-grow: 1; max-height: 65vh; background: #000; display: flex; align-items: center; justify-content: center; }
         .detail-video-box iframe, .detail-video-box img { width: 100%; height: 100%; border: none; object-fit: contain; }
         .detail-info-footer { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: flex-end; padding-top: 30px; border-top: 1px solid rgba(255,255,228,0.1); }
-        .detail-info-footer h2 { font-size: 4rem; font-weight: 800; text-transform: uppercase; line-height: 0.8; }
-        .detail-meta p { font-size: 0.95rem; margin-bottom: 4px; }
+        .detail-info-footer h2 { font-size: 3.5rem; font-weight: 800; text-transform: uppercase; line-height: 0.8; }
 
         @media (max-width: 1000px) {
-            .sidebar { right: 30px; top: 30px; }
-            #home-section { padding-left: 30px; }
+            .projects-wrapper { padding: 0 30px; }
             #category-nav { display: none !important; }
             .project-row { grid-template-columns: 1fr; gap: 20px; }
             .logos-box { justify-content: flex-start; }
-            .film-item { font-size: 3rem; }
+            .sidebar { right: 30px; }
         }
     </style>
 </head>
@@ -188,7 +182,7 @@
     </div>
 
     <section id="all-projects-section">
-        <div id="full-index-list"></div>
+        <div class="projects-wrapper" id="full-index-list"></div>
     </section>
 
     <div id="project-detail">
@@ -205,17 +199,17 @@
         };
 
         const projects = [
-            { id: 0, title_es: "menem", title_en: "menem", category: "serie", images: ["assets/Menem_Thumbnail_1.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", desc_es: "Biopic que recorre el ascenso al poder de Carlos Menem en los años 90.", desc_en: "Biopic tracing Carlos Menem's rise to power in the 1990s.", logo: "assets/Prime_logo.png" },
-            { id: 1, title_es: "OREO - Sigamos divirtiendonos", title_en: "OREO - Keep on playing", category: "advertising", images: ["assets/Oreo_Thumbnail_5.png"], yt: "7Cllu0Rme74", director: "Martín Jalfen", prod: "Pop Studios - México", desc_es: "Campaña publicitaria global para Oreo.", desc_en: "Global advertising campaign for Oreo." },
-            { id: 2, title_es: "el tiempo de las moscas", title_en: "time of the flies", category: "serie", images: ["assets/Moscas_Thumbnail_1.jpg"], yt: "A0d6wnlMRRk", director: "Benjamín Naishtat y Ana Katz", prod: "netflix", desc_es: "Dos mujeres intentan reconstruir sus vidas tras salir de prisión.", desc_en: "Two women attempt to rebuild their lives after being released from prison.", logo: "assets/Netflix_logo.png" },
-            { id: 3, title_es: "levis x winona riders", title_en: "levis x winona riders", category: "advertising", images: ["assets/Levis_Thumbnail_v01.jpg"], yt: "mb2RPesGf7Q", director: "Nico Alarcos", prod: "primo", desc_es: "Campaña de gira de Winona Riders por el norte de Argentina.", desc_en: "Winona Riders commercial tour of northern Argentina." },
-            { id: 4, title_es: "coppola, el representante", title_en: "coppola, the agent", category: "serie", images: ["assets/Coppola_Thumbnail_2.jpg"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films / disney+", desc_es: "La historia de Guillermo Coppola en una travesía llena de excesos.", desc_en: "The story of Guillermo Coppola in a journey filled with excess.", logo: "assets/Disney_logo.png" },
-            { id: 5, title_es: "blair - Todo lo que tengo", title_en: "blair - All I have", category: "music video", images: ["assets/Blair_Thumbnail_1.jpg"], yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster", desc_es: "Primer adelanto del disco Bar Scorpios (2025)", desc_en: "First preview of the album Bar Scorpios (2025)" },
-            { id: 6, title_es: "las manos de la abuela", title_en: "grandmother's hands", category: "cortometraje", images: ["assets/MA_Thumbnail_1.png"], yt: "", director: "camila migliore", prod: "calesita films", desc_es: "Cortometraje que explora la memoria y el legado familiar.", desc_en: "Short film exploring memory and family legacy." },
-            { id: 7, title_es: "ratones paranoicos", title_en: "ratones paranoicos", category: "music video", images: ["assets/RP_Thumbmail_1.png"], yt: "", director: "alex roux", prod: "poster", desc_es: "Pieza audiovisual para la legendaria banda de rock argentina.", desc_en: "Audiovisual piece for the legendary Argentine rock band." },
-            { id: 8, title_es: "besos brujos", title_en: "witch kisses", category: "cortometraje", images: ["assets/BB_Thumbnail_1.png"], yt: "", director: "karina flonembaum", prod: "independiente", desc_es: "Ficción breve que juega con los límites del deseo.", desc_en: "Short fiction playing with the limits of desire." },
-            { id: 9, title_es: "las marias", title_en: "las marias", category: "advertising", images: ["assets/Marias_Thumbnail_1.png"], yt: "", director: "alejandro berger parrado", prod: "navajo films", desc_es: "Pieza sobre la tradición yerbatera argentina.", desc_en: "Piece on the Argentine yerba mate tradition." },
-            { id: 10, title_es: "todo lo que recuerdo", title_en: "all I remember", category: "cortometraje", images: ["assets/TodoLoQueRecuerdo_Thumbnail_1.png"], yt: "", director: "nicolas fernandez melian", prod: "independiente", desc_es: "Un viaje sensorial por la memoria fragmentada.", desc_en: "A sensory journey through fragmented memory." }
+            { id: 0, title_es: "menem", title_en: "menem", category: "serie", images: ["assets/Menem_Thumbnail_1.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", specs: {es: "6 episodios", en: "6 episodes"}, logo: "assets/Prime_logo.png", desc_es: "Biopic sobre Carlos Menem.", desc_en: "Biopic about Carlos Menem." },
+            { id: 1, title_es: "OREO - Sigamos divirtiendonos", title_en: "OREO - Keep on playing", category: "advertising", images: ["assets/Oreo_Thumbnail_5.png"], yt: "7Cllu0Rme74", director: "Martín Jalfen", prod: "Pop Studios - México", desc_es: "Campaña global Oreo.", desc_en: "Global Oreo campaign." },
+            { id: 2, title_es: "el tiempo de las moscas", title_en: "time of the flies", category: "serie", images: ["assets/Moscas_Thumbnail_1.jpg"], yt: "A0d6wnlMRRk", director: "Benjamín Naishtat y Ana Katz", prod: "netflix", specs: {es: "6 episodios", en: "6 episodes"}, logo: "assets/Netflix_logo.png", desc_es: "Drama sobre la reinserción tras la cárcel.", desc_en: "Drama about life after prison." },
+            { id: 3, title_es: "levis x winona riders", title_en: "levis x winona riders", category: "advertising", images: ["assets/Levis_Thumbnail_v01.jpg"], yt: "mb2RPesGf7Q", director: "Nico Alarcos", prod: "primo", desc_es: "Gira Winona Riders.", desc_en: "Winona Riders tour." },
+            { id: 4, title_es: "coppola, el representante", title_en: "coppola, the agent", category: "serie", images: ["assets/Coppola_Thumbnail_2.jpg"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films / disney+", specs: {es: "6 episodios", en: "6 episodes"}, logo: "assets/Disney_logo.png", desc_es: "La vida de Guillermo Coppola.", desc_en: "The life of Guillermo Coppola." },
+            { id: 5, title_es: "blair - Todo lo que tengo", title_en: "blair - All I have", category: "music video", images: ["assets/Blair_Thumbnail_1.jpg"], yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster", desc_es: "Videoclip musical 2025.", desc_en: "Music video 2025." },
+            { id: 6, title_es: "las manos de la abuela", title_en: "grandmother's hands", category: "cortometraje", images: ["assets/MA_Thumbnail_1.png"], yt: "", director: "camila migliore", prod: "calesita films", desc_es: "Cortometraje sobre la memoria.", desc_en: "Short about memory." },
+            { id: 7, title_es: "ratones paranoicos", title_en: "ratones paranoicos", category: "music video", images: ["assets/RP_Thumbmail_1.png"], yt: "", director: "alex roux", prod: "poster", desc_es: "Rock nacional argentino.", desc_en: "Argentine rock." },
+            { id: 8, title_es: "besos brujos", title_en: "witch kisses", category: "cortometraje", images: ["assets/BB_Thumbnail_1.png"], yt: "", director: "karina flonembaum", prod: "independiente", desc_es: "Ficción onírica.", desc_en: "Dreamlike fiction." },
+            { id: 9, title_es: "las marias", title_en: "las marias", category: "advertising", images: ["assets/Marias_Thumbnail_1.png"], yt: "", director: "alejandro berger parrado", prod: "navajo films", desc_es: "Tradición yerbatera.", desc_en: "Mate tradition." },
+            { id: 10, title_es: "todo lo que recuerdo", title_en: "all I remember", category: "cortometraje", images: ["assets/TodoLoQueRecuerdo_Thumbnail_1.png"], yt: "", director: "nicolas fernandez melian", prod: "independiente", desc_es: "Selección Mar del Plata.", desc_en: "Mar del Plata Selection." }
         ];
 
         let currentLang = 'es';
@@ -255,29 +249,29 @@
             // Index por Categorías
             const categories = [...new Set(projects.map(p => p.category))];
             categories.forEach(cat => {
-                // Link en el menú lateral izquierdo
+                const catId = `cat-${cat.replace(/\s/g, '')}`;
+                
                 const cLink = document.createElement('a');
                 cLink.className = "cat-link";
-                cLink.href = `#cat-${cat.replace(/\s/g, '')}`;
+                cLink.href = `#${catId}`;
                 cLink.innerText = cat;
                 catNav.appendChild(cLink);
 
-                // Separador en la lista
                 const sep = document.createElement('div');
                 sep.className = "category-separator";
-                sep.id = `cat-${cat.replace(/\s/g, '')}`;
+                sep.id = catId;
                 sep.innerText = cat;
                 indexList.appendChild(sep);
 
                 projects.filter(p => p.category === cat).forEach(p => {
                     const row = document.createElement('a');
                     row.className = "project-row";
-                    row.href = "#";
                     row.innerHTML = `
                         <div class="thumb-box"><img src="${p.images[0]}"></div>
                         <div class="info-box">
-                            <h3>${p[`title_${currentLang}`]}</h3>
-                            <p>${p.director} | ${p.prod}</p>
+                            <h3>${p[`title_${currentLang}`]} ${p.specs ? `<span class="series-tag">${p.specs[currentLang]}</span>` : ''}</h3>
+                            <div class="meta-line"><strong>D:</strong> ${p.director}</div>
+                            <div class="meta-line"><strong>P:</strong> ${p.prod}</div>
                         </div>
                         <div class="logos-box">${p.logo ? `<img src="${p.logo}">` : ''}</div>
                     `;
@@ -331,12 +325,15 @@
             container.innerHTML = `
                 ${mediaHtml}
                 <div class="detail-info-footer">
-                    <div><h2>${p[`title_${currentLang}`]}</h2><p style="opacity:0.3; font-weight:800; text-transform:uppercase; font-size:0.8rem; margin-top:10px;">${p.category}</p></div>
+                    <div>
+                        <h2>${p[`title_${currentLang}`]}</h2>
+                        <p style="opacity:0.3; font-weight:800; text-transform:uppercase; font-size:0.75rem; margin-top:10px;">${p.category}</p>
+                    </div>
                     <div class="detail-meta">
                         <p><strong>${i18n[currentLang].director}:</strong> ${p.director}</p>
                         <p><strong>${i18n[currentLang].prod}:</strong> ${p.prod}</p>
                         <p><strong>${i18n[currentLang].editor_label}:</strong> leandro bruno</p>
-                        <p style="margin-top:15px; opacity:0.6; font-weight:300; max-width:400px; line-height:1.4;">${p[`desc_${currentLang}`]}</p>
+                        <p style="margin-top:15px; opacity:0.6; font-weight:300; max-width:450px; line-height:1.4;">${p[`desc_${currentLang}`]}</p>
                     </div>
                 </div>`;
         }
