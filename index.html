@@ -42,12 +42,11 @@
             transform: translate(-50%, -50%) scale(1.6);
         }
 
-        /* --- NAVEGACIÓN HOME (ORIGINAL) --- */
+        /* --- NAVEGACIÓN HOME (DERECHA) --- */
         .sidebar-home {
             position: fixed; top: 60px; right: 60px;
             display: flex; flex-direction: column; text-align: right;
             align-items: flex-end; z-index: 5000;
-            transition: opacity 0.4s ease;
         }
         .brand { margin-bottom: 40px; cursor: pointer; }
         .brand h1 { font-size: 2.6rem; font-weight: 800; text-transform: uppercase; line-height: 0.8; letter-spacing: -0.04em; }
@@ -63,7 +62,7 @@
         /* --- NAVEGACIÓN ALL PROJECTS (HAMBURGUESA) --- */
         .nav-all-projects {
             position: fixed; top: 40px; right: 40px;
-            z-index: 9000; display: none; /* Oculto por defecto */
+            z-index: 9000; display: none;
         }
         .menu-toggle {
             width: 30px; height: 18px; display: flex; flex-direction: column;
@@ -94,50 +93,64 @@
         }
         .lang-btn.active { opacity: 1; text-decoration: underline; }
 
-        /* --- ALL PROJECTS SECTION --- */
+        /* --- ALL PROJECTS SECTION (AJUSTE PARA MONITORES GRANDES) --- */
         #all-projects-section {
             display: none; padding: 140px 0 100px;
             position: relative; z-index: 100; background: var(--bg-grafito); 
             height: 100vh; overflow-y: auto;
         }
+        
+        /* Contenedor principal con ancho máximo para que no se "estire" en 22" */
         .all-projects-grid {
-            display: grid; grid-template-columns: 180px 1px 1fr;
-            gap: 40px; max-width: 1500px; margin: 0 auto; padding: 0 60px; align-items: start;
+            display: grid; 
+            grid-template-columns: 200px 1px 1fr;
+            gap: 60px; 
+            max-width: 1400px; /* Evita que en el monitor de 22" se vea distinto al de 14" */
+            margin: 0 auto; 
+            padding: 0 40px; 
+            align-items: start;
         }
-        .cat-nav-column { position: sticky; top: 0; display: flex; flex-direction: column; gap: 15px; }
+
+        .cat-nav-column { position: sticky; top: 0; display: flex; flex-direction: column; gap: 15px; padding-top: 20px; }
         .cat-link {
             text-decoration: none; color: var(--hueso); font-size: 0.7rem;
             font-weight: 800; text-transform: uppercase; letter-spacing: 0.2em;
             opacity: 0.25; transition: 0.3s;
         }
         .cat-link:hover { opacity: 1; }
-        .v-line { width: 1px; background: rgba(255, 255, 228, 0.1); height: 100%; min-height: 70vh; }
+        .v-line { width: 1px; background: rgba(255, 255, 228, 0.1); height: 100vh; }
 
         .category-group { margin-bottom: 80px; }
         .category-separator { 
-            font-size: 0.75rem; font-weight: 800; text-transform: uppercase; 
-            letter-spacing: 0.3em; opacity: 0.2; padding-bottom: 20px; 
+            font-size: 0.7rem; font-weight: 800; text-transform: uppercase; 
+            letter-spacing: 0.3em; opacity: 0.2; padding-bottom: 15px; 
             border-bottom: 1px solid rgba(255, 255, 228, 0.1); margin-bottom: 10px;
         }
         
+        /* Ajuste de las filas de proyecto para que el logo esté cerca */
         .project-row { 
-            display: grid; grid-template-columns: 260px 1fr 120px;
-            gap: 50px; padding: 35px 0; border-bottom: 1px solid rgba(255, 255, 228, 0.05); 
-            align-items: center; transition: var(--transition-smooth); 
+            display: grid; 
+            grid-template-columns: 280px 1fr 100px;
+            gap: 40px; 
+            padding: 30px 0; 
+            border-bottom: 1px solid rgba(255, 255, 228, 0.05); 
+            align-items: center; 
+            transition: var(--transition-smooth); 
             text-decoration: none; color: inherit; 
         }
         .project-row:hover { background-color: rgba(255, 255, 228, 0.02); padding-left: 15px; }
-        .thumb-box { width: 100%; aspect-ratio: 16/9; overflow: hidden; background: #000; }
-        .thumb-box img { width: 100%; height: 100%; object-fit: cover; opacity: 0.4; transition: var(--transition-smooth); }
+
+        .thumb-box { width: 100%; aspect-ratio: 16/9; overflow: hidden; background: #000; border-radius: 2px; }
+        .thumb-box img { width: 100%; height: 100%; object-fit: cover; opacity: 0.5; transition: var(--transition-smooth); }
         .project-row:hover .thumb-box img { opacity: 1; transform: scale(1.03); }
 
-        .info-box h3 { font-size: 2.1rem; font-weight: 800; text-transform: uppercase; line-height: 0.9; margin-bottom: 12px; letter-spacing: -0.02em; }
-        .info-box .meta-line { font-size: 0.85rem; opacity: 0.5; font-weight: 400; letter-spacing: 0.05em; margin-bottom: 4px; }
-        .info-box .meta-line strong { opacity: 1; color: var(--hueso); margin-right: 4px; }
+        .info-box h3 { font-size: 2.2rem; font-weight: 800; text-transform: uppercase; line-height: 0.9; margin-bottom: 10px; letter-spacing: -0.02em; }
+        .info-box .meta-line { font-size: 0.8rem; opacity: 0.5; font-weight: 400; margin-bottom: 3px; }
+        .info-box .meta-line strong { opacity: 1; color: var(--hueso); margin-right: 4px; font-weight: 700; }
 
         .logos-box { display: flex; justify-content: flex-end; align-items: center; }
         .logos-box img { 
-            max-height: 22px; max-width: 90px; 
+            max-height: 20px; max-width: 85px; 
             filter: brightness(0) invert(1); object-fit: contain; 
             opacity: 0.3; transition: 0.3s;
         }
@@ -160,11 +173,7 @@
         }
         .close-btn:hover { opacity: 1; }
 
-        .detail-video-side { 
-            background: #000; width: 100%; height: 100%; 
-            position: relative; overflow: hidden; 
-            display: flex; align-items: center; justify-content: center; 
-        }
+        .detail-video-side { background: #000; display: flex; align-items: center; justify-content: center; }
         .detail-video-side iframe { width: 100%; height: 100%; border: none; }
         
         .gallery-container { width: 100%; height: 100%; position: relative; display: flex; align-items: center; justify-content: center; }
@@ -196,7 +205,7 @@
         /* --- HOME SECTION --- */
         #home-section {
             height: 100vh; width: 100%; display: flex; align-items: center;
-            padding-left: 60px; position: relative; z-index: 10;
+            padding-left: 80px; position: relative; z-index: 10;
         }
         .section-label { font-size: 0.75rem; margin-bottom: 25px; font-weight: 700; opacity: 0.3; letter-spacing: 0.15em; text-transform: uppercase; }
         .film-item {
@@ -209,12 +218,10 @@
         .film-item.active, .film-item:hover { color: var(--hueso); -webkit-text-stroke: 0px; transform: translateX(20px); }
 
         @media (max-width: 1100px) {
-            .all-projects-grid { grid-template-columns: 1fr; }
+            .all-projects-grid { grid-template-columns: 1fr; gap: 20px; padding: 0 30px; }
             .cat-nav-column, .v-line { display: none; }
-            .project-row { grid-template-columns: 1fr 1fr; }
+            .project-row { grid-template-columns: 1fr 1fr; gap: 20px; }
             .detail-wrapper { grid-template-columns: 1fr; height: 95vh; }
-            .sidebar-home { top: 30px; right: 30px; }
-            .brand h1 { font-size: 2rem; }
         }
     </style>
 </head>
@@ -291,14 +298,14 @@
         };
 
         const projects = [
-            { id: 0, title_es: "menem", title_en: "menem", category: "serie", images: ["assets/Menem_Thumbnail_1.jpg", "assets/Menem_Thumbnail_2.jpg", "assets/Menem_Thumbnail_3.png", "assets/Menem_Thumbnail_4.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", logo: "assets/prime.png", desc_es: "Biopic que recorre el ascenso al poder de Carlos Menem en los años 90.", desc_en: "Biopic tracing Carlos Menem's rise to power in the 1990s." },
-            { id: 1, title_es: "OREO - Sigamos divirtiendonos", title_en: "OREO - Keep on playing", category: "advertising", images: ["assets/Oreo_Thumbnail_5.png"], yt: "7Cllu0Rme74", director: "Martín Jalfen", prod: "Pop Studios - México", desc_es: "Campaña publicitaria global para Oreo.", desc_en: "Global advertising campaign for Oreo." },
-            { id: 2, title_es: "el tiempo de las moscas", title_en: "time of the flies", category: "serie", images: ["assets/Moscas_Thumbnail_1.jpg"], yt: "A0d6wnlMRRk", director: "Benjamín Naishtat y Ana Katz", prod: "netflix", logo: "assets/netflix.png", desc_es: "Serie original de Netflix.", desc_en: "Netflix original series." },
-            { id: 3, title_es: "levis x winona riders", title_en: "levis x winona riders", category: "advertising", images: ["assets/Levis_Thumbnail_v01.jpg"], yt: "mb2RPesGf7Q", director: "Nico Alarcos", prod: "primo", desc_es: "Campaña de gira de Winona Riders.", desc_en: "Winona Riders commercial tour." },
-            { id: 4, title_es: "coppola, el representante", title_en: "coppola, the agent", category: "serie", images: ["assets/Coppola_Thumbnail_2.jpg"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films / disney+", logo: "assets/disney.png", desc_es: "La historia de Guillermo Coppola.", desc_en: "The story of Guillermo Coppola." },
-            { id: 5, title_es: "blair - Todo lo que tengo", title_en: "blair - All I have", category: "music video", images: ["assets/Blair_Thumbnail_1.jpg"], yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster", desc_es: "Primer adelanto del disco Bar Scorpios (2025)", desc_en: "First preview of the album Bar Scorpios (2025)" },
-            { id: 6, title_es: "las manos de la abuela", title_en: "grandmother's hands", category: "cortometraje", images: ["assets/MA_Thumbnail_1.png", "assets/MA_Thumbnail_3.png"], yt: "", director: "camila migliore", prod: "calesita films", desc_es: "Cortometraje sobre la memoria.", desc_en: "Short film about memory." },
-            { id: 8, title_es: "besos brujos", title_en: "witch kisses", category: "cortometraje", images: ["assets/BB_Thumbnail_1.png", "assets/BB_Thumbnail_2.png", "assets/BB_Thumbnail_3.png"], yt: "", director: "karina flonembaum", prod: "—", desc_es: "Ficción breve onírica.", desc_en: "Short dreamlike fiction." }
+            { id: 0, title_es: "menem", title_en: "menem", category: "serie", images: ["assets/Menem_Thumbnail_1.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", logo: "assets/prime.png", desc_es: "Biopic sobre Carlos Menem.", desc_en: "Biopic about Carlos Menem." },
+            { id: 1, title_es: "OREO - Sigamos divirtiendonos", title_en: "OREO - Keep on playing", category: "advertising", images: ["assets/Oreo_Thumbnail_5.png"], yt: "7Cllu0Rme74", director: "Martín Jalfen", prod: "Pop Studios - México", desc_es: "Campaña global Oreo.", desc_en: "Oreo global campaign." },
+            { id: 2, title_es: "el tiempo de las moscas", title_en: "time of the flies", category: "serie", images: ["assets/Moscas_Thumbnail_1.jpg"], yt: "A0d6wnlMRRk", director: "Benjamín Naishtat y Ana Katz", prod: "netflix", logo: "assets/netflix.png", desc_es: "Serie original.", desc_en: "Original series." },
+            { id: 3, title_es: "levis x winona riders", title_en: "levis x winona riders", category: "advertising", images: ["assets/Levis_Thumbnail_v01.jpg"], yt: "mb2RPesGf7Q", director: "Nico Alarcos", prod: "primo", desc_es: "Winona Riders tour.", desc_en: "Winona Riders tour." },
+            { id: 4, title_es: "coppola, el representante", title_en: "coppola, the agent", category: "serie", images: ["assets/Coppola_Thumbnail_2.jpg"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films / disney+", logo: "assets/disney.png", desc_es: "Biopic Guillermo Coppola.", desc_en: "Guillermo Coppola biopic." },
+            { id: 5, title_es: "blair - Todo lo que tengo", title_en: "blair - All I have", category: "music video", images: ["assets/Blair_Thumbnail_1.jpg"], yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster", desc_es: "Bar Scorpios (2025)", desc_en: "Bar Scorpios (2025)" },
+            { id: 6, title_es: "las manos de la abuela", title_en: "grandmother's hands", category: "cortometraje", images: ["assets/MA_Thumbnail_1.png"], yt: "", director: "camila migliore", prod: "calesita films", desc_es: "Corto sobre memoria.", desc_en: "Short on memory." },
+            { id: 8, title_es: "besos brujos", title_en: "witch kisses", category: "cortometraje", images: ["assets/BB_Thumbnail_1.png"], yt: "", director: "karina flonembaum", prod: "—", desc_es: "Ficción onírica.", desc_en: "Dreamlike fiction." }
         ];
 
         let currentLang = 'es';
