@@ -71,7 +71,7 @@
         }
         .lang-btn.active { opacity: 1; text-decoration: underline; }
 
-        /* --- ALL PROJECTS: AJUSTE DE ALINEACIÓN --- */
+        /* --- ALL PROJECTS --- */
         #all-projects-section {
             display: none; padding: 180px 0 100px;
             position: relative; z-index: 100; background: var(--bg-grafito); min-height: 100vh;
@@ -79,10 +79,10 @@
         
         .all-projects-grid {
             display: grid;
-            grid-template-columns: 180px 1px 1fr; /* Columna de categorías más estrecha según captura */
-            gap: 40px; /* Reducido para que no flote en el centro */
+            grid-template-columns: 180px 1px 1fr;
+            gap: 40px;
             max-width: 1600px;
-            margin: 0; /* Alineado a la izquierda */
+            margin: 0;
             padding: 0 60px;
             align-items: start;
         }
@@ -112,7 +112,7 @@
         
         .project-row { 
             display: grid; 
-            grid-template-columns: 280px 1fr 120px; /* Tercera columna para el logo */
+            grid-template-columns: 280px 1fr 120px;
             gap: 50px; 
             padding: 35px 0; border-bottom: 1px solid rgba(255, 255, 228, 0.05); 
             align-items: center; transition: var(--transition-smooth); 
@@ -128,7 +128,6 @@
         .info-box .meta-line { font-size: 0.85rem; opacity: 0.5; font-weight: 400; letter-spacing: 0.05em; margin-bottom: 4px; }
         .info-box .meta-line strong { opacity: 1; color: var(--hueso); margin-right: 4px; }
 
-        /* Logos alineados a la derecha (Círculo naranja de tu captura) */
         .logos-box { 
             display: flex; 
             justify-content: flex-end; 
@@ -281,7 +280,10 @@
                 const a = document.createElement('a');
                 a.className = "film-item " + (idx === currentIdx ? 'active' : '');
                 a.innerText = p[`title_${currentLang}`];
-                a.onmouseenter = () => { currentIdx = idx; changeHeroProject(idx); };
+                a.onmouseenter = () => { 
+                    currentIdx = idx; 
+                    changeHeroProject(idx); 
+                };
                 a.onclick = (e) => { e.preventDefault(); openDetail(p.id); };
                 featList.appendChild(a);
             });
@@ -317,6 +319,13 @@
         function changeHeroProject(idx) {
             clearTimeout(previewTimer);
             const featured = projects.filter(p => p.yt);
+            
+            // ACTUALIZACIÓN DE TEXTO: Esto corrige que el texto cambie automáticamente
+            document.querySelectorAll('.film-item').forEach((el, i) => {
+                if(i === idx) el.classList.add('active');
+                else el.classList.remove('active');
+            });
+
             const nextPaneId = activePaneId === 1 ? 2 : 1;
             const currentPane = document.getElementById(`pane-${activePaneId}`);
             const nextPane = document.getElementById(`pane-${nextPaneId}`);
@@ -333,7 +342,7 @@
                         currentPane.classList.remove('active');
                         activePaneId = nextPaneId;
                         previewTimer = setTimeout(() => {
-                            currentIdx = (currentIdx + 1) % featured.length;
+                            currentIdx = (idx + 1) % featured.length;
                             changeHeroProject(currentIdx);
                         }, 10000);
                     }
