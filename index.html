@@ -42,7 +42,7 @@
             transform: translate(-50%, -50%) scale(1.6);
         }
 
-        /* --- NAVEGACIÓN BRAND --- */
+        /* --- NAVEGACIÓN BRAND (DERECHA) --- */
         .sidebar {
             position: fixed; top: 60px; right: 60px;
             display: flex; flex-direction: column; text-align: right;
@@ -59,7 +59,7 @@
         }
         .side-nav a:hover, .side-nav a.active { opacity: 1; font-style: italic; }
 
-        /* --- IDIOMA --- */
+        /* --- IDIOMA (IZQUIERDA) --- */
         .lang-switcher {
             position: fixed; bottom: 40px; left: 60px;
             z-index: 5000; display: flex; gap: 15px;
@@ -87,51 +87,67 @@
         }
         .film-item.active, .film-item:hover { color: var(--hueso); -webkit-text-stroke: 0px; transform: translateX(20px); }
 
-        /* --- ALL PROJECTS (NUEVA ESTRUCTURA BALANCEADA) --- */
+        /* --- ALL PROJECTS SECTION --- */
         #all-projects-section {
             display: none; padding: 180px 0 100px;
             position: relative; z-index: 100; background: var(--bg-grafito); min-height: 100vh;
         }
-        .projects-container {
-            max-width: 1400px; margin: 0 auto;
-            display: grid; grid-template-columns: 200px 1fr; gap: 40px;
+        
+        .all-projects-grid {
+            display: grid;
+            grid-template-columns: 200px 1px 1fr; /* Columna Nav | Linea | Listado */
+            gap: 60px;
+            max-width: 1300px;
+            margin: 0 auto;
             padding: 0 60px;
         }
 
-        /* Navegación de categorías interna (columna izquierda) */
-        .cat-sidebar {
-            position: sticky; top: 180px; height: fit-content;
-            display: flex; flex-direction: column; gap: 12px;
+        /* Nav Categorías Alineada con Lang Switcher (Left 60px) */
+        .cat-nav-column {
+            position: sticky;
+            top: 180px;
+            height: fit-content;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
         .cat-link {
             text-decoration: none; color: var(--hueso); font-size: 0.7rem;
             font-weight: 800; text-transform: uppercase; letter-spacing: 0.2em;
-            opacity: 0.2; transition: 0.3s;
+            opacity: 0.25; transition: 0.3s;
         }
-        .cat-link:hover { opacity: 1; }
+        .cat-link:hover { opacity: 1; color: var(--hueso); }
+
+        /* Línea Divisoria Vertical */
+        .v-line {
+            width: 1px;
+            background: rgba(255, 255, 228, 0.1);
+            height: 100%;
+        }
 
         .category-separator { 
             font-size: 0.75rem; font-weight: 800; text-transform: uppercase; 
-            letter-spacing: 0.3em; opacity: 0.2; padding: 80px 0 20px; 
+            letter-spacing: 0.3em; opacity: 0.2; padding: 0 0 20px; 
             border-bottom: 1px solid rgba(255, 255, 228, 0.1); margin-bottom: 10px;
-            scroll-margin-top: 100px;
+            scroll-margin-top: 180px;
         }
+        .category-group { margin-bottom: 100px; }
         
         .project-row { 
-            display: grid; grid-template-columns: 320px 1fr 120px; gap: 60px; 
-            padding: 45px 0; border-bottom: 1px solid rgba(255, 255, 228, 0.05); 
+            display: grid; grid-template-columns: 280px 1fr 100px; gap: 50px; 
+            padding: 35px 0; border-bottom: 1px solid rgba(255, 255, 228, 0.05); 
             align-items: center; transition: var(--transition-smooth); 
             text-decoration: none; color: inherit; 
         }
-        .project-row:hover { background-color: rgba(255, 255, 228, 0.02); padding-left: 20px; }
+        .project-row:hover { background-color: rgba(255, 255, 228, 0.02); padding-left: 15px; }
 
-        .thumb-box { width: 100%; aspect-ratio: 16/9; overflow: hidden; border-radius: 1px; background: #000; }
-        .thumb-box img { width: 100%; height: 100%; object-fit: cover; opacity: 0.5; transition: var(--transition-smooth); }
-        .project-row:hover .thumb-box img { opacity: 1; transform: scale(1.05); }
+        .thumb-box { width: 100%; aspect-ratio: 16/9; overflow: hidden; background: #000; }
+        .thumb-box img { width: 100%; height: 100%; object-fit: cover; opacity: 0.4; transition: var(--transition-smooth); }
+        .project-row:hover .thumb-box img { opacity: 1; transform: scale(1.03); }
 
-        .info-box h3 { font-size: 2.2rem; font-weight: 800; text-transform: uppercase; line-height: 0.9; margin-bottom: 15px; letter-spacing: -0.02em; }
-        .info-box .meta-line { font-size: 0.85rem; opacity: 0.5; font-weight: 400; letter-spacing: 0.05em; margin-bottom: 5px; }
-        .info-box .meta-line strong { opacity: 1; color: var(--hueso); font-weight: 700; margin-right: 5px; }
+        .info-box h3 { font-size: 2rem; font-weight: 800; text-transform: uppercase; line-height: 0.9; margin-bottom: 12px; }
+        .info-box .meta-line { font-size: 0.85rem; opacity: 0.5; font-weight: 400; letter-spacing: 0.05em; margin-bottom: 4px; }
+        .info-box .meta-line strong { opacity: 1; color: var(--hueso); margin-right: 4px; }
 
         .series-tag { 
             display: inline-block; font-size: 0.6rem; border: 1px solid rgba(255,255,228,0.3); 
@@ -139,9 +155,9 @@
             font-weight: 700; opacity: 0.5;
         }
         
-        .logos-box { display: flex; justify-content: flex-end; align-items: center; opacity: 0.3; filter: grayscale(1) invert(1); transition: 0.3s; }
-        .project-row:hover .logos-box { opacity: 0.9; filter: grayscale(0) invert(1); }
-        .logos-box img { height: 16px; width: auto; }
+        .logos-box { display: flex; justify-content: flex-end; align-items: center; opacity: 0.3; transition: 0.3s; }
+        .project-row:hover .logos-box { opacity: 1; }
+        .logos-box img { height: 18px; width: auto; filter: brightness(0) invert(1); }
 
         /* --- DETALLE --- */
         #project-detail {
@@ -155,14 +171,10 @@
         .detail-info-footer { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: flex-end; padding-top: 30px; border-top: 1px solid rgba(255,255,228,0.1); }
         .detail-info-footer h2 { font-size: 3.5rem; font-weight: 800; text-transform: uppercase; line-height: 0.8; }
 
-        @media (max-width: 1200px) {
-            .projects-container { grid-template-columns: 1fr; }
-            .cat-sidebar { display: none; }
-        }
-        @media (max-width: 800px) {
-            .project-row { grid-template-columns: 1fr; gap: 20px; }
-            .logos-box { justify-content: flex-start; }
-            .sidebar { right: 30px; }
+        @media (max-width: 1100px) {
+            .all-projects-grid { grid-template-columns: 1fr; padding: 0 30px; }
+            .cat-nav-column, .v-line { display: none; }
+            .project-row { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -197,9 +209,12 @@
     </section>
 
     <section id="all-projects-section">
-        <div class="projects-container">
-            <div class="cat-sidebar" id="category-nav"></div>
-            <div class="projects-list-body" id="full-index-list"></div>
+        <div class="all-projects-grid">
+            <div class="cat-nav-column" id="category-nav">
+                </div>
+            <div class="v-line"></div>
+            <div class="projects-list-body" id="full-index-list">
+                </div>
         </div>
     </section>
 
@@ -266,17 +281,17 @@
             categories.forEach(cat => {
                 const catId = `cat-${cat.replace(/\s/g, '')}`;
                 
+                // Link en sidebar izquierda
                 const cLink = document.createElement('a');
                 cLink.className = "cat-link";
                 cLink.href = `#${catId}`;
                 cLink.innerText = cat;
                 catNav.appendChild(cLink);
 
-                const sep = document.createElement('div');
-                sep.className = "category-separator";
-                sep.id = catId;
-                sep.innerText = cat;
-                indexList.appendChild(sep);
+                // Grupo en el listado
+                const group = document.createElement('div');
+                group.className = "category-group";
+                group.innerHTML = `<div class="category-separator" id="${catId}">${cat}</div>`;
 
                 projects.filter(p => p.category === cat).forEach(p => {
                     const row = document.createElement('a');
@@ -291,8 +306,9 @@
                         <div class="logos-box">${p.logo ? `<img src="${p.logo}">` : ''}</div>
                     `;
                     row.onclick = (e) => { e.preventDefault(); openDetail(p.id); };
-                    indexList.appendChild(row);
+                    group.appendChild(row);
                 });
+                indexList.appendChild(group);
             });
         }
 
