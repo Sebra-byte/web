@@ -91,60 +91,92 @@
             min-height: 100vh;
         }
 
+        .projects-list {
+            width: 100%;
+            max-width: calc(100% - 100px); /* Alineado con el padding del header */
+            margin-left: 0; /* Empieza donde el logo */
+        }
+
         .category-separator {
-            font-size: 0.85rem; font-weight: 800; text-transform: uppercase;
+            font-size: 0.75rem; font-weight: 800; text-transform: uppercase;
             letter-spacing: 0.25em; color: var(--hueso); opacity: 0.3;
-            padding: 70px 0 25px; border-bottom: 1px solid rgba(255, 255, 228, 0.1);
-            margin-bottom: 20px;
+            padding: 40px 0 15px; border-bottom: 1px solid rgba(255, 255, 228, 0.1);
+            margin-bottom: 10px;
         }
 
         .project-row {
-            display: grid; grid-template-columns: 450px 1fr 250px;
-            gap: 60px; padding: 50px 20px;
+            display: grid; grid-template-columns: 320px 1fr 200px;
+            gap: 40px; padding: 25px 0;
             border-bottom: 1px solid rgba(255, 255, 228, 0.05);
             align-items: center; transition: 0.3s;
             text-decoration: none; color: inherit;
         }
-        .project-row:hover, .project-row.selected { background-color: var(--bg-grafito-claro); }
+        .project-row:hover, .project-row.selected { background-color: var(--bg-grafito-claro); padding-left: 20px; }
 
-        .project-row .thumb-box { width: 100%; aspect-ratio: 16/9; overflow: hidden; background: #000; box-shadow: 0 10px 40px rgba(0,0,0,0.6); }
+        .project-row .thumb-box { width: 100%; aspect-ratio: 16/9; overflow: hidden; background: #000; }
         .project-row .thumb-box img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s; }
-        .project-row:hover .thumb-box img { transform: scale(1.05); }
 
-        .project-row .info-box h3 { font-size: 2.8rem; font-weight: 800; text-transform: uppercase; margin-bottom: 15px; line-height: 0.95; }
-        .series-specs { display: inline-block; margin-left: 10px; font-size: 0.75rem; padding: 2px 8px; border: 1px solid rgba(255, 255, 228, 0.3); border-radius: 4px; vertical-align: middle; opacity: 0.8; text-transform: uppercase; }
+        .project-row .info-box h3 { font-size: 2rem; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; line-height: 0.95; }
+        .project-row .info-box p { font-size: 0.9rem; opacity: 0.7; }
+        .series-specs { display: inline-block; margin-left: 10px; font-size: 0.65rem; padding: 2px 6px; border: 1px solid rgba(255, 255, 228, 0.3); border-radius: 4px; vertical-align: middle; }
 
-        .project-row .logos-box img { max-height: 50px; max-width: 130px; filter: brightness(0) invert(1); opacity: 0.9; }
+        .project-row .logos-box { display: flex; justify-content: flex-end; }
+        .project-row .logos-box img { max-height: 35px; max-width: 100px; filter: brightness(0) invert(1); opacity: 0.8; }
 
-        /* --- MODAL DETALLE --- */
+        /* --- MODAL DETALLE (NO SCROLL) --- */
         #project-detail {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: var(--bg-grafito); z-index: 6000;
             display: none; flex-direction: column;
-            padding: 100px 50px 50px; overflow-y: auto;
+            padding: 80px 50px 40px;
+            overflow: hidden; /* Evita el scroll */
         }
         .close-btn { position: fixed; top: 40px; right: 50px; font-size: 0.8rem; font-weight: 800; color: var(--hueso); cursor: pointer; z-index: 6100; text-transform: uppercase; }
 
-        .detail-video-box { width: 100%; aspect-ratio: 21/9; background: #000; margin-bottom: 40px; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
-        .detail-video-box img { width: 100%; height: 100%; object-fit: cover; }
+        #detail-dynamic-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
 
-        .nav-arrow { position: absolute; top: 50%; transform: translateY(-50%); font-size: 3rem; color: var(--hueso); background: rgba(0,0,0,0.2); padding: 30px; cursor: pointer; z-index: 10; transition: 0.3s; user-select: none; }
-        .nav-arrow:hover { background: rgba(0,0,0,0.7); }
+        .detail-video-box { 
+            width: 100%; 
+            flex-grow: 1; /* Ocupa el espacio disponible */
+            max-height: 65vh; 
+            background: #000; 
+            position: relative; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            overflow: hidden; 
+            margin-bottom: 30px;
+        }
+        .detail-video-box iframe, .detail-video-box img { width: 100%; height: 100%; object-fit: contain; }
+
+        .detail-info-footer {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: flex-end;
+            padding-bottom: 20px;
+        }
+        .detail-info-footer h2 { font-size: 3rem; font-weight: 800; text-transform: uppercase; line-height: 0.9; }
+        .detail-info-footer .meta { font-size: 1rem; line-height: 1.4; opacity: 0.8; text-transform: none; }
+
+        .nav-arrow { position: absolute; top: 50%; transform: translateY(-50%); font-size: 2.5rem; color: var(--hueso); background: rgba(0,0,0,0.2); padding: 20px; cursor: pointer; z-index: 10; transition: 0.3s; }
+        .nav-arrow:hover { background: rgba(0,0,0,0.6); }
         .arrow-left { left: 0; }
         .arrow-right { right: 0; }
 
-        .detail-thumbnails { display: flex; gap: 15px; margin-bottom: 40px; overflow-x: auto; padding: 10px 0; }
-        .mini-thumb { width: 140px; aspect-ratio: 16/9; opacity: 0.4; cursor: pointer; transition: 0.3s; border: 2px solid transparent; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-        .mini-thumb.active { opacity: 1; border-color: var(--hueso); transform: translateY(-5px); }
-
-        .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; padding-bottom: 100px; }
-        .detail-grid h2 { font-size: 4rem; font-weight: 800; text-transform: uppercase; line-height: 0.85; }
+        .detail-thumbnails { display: flex; gap: 10px; margin-top: -20px; margin-bottom: 20px; justify-content: center; }
+        .mini-thumb { width: 80px; aspect-ratio: 16/9; opacity: 0.4; cursor: pointer; transition: 0.3s; border: 1px solid transparent; }
+        .mini-thumb.active { opacity: 1; border-color: var(--hueso); }
 
         @media (max-width: 900px) {
-            .project-row { grid-template-columns: 1fr; gap: 20px; }
-            .project-row .info-box h3 { font-size: 2rem; }
-            .detail-grid { grid-template-columns: 1fr; gap: 30px; }
-            .detail-grid h2 { font-size: 2.5rem; }
+            .project-row { grid-template-columns: 1fr; padding: 20px; }
+            .detail-info-footer { grid-template-columns: 1fr; gap: 20px; }
+            .detail-info-footer h2 { font-size: 2rem; }
         }
     </style>
 </head>
@@ -192,14 +224,13 @@
             { id: 3, title_es: "OREO - Sigamos divirtiendonos", category: "advertising", images: ["assets/Oreo_Thumbnail_5.png"], yt: "7Cllu0Rme74", director: "Martín Jalfen", prod: "Pop Studios - México", platform: "" },
             { id: 4, title_es: "levis x winona riders", category: "advertising", images: ["assets/Levis_Thumbnail_v01.jpg"], yt: "mb2RPesGf7Q", director: "Nico Alarcos", prod: "primo", platform: "" },
             { id: 5, title_es: "las marias", category: "advertising", images: ["assets/Marias_Thumbnail_1.png"], yt: "", director: "alejandro berger parrado", prod: "navajo films", platform: "" },
-            { id: 6, title_es: "blair - Todo lo que tengo", category: "music video", images: ["assets/Blair_Thumbnail_1.jpg"], yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster", platform: "" },
+            { id: 6, title_es: "blair - todo lo que tengo", category: "music video", images: ["assets/Blair_Thumbnail_1.jpg"], yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster", platform: "" },
             { id: 7, title_es: "ratones paranoicos", category: "music video", images: ["assets/RP_Thumbmail_1.png"], yt: "", director: "alex roux", prod: "poster", platform: "" },
             { id: 8, title_es: "las manos de la abuela", category: "cortometraje", images: ["assets/MA_Thumbnail_1.png", "assets/MA_Thumbnail_2.png", "assets/MA_Thumbnail_3.png"], yt: "", director: "camila migliore", prod: "calesita films", platform: "" },
             { id: 9, title_es: "besos brujos", category: "cortometraje", images: ["assets/BB_Thumbnail_1.png", "assets/BB_Thumbnail_2.png"], yt: "", director: "karina flonembaum", prod: "calesita films", platform: "" },
             { id: 10, title_es: "todo lo que recuerdo", category: "cortometraje", images: ["assets/TodoLoQueRecuerdo_Thumbnail_1.png"], yt: "", director: "nicolas fernandez melian", prod: "u n m a", platform: "" }
         ];
 
-        let currentIdx = 0;
         let listSelectionIdx = 0;
         let activePane = 1;
         let isHovering = false;
@@ -210,7 +241,6 @@
             const featList = document.getElementById('featured-list');
             const indexList = document.getElementById('full-index-list');
 
-            // 1. Home (Solo los que tienen YT)
             projects.filter(p => p.yt).slice(0, 6).forEach((p, idx) => {
                 const a = document.createElement('a');
                 a.className = "film-item";
@@ -221,7 +251,6 @@
                 featList.appendChild(a);
             });
 
-            // 2. All Projects por categorías
             const categories = [...new Set(projects.map(p => p.category))];
             categories.forEach(cat => {
                 const sep = document.createElement('div');
@@ -238,8 +267,7 @@
                         <div class="thumb-box"><img src="${p.images[0]}" alt="${p.title_es}"></div>
                         <div class="info-box">
                             <h3>${p.title_es} ${p.specs ? `<span class="series-specs">${p.specs}</span>` : ''}</h3>
-                            <p><strong>Director:</strong> ${p.director}</p>
-                            <p><strong>Production:</strong> ${p.prod}</p>
+                            <p><strong>Director:</strong> ${p.director} | <strong>Production:</strong> ${p.prod}</p>
                         </div>
                         <div class="logos-box">${p.platform ? `<img src="${p.platform}">` : ''}</div>
                     `;
@@ -256,11 +284,9 @@
             const p = projects.find(proj => proj.id === id);
             listSelectionIdx = id;
             updateListSelection();
-            
             const detail = document.getElementById('project-detail');
             detail.style.display = 'flex';
             document.body.style.overflow = 'hidden';
-            
             renderDetailContent(p);
         }
 
@@ -270,7 +296,7 @@
             
             let mediaHtml = '';
             if(p.yt) {
-                mediaHtml = `<div class="detail-video-box"><iframe width="100%" height="100%" src="https://www.youtube.com/embed/${p.yt}?autoplay=1&rel=0" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe></div>`;
+                mediaHtml = `<div class="detail-video-box"><iframe src="https://www.youtube.com/embed/${p.yt}?autoplay=1&rel=0" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe></div>`;
             } else {
                 mediaHtml = `
                     <div class="detail-video-box">
@@ -286,9 +312,12 @@
 
             container.innerHTML = `
                 ${mediaHtml}
-                <div class="detail-grid">
-                    <div><h2>${p.title_es}</h2><p style="opacity:0.4; margin-top:10px; font-weight:800; text-transform:uppercase;">${p.category} ${p.specs ? ` — ${p.specs}` : ''}</p></div>
-                    <div style="font-size:1.1rem; line-height:1.6; opacity:0.8; text-transform:none;">
+                <div class="detail-info-footer">
+                    <div>
+                        <h2>${p.title_es}</h2>
+                        <p style="opacity:0.4; margin-top:5px; font-weight:800; text-transform:uppercase; font-size:0.75rem;">${p.category} ${p.specs ? ` — ${p.specs}` : ''}</p>
+                    </div>
+                    <div class="meta">
                         <p><strong>director:</strong> ${p.director}</p>
                         <p><strong>production:</strong> ${p.prod}</p>
                         <p><strong>editor:</strong> leandro bruno</p>
@@ -320,20 +349,12 @@
         function updateListSelection() {
             document.querySelectorAll('.project-row').forEach(r => r.classList.remove('selected'));
             const activeRow = document.getElementById(`row-${listSelectionIdx}`);
-            if(activeRow) {
-                activeRow.classList.add('selected');
-                if(document.getElementById('all-projects-section').style.display === 'block') {
-                    activeRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
-            }
+            if(activeRow) activeRow.classList.add('selected');
         }
 
-        // --- CONTROLES TECLADO ---
         document.addEventListener('keydown', (e) => {
             const isDetailOpen = document.getElementById('project-detail').style.display === 'flex';
-            
             if (e.key === "Escape") closeDetail();
-            
             if (isDetailOpen) {
                 const p = projects.find(proj => proj.id === listSelectionIdx);
                 if(!p.yt && p.images.length > 1) {
@@ -341,31 +362,20 @@
                     if (e.key === "ArrowLeft") changeImage(-1, p.id);
                 }
             } else if (document.getElementById('all-projects-section').style.display === 'block') {
-                if (e.key === "ArrowDown") {
-                    e.preventDefault();
-                    listSelectionIdx = (listSelectionIdx + 1) % projects.length;
-                    updateListSelection();
-                }
-                if (e.key === "ArrowUp") {
-                    e.preventDefault();
-                    listSelectionIdx = (listSelectionIdx - 1 + projects.length) % projects.length;
-                    updateListSelection();
-                }
+                if (e.key === "ArrowDown") { e.preventDefault(); listSelectionIdx = (listSelectionIdx + 1) % projects.length; updateListSelection(); document.getElementById(`row-${listSelectionIdx}`).scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+                if (e.key === "ArrowUp") { e.preventDefault(); listSelectionIdx = (listSelectionIdx - 1 + projects.length) % projects.length; updateListSelection(); document.getElementById(`row-${listSelectionIdx}`).scrollIntoView({ behavior: 'smooth', block: 'center' }); }
                 if (e.key === "Enter") openDetail(listSelectionIdx);
             }
         });
 
-        // --- LÓGICA HOME ---
         function changeHeroProject(idx) {
             const featuredOnes = projects.filter(p => p.yt);
             const items = document.querySelectorAll('.film-item');
             items.forEach(item => item.classList.remove('active'));
             if(items[idx]) items[idx].classList.add('active');
-
             const nextPaneIdx = activePane === 1 ? 2 : 1;
             const currentPane = document.getElementById(`pane-${activePane}`);
             const nextPane = document.getElementById(`pane-${nextPaneIdx}`);
-
             const p = featuredOnes[idx];
             if(p) {
                 nextPane.innerHTML = `<iframe src="https://www.youtube.com/embed/${p.yt}?autoplay=1&mute=1&controls=0&loop=1&playlist=${p.yt}&modestbranding=1" frameborder="0"></iframe>`;
@@ -376,31 +386,18 @@
                     setTimeout(() => { currentPane.innerHTML = ''; }, 1500);
                 }, 500);
             }
-            currentIdx = idx;
         }
 
         function startRotation() {
-            rotationTimer = setInterval(() => {
-                if (!isHovering) {
-                    const featuredOnes = projects.filter(p => p.yt);
-                    currentIdx = (currentIdx + 1) % featuredOnes.length;
-                    changeHeroProject(currentIdx);
-                }
-            }, 6000);
+            rotationTimer = setInterval(() => { if (!isHovering) { const featuredOnes = projects.filter(p => p.yt); currentIdx = (currentIdx + 1) % featuredOnes.length; changeHeroProject(currentIdx); } }, 6000);
         }
 
         function showSection(sec) {
             const home = document.getElementById('home-section');
             const all = document.getElementById('all-projects-section');
             const bg = document.getElementById('bg-container');
-            if(sec === 'all') {
-                home.style.display = 'none'; bg.style.display = 'none';
-                all.style.display = 'block'; document.body.style.overflowY = 'auto';
-                updateListSelection();
-            } else {
-                home.style.display = 'flex'; bg.style.display = 'block';
-                all.style.display = 'none'; document.body.style.overflowY = 'hidden';
-            }
+            if(sec === 'all') { home.style.display = 'none'; bg.style.display = 'none'; all.style.display = 'block'; document.body.style.overflowY = 'auto'; updateListSelection(); }
+            else { home.style.display = 'flex'; bg.style.display = 'block'; all.style.display = 'none'; document.body.style.overflowY = 'hidden'; }
             document.getElementById('nav-all').classList.toggle('active-nav', sec === 'all');
         }
 
