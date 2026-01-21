@@ -41,7 +41,7 @@
         nav ul li a { text-decoration: none; color: var(--hueso); font-size: 0.8rem; font-weight: 500; opacity: 0.6; transition: 0.3s; }
         nav ul li a:hover, .active-nav { opacity: 1; }
 
-        /* --- FONDO DINÁMICO CON ZOOM (SIN CONTROLES) --- */
+        /* --- FONDO DINÁMICO CON ZOOM --- */
         .bg-preview-container {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -54,18 +54,17 @@
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             opacity: 0;
-            transition: opacity 0.8s ease;
+            transition: opacity 1.2s ease-in-out;
         }
 
         .bg-video.active { opacity: 0.35; }
 
-        /* Zoom para ocultar bordes y logos de YouTube */
         .bg-video iframe {
             width: 150vw;
             height: 150vh;
             position: absolute;
             top: 50%; left: 50%;
-            transform: translate(-50%, -50%) scale(1.4);
+            transform: translate(-50%, -50%) scale(1.5);
             pointer-events: none;
         }
 
@@ -76,46 +75,43 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding-left: 50px; /* Pegado a la izquierda */
+            padding-left: 50px;
             position: relative;
             z-index: 10;
         }
 
-        .list-container {
-            max-width: 800px;
-        }
-
         .list-container p { 
             font-size: 0.75rem; 
-            margin-bottom: 15px; 
+            margin-bottom: 20px; 
             font-weight: 700; 
-            opacity: 0.5; 
+            opacity: 0.4; 
             letter-spacing: 0.1em;
             text-transform: uppercase;
         }
 
         .film-item {
-            font-size: 4.5rem; /* Achicado un poco */
+            font-size: 4.5rem;
             font-weight: 800;
             text-transform: uppercase;
             line-height: 0.85;
             letter-spacing: -0.04em;
             color: transparent;
-            -webkit-text-stroke: 1px rgba(255, 255, 228, 0.25);
-            transition: all 0.2s ease;
+            -webkit-text-stroke: 1px rgba(255, 255, 228, 0.2);
+            transition: all 0.4s ease;
             display: block;
             text-decoration: none;
             margin-bottom: 2px;
             width: fit-content;
         }
 
-        .film-item:hover {
+        /* Clase para cuando el proyecto está "activo" (por hover o rotación auto) */
+        .film-item.active, .film-item:hover {
             color: var(--hueso);
             -webkit-text-stroke: 0px;
-            transform: translateX(10px); /* Pequeño desplazamiento al hover */
+            transform: translateX(15px);
         }
 
-        /* --- VISTA DETALLE (SINGLE) --- */
+        /* --- VISTA DETALLE --- */
         #project-detail-section {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -136,45 +132,13 @@
             cursor: pointer;
             z-index: 4100;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
         }
 
-        .detail-video-box {
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            background: #000;
-            margin-bottom: 50px;
-        }
-
-        .detail-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 100px;
-            padding-bottom: 100px;
-        }
-
-        .detail-grid h2 {
-            font-size: 4rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            line-height: 0.85;
-        }
-
-        .detail-meta-column {
-            font-size: 0.9rem;
-            line-height: 1.6;
-            text-transform: none;
-            color: rgba(255, 255, 228, 0.7);
-        }
-
-        .detail-meta-column strong {
-            display: block;
-            color: var(--hueso);
-            text-transform: uppercase;
-            font-size: 0.7rem;
-            font-weight: 800;
-            margin-top: 20px;
-        }
+        .detail-video-box { width: 100%; aspect-ratio: 16/9; background: #000; margin-bottom: 50px; }
+        .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; padding-bottom: 100px; }
+        .detail-grid h2 { font-size: 4rem; font-weight: 800; text-transform: uppercase; line-height: 0.85; }
+        .detail-meta-column { font-size: 0.9rem; line-height: 1.6; text-transform: none; color: rgba(255, 255, 228, 0.7); }
+        .detail-meta-column strong { display: block; color: var(--hueso); text-transform: uppercase; font-size: 0.7rem; font-weight: 800; margin-top: 20px; }
 
         @media (max-width: 900px) {
             #films-list-section { padding-left: 20px; }
@@ -203,8 +167,7 @@
     <section id="films-list-section">
         <div class="list-container">
             <p>selected works</p>
-            <div id="films-anchor-list">
-                </div>
+            <div id="films-anchor-list"></div>
         </div>
     </section>
 
@@ -215,67 +178,35 @@
 
     <script>
         const featured = [
-            {
-                title: "menem",
-                cat: "serie",
-                yt: "-2AmqmciWXE",
-                dir: "ariel winograd",
-                prod: "claxon / prime video",
-                desc: "biopic sobre el ascenso al poder de carlos menem en los 90. una exploración sobre el carisma y la política argentina."
-            },
-            {
-                title: "oreo",
-                cat: "advertising",
-                yt: "7Cllu0Rme74",
-                dir: "martín jalfen",
-                prod: "pop studios",
-                desc: "campaña publicitaria global destacando el ritmo visual y el montaje dinámico."
-            },
-            {
-                title: "moscas",
-                cat: "serie",
-                yt: "A0d6wnlMRRk",
-                dir: "b. naishtat & a. katz",
-                prod: "netflix",
-                desc: "el tiempo de las moscas: dos mujeres reconstruyendo sus vidas tras la prisión."
-            },
-            {
-                title: "blair",
-                cat: "music video",
-                yt: "ItX5aqhqsmo",
-                dir: "dana campanello",
-                prod: "poster",
-                desc: "todo lo que tengo - blair. una pieza visual rítmica y atmosférica."
-            },
-            {
-                title: "coppola",
-                cat: "serie",
-                yt: "ecr24akKDbs",
-                dir: "ariel winograd",
-                prod: "disney+",
-                desc: "guillermo coppola, el representante. una historia de excesos y nostalgia."
-            }
+            { title: "menem", cat: "serie", yt: "-2AmqmciWXE", dir: "ariel winograd", prod: "claxon / prime video", desc: "biopic sobre el ascenso al poder de carlos menem en los 90." },
+            { title: "oreo", cat: "advertising", yt: "7Cllu0Rme74", dir: "martín jalfen", prod: "pop studios", desc: "campaña publicitaria global destacando el ritmo visual." },
+            { title: "moscas", cat: "serie", yt: "A0d6wnlMRRk", dir: "b. naishtat & a. katz", prod: "netflix", desc: "dos mujeres reconstruyendo sus vidas tras la prisión." },
+            { title: "blair", cat: "music video", yt: "ItX5aqhqsmo", dir: "dana campanello", prod: "poster", desc: "pieza visual rítmica y atmosférica." },
+            { title: "coppola", cat: "serie", yt: "ecr24akKDbs", dir: "ariel winograd", prod: "disney+", desc: "la historia del representante más famoso de argentina." }
         ];
+
+        let autoRotationInterval;
+        let currentActiveIdx = 0;
+        let isUserHovering = false;
 
         function init() {
             const list = document.getElementById('films-anchor-list');
-            const bgContainer = document.getElementById('bg-container');
-
-            featured.forEach(p => {
+            
+            featured.forEach((p, idx) => {
                 const a = document.createElement('a');
                 a.href = "#";
                 a.className = "film-item";
+                a.id = `item-${idx}`;
                 a.innerText = p.title;
 
                 a.onmouseenter = () => {
-                    // Cargamos el video con parámetros de ocultación (controls=0, modestbranding=1) 
-                    // y el CSS se encarga del zoom.
-                    bgContainer.innerHTML = `
-                        <div class="bg-video active">
-                            <iframe src="https://www.youtube.com/embed/${p.yt}?autoplay=1&mute=1&controls=0&loop=1&playlist=${p.yt}&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3" frameborder="0"></iframe>
-                        </div>`;
+                    isUserHovering = true;
+                    setActiveProject(idx);
                 };
-                a.onmouseleave = () => { bgContainer.innerHTML = ''; };
+                
+                a.onmouseleave = () => {
+                    isUserHovering = false;
+                };
 
                 a.onclick = (e) => {
                     e.preventDefault();
@@ -284,9 +215,45 @@
 
                 list.appendChild(a);
             });
+
+            startAutoRotation();
+        }
+
+        function setActiveProject(idx) {
+            const bgContainer = document.getElementById('bg-container');
+            const items = document.querySelectorAll('.film-item');
+            
+            // Limpiar activos previos
+            items.forEach(item => item.classList.remove('active'));
+            
+            // Activar actual
+            items[idx].classList.add('active');
+            
+            // Cambiar Video de Fondo (Loop, Mute, Zoom)
+            const p = featured[idx];
+            bgContainer.innerHTML = `
+                <div class="bg-video active">
+                    <iframe src="https://www.youtube.com/embed/${p.yt}?autoplay=1&mute=1&controls=0&loop=1&playlist=${p.yt}&modestbranding=1&rel=0" frameborder="0"></iframe>
+                </div>`;
+            
+            currentActiveIdx = idx;
+        }
+
+        function startAutoRotation() {
+            // Cambia cada 5 segundos si el usuario no tiene el mouse encima
+            autoRotationInterval = setInterval(() => {
+                if (!isUserHovering) {
+                    let nextIdx = (currentActiveIdx + 1) % featured.length;
+                    setActiveProject(nextIdx);
+                }
+            }, 5000);
+            
+            // Primera activación
+            setActiveProject(0);
         }
 
         function openDetail(p) {
+            clearInterval(autoRotationInterval);
             const section = document.getElementById('project-detail-section');
             const content = document.getElementById('detail-dynamic-content');
             section.style.display = 'flex';
@@ -301,10 +268,8 @@
                     </div>
                     <div class="detail-meta-column">
                         <p>${p.desc}</p>
-                        <strong>director</strong>
-                        <p>${p.dir}</p>
-                        <strong>production</strong>
-                        <p>${p.prod}</p>
+                        <strong>director</strong><p>${p.dir}</p>
+                        <strong>production</strong><p>${p.prod}</p>
                     </div>
                 </div>
             `;
@@ -313,6 +278,7 @@
         function closeDetail() {
             document.getElementById('project-detail-section').style.display = 'none';
             document.getElementById('detail-dynamic-content').innerHTML = '';
+            startAutoRotation(); // Reiniciar rotación al cerrar
         }
 
         window.onload = init;
