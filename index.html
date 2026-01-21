@@ -24,35 +24,6 @@
             overflow-x: hidden;
         }
 
-        /* --- SIDEBAR DERECHO (NUEVA UBICACIÓN EQUILIBRADA) --- */
-        .sidebar {
-            position: fixed;
-            top: 100px;
-            right: 50px; /* Extremo derecho */
-            z-index: 5000;
-            mix-blend-mode: difference;
-            display: flex;
-            flex-direction: column;
-            text-align: right; /* Alineación a la derecha */
-            align-items: flex-end;
-        }
-
-        .brand { margin-bottom: 50px; cursor: pointer; }
-        .brand h1 { font-size: 2.2rem; font-weight: 800; text-transform: uppercase; line-height: 0.8; letter-spacing: -0.03em; }
-        .brand p { font-size: 1rem; font-weight: 300; margin-top: 8px; opacity: 0.8; }
-
-        .side-nav { display: flex; flex-direction: column; gap: 15px; }
-        .side-nav a { 
-            text-decoration: none; 
-            color: var(--hueso); 
-            font-size: 1.1rem; 
-            font-weight: 500; 
-            opacity: 0.6; 
-            transition: 0.3s; 
-            width: fit-content;
-        }
-        .side-nav a:hover, .active-nav { opacity: 1; }
-
         /* --- FONDO VIDEO --- */
         .bg-preview-container {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -70,16 +41,62 @@
             transform: translate(-50%, -50%) scale(1.6);
         }
 
-        /* --- HOME (IZQUIERDA) --- */
+        /* --- HOME LAYOUT --- */
         #home-section {
-            height: 100vh; width: 100%;
-            display: flex; flex-direction: column;
-            justify-content: center; padding-left: 50px;
-            position: relative; z-index: 10;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center; /* Centrado vertical del contenido principal */
+            justify-content: space-between;
+            padding: 0 50px;
+            position: relative;
+            z-index: 10;
         }
-        .list-container { margin-top: 100px; }
-        .section-label { font-size: 0.8rem; margin-bottom: 25px; font-weight: 700; opacity: 0.4; letter-spacing: 0.1em; text-transform: uppercase; }
 
+        /* BLOQUE IZQUIERDO (TRABAJOS) */
+        .list-container {
+            display: flex;
+            flex-direction: column;
+            align-self: center; /* Asegura que el bloque esté centrado */
+        }
+
+        .section-label { 
+            font-size: 0.8rem; 
+            margin-bottom: 25px; 
+            font-weight: 700; 
+            opacity: 0.4; 
+            letter-spacing: 0.1em; 
+            text-transform: uppercase;
+        }
+
+        /* BLOQUE DERECHO (LOGO Y NAV) */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            text-align: right;
+            align-items: flex-end;
+            align-self: center; /* Alineación vertical con la izquierda */
+        }
+
+        /* Alineamos la parte superior de la marca con Selected Works */
+        /* Ajustamos el margin-top para que visualmente la primera línea de texto coincida */
+        .brand { margin-bottom: 50px; cursor: pointer; margin-top: 35px; } 
+        .brand h1 { font-size: 2.2rem; font-weight: 800; text-transform: uppercase; line-height: 0.8; letter-spacing: -0.03em; }
+        .brand p { font-size: 1rem; font-weight: 300; margin-top: 8px; opacity: 0.8; }
+
+        .side-nav { display: flex; flex-direction: column; gap: 15px; }
+        .side-nav a { 
+            text-decoration: none; 
+            color: var(--hueso); 
+            font-size: 1.1rem; 
+            font-weight: 500; 
+            opacity: 0.6; 
+            transition: 0.3s; 
+            width: fit-content;
+        }
+        .side-nav a:hover, .active-nav { opacity: 1; }
+
+        /* --- ELEMENTOS DE LISTA --- */
         .film-item {
             font-size: 4.5rem; font-weight: 800; text-transform: uppercase;
             line-height: 0.85; letter-spacing: -0.04em; color: transparent;
@@ -91,12 +108,10 @@
 
         /* --- ALL PROJECTS SECTION --- */
         #all-projects-section {
-            display: none; padding: 250px 50px 100px;
+            display: none; padding: 150px 50px 100px;
             position: relative; z-index: 100; background: var(--bg-grafito); min-height: 100vh;
         }
-        .projects-list { width: 100%; }
         .category-separator { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.25em; opacity: 0.3; padding: 40px 0 15px; border-bottom: 1px solid rgba(255, 255, 228, 0.1); margin-bottom: 10px; }
-        
         .project-row { display: grid; grid-template-columns: 320px 1fr 200px; gap: 40px; padding: 25px 0; border-bottom: 1px solid rgba(255, 255, 228, 0.05); align-items: center; transition: 0.3s; text-decoration: none; color: inherit; }
         .project-row:hover, .project-row.selected { background-color: var(--bg-grafito-claro); padding-left: 20px; }
         .project-row .thumb-box { width: 100%; aspect-ratio: 16/9; overflow: hidden; background: #000; }
@@ -104,7 +119,7 @@
         .project-row .info-box h3 { font-size: 2rem; font-weight: 800; text-transform: uppercase; line-height: 0.95; }
         .series-specs { display: inline-block; margin-left: 10px; font-size: 0.65rem; padding: 2px 6px; border: 1px solid rgba(255, 255, 228, 0.3); border-radius: 4px; vertical-align: middle; }
 
-        /* --- MODAL DETALLE (NO SCROLL) --- */
+        /* --- MODAL DETALLE --- */
         #project-detail {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: var(--bg-grafito); z-index: 6000; display: none;
@@ -112,43 +127,25 @@
         }
         .close-btn { position: fixed; top: 40px; right: 50px; font-size: 0.8rem; font-weight: 800; cursor: pointer; z-index: 6100; text-transform: uppercase; }
         #detail-dynamic-content { height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
-        
         .detail-video-box { width: 100%; flex-grow: 1; max-height: 62vh; background: #000; position: relative; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; overflow: hidden; }
         .detail-video-box iframe, .detail-video-box img { width: 100%; height: 100%; object-fit: contain; }
-
         .nav-arrow { position: absolute; top: 50%; transform: translateY(-50%); font-size: 2.5rem; color: var(--hueso); background: rgba(0,0,0,0.2); padding: 20px; cursor: pointer; z-index: 10; transition: 0.3s; }
-        .nav-arrow:hover { background: rgba(0,0,0,0.6); }
-        .arrow-left { left: 0; }
-        .arrow-right { right: 0; }
-
         .detail-thumbnails { display: flex; gap: 10px; margin-bottom: 20px; justify-content: center; }
         .mini-thumb { width: 80px; aspect-ratio: 16/9; opacity: 0.4; cursor: pointer; transition: 0.3s; border: 1px solid transparent; }
         .mini-thumb.active { opacity: 1; border-color: var(--hueso); transform: translateY(-3px); }
-
         .detail-info-footer { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: flex-end; padding-bottom: 10px; }
         .detail-info-footer h2 { font-size: 3rem; font-weight: 800; text-transform: uppercase; line-height: 0.9; }
-        .detail-info-footer .meta { font-size: 1rem; line-height: 1.4; opacity: 0.8; text-transform: none; }
+        .detail-info-footer .meta { font-size: 1rem; line-height: 1.4; opacity: 0.8; }
 
         @media (max-width: 900px) {
-            .sidebar { position: relative; top: 20px; right: 20px; text-align: left; align-items: flex-start; }
-            #home-section { padding-left: 20px; }
+            #home-section { flex-direction: column; justify-content: center; padding: 0 20px; align-items: flex-start; }
+            .sidebar { text-align: left; align-items: flex-start; order: -1; margin-bottom: 40px; }
             .film-item { font-size: 2.5rem; }
             .project-row { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-
-    <div class="sidebar">
-        <div class="brand" onclick="showSection('home')">
-            <h1>Leandro Bruno</h1>
-            <p>film editor</p>
-        </div>
-        <nav class="side-nav">
-            <a href="#" id="nav-all" onclick="showSection('all')">all projects</a>
-            <a href="mailto:leandrobrunoeditor@gmail.com">contact</a>
-        </nav>
-    </div>
 
     <div class="bg-preview-container" id="bg-container">
         <div id="pane-1" class="bg-video"></div>
@@ -159,6 +156,17 @@
         <div class="list-container">
             <p class="section-label">selected works</p>
             <div id="featured-list"></div>
+        </div>
+
+        <div class="sidebar">
+            <div class="brand" onclick="showSection('home')">
+                <h1>Leandro Bruno</h1>
+                <p>film editor</p>
+            </div>
+            <nav class="side-nav">
+                <a href="#" id="nav-all" onclick="showSection('all')">all projects</a>
+                <a href="mailto:leandrobrunoeditor@gmail.com">contact</a>
+            </nav>
         </div>
     </section>
 
@@ -218,10 +226,7 @@
                     const row = document.createElement('a');
                     row.className = "project-row";
                     row.id = `row-${p.id}`;
-                    row.innerHTML = `
-                        <div class="thumb-box"><img src="${p.images[0]}"></div>
-                        <div class="info-box"><h3>${p.title_es} ${p.specs ? `<span class="series-specs">${p.specs}</span>` : ''}</h3><p>${p.director} | ${p.prod}</p></div>
-                        <div class="logos-box"></div>`;
+                    row.innerHTML = `<div class="thumb-box"><img src="${p.images[0]}"></div><div class="info-box"><h3>${p.title_es}</h3><p>${p.director} | ${p.prod}</p></div><div class="logos-box"></div>`;
                     row.onclick = (e) => { e.preventDefault(); openDetail(p.id); };
                     indexList.appendChild(row);
                 });
@@ -275,19 +280,9 @@
         function renderDetailContent(p) {
             currentGalleryIdx = 0;
             const container = document.getElementById('detail-dynamic-content');
-            let mediaHtml = '';
-            
-            if(p.yt) {
-                mediaHtml = `<div class="detail-video-box"><iframe src="https://www.youtube.com/embed/${p.yt}?autoplay=1&rel=0" frameborder="0" allowfullscreen></iframe></div>`;
-            } else {
-                mediaHtml = `
-                    <div class="detail-video-box">
-                        ${p.images.length > 1 ? `<div class="nav-arrow arrow-left" onclick="changeImage(-1, ${p.id})">‹</div>` : ''}
-                        <img id="gallery-main" src="${p.images[0]}">
-                        ${p.images.length > 1 ? `<div class="nav-arrow arrow-right" onclick="changeImage(1, ${p.id})">›</div>` : ''}
-                    </div>
-                    ${p.images.length > 1 ? `<div class="detail-thumbnails">${p.images.map((img, i) => `<img src="${img}" class="mini-thumb ${i===0?'active':''}" onclick="setGalleryImage(${i}, ${p.id})">`).join('')}</div>` : ''}`;
-            }
+            let mediaHtml = p.yt ? 
+                `<div class="detail-video-box"><iframe src="https://www.youtube.com/embed/${p.yt}?autoplay=1&rel=0" frameborder="0" allowfullscreen></iframe></div>` :
+                `<div class="detail-video-box">${p.images.length > 1 ? `<div class="nav-arrow arrow-left" onclick="changeImage(-1, ${p.id})">‹</div>` : ''}<img id="gallery-main" src="${p.images[0]}">${p.images.length > 1 ? `<div class="nav-arrow arrow-right" onclick="changeImage(1, ${p.id})">›</div>` : ''}</div>${p.images.length > 1 ? `<div class="detail-thumbnails">${p.images.map((img, i) => `<img src="${img}" class="mini-thumb ${i===0?'active':''}" onclick="setGalleryImage(${i}, ${p.id})">`).join('')}</div>` : ''}`;
 
             container.innerHTML = `
                 ${mediaHtml}
@@ -322,22 +317,6 @@
             if(activeRow) activeRow.classList.add('selected');
         }
 
-        document.addEventListener('keydown', (e) => {
-            const isDetailOpen = document.getElementById('project-detail').style.display === 'flex';
-            if (e.key === "Escape") closeDetail();
-            if (isDetailOpen) {
-                const p = projects.find(proj => proj.id === listSelectionIdx);
-                if(!p.yt && p.images.length > 1) {
-                    if (e.key === "ArrowRight") changeImage(1, p.id);
-                    if (e.key === "ArrowLeft") changeImage(-1, p.id);
-                }
-            } else if (document.getElementById('all-projects-section').style.display === 'block') {
-                if (e.key === "ArrowDown") { e.preventDefault(); listSelectionIdx = (listSelectionIdx + 1) % projects.length; updateListSelection(); document.getElementById(`row-${listSelectionIdx}`).scrollIntoView({ behavior: 'smooth', block: 'center' }); }
-                if (e.key === "ArrowUp") { e.preventDefault(); listSelectionIdx = (listSelectionIdx - 1 + projects.length) % projects.length; updateListSelection(); document.getElementById(`row-${listSelectionIdx}`).scrollIntoView({ behavior: 'smooth', block: 'center' }); }
-                if (e.key === "Enter") openDetail(listSelectionIdx);
-            }
-        });
-
         function showSection(sec) {
             const home = document.getElementById('home-section');
             const all = document.getElementById('all-projects-section');
@@ -346,6 +325,7 @@
             else { home.style.display = 'flex'; bg.style.display = 'block'; all.style.display = 'none'; document.body.style.overflowY = 'hidden'; }
         }
 
+        document.addEventListener('keydown', (e) => { if (e.key === "Escape") closeDetail(); });
         window.onload = init;
     </script>
 </body>
