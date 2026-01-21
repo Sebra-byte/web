@@ -25,7 +25,7 @@
             overflow-x: hidden;
         }
 
-        /* --- FONDO VIDEO HOME (Sincronizado) --- */
+        /* --- FONDO VIDEO HOME --- */
         .bg-preview-container {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: 1; background: var(--bg-grafito); overflow: hidden;
@@ -59,7 +59,7 @@
         }
         .side-nav a:hover { opacity: 1; font-style: italic; }
 
-        /* --- MENÚ HAMBURGUESA Y SIDEBAR (PARA ALL PROJECTS) --- */
+        /* --- MENÚ HAMBURGUESA Y SIDEBAR --- */
         .nav-all-projects {
             position: fixed; top: 60px; right: 60px;
             z-index: 9999; display: none;
@@ -181,6 +181,8 @@
 
         .detail-video-side { background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; }
         .detail-video-side iframe { width: 100%; height: 100%; border: none; }
+        .gallery-container { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+        .gallery-container img { max-width: 100%; max-height: 100%; object-fit: contain; }
         
         .detail-info-side {
             padding: 50px 40px; display: flex; flex-direction: column;
@@ -283,10 +285,15 @@
         const projects = [
             { id: 0, title_es: "menem", title_en: "menem", category: "serie", images: ["assets/Menem_Thumbnail_1.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", logo: "assets/prime.png", desc_es: "Biopic sobre Carlos Menem.", desc_en: "Biopic about Carlos Menem." },
             { id: 1, title_es: "OREO - Sigamos divirtiendonos", title_en: "OREO - Keep on playing", category: "advertising", images: ["assets/Oreo_Thumbnail_5.png"], yt: "7Cllu0Rme74", director: "Martín Jalfen", prod: "Pop Studios - México", desc_es: "Campaña global Oreo.", desc_en: "Oreo global campaign." },
-            { id: 2, title_es: "el tiempo de las moscas", title_en: "time of the flies", category: "serie", images: ["assets/Moscas_Thumbnail_1.jpg"], yt: "A0d6wnlMRRk", director: "Benjamín Naishtat y Ana Katz", prod: "netflix", logo: "assets/netflix.png", desc_es: "Serie original.", desc_en: "Original series." },
+            { id: 2, title_es: "el tiempo de las moscas", title_en: "time of the flies", category: "serie", images: ["assets/Moscas_Thumbnail_1.jpg"], yt: "A0d6wnlMRRk", director: "Benjamín Naishtat y Ana Katz", prod: "netflix", logo: "assets/netflix.png", desc_es: "Serie original basada en la novela.", desc_en: "Original series based on the novel." },
             { id: 3, title_es: "levis x winona riders", title_en: "levis x winona riders", category: "advertising", images: ["assets/Levis_Thumbnail_v01.jpg"], yt: "mb2RPesGf7Q", director: "Nico Alarcos", prod: "primo", desc_es: "Winona Riders tour.", desc_en: "Winona Riders tour." },
             { id: 4, title_es: "coppola, el representante", title_en: "coppola, the agent", category: "serie", images: ["assets/Coppola_Thumbnail_2.jpg"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films / disney+", logo: "assets/disney.png", desc_es: "Biopic Guillermo Coppola.", desc_en: "Guillermo Coppola biopic." },
-            { id: 5, title_es: "blair - Todo lo que tengo", title_en: "blair - All I have", category: "music video", images: ["assets/Blair_Thumbnail_1.jpg"], yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster", desc_es: "Bar Scorpios (2025)", desc_en: "Bar Scorpios (2025)" }
+            { id: 5, title_es: "blair - Todo lo que tengo", title_en: "blair - All I have", category: "music video", images: ["assets/Blair_Thumbnail_1.jpg"], yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster", desc_es: "Bar Scorpios (2025)", desc_en: "Bar Scorpios (2025)" },
+            { id: 6, title_es: "las manos de la abuela", title_en: "grandmother's hands", category: "cortometraje", images: ["assets/MA_Thumbnail_1.png"], yt: "", director: "camila migliore", prod: "calesita films", desc_es: "Corto sobre memoria familiar.", desc_en: "Short on family memory." },
+            { id: 7, title_es: "tierra ignota", title_en: "tierra ignota", category: "serie", images: ["assets/TI_Thumbnail_1.png"], yt: "lQY7-vFIsr0", director: "sebastián pivotto", prod: "disney+", logo: "assets/disney.png", desc_es: "Serie de misterio y terror.", desc_en: "Mystery and horror series." },
+            { id: 8, title_es: "besos brujos", title_en: "witch kisses", category: "cortometraje", images: ["assets/BB_Thumbnail_1.png"], yt: "", director: "karina flonembaum", prod: "—", desc_es: "Ficción onírica experimental.", desc_en: "Experimental dreamlike fiction." },
+            { id: 9, title_es: "el encargado", title_en: "the manager", category: "serie", images: ["assets/Encargado_Thumbnail_1.png"], yt: "7l0vKj8V_tI", director: "mariano cohn y gastón duprat", prod: "pampa films / star+", logo: "assets/disney.png", desc_es: "Comedia dramática argentina.", desc_en: "Argentine dark comedy." },
+            { id: 10, title_es: "barra brava", title_en: "barra brava", category: "serie", images: ["assets/Barra_Thumbnail_1.png"], yt: "p_L_N0y-Fm8", director: "jesús braceras", prod: "prime video", logo: "assets/prime.png", desc_es: "Drama sobre el poder en el fútbol.", desc_en: "Drama about power in football." }
         ];
 
         let currentLang = 'es';
@@ -310,11 +317,9 @@
             const featList = document.getElementById('featured-list');
             const indexList = document.getElementById('full-index-list');
             const catNav = document.getElementById('category-nav');
-            
-            featList.innerHTML = ''; 
-            indexList.innerHTML = ''; 
-            catNav.innerHTML = '';
+            featList.innerHTML = ''; indexList.innerHTML = ''; catNav.innerHTML = '';
 
+            // Solo los que tienen video para la Home
             const featured = projects.filter(p => p.yt);
             featured.forEach((p, idx) => {
                 const a = document.createElement('a');
@@ -331,6 +336,7 @@
                 featList.appendChild(a);
             });
 
+            // Todos los 11 proyectos para el índice
             const categories = [...new Set(projects.map(p => p.category))];
             categories.forEach(cat => {
                 const catId = `cat-${cat.replace(/\s/g, '')}`;
@@ -386,8 +392,6 @@
                         currentPane.classList.remove('active');
                         activePaneId = nextPaneId;
                         setTimeout(() => { currentPane.innerHTML = ''; }, 2000);
-                        
-                        // Rotación automática cada 10s
                         previewTimer = setTimeout(() => {
                             currentIdx = (currentIdx + 1) % featured.length;
                             updateHomeActiveUI();
@@ -404,10 +408,12 @@
             const detail = document.getElementById('project-detail');
             const container = document.getElementById('detail-dynamic-content');
 
+            let mediaHtml = p.yt ? 
+                `<iframe src="https://www.youtube.com/embed/${p.yt}?autoplay=1&rel=0" allow="autoplay"></iframe>` :
+                `<div class="gallery-container"><img src="${p.images[0]}"></div>`;
+
             container.innerHTML = `
-                <div class="detail-video-side">
-                    <iframe src="https://www.youtube.com/embed/${p.yt}?autoplay=1&rel=0" allow="autoplay"></iframe>
-                </div>
+                <div class="detail-video-side">${mediaHtml}</div>
                 <div class="detail-info-side">
                     <h2>${p[`title_${currentLang}`]}</h2>
                     <div class="detail-meta-group"><strong>${i18n[currentLang].director}</strong><p>${p.director}</p></div>
@@ -421,7 +427,7 @@
         }
 
         function closeDetail() {
-            // Limpieza absoluta del contenido para detener el audio
+            // Detención total de audio al cerrar
             document.getElementById('detail-dynamic-content').innerHTML = '';
             document.getElementById('project-detail').style.display = 'none';
             
