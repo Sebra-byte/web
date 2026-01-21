@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leandro Bruno | Film Editor</title>
+    <title>Leandro Bruno | film editor</title>
     <link rel="icon" type="image/png" href="assets/favicom_250120.png">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;500;700;800&display=swap" rel="stylesheet">
     <style>
@@ -30,121 +30,156 @@
             display: flex;
             justify-content: space-between;
             padding: 40px 50px;
-            z-index: 1000;
+            z-index: 3000;
             mix-blend-mode: difference;
         }
 
-        .brand h1 { font-size: 1.8rem; font-weight: 800; text-transform: uppercase; line-height: 0.8; letter-spacing: -0.03em; }
-        .brand p { font-size: 0.9rem; font-weight: 300; margin-top: 5px; }
+        .brand h1 { font-size: 1.5rem; font-weight: 800; text-transform: uppercase; line-height: 0.8; letter-spacing: -0.03em; }
+        .brand p { font-size: 0.8rem; font-weight: 300; margin-top: 5px; opacity: 0.8; }
 
         nav ul { list-style: none; text-align: right; }
-        nav ul li a { text-decoration: none; color: var(--hueso); font-size: 0.85rem; font-weight: 500; opacity: 0.6; transition: 0.3s; }
+        nav ul li a { text-decoration: none; color: var(--hueso); font-size: 0.8rem; font-weight: 500; opacity: 0.6; transition: 0.3s; }
         nav ul li a:hover, .active-nav { opacity: 1; }
 
-        /* --- SECCIÓN LISTADO (FILMS) --- */
+        /* --- FONDO DINÁMICO CON ZOOM (SIN CONTROLES) --- */
+        .bg-preview-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: var(--bg);
+            overflow: hidden;
+        }
+
+        .bg-video {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        .bg-video.active { opacity: 0.35; }
+
+        /* Zoom para ocultar bordes y logos de YouTube */
+        .bg-video iframe {
+            width: 150vw;
+            height: 150vh;
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(1.4);
+            pointer-events: none;
+        }
+
+        /* --- LISTADO (SELECTED WORKS) A LA IZQUIERDA --- */
         #films-list-section {
             height: 100vh;
             width: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding: 0 10%;
+            padding-left: 50px; /* Pegado a la izquierda */
             position: relative;
+            z-index: 10;
         }
 
-        .bg-preview {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.5s ease;
+        .list-container {
+            max-width: 800px;
         }
-        .bg-preview.active { opacity: 0.4; }
-        .bg-preview iframe { width: 100vw; height: 100vh; object-fit: cover; pointer-events: none; }
 
-        .list-container { z-index: 10; }
-        .list-container p { font-size: 0.9rem; margin-bottom: 20px; font-weight: 500; }
+        .list-container p { 
+            font-size: 0.75rem; 
+            margin-bottom: 15px; 
+            font-weight: 700; 
+            opacity: 0.5; 
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
 
         .film-item {
-            font-size: 5.5rem;
+            font-size: 4.5rem; /* Achicado un poco */
             font-weight: 800;
             text-transform: uppercase;
-            line-height: 0.9;
+            line-height: 0.85;
             letter-spacing: -0.04em;
             color: transparent;
-            -webkit-text-stroke: 1px rgba(255, 255, 228, 0.3);
-            transition: all 0.3s ease;
+            -webkit-text-stroke: 1px rgba(255, 255, 228, 0.25);
+            transition: all 0.2s ease;
             display: block;
             text-decoration: none;
-            margin-bottom: 5px;
+            margin-bottom: 2px;
+            width: fit-content;
         }
 
-        .film-item:hover, .film-item.selected {
+        .film-item:hover {
             color: var(--hueso);
             -webkit-text-stroke: 0px;
+            transform: translateX(10px); /* Pequeño desplazamiento al hover */
         }
 
-        /* --- SECCIÓN DETALLE (SINGLE PROJECT) --- */
+        /* --- VISTA DETALLE (SINGLE) --- */
         #project-detail-section {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: var(--bg);
-            z-index: 2000;
+            z-index: 4000;
             display: none;
             flex-direction: column;
-            padding: 120px 50px 50px;
+            padding: 100px 50px 50px;
             overflow-y: auto;
         }
 
-        .back-btn {
-            position: absolute;
+        .close-detail {
+            position: fixed;
             top: 40px; right: 50px;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 800;
             color: var(--hueso);
             cursor: pointer;
-            z-index: 2100;
+            z-index: 4100;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
         }
 
-        .detail-video {
+        .detail-video-box {
             width: 100%;
             aspect-ratio: 16 / 9;
             background: #000;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
         }
 
-        .detail-info {
+        .detail-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 100px;
+            padding-bottom: 100px;
         }
 
-        .detail-info h2 {
+        .detail-grid h2 {
             font-size: 4rem;
             font-weight: 800;
             text-transform: uppercase;
             line-height: 0.85;
-            margin-bottom: 20px;
         }
 
-        .detail-meta {
+        .detail-meta-column {
             font-size: 0.9rem;
-            line-height: 1.8;
-            opacity: 0.8;
+            line-height: 1.6;
             text-transform: none;
+            color: rgba(255, 255, 228, 0.7);
         }
 
-        .detail-meta strong {
-            text-transform: uppercase;
-            font-weight: 800;
-            font-size: 0.75rem;
+        .detail-meta-column strong {
             display: block;
-            margin-top: 15px;
+            color: var(--hueso);
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            font-weight: 800;
+            margin-top: 20px;
         }
 
         @media (max-width: 900px) {
-            .film-item { font-size: 2.5rem; }
-            .detail-info { grid-template-columns: 1fr; gap: 40px; }
+            #films-list-section { padding-left: 20px; }
+            .film-item { font-size: 2.8rem; }
+            .detail-grid { grid-template-columns: 1fr; gap: 40px; }
         }
     </style>
 </head>
@@ -152,58 +187,57 @@
 
     <header>
         <div class="brand">
-            <h1 onclick="showSection('films')">Leandro Bruno</h1>
+            <h1>Leandro Bruno</h1>
             <p>film editor</p>
         </div>
         <nav>
             <ul>
-                <li><a href="#" class="active-nav" onclick="showSection('films')">/ films</a></li>
+                <li><a href="#" class="active-nav">/ films</a></li>
                 <li><a href="mailto:leandrobrunoeditor@gmail.com">/ contact</a></li>
             </ul>
         </nav>
     </header>
 
+    <div class="bg-preview-container" id="bg-container"></div>
+
     <section id="films-list-section">
-        <div id="bg-container"></div>
-        
         <div class="list-container">
-            <p>selected work</p>
+            <p>selected works</p>
             <div id="films-anchor-list">
                 </div>
         </div>
     </section>
 
     <section id="project-detail-section">
-        <div class="back-btn" onclick="closeDetail()">[ close ]</div>
-        <div id="detail-content">
-            </div>
+        <div class="close-detail" onclick="closeDetail()">[ close ]</div>
+        <div id="detail-dynamic-content"></div>
     </section>
 
     <script>
-        const featuredProjects = [
+        const featured = [
             {
                 title: "menem",
                 cat: "serie",
                 yt: "-2AmqmciWXE",
                 dir: "ariel winograd",
                 prod: "claxon / prime video",
-                desc: "biopic que recorre el ascenso al poder de carlos menem en los años 90. una exploración sobre el carisma, la política y la cultura argentina de una era inolvidable. [cite: 292, 293]"
+                desc: "biopic sobre el ascenso al poder de carlos menem en los 90. una exploración sobre el carisma y la política argentina."
             },
             {
                 title: "oreo",
                 cat: "advertising",
                 yt: "7Cllu0Rme74",
                 dir: "martín jalfen",
-                prod: "pop studios - méxico",
-                desc: "campaña publicitaria global para oreo, destacando dinamismo y ritmo visual. [cite: 295, 296]"
+                prod: "pop studios",
+                desc: "campaña publicitaria global destacando el ritmo visual y el montaje dinámico."
             },
             {
-                title: "el tiempo de las moscas",
+                title: "moscas",
                 cat: "serie",
                 yt: "A0d6wnlMRRk",
-                dir: "benjamín naishtat y ana katz",
+                dir: "b. naishtat & a. katz",
                 prod: "netflix",
-                desc: "dos mujeres intentan reconstruir sus vidas tras salir de prisión, enfrentando un mundo que ha cambiado radicalmente mientras ellas estaban encerradas. [cite: 297, 298]"
+                desc: "el tiempo de las moscas: dos mujeres reconstruyendo sus vidas tras la prisión."
             },
             {
                 title: "blair",
@@ -211,38 +245,38 @@
                 yt: "ItX5aqhqsmo",
                 dir: "dana campanello",
                 prod: "poster",
-                desc: "primer adelanto del disco bar scorpios (2025). [cite: 305]"
+                desc: "todo lo que tengo - blair. una pieza visual rítmica y atmosférica."
             },
             {
                 title: "coppola",
                 cat: "serie",
                 yt: "ecr24akKDbs",
                 dir: "ariel winograd",
-                prod: "pampa films / disney+",
-                desc: "la historia de guillermo coppola, el representante más famoso de argentina, en una travesía llena de excesos, humor y nostalgia noventera. [cite: 302, 303]"
+                prod: "disney+",
+                desc: "guillermo coppola, el representante. una historia de excesos y nostalgia."
             }
         ];
 
-        function initFilms() {
+        function init() {
             const list = document.getElementById('films-anchor-list');
             const bgContainer = document.getElementById('bg-container');
 
-            featuredProjects.forEach((p, idx) => {
-                // Crear links de la lista
+            featured.forEach(p => {
                 const a = document.createElement('a');
                 a.href = "#";
                 a.className = "film-item";
                 a.innerText = p.title;
-                
-                // Efecto hover para el background
+
                 a.onmouseenter = () => {
-                    bgContainer.innerHTML = `<div class="bg-preview active">
-                        <iframe src="https://www.youtube.com/embed/${p.yt}?autoplay=1&mute=1&controls=0&loop=1&playlist=${p.yt}" frameborder="0"></iframe>
-                    </div>`;
+                    // Cargamos el video con parámetros de ocultación (controls=0, modestbranding=1) 
+                    // y el CSS se encarga del zoom.
+                    bgContainer.innerHTML = `
+                        <div class="bg-video active">
+                            <iframe src="https://www.youtube.com/embed/${p.yt}?autoplay=1&mute=1&controls=0&loop=1&playlist=${p.yt}&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3" frameborder="0"></iframe>
+                        </div>`;
                 };
                 a.onmouseleave = () => { bgContainer.innerHTML = ''; };
-                
-                // Click para abrir detalle
+
                 a.onclick = (e) => {
                     e.preventDefault();
                     openDetail(p);
@@ -254,23 +288,22 @@
 
         function openDetail(p) {
             const section = document.getElementById('project-detail-section');
-            const content = document.getElementById('detail-content');
-            
+            const content = document.getElementById('detail-dynamic-content');
             section.style.display = 'flex';
             content.innerHTML = `
-                <div class="detail-video">
+                <div class="detail-video-box">
                     <iframe width="100%" height="100%" src="https://www.youtube.com/embed/${p.yt}?autoplay=1&rel=0" frameborder="0" allowfullscreen></iframe>
                 </div>
-                <div class="detail-info">
+                <div class="detail-grid">
                     <div>
                         <h2>${p.title}</h2>
-                        <p style="opacity:0.6">${p.cat}</p>
+                        <p style="opacity: 0.4; margin-top: 10px; font-weight: 700;">${p.cat}</p>
                     </div>
-                    <div class="detail-meta">
+                    <div class="detail-meta-column">
                         <p>${p.desc}</p>
                         <strong>director</strong>
                         <p>${p.dir}</p>
-                        <strong>production companies</strong>
+                        <strong>production</strong>
                         <p>${p.prod}</p>
                     </div>
                 </div>
@@ -279,15 +312,10 @@
 
         function closeDetail() {
             document.getElementById('project-detail-section').style.display = 'none';
-            document.getElementById('detail-content').innerHTML = '';
+            document.getElementById('detail-dynamic-content').innerHTML = '';
         }
 
-        function showSection(sec) {
-            // En esta arquitectura, 'films' es la raíz
-            closeDetail();
-        }
-
-        window.onload = initFilms;
+        window.onload = init;
     </script>
 </body>
 </html>
