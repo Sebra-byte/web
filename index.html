@@ -34,8 +34,7 @@
         nav {
             position: fixed; top: 0; width: 100%; padding: 40px 60px;
             display: flex; justify-content: space-between; align-items: flex-start;
-            z-index: 500;
-            pointer-events: none; 
+            z-index: 500; pointer-events: none; 
             background: linear-gradient(to bottom, rgba(121, 132, 118, 0.9), transparent);
             transition: background 0.3s;
         }
@@ -77,12 +76,17 @@
         }
         .slide.active { opacity: 1; z-index: 1; }
 
-        .slide video {
+        /* ESTILOS PARA LA MEDIA DE FONDO (Video O Imagen) */
+        .bg-media {
             position: absolute; top: 50%; left: 50%; width: 100%; height: 100%;
-            object-fit: cover; transform: translate(-50%, -50%) scale(1.05);
-            transition: transform 6s ease; z-index: 0;
+            object-fit: cover; 
+            transform: translate(-50%, -50%) scale(1.08); /* Zoom inicial */
+            transition: transform 7s ease-out; /* Efecto Ken Burns suave */
+            z-index: 0;
         }
-        .slide.active video { transform: translate(-50%, -50%) scale(1); }
+
+        /* Al estar activo, la imagen/video se acomoda lentamente */
+        .slide.active .bg-media { transform: translate(-50%, -50%) scale(1); }
 
         .slide::after {
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;
@@ -136,30 +140,24 @@
             padding-bottom: 100px;
         }
 
-        /* FILA INDIVIDUAL AJUSTADA */
         .list-item {
             display: grid;
-            /* CAMBIO CLAVE: 360px para thumbnail (+grande) | 1fr (espacio) | 200px (logo) */
             grid-template-columns: 360px 1fr 200px; 
-            /* CAMBIO CLAVE: Gap de 80px para separar y "centrar" visualmente el texto */
             gap: 80px; 
             align-items: center;
-            padding: 50px 0; /* Más aire arriba y abajo */
+            padding: 50px 0;
             border-bottom: 1px solid var(--border);
             cursor: pointer;
             transition: background 0.3s;
         }
 
-        .list-item:hover {
-            background: rgba(255,255,255,0.03);
-        }
+        .list-item:hover { background: rgba(255,255,255,0.03); }
 
-        /* THUMBNAIL MAS GRANDE */
         .list-thumb {
             width: 100%; aspect-ratio: 16/9;
             overflow: hidden; border-radius: 4px;
             background: #4a5248;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2); /* Sombra suave para destacar */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
         .list-thumb img {
             width: 100%; height: 100%; object-fit: cover;
@@ -167,49 +165,35 @@
         }
         .list-item:hover .list-thumb img { filter: grayscale(0%); transform: scale(1.03); }
 
-        /* INFO CENTRAL */
         .list-info {
             display: flex; flex-direction: column; gap: 12px;
-            justify-content: center; /* Asegura el centrado vertical */
+            justify-content: center;
         }
         
         .list-title {
             font-family: var(--font-main);
-            font-weight: 700;
-            font-size: 2.2rem; /* Texto un pelin más grande para balancear la foto */
-            text-transform: uppercase;
-            letter-spacing: -1px;
-            color: var(--text);
-            margin-bottom: 5px;
+            font-weight: 700; font-size: 2.2rem; 
+            text-transform: uppercase; letter-spacing: -1px;
+            color: var(--text); margin-bottom: 5px;
         }
 
         .list-details {
-            font-family: var(--font-main);
-            font-size: 0.9rem;
-            line-height: 1.6;
-            color: var(--accent);
+            font-family: var(--font-main); font-size: 0.9rem;
+            line-height: 1.6; color: var(--accent);
         }
-        
         .list-details span { display: block; }
         .list-details b { color: var(--text); font-weight: 600; margin-right: 8px; }
 
-        /* PLATAFORMA DERECHA */
         .list-platform {
-            text-align: right;
-            font-family: var(--font-main);
-            font-weight: 700;
-            font-size: 1rem;
-            color: var(--text);
-            opacity: 0.9;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            text-align: right; font-family: var(--font-main);
+            font-weight: 700; font-size: 1rem; color: var(--text);
+            opacity: 0.9; text-transform: uppercase; letter-spacing: 1px;
         }
 
         /* --- MODAL VIDEO --- */
         #video-modal {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: #2F352E;
-            z-index: 2000;
+            background: #2F352E; z-index: 2000;
             display: flex; justify-content: center; align-items: center;
             opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
         }
@@ -222,7 +206,6 @@
         .video-wrapper { width: 100%; height: 100%; }
         iframe { width: 100%; height: 100%; border: none; }
         
-        /* RESPONSIVE */
         @media(max-width: 1200px) {
             .list-item { grid-template-columns: 300px 1fr auto; gap: 40px; }
         }
@@ -230,15 +213,10 @@
         @media(max-width: 768px) {
             nav { padding: 30px; flex-direction: column; gap: 20px; }
             #index-overlay { padding: 160px 20px 20px 20px; }
-            
-            /* Móvil: Stack vertical */
             .list-item { 
-                grid-template-columns: 1fr; 
-                gap: 20px; 
-                text-align: left;
-                padding: 30px 0;
+                grid-template-columns: 1fr; gap: 20px; text-align: left; padding: 30px 0;
             }
-            .list-thumb { width: 100%; max-width: none; } /* Imagen full ancho en móvil */
+            .list-thumb { width: 100%; max-width: none; }
             .list-title { font-size: 1.5rem; }
             .list-platform { text-align: left; margin-top: -10px; font-size: 0.8rem; opacity: 0.6; }
         }
@@ -262,8 +240,7 @@
     <div class="controls" id="dotsContainer"></div>
 
     <div id="index-overlay">
-        <div class="project-list" id="list-container">
-            </div>
+        <div class="project-list" id="list-container"></div>
     </div>
 
     <div id="video-modal">
@@ -290,7 +267,7 @@
                 prod: "Pop Studios",
                 platform: "Global Campaign",
                 yt: "7Cllu0Rme74",
-                previewUrl: "./assets/oreo_preview.mp4",
+                // Sin previewUrl para probar la imagen full frame
                 image: "./assets/Oreo_Thumbnail_5.png",
                 featured: true
             },
@@ -383,10 +360,18 @@
                 const slide = document.createElement('div');
                 slide.className = `slide ${i === 0 ? 'active' : ''}`;
                 
+                // LÓGICA HÍBRIDA: Video o Imagen
+                let mediaHTML = '';
+                if(p.previewUrl) {
+                    mediaHTML = `<video class="bg-media" loop muted playsinline poster="./assets/placeholder.jpg">
+                                    <source src="${p.previewUrl}" type="video/mp4">
+                                 </video>`;
+                } else {
+                    mediaHTML = `<img class="bg-media" src="${p.image}" alt="${p.title}">`;
+                }
+
                 slide.innerHTML = `
-                    <video loop muted playsinline poster="./assets/placeholder.jpg">
-                        <source src="${p.previewUrl}" type="video/mp4">
-                    </video>
+                    ${mediaHTML}
                     <div class="slide-info">
                         <h2 class="project-title">${p.title}</h2>
                         <div class="credits">
