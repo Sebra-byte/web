@@ -10,9 +10,10 @@
     
     <style>
         :root {
-            --bg: #050505;
-            --text: #ffffff;
-            --radius: 12px; /* Redondeado sutil estilo Whitehouse */
+            /* NUEVA PALETA DE COLORES BASADA EN LA IMAGEN */
+            --bg: #798476;      /* Verde oliva apagado para el fondo */
+            --text: #F2F2F2;    /* Color crema claro para el texto */
+            --radius: 12px;
             --font-main: 'Inter', sans-serif;
             --font-serif: 'Playfair Display', serif;
         }
@@ -33,11 +34,12 @@
             display: flex; justify-content: space-between; align-items: flex-start;
             z-index: 500;
             pointer-events: none; 
-            background: linear-gradient(to bottom, rgba(0,0,0,0.6), transparent);
+            /* Gradiente actualizado con el nuevo color de fondo */
+            background: linear-gradient(to bottom, rgba(121, 132, 118, 0.8), transparent);
             transition: background 0.3s;
         }
 
-        nav.index-active { background: #050505; pointer-events: auto; }
+        nav.index-active { background: var(--bg); pointer-events: auto; }
 
         .brand, .nav-links a { pointer-events: auto; cursor: pointer; }
 
@@ -45,11 +47,12 @@
             font-size: clamp(1.5rem, 2vw, 2.5rem); 
             font-weight: 600; letter-spacing: -1px; text-transform: lowercase;
             line-height: 1; font-family: var(--font-serif);
+            color: var(--text); /* Asegurar color de texto */
         }
         
         .brand span {
             display: block; font-family: var(--font-main); font-size: 0.4em;
-            letter-spacing: 2px; opacity: 0.7; margin-top: 5px;
+            letter-spacing: 2px; opacity: 0.8; margin-top: 5px;
             text-transform: uppercase; font-weight: 400;
         }
 
@@ -57,7 +60,7 @@
 
         .nav-links a {
             color: var(--text); text-decoration: none; font-size: 0.9rem;
-            text-transform: uppercase; letter-spacing: 1px; opacity: 0.7;
+            text-transform: uppercase; letter-spacing: 1px; opacity: 0.8;
             transition: opacity 0.3s; position: relative;
         }
         .nav-links a:hover { opacity: 1; }
@@ -83,7 +86,8 @@
 
         .slide::after {
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;
-            background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.4) 100%);
+            /* Gradiente sobre video, usando tonos oscuros del verde para consistencia */
+            background: linear-gradient(0deg, rgba(47, 53, 46, 0.9) 0%, rgba(47, 53, 46, 0.2) 50%, rgba(47, 53, 46, 0.4) 100%);
         }
 
         .slide-info {
@@ -94,25 +98,27 @@
 
         .project-title {
             font-family: var(--font-serif); font-size: clamp(3rem, 7vw, 6.5rem); 
-            margin-bottom: 15px; letter-spacing: -1px; line-height: 1.1; color: #fff;
-            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin-bottom: 15px; letter-spacing: -1px; line-height: 1.1; color: var(--text);
+            text-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
         .credits {
             display: flex; gap: 30px; font-size: 0.9rem; text-transform: uppercase;
-            letter-spacing: 1px; margin-top: 20px; color: rgba(255,255,255,0.8);
+            letter-spacing: 1px; margin-top: 20px; 
+            color: rgba(242, 242, 242, 0.8); /* Color crema con opacidad */
         }
-        .credits span b { color: #fff; margin-right: 5px; }
+        .credits span b { color: var(--text); margin-right: 5px; }
 
         .controls {
             position: absolute; bottom: 50px; right: 60px; z-index: 10;
             display: flex; gap: 15px;
         }
         .dot {
-            width: 40px; height: 3px; background: rgba(255,255,255,0.3);
+            width: 40px; height: 3px; 
+            background: rgba(242, 242, 242, 0.3); /* Crema con opacidad */
             cursor: pointer; transition: 0.3s;
         }
-        .dot.active { background: #fff; width: 60px; }
+        .dot.active { background: var(--text); width: 60px; }
 
         /* --- INDEX OVERLAY (BENTO GRID STYLE) --- */
         #index-overlay {
@@ -127,10 +133,9 @@
 
         #index-overlay.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
 
-        /* Estilo Bento Grid (Whitehouse Ref) */
         .grid {
             display: grid; 
-            grid-template-columns: 1fr 1fr; /* 2 columnas base */
+            grid-template-columns: 1fr 1fr;
             gap: 30px;
             padding-bottom: 100px;
             max-width: 1800px; margin: 0 auto;
@@ -141,17 +146,16 @@
             cursor: pointer; 
             border-radius: var(--radius);
             overflow: hidden;
-            background: #111;
+            background: #5F685C; /* Un tono más oscuro del verde para el fondo de la tarjeta */
         }
 
-        /* Clases de tamaño */
-        .grid-item.full { grid-column: span 2; aspect-ratio: 21/9; } /* Panorámico ancho */
-        .grid-item.half { grid-column: span 1; aspect-ratio: 16/9; } /* Estándar */
+        .grid-item.full { grid-column: span 2; aspect-ratio: 21/9; }
+        .grid-item.half { grid-column: span 1; aspect-ratio: 16/9; }
 
         .grid-item img {
             width: 100%; height: 100%; object-fit: cover;
-            transition: transform 0.6s ease; opacity: 0.8;
-            filter: grayscale(100%);
+            transition: transform 0.6s ease; opacity: 0.9;
+            filter: grayscale(20%); /* Menos grayscale para que se integre mejor */
         }
 
         .grid-item:hover img { 
@@ -163,36 +167,38 @@
         .grid-info {
             position: absolute; bottom: 0; left: 0; width: 100%;
             padding: 30px;
-            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            /* Gradiente actualizado para el overlay de las tarjetas */
+            background: linear-gradient(to top, rgba(47, 53, 46, 0.95), transparent);
             opacity: 0; transform: translateY(10px);
             transition: 0.4s;
         }
         
-        /* En mobile o hover se muestra la info */
         .grid-item:hover .grid-info { opacity: 1; transform: translateY(0); }
 
         .grid-title {
             font-family: var(--font-serif); font-size: 1.8rem;
-            margin-bottom: 5px; color: #fff;
+            margin-bottom: 5px; color: var(--text);
         }
         
         .grid-meta {
             font-family: var(--font-main); font-size: 0.8rem;
-            color: #ccc; text-transform: uppercase; letter-spacing: 1px;
+            color: rgba(242, 242, 242, 0.7); /* Crema con opacidad */
+            text-transform: uppercase; letter-spacing: 1px;
         }
 
         /* --- MODAL VIDEO --- */
         #video-modal {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: #000; z-index: 2000;
+            background: #2F352E; /* Verde muy oscuro para el fondo del modal */
+            z-index: 2000;
             display: flex; justify-content: center; align-items: center;
             opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
         }
         #video-modal.open { opacity: 1; pointer-events: auto; }
 
         .modal-close {
-            position: absolute; top: 40px; right: 40px; color: #fff;
-            font-size: 1.5rem; cursor: pointer; z-index: 2001; mix-blend-mode: difference;
+            position: absolute; top: 40px; right: 40px; color: var(--text);
+            font-size: 1.5rem; cursor: pointer; z-index: 2001;
         }
         .video-wrapper { width: 100%; height: 100%; }
         iframe { width: 100%; height: 100%; border: none; }
@@ -204,7 +210,7 @@
             .grid-item.full, .grid-item.half { grid-column: span 1; aspect-ratio: 16/9; }
             #index-overlay { padding: 160px 20px 20px 20px; }
             .project-title { font-size: 2.5rem; }
-            .grid-info { opacity: 1; transform: translateY(0); background: rgba(0,0,0,0.5); }
+            .grid-info { opacity: 1; transform: translateY(0); background: rgba(47, 53, 46, 0.8); }
         }
     </style>
 </head>
@@ -237,8 +243,6 @@
 
     <script>
         // CONFIGURACIÓN MAESTRA
-        // layout: "full" (Ocupa 2 columnas) o "half" (Ocupa 1 columna)
-        // featured: true (Aparece en el Carrusel principal)
         const allProjects = [
             {
                 title: "Menem",
@@ -268,7 +272,7 @@
                 previewUrl: "./assets/coppola_preview.mp4",
                 image: "./assets/Coppola_Thumbnail_2.jpg",
                 featured: true,
-                layout: "full" // DESTACADO GRANDE EN INDEX
+                layout: "full"
             },
             {
                 title: "El tiempo de las moscas",
@@ -295,7 +299,7 @@
                 prod: "poster",
                 yt: "ItX5aqhqsmo",
                 image: "./assets/Blair_Thumbnail_1.jpg",
-                layout: "full" // DESTACADO GRANDE EN INDEX
+                layout: "full"
             },
             {
                 title: "Las manos de la abuela",
@@ -383,7 +387,6 @@
             gridContainer.innerHTML = '';
             allProjects.forEach(p => {
                 const item = document.createElement('div');
-                // Aplica clase 'full' o 'half' según data
                 item.className = `grid-item ${p.layout || 'half'}`;
                 item.onclick = () => {
                     if(p.yt) openVideo(p.yt);
