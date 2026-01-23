@@ -6,14 +6,16 @@
     <title>Leandro Bruno | Film Editor</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            /* NUEVA PALETA DE COLORES BASADA EN LA IMAGEN */
-            --bg: #798476;      /* Verde oliva apagado para el fondo */
-            --text: #F2F2F2;    /* Color crema claro para el texto */
-            --radius: 12px;
+            /* PALETA VERDE OLIVA (Mantenida) */
+            --bg: #798476;
+            --text: #F2F2F2;
+            --accent: rgba(242, 242, 242, 0.6);
+            --border: rgba(242, 242, 242, 0.2);
+            
             --font-main: 'Inter', sans-serif;
             --font-serif: 'Playfair Display', serif;
         }
@@ -34,8 +36,7 @@
             display: flex; justify-content: space-between; align-items: flex-start;
             z-index: 500;
             pointer-events: none; 
-            /* Gradiente actualizado con el nuevo color de fondo */
-            background: linear-gradient(to bottom, rgba(121, 132, 118, 0.8), transparent);
+            background: linear-gradient(to bottom, rgba(121, 132, 118, 0.9), transparent);
             transition: background 0.3s;
         }
 
@@ -47,7 +48,7 @@
             font-size: clamp(1.5rem, 2vw, 2.5rem); 
             font-weight: 600; letter-spacing: -1px; text-transform: lowercase;
             line-height: 1; font-family: var(--font-serif);
-            color: var(--text); /* Asegurar color de texto */
+            color: var(--text);
         }
         
         .brand span {
@@ -74,7 +75,6 @@
             overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end;
             padding: 40px 60px 80px 60px; cursor: pointer;
         }
-
         .slide.active { opacity: 1; z-index: 1; }
 
         .slide video {
@@ -86,7 +86,6 @@
 
         .slide::after {
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;
-            /* Gradiente sobre video, usando tonos oscuros del verde para consistencia */
             background: linear-gradient(0deg, rgba(47, 53, 46, 0.9) 0%, rgba(47, 53, 46, 0.2) 50%, rgba(47, 53, 46, 0.4) 100%);
         }
 
@@ -104,8 +103,7 @@
 
         .credits {
             display: flex; gap: 30px; font-size: 0.9rem; text-transform: uppercase;
-            letter-spacing: 1px; margin-top: 20px; 
-            color: rgba(242, 242, 242, 0.8); /* Color crema con opacidad */
+            letter-spacing: 1px; margin-top: 20px; color: rgba(242, 242, 242, 0.8);
         }
         .credits span b { color: var(--text); margin-right: 5px; }
 
@@ -114,16 +112,16 @@
             display: flex; gap: 15px;
         }
         .dot {
-            width: 40px; height: 3px; 
-            background: rgba(242, 242, 242, 0.3); /* Crema con opacidad */
+            width: 40px; height: 3px; background: rgba(242, 242, 242, 0.3);
             cursor: pointer; transition: 0.3s;
         }
         .dot.active { background: var(--text); width: 60px; }
 
-        /* --- INDEX OVERLAY (BENTO GRID STYLE) --- */
+        /* --- INDEX OVERLAY (NUEVO DISEÑO: LISTA) --- */
         #index-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--bg); z-index: 400; 
+            /* Padding superior para que no choque con el nav fijo */
             padding: 140px 60px 60px 60px; 
             overflow-y: auto;
             opacity: 0; pointer-events: none;
@@ -133,63 +131,82 @@
 
         #index-overlay.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
 
-        .grid {
-            display: grid; 
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
+        /* LISTA CONTAINER */
+        .project-list {
+            max-width: 1600px; margin: 0 auto;
+            display: flex; flex-direction: column;
             padding-bottom: 100px;
-            max-width: 1800px; margin: 0 auto;
         }
 
-        .grid-item { 
-            position: relative; 
-            cursor: pointer; 
-            border-radius: var(--radius);
-            overflow: hidden;
-            background: #5F685C; /* Un tono más oscuro del verde para el fondo de la tarjeta */
+        /* FILA INDIVIDUAL (Grid de 3 columnas: IMG - INFO - PLATAFORMA) */
+        .list-item {
+            display: grid;
+            grid-template-columns: 280px 1fr 200px; /* Columna img, info, logos */
+            gap: 60px;
+            align-items: center;
+            padding: 40px 0;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: background 0.3s;
         }
 
-        .grid-item.full { grid-column: span 2; aspect-ratio: 21/9; }
-        .grid-item.half { grid-column: span 1; aspect-ratio: 16/9; }
+        .list-item:hover {
+            background: rgba(255,255,255,0.03); /* Brillo sutil al pasar el mouse */
+        }
 
-        .grid-item img {
+        /* 1. THUMBNAIL IZQUIERDA */
+        .list-thumb {
+            width: 100%; aspect-ratio: 16/9;
+            overflow: hidden; border-radius: 4px;
+            background: #4a5248;
+        }
+        .list-thumb img {
             width: 100%; height: 100%; object-fit: cover;
-            transition: transform 0.6s ease; opacity: 0.9;
-            filter: grayscale(20%); /* Menos grayscale para que se integre mejor */
+            filter: grayscale(30%); transition: 0.5s;
         }
+        .list-item:hover .list-thumb img { filter: grayscale(0%); transform: scale(1.05); }
 
-        .grid-item:hover img { 
-            transform: scale(1.03); 
-            opacity: 1; 
-            filter: grayscale(0%); 
-        }
-
-        .grid-info {
-            position: absolute; bottom: 0; left: 0; width: 100%;
-            padding: 30px;
-            /* Gradiente actualizado para el overlay de las tarjetas */
-            background: linear-gradient(to top, rgba(47, 53, 46, 0.95), transparent);
-            opacity: 0; transform: translateY(10px);
-            transition: 0.4s;
+        /* 2. INFO CENTRAL */
+        .list-info {
+            display: flex; flex-direction: column; gap: 10px;
         }
         
-        .grid-item:hover .grid-info { opacity: 1; transform: translateY(0); }
+        .list-title {
+            font-family: var(--font-main); /* Sans-serif como en la referencia */
+            font-weight: 700;
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+            color: var(--text);
+            margin-bottom: 10px;
+        }
 
-        .grid-title {
-            font-family: var(--font-serif); font-size: 1.8rem;
-            margin-bottom: 5px; color: var(--text);
+        .list-details {
+            font-family: var(--font-main);
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: var(--accent);
         }
         
-        .grid-meta {
-            font-family: var(--font-main); font-size: 0.8rem;
-            color: rgba(242, 242, 242, 0.7); /* Crema con opacidad */
-            text-transform: uppercase; letter-spacing: 1px;
+        .list-details span { display: block; }
+        .list-details b { color: var(--text); font-weight: 600; margin-right: 5px; }
+
+        /* 3. PLATAFORMA / LOGOS DERECHA */
+        .list-platform {
+            text-align: right;
+            font-family: var(--font-main);
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--text);
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         /* --- MODAL VIDEO --- */
         #video-modal {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: #2F352E; /* Verde muy oscuro para el fondo del modal */
+            background: #2F352E;
             z-index: 2000;
             display: flex; justify-content: center; align-items: center;
             opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
@@ -203,14 +220,25 @@
         .video-wrapper { width: 100%; height: 100%; }
         iframe { width: 100%; height: 100%; border: none; }
         
-        /* Responsive Grid */
+        /* RESPONSIVE */
+        @media(max-width: 1024px) {
+            .list-item { grid-template-columns: 200px 1fr auto; gap: 30px; }
+            .list-title { font-size: 1.5rem; }
+        }
+
         @media(max-width: 768px) {
             nav { padding: 30px; flex-direction: column; gap: 20px; }
-            .grid { grid-template-columns: 1fr; gap: 20px; }
-            .grid-item.full, .grid-item.half { grid-column: span 1; aspect-ratio: 16/9; }
             #index-overlay { padding: 160px 20px 20px 20px; }
-            .project-title { font-size: 2.5rem; }
-            .grid-info { opacity: 1; transform: translateY(0); background: rgba(47, 53, 46, 0.8); }
+            
+            /* En móvil pasamos a vertical */
+            .list-item { 
+                grid-template-columns: 1fr; 
+                gap: 20px; 
+                text-align: left;
+                padding: 30px 0;
+            }
+            .list-thumb { width: 100%; max-width: 300px; }
+            .list-platform { text-align: left; font-size: 0.8rem; opacity: 0.6; margin-top: -10px;}
         }
     </style>
 </head>
@@ -232,7 +260,7 @@
     <div class="controls" id="dotsContainer"></div>
 
     <div id="index-overlay">
-        <div class="grid" id="grid-container">
+        <div class="project-list" id="list-container">
             </div>
     </div>
 
@@ -242,99 +270,99 @@
     </div>
 
     <script>
-        // CONFIGURACIÓN MAESTRA
+        // DATA MASTER
         const allProjects = [
             {
                 title: "Menem",
-                director: "ariel winograd",
-                prod: "prime video",
+                director: "Ariel Winograd",
+                prod: "Claxon",
+                platform: "Prime Video", // Campo nuevo para la columna derecha
                 yt: "-2AmqmciWXE",
                 previewUrl: "./assets/menem_preview.mp4",
                 image: "./assets/Menem_Thumbnail_1.jpg",
-                featured: true,
-                layout: "half"
+                featured: true
             },
             {
-                title: "Oreo: Sigamos Divirtiéndonos",
-                director: "martín jalfen",
-                prod: "pop studios",
+                title: "Oreo: Keep Playful",
+                director: "Martín Jalfen",
+                prod: "Pop Studios",
+                platform: "Global Campaign",
                 yt: "7Cllu0Rme74",
                 previewUrl: "./assets/oreo_preview.mp4",
                 image: "./assets/Oreo_Thumbnail_5.png",
-                featured: true,
-                layout: "half"
+                featured: true
             },
             {
                 title: "Coppola, el representante",
-                director: "ariel winograd",
-                prod: "disney+",
+                director: "Ariel Winograd",
+                prod: "Pampa Films",
+                platform: "Disney+",
                 yt: "ecr24akKDbs",
                 previewUrl: "./assets/coppola_preview.mp4",
                 image: "./assets/Coppola_Thumbnail_2.jpg",
-                featured: true,
-                layout: "full"
+                featured: true
             },
             {
                 title: "El tiempo de las moscas",
-                director: "b. naishtat",
-                prod: "netflix",
+                director: "B. Naishtat",
+                prod: "K&S Films",
+                platform: "Netflix",
                 yt: "A0d6wnlMRRk",
                 previewUrl: "./assets/moscas_preview.mp4",
                 image: "./assets/Moscas_Thumbnail_1.jpg",
-                featured: true,
-                layout: "half"
+                featured: true
             },
             // --- VOLUMEN ---
             {
                 title: "Levis x Winona Riders",
-                director: "nico alarcos",
-                prod: "primo",
+                director: "Nico Alarcos",
+                prod: "Primo",
+                platform: "Web / Social",
                 yt: "1eE588vXvqSECtESSjgwN_vpRmMFaUpRg",
-                image: "./assets/Levis_Thumbnail_v01.jpg",
-                layout: "half"
+                image: "./assets/Levis_Thumbnail_v01.jpg"
             },
             {
                 title: "Blair - Todo lo que tengo",
-                director: "dana campanello",
-                prod: "poster",
+                director: "Dana Campanello",
+                prod: "Poster",
+                platform: "Music Video",
                 yt: "ItX5aqhqsmo",
-                image: "./assets/Blair_Thumbnail_1.jpg",
-                layout: "full"
+                image: "./assets/Blair_Thumbnail_1.jpg"
             },
             {
                 title: "Las manos de la abuela",
-                director: "camila migliore",
-                prod: "calesita films",
-                image: "./assets/MA_Thumbnail_1.png",
-                layout: "half"
+                director: "Camila Migliore",
+                prod: "Calesita Films",
+                platform: "Short Film",
+                image: "./assets/MA_Thumbnail_1.png"
             },
             {
                 title: "Ratones Paranoicos",
-                director: "alex roux",
-                prod: "poster",
-                image: "./assets/RP_Thumbmail_1.png",
-                layout: "half"
+                director: "Alex Roux",
+                prod: "Poster",
+                platform: "Music Video",
+                image: "./assets/RP_Thumbmail_1.png"
             },
             {
                 title: "Besos Brujos",
-                director: "karina flonembaum",
-                prod: "indie",
-                image: "./assets/BB_Thumbnail_1.png",
-                layout: "full"
+                director: "Karina Flonembaum",
+                prod: "Indie",
+                platform: "Short Film",
+                image: "./assets/BB_Thumbnail_1.png"
             },
             {
                 title: "Las Marias",
-                director: "a. berger parrado",
-                prod: "navajo films",
-                image: "./assets/Marias_Thumbnail_1.png",
-                layout: "half"
+                director: "A. Berger Parrado",
+                prod: "Navajo Films",
+                platform: "Documentary",
+                image: "./assets/Marias_Thumbnail_1.png"
             },
             {
                 title: "Todo lo que recuerdo",
-                director: "n. fernandez melian",
-                prod: "festival mdq",
-                image: "./assets/TodoLoQueRecuerdo_Thumbnail_1.png",
-                layout: "half"
+                director: "N. Fernandez Melian",
+                prod: "Festival MDQ",
+                platform: "Short Film",
+                image: "./assets/TodoLoQueRecuerdo_Thumbnail_1.png"
             }
         ];
 
@@ -378,29 +406,37 @@
             startAutoPlay();
         }
 
-        // --- LÓGICA INDEX (BENTO GRID) ---
+        // --- LÓGICA INDEX (LISTA) ---
         const indexOverlay = document.getElementById('index-overlay');
-        const gridContainer = document.getElementById('grid-container');
+        const listContainer = document.getElementById('list-container');
         const nav = document.getElementById('navbar');
 
         function renderIndex() {
-            gridContainer.innerHTML = '';
+            listContainer.innerHTML = '';
             allProjects.forEach(p => {
                 const item = document.createElement('div');
-                item.className = `grid-item ${p.layout || 'half'}`;
+                item.className = 'list-item';
                 item.onclick = () => {
                     if(p.yt) openVideo(p.yt);
                     else alert('Video no disponible');
                 };
 
+                // Estructura de Lista: Thumb | Info | Platform
                 item.innerHTML = `
-                    <img src="${p.image}" alt="${p.title}" loading="lazy">
-                    <div class="grid-info">
-                        <div class="grid-title">${p.title}</div>
-                        <div class="grid-meta">${p.prod} | ${p.director}</div>
+                    <div class="list-thumb">
+                        <img src="${p.image}" alt="${p.title}" loading="lazy">
                     </div>
+                    <div class="list-info">
+                        <div class="list-title">${p.title}</div>
+                        <div class="list-details">
+                            <span><b>Director:</b> ${p.director}</span>
+                            <span><b>Prod Co:</b> ${p.prod}</span>
+                            <span><b>Editor:</b> Leandro Bruno</span> 
+                        </div>
+                    </div>
+                    <div class="list-platform">${p.platform || ''}</div>
                 `;
-                gridContainer.appendChild(item);
+                listContainer.appendChild(item);
             });
         }
 
