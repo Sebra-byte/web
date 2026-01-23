@@ -10,10 +10,10 @@
     
     <style>
         :root {
-            /* PALETA VERDE OLIVA (Mantenida) */
+            /* PALETA VERDE OLIVA */
             --bg: #798476;
             --text: #F2F2F2;
-            --accent: rgba(242, 242, 242, 0.6);
+            --accent: rgba(242, 242, 242, 0.7);
             --border: rgba(242, 242, 242, 0.2);
             
             --font-main: 'Inter', sans-serif;
@@ -117,11 +117,10 @@
         }
         .dot.active { background: var(--text); width: 60px; }
 
-        /* --- INDEX OVERLAY (NUEVO DISEÑO: LISTA) --- */
+        /* --- INDEX OVERLAY (LIST STYLE) --- */
         #index-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--bg); z-index: 400; 
-            /* Padding superior para que no choque con el nav fijo */
             padding: 140px 60px 60px 60px; 
             overflow-y: auto;
             opacity: 0; pointer-events: none;
@@ -131,67 +130,70 @@
 
         #index-overlay.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
 
-        /* LISTA CONTAINER */
         .project-list {
             max-width: 1600px; margin: 0 auto;
             display: flex; flex-direction: column;
             padding-bottom: 100px;
         }
 
-        /* FILA INDIVIDUAL (Grid de 3 columnas: IMG - INFO - PLATAFORMA) */
+        /* FILA INDIVIDUAL AJUSTADA */
         .list-item {
             display: grid;
-            grid-template-columns: 280px 1fr 200px; /* Columna img, info, logos */
-            gap: 60px;
+            /* CAMBIO CLAVE: 360px para thumbnail (+grande) | 1fr (espacio) | 200px (logo) */
+            grid-template-columns: 360px 1fr 200px; 
+            /* CAMBIO CLAVE: Gap de 80px para separar y "centrar" visualmente el texto */
+            gap: 80px; 
             align-items: center;
-            padding: 40px 0;
+            padding: 50px 0; /* Más aire arriba y abajo */
             border-bottom: 1px solid var(--border);
             cursor: pointer;
             transition: background 0.3s;
         }
 
         .list-item:hover {
-            background: rgba(255,255,255,0.03); /* Brillo sutil al pasar el mouse */
+            background: rgba(255,255,255,0.03);
         }
 
-        /* 1. THUMBNAIL IZQUIERDA */
+        /* THUMBNAIL MAS GRANDE */
         .list-thumb {
             width: 100%; aspect-ratio: 16/9;
             overflow: hidden; border-radius: 4px;
             background: #4a5248;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2); /* Sombra suave para destacar */
         }
         .list-thumb img {
             width: 100%; height: 100%; object-fit: cover;
-            filter: grayscale(30%); transition: 0.5s;
+            filter: grayscale(30%); transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .list-item:hover .list-thumb img { filter: grayscale(0%); transform: scale(1.05); }
+        .list-item:hover .list-thumb img { filter: grayscale(0%); transform: scale(1.03); }
 
-        /* 2. INFO CENTRAL */
+        /* INFO CENTRAL */
         .list-info {
-            display: flex; flex-direction: column; gap: 10px;
+            display: flex; flex-direction: column; gap: 12px;
+            justify-content: center; /* Asegura el centrado vertical */
         }
         
         .list-title {
-            font-family: var(--font-main); /* Sans-serif como en la referencia */
+            font-family: var(--font-main);
             font-weight: 700;
-            font-size: 2rem;
+            font-size: 2.2rem; /* Texto un pelin más grande para balancear la foto */
             text-transform: uppercase;
-            letter-spacing: -0.5px;
+            letter-spacing: -1px;
             color: var(--text);
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
 
         .list-details {
             font-family: var(--font-main);
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             line-height: 1.6;
             color: var(--accent);
         }
         
         .list-details span { display: block; }
-        .list-details b { color: var(--text); font-weight: 600; margin-right: 5px; }
+        .list-details b { color: var(--text); font-weight: 600; margin-right: 8px; }
 
-        /* 3. PLATAFORMA / LOGOS DERECHA */
+        /* PLATAFORMA DERECHA */
         .list-platform {
             text-align: right;
             font-family: var(--font-main);
@@ -221,24 +223,24 @@
         iframe { width: 100%; height: 100%; border: none; }
         
         /* RESPONSIVE */
-        @media(max-width: 1024px) {
-            .list-item { grid-template-columns: 200px 1fr auto; gap: 30px; }
-            .list-title { font-size: 1.5rem; }
+        @media(max-width: 1200px) {
+            .list-item { grid-template-columns: 300px 1fr auto; gap: 40px; }
         }
 
         @media(max-width: 768px) {
             nav { padding: 30px; flex-direction: column; gap: 20px; }
             #index-overlay { padding: 160px 20px 20px 20px; }
             
-            /* En móvil pasamos a vertical */
+            /* Móvil: Stack vertical */
             .list-item { 
                 grid-template-columns: 1fr; 
                 gap: 20px; 
                 text-align: left;
                 padding: 30px 0;
             }
-            .list-thumb { width: 100%; max-width: 300px; }
-            .list-platform { text-align: left; font-size: 0.8rem; opacity: 0.6; margin-top: -10px;}
+            .list-thumb { width: 100%; max-width: none; } /* Imagen full ancho en móvil */
+            .list-title { font-size: 1.5rem; }
+            .list-platform { text-align: left; margin-top: -10px; font-size: 0.8rem; opacity: 0.6; }
         }
     </style>
 </head>
@@ -276,7 +278,7 @@
                 title: "Menem",
                 director: "Ariel Winograd",
                 prod: "Claxon",
-                platform: "Prime Video", // Campo nuevo para la columna derecha
+                platform: "Prime Video",
                 yt: "-2AmqmciWXE",
                 previewUrl: "./assets/menem_preview.mp4",
                 image: "./assets/Menem_Thumbnail_1.jpg",
@@ -366,7 +368,7 @@
             }
         ];
 
-        // --- LÓGICA CARRUSEL (Solo Featured) ---
+        // --- LÓGICA CARRUSEL ---
         const featuredProjects = allProjects.filter(p => p.featured);
         let currentSlide = 0;
         let autoPlayInterval;
@@ -421,7 +423,6 @@
                     else alert('Video no disponible');
                 };
 
-                // Estructura de Lista: Thumb | Info | Platform
                 item.innerHTML = `
                     <div class="list-thumb">
                         <img src="${p.image}" alt="${p.title}" loading="lazy">
@@ -455,7 +456,6 @@
             startAutoPlay();
         }
 
-        // --- FUNCIONES COMUNES ---
         function playActiveVideo() {
             document.querySelectorAll('video').forEach(v => v.pause());
             const slides = document.querySelectorAll('.slide');
@@ -494,7 +494,6 @@
             startAutoPlay();
         }
 
-        // --- MODAL YOUTUBE ---
         const modal = document.getElementById('video-modal');
         const videoContainer = document.getElementById('video-container');
 
@@ -502,7 +501,6 @@
             if(!ytId) return;
             clearInterval(autoPlayInterval);
             document.querySelectorAll('video').forEach(v => v.pause());
-            
             videoContainer.innerHTML = `
                 <iframe src="https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0&controls=1" 
                 allow="autoplay; encrypted-media" allowfullscreen></iframe>
@@ -513,7 +511,6 @@
         function closeVideo() {
             modal.classList.remove('open');
             setTimeout(() => { videoContainer.innerHTML = ''; }, 300);
-            
             if(!indexOverlay.classList.contains('open')) {
                 playActiveVideo();
                 startAutoPlay();
