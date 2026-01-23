@@ -3,419 +3,278 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leandro Bruno | film editor</title>
-    <link rel="icon" type="image/png" href="assets/favicom_250120.png">
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;500;700;800&display=swap" rel="stylesheet">
+    <title>Editor Portfolio | Tenthree Style</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-grafito: #1a1a1a;
-            --hueso: #FFFFE4;
-            --font-main: 'Manrope', sans-serif;
-            --transition-smooth: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            --bg: #f8f8f8;
+            --dark: #121212;
+            --accent: #888;
+            --gap: 30px;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: crosshair; }
-        html { scroll-behavior: smooth; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: var(--bg-grafito);
-            color: var(--hueso);
-            font-family: var(--font-main);
-            text-transform: lowercase;
+            background-color: var(--bg);
+            color: var(--dark);
+            font-family: 'Inter', sans-serif;
             overflow-x: hidden;
         }
 
-        /* --- FONDO VIDEO --- */
-        .bg-preview-container {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 1; background: var(--bg-grafito); overflow: hidden;
+        /* --- NAVIGATION --- */
+        nav {
+            padding: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            mix-blend-mode: difference;
+            color: white;
         }
-        .bg-video {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            opacity: 0; transition: opacity 2s ease-in-out;
-            pointer-events: none;
+
+        .logo { font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 1.1rem; }
+        
+        .filters { display: flex; gap: 20px; }
+        .filter-btn { 
+            cursor: pointer; 
+            font-size: 0.75rem; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            opacity: 0.6;
+            transition: 0.3s;
         }
-        .bg-video.active { opacity: 0.35; }
-        .bg-video iframe {
-            width: 150vw; height: 150vh;
-            position: absolute; top: 50%; left: 50%;
-            transform: translate(-50%, -50%) scale(1.6);
-        }
+        .filter-btn:hover, .filter-btn.active { opacity: 1; }
 
         /* --- HEADER --- */
-        .header-main {
-            position: fixed; top: 0; left: 0; width: 100%;
-            padding: 60px 80px;
-            display: flex; 
-            flex-direction: row;
+        header {
+            padding: 160px 40px 80px 40px;
+        }
+
+        header h1 {
+            font-size: clamp(3rem, 10vw, 8rem);
+            font-weight: 700;
+            line-height: 0.85;
+            text-transform: uppercase;
+            letter-spacing: -4px;
+        }
+
+        /* --- PORTFOLIO GRID --- */
+        #portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: var(--gap);
+            padding: 0 40px 100px 40px;
+        }
+
+        .project {
+            grid-column: span 6;
+            cursor: pointer;
+            margin-bottom: 40px;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Clases de tamaño para el ritmo visual */
+        .project.large { grid-column: span 12; }
+        .project.medium { grid-column: span 8; }
+        .project.small { grid-column: span 4; }
+
+        .img-container {
+            width: 100%;
+            aspect-ratio: 16/9;
+            overflow: hidden;
+            background: #e0e0e0;
+            position: relative;
+        }
+
+        .project img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%);
+            transition: transform 0.8s ease, filter 0.8s ease;
+        }
+
+        .project:hover img {
+            filter: grayscale(0%);
+            transform: scale(1.03);
+        }
+
+        .project-meta {
+            margin-top: 15px;
+            display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            z-index: 9999;
-            pointer-events: none; transition: all 0.5s var(--transition-smooth);
-            background: transparent;
-        }
-        .header-main * { pointer-events: auto; }
-
-        .header-main.scrolled {
-            padding: 30px 80px 60px;
-            background: linear-gradient(to bottom, 
-                rgba(26, 26, 26, 1) 0%, 
-                rgba(26, 26, 26, 0.95) 30%, 
-                rgba(26, 26, 26, 0.6) 60%, 
-                rgba(26, 26, 26, 0) 100%
-            );
-            backdrop-filter: blur(6px);
         }
 
-        .brand-header { cursor: pointer; transition: 0.5s; text-align: left; }
-        .brand-header h2 { font-size: 2.6rem; font-weight: 800; text-transform: uppercase; line-height: 0.8; letter-spacing: -0.04em; }
-        .brand-header p { font-size: 0.95rem; font-weight: 200; margin-top: 8px; opacity: 0.8; letter-spacing: 0.05em; }
-
-        .nav-menu { 
-            display: flex; 
-            flex-direction: row; 
-            gap: 40px; 
-            margin-top: 10px; 
-            transition: 0.5s; 
+        .project-title {
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 1rem;
+            letter-spacing: -0.5px;
         }
 
-        .nav-item { position: relative; }
-        .nav-link {
-            text-decoration: none; color: var(--hueso); font-size: 1.1rem;
-            font-weight: 500; opacity: 0.5; transition: 0.3s; cursor: pointer;
-        }
-        .nav-link:hover { opacity: 1; font-style: italic; }
-        
-        .dropdown-work {
-            position: absolute; top: 100%; right: 0;
-            display: none; flex-direction: column; gap: 10px;
-            padding: 15px 0; min-width: 140px; text-align: right;
-        }
-        
-        .nav-item:hover .dropdown-work { display: flex; }
-        .dropdown-link {
-            text-decoration: none; color: var(--hueso); font-size: 0.75rem;
-            text-transform: uppercase; letter-spacing: 0.2em; opacity: 0.4; transition: 0.3s;
-        }
-        .dropdown-link:hover { opacity: 1; padding-right: 5px; }
-
-        /* --- SECCIONES --- */
-        section { display: none; position: relative; z-index: 100; min-height: 100vh; }
-
-        #home-section { 
-            display: flex; 
-            align-items: flex-start;
-            padding: 280px 80px 100px;
-        }
-        .section-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; opacity: 0.4; margin-bottom: 25px; }
-        
-        .film-item { 
-            font-size: 4.8rem; font-weight: 800; text-transform: uppercase; line-height: 0.85; 
-            letter-spacing: -0.04em; color: transparent; -webkit-text-stroke: 1px rgba(255, 255, 228, 0.2); 
-            display: block; text-decoration: none; margin-bottom: 8px; transition: 0.5s; width: fit-content;
-        }
-        .film-item.active, .film-item:hover { color: var(--hueso); -webkit-text-stroke: 0px; transform: translateX(25px); }
-
-        #all-projects-section { padding: 140px 0 0; background: var(--bg-grafito); }
-        .all-projects-grid { 
-            display: grid; 
-            grid-template-columns: repeat(3, 1fr); 
-            gap: 4px; 
-            transition: all 0.6s var(--transition-smooth);
-        }
-        .all-projects-grid.filtered {
-            grid-template-columns: repeat(2, 1fr);
+        .project-info-sub {
+            font-size: 0.75rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            text-align: right;
         }
 
-        .grid-item {
-            position: relative; width: 100%; aspect-ratio: 16/9;
-            overflow: hidden; background: var(--bg-grafito); cursor: pointer;
+        /* --- MODAL --- */
+        #modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--dark);
+            z-index: 2000;
+            display: none;
+            color: white;
+            overflow-y: auto;
+            padding: 60px 40px;
         }
-        .grid-item img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; transition: 0.8s var(--transition-smooth); }
-        .grid-item:hover img { opacity: 0.3; transform: scale(1.05); }
 
-        .grid-hover-info {
+        .close-modal {
+            position: fixed; top: 40px; right: 40px;
+            cursor: pointer; font-size: 1rem; text-transform: uppercase;
+        }
+
+        .modal-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .video-wrapper {
+            position: relative; padding-bottom: 56.25%; height: 0;
+            margin-bottom: 40px; background: #000;
+        }
+
+        .video-wrapper iframe {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            opacity: 0; transition: 0.4s ease; pointer-events: none; text-align: center; padding: 30px;
         }
-        .grid-item:hover .grid-hover-info { opacity: 1; }
-        .grid-hover-info h3 { font-size: 2rem; font-weight: 800; text-transform: uppercase; line-height: 1; margin-bottom: 10px; }
-        .grid-hover-info .cat-tag { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; opacity: 0.6; margin-bottom: 8px; }
 
-        #about-section { padding: 200px 80px 100px; display: none; align-items: flex-start; background: var(--bg-grafito); }
-        .about-text { max-width: 900px; font-size: 2.8rem; font-weight: 500; line-height: 1.1; letter-spacing: -0.02em; }
-        .about-text strong { font-weight: 800; }
+        /* --- FOOTER --- */
+        footer {
+            padding: 100px 40px;
+            background: var(--dark);
+            color: white;
+        }
+        
+        .footer-cta { font-size: clamp(2rem, 5vw, 4rem); font-weight: 700; margin-bottom: 40px; }
 
-        /* --- MODAL DETALLE --- */
-        #project-detail { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--bg-grafito); z-index: 20000; display: none; overflow: hidden; }
-        .detail-background { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
-        .detail-background iframe, .detail-background img { width: 100%; height: 100%; object-fit: cover; border: none; }
-        .detail-content { position: relative; z-index: 3; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; padding: 80px; pointer-events: none; }
-        .detail-content * { pointer-events: auto; }
-        .detail-header h2 { font-size: 5rem; font-weight: 800; text-transform: uppercase; line-height: 0.8; margin-bottom: 40px; }
-        .detail-footer { display: flex; gap: 80px; align-items: flex-end; justify-content: space-between; width: 100%; }
-        .detail-meta-container { display: flex; gap: 80px; align-items: flex-start; }
-        .detail-meta-item { display: flex; flex-direction: column; gap: 5px; }
-        .detail-meta-item strong { font-size: 0.7rem; text-transform: uppercase; opacity: 0.4; letter-spacing: 0.2em; }
-        .detail-meta-item p { font-size: 1.1rem; font-weight: 500; }
-
-        .close-btn { position: fixed; top: 40px; right: 60px; z-index: 20100; cursor: pointer; background: rgba(0,0,0,0.3); padding: 12px 25px; border-radius: 50px; backdrop-filter: blur(10px); text-transform: uppercase; font-size: 0.75rem; font-weight: 800; color: var(--hueso); }
-        .gallery-nav { position: absolute; top: 50%; width: 100%; display: flex; justify-content: space-between; padding: 0 40px; z-index: 10; pointer-events: none; }
-        .nav-arrow { width: 60px; height: 60px; background: rgba(0,0,0,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; pointer-events: auto; font-size: 1.5rem; opacity: 0.5; color: white; transition: 0.3s; }
-        .gallery-counter { position: fixed; top: 45px; left: 60px; z-index: 20100; font-size: 0.8rem; font-weight: 800; opacity: 0.5; color: var(--hueso); }
-
-        /* IDIOMAS */
-        .lang-switcher { position: fixed; bottom: 40px; right: 60px; z-index: 5000; display: flex; gap: 15px; }
-        .lang-btn { background: none; border: none; color: var(--hueso); font-size: 0.8rem; font-weight: 700; cursor: pointer; opacity: 0.3; }
-        .lang-btn.active { opacity: 1; text-decoration: underline; }
-
-        @media (max-width: 1200px) {
-            .all-projects-grid, .all-projects-grid.filtered { grid-template-columns: 1fr; }
-            .header-main { padding: 30px 40px; flex-direction: column; align-items: flex-start; }
-            .nav-menu { gap: 20px; margin-top: 20px; }
-            .header-main.scrolled { padding: 20px 40px 60px; }
-            .film-item { font-size: 2.5rem; }
-            #home-section { padding-top: 180px; }
+        @media (max-width: 768px) {
+            .project.large, .project.medium, .project.small, .project { grid-column: span 12; }
+            nav { padding: 20px; }
+            .filters { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <div class="bg-preview-container" id="bg-container">
-        <div id="pane-1" class="bg-video"></div>
-        <div id="pane-2" class="bg-video"></div>
-    </div>
-
-    <header class="header-main" id="main-header">
-        <div class="brand-header" onclick="showSection('home')">
-            <h2>Leandro Bruno</h2>
-            <p>film editor</p>
+    <nav>
+        <div class="logo">TU NOMBRE</div>
+        <div class="filters">
+            <div class="filter-btn active" onclick="filterProjects('all')">All</div>
+            <div class="filter-btn" onclick="filterProjects('serie')">Series</div>
+            <div class="filter-btn" onclick="filterProjects('advertising')">Ad</div>
+            <div class="filter-btn" onclick="filterProjects('music video')">Music</div>
+            <div class="filter-btn" onclick="filterProjects('cortometraje')">Films</div>
         </div>
-        <nav class="nav-menu">
-            <div class="nav-item">
-                <a class="nav-link" id="nav-work" onclick="showSection('all'); renderLists('all');">/ trabajo</a>
-                <div class="dropdown-work" id="cat-dropdown"></div>
-            </div>
-            <div class="nav-item"><a class="nav-link" id="nav-about" onclick="showSection('about')">/ sobre mí</a></div>
-            <div class="nav-item"><a class="nav-link" id="nav-contact" href="mailto:leandrobrunoeditor@gmail.com">/ contacto</a></div>
-        </nav>
+    </nav>
+
+    <header>
+        <h1>FILM<br>EDITOR</h1>
     </header>
 
-    <div class="lang-switcher">
-        <button class="lang-btn active" id="btn-es" onclick="setLang('es')">ES</button>
-        <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+    <main id="portfolio-grid"></main>
+
+    <div id="modal">
+        <div class="close-modal" onclick="closeModal()">Close / Volver</div>
+        <div class="modal-content" id="modal-body"></div>
     </div>
 
-    <section id="home-section">
-        <div>
-            <p class="section-label" data-i18n="selected_works">trabajos seleccionados</p>
-            <div id="featured-list"></div>
-        </div>
-    </section>
+    <footer>
+        <div class="footer-cta">Let's build the cut.</div>
+        <p>Email: hola@tunombre.com</p>
+        <p>Based in Argentina / Worldwide</p>
+    </footer>
 
-    <section id="all-projects-section">
-        <div class="all-projects-grid" id="full-index-list"></div>
-    </section>
-
-    <section id="about-section">
-        <div class="about-text" id="about-content"></div>
-    </section>
-
-    <div id="project-detail">
-        <div class="gallery-counter" id="img-counter"></div>
-        <div class="close-btn" onclick="closeDetail()">[ <span id="close-label">cerrar</span> ]</div>
-        <div class="gallery-nav" id="gallery-ui" style="display:none">
-            <div class="nav-arrow" onclick="changeImg(-1)">&#10094;</div>
-            <div class="nav-arrow" onclick="changeImg(1)">&#10095;</div>
-        </div>
-        <div class="detail-background" id="detail-bg"></div>
-        <div class="detail-content" id="detail-dynamic-content"></div>
-    </div>
-
-    <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-        const i18n = {
-            es: { 
-                nav_work: "/ trabajo",
-                nav_about: "/ sobre mí",
-                nav_contact: "/ contacto",
-                selected_works: "trabajos seleccionados", 
-                close: "cerrar", 
-                director: "director", 
-                prod: "producción", 
-                editor: "editor", 
-                about_text: "<strong>leandro bruno</strong> es un editor de cine y publicidad con base en buenos aires. se especializa en montaje rítmico y narrativa para plataformas globales como netflix, disney+ y prime video.",
-                cats: { narrative: "narrativo", music: "música", advertising: "publicidad" }
-            },
-            en: { 
-                nav_work: "/ work",
-                nav_about: "/ about",
-                nav_contact: "/ contact",
-                selected_works: "selected works", 
-                close: "close", 
-                director: "director", 
-                prod: "production", 
-                editor: "editor", 
-                about_text: "<strong>leandro bruno</strong> is a film and advertising editor based in buenos aires. he specializes in rhythmic editing and narrative for global platforms such as netflix, disney+, and prime video.",
-                cats: { narrative: "narrative", music: "music", advertising: "advertising" }
-            }
-        };
-
         const projects = [
-            { title_es: "menem", title_en: "menem", category: "narrative", platform: "prime", images: ["assets/Menem_Thumbnail_1.jpg", "assets/Menem_Thumbnail_2.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon" },
-            { title_es: "OREO - Sigamos divirtiendonos", title_en: "OREO - Let's keep having fun", category: "advertising", images: ["assets/Oreo_Thumbnail_5.png"], yt: "7Cllu0Rme74", director: "Martín Jalfen", prod: "Pop Studios" },
-            { title_es: "el tiempo de las moscas", title_en: "the time of the flies", category: "narrative", platform: "netflix", images: ["assets/Moscas_Thumbnail_1.jpg"], yt: "A0d6wnlMRRk", director: "ana katz", prod: "netflix" },
-            { title_es: "levis x winona riders", title_en: "levis x winona riders", category: "advertising", images: ["assets/Levis_Thumbnail_v01.jpg"], yt: "mb2RPesGf7Q", director: "nico alarcos", prod: "primo" },
-            { title_es: "coppola, el representante", title_en: "coppola, the agent", category: "narrative", platform: "disney", images: ["assets/Coppola_Thumbnail_2.jpg"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films" },
-            { title_es: "blair - Todo lo que tengo", title_en: "blair - All I have", category: "music", images: ["assets/Blair_Thumbnail_1.jpg"], yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster" },
-            { title_es: "las manos de la abuela", title_en: "grandma's hands", category: "narrative", images: ["assets/MA_Thumbnail_1.png", "assets/MA_Thumbnail_2.png"], yt: "", director: "camila migliore", prod: "calesita films" },
-            { title_es: "ratones paranoicos", title_en: "ratones paranoicos", category: "music", images: ["assets/RP_Thumbmail_1.png"], yt: "", director: "alex roux", prod: "poster" },
-            { title_es: "besos brujos", title_en: "witchy kisses", category: "narrative", images: ["assets/BB_Thumbnail_1.png"], yt: "", director: "karina flonembaum", prod: "" },
-            { title_es: "las marias", title_en: "las marias", category: "advertising", images: ["assets/Marias_Thumbnail_1.png"], yt: "", director: "alejandro berger", prod: "navajo films" },
-            { title_es: "todo lo que recuerdo", title_en: "everything i remember", category: "narrative", images: ["assets/TodoLoQueRecuerdo_Thumbnail_1.png"], yt: "", director: "nicolas fernandez", prod: "" }
+            { title_es: "Menem", category: "serie", size: "large", images: ["assets/Menem_Thumbnail_1.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon / prime video", desc_es: "Biopic que recorre el ascenso al poder de Carlos Menem en los años 90." },
+            { title_es: "OREO - Sigamos divirtiendonos", category: "advertising", size: "medium", images: ["assets/Oreo_Thumbnail_5.png"], yt: "7Cllu0Rme74", director: "Martín Jalfen", prod: "Pop Studios - México", desc_es: "Campaña publicitaria global para Oreo." },
+            { title_es: "El tiempo de las moscas", category: "serie", size: "small", images: ["assets/Moscas_Thumbnail_1.jpg"], yt: "A0d6wnlMRRk", director: "Benjamín Naishtat y Ana Katz", prod: "netflix", desc_es: "Dos mujeres intentan reconstruir sus vidas tras salir de prisión." },
+            { title_es: "Coppola, el representante", category: "serie", size: "medium", images: ["assets/Coppola_Thumbnail_2.jpg"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films / disney+", desc_es: "La historia del representante más famoso de Argentina." },
+            { title_es: "Levis x Winona Riders", category: "advertising", size: "small", images: ["assets/Levis_Thumbnail_v01.jpg"], yt: "7Cllu0Rme74", director: "Nico Alarcos", prod: "primo", desc_es: "Campaña de gira de Winona Riders." },
+            { title_es: "Blair - Todo lo que tengo", category: "music video", size: "small", images: ["assets/Blair_Thumbnail_1.jpg"], yt: "ItX5aqhqsmo", director: "dana campanello", prod: "poster", desc_es: "Primer adelanto del disco Bar Scorpios (2025)" },
+            { title_es: "Las manos de la abuela", category: "cortometraje", size: "small", images: ["assets/MA_Thumbnail_1.png"], yt: "", director: "camila migliore", prod: "calesita films", desc_es: "Cortometraje sobre la memoria y el legado familiar." },
+            { title_es: "Ratones Paranoicos", category: "music video", size: "small", images: ["assets/RP_Thumbmail_1.png"], yt: "", director: "alex roux", prod: "poster", desc_es: "Pieza audiovisual para la legendaria banda de rock." },
+            { title_es: "Besos Brujos", category: "cortometraje", size: "small", images: ["assets/BB_Thumbnail_1.png"], yt: "", director: "karina flonembaum", prod: "Indie", desc_es: "Ficción breve que juega con los límites del deseo." },
+            { title_es: "Las Marias", category: "advertising", size: "small", images: ["assets/Marias_Thumbnail_1.png"], yt: "", director: "alejandro berger parrado", prod: "navajo films", desc_es: "Documental publicitario sobre la tradición yerbatera." },
+            { title_es: "Todo lo que recuerdo", category: "cortometraje", size: "small", images: ["assets/TodoLoQueRecuerdo_Thumbnail_1.png"], yt: "", director: "nicolas fernandez melian", prod: "Festival MDQ", desc_es: "Viaje sensorial por la memoria fragmentada." }
         ];
 
-        let currentLang = 'es', activePaneId = 1, currentIdx = 0, previewTimer, currentProject = null, currentImgIdx = 0, currentFilter = 'all';
+        const grid = document.getElementById('portfolio-grid');
 
-        window.onscroll = function() {
-            const header = document.getElementById('main-header');
-            if (window.pageYOffset > 40) header.classList.add('scrolled');
-            else header.classList.remove('scrolled');
-        };
+        function renderProjects(filter = 'all') {
+            grid.innerHTML = '';
+            projects.forEach((p, index) => {
+                if (filter !== 'all' && p.category !== filter) return;
 
-        function setLang(lang) {
-            currentLang = lang;
-            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(`btn-${lang}`).classList.add('active');
-            
-            // Traducir Navegación
-            document.getElementById('nav-work').innerText = i18n[currentLang].nav_work;
-            document.getElementById('nav-about').innerText = i18n[currentLang].nav_about;
-            document.getElementById('nav-contact').innerText = i18n[currentLang].nav_contact;
-            document.getElementById('close-label').innerText = i18n[currentLang].close;
-            
-            document.getElementById('about-content').innerHTML = i18n[currentLang].about_text;
-            document.querySelectorAll('[data-i18n]').forEach(el => el.innerText = i18n[currentLang][el.dataset.i18n]);
-            
-            renderLists(currentFilter);
-            if(currentProject) openDetail(currentProject); // Actualiza modal si está abierto
-        }
-
-        function renderLists(filterCat = 'all') {
-            currentFilter = filterCat;
-            const featList = document.getElementById('featured-list'), 
-                  indexList = document.getElementById('full-index-list'), 
-                  menuCats = document.getElementById('cat-dropdown');
-            
-            indexList.classList.toggle('filtered', filterCat !== 'all');
-
-            if (filterCat === 'all') {
-                featList.innerHTML = ''; menuCats.innerHTML = '';
-                projects.filter(p => p.yt).forEach((p, idx) => {
-                    const a = document.createElement('a'); a.className = "film-item " + (idx === currentIdx ? 'active' : '');
-                    a.innerText = p[`title_${currentLang}`];
-                    a.onmouseenter = () => { currentIdx = idx; updateHomeActiveUI(); changeHeroProject(idx); };
-                    a.onclick = () => openDetail(p);
-                    featList.appendChild(a);
-                });
-
-                ["narrative", "music", "advertising"].forEach(cat => {
-                    const mLink = document.createElement('a'); mLink.className = "dropdown-link"; 
-                    mLink.innerText = i18n[currentLang].cats[cat];
-                    mLink.onclick = () => { showSection('all'); renderLists(cat); };
-                    menuCats.appendChild(mLink);
-                });
-            }
-
-            indexList.innerHTML = '';
-            const displayProjects = filterCat === 'all' ? projects : projects.filter(p => p.category === filterCat);
-            displayProjects.forEach(p => {
-                const item = document.createElement('div'); item.className = "grid-item";
-                item.innerHTML = `<img src="${p.images[0]}"><div class="grid-hover-info"><span class="cat-tag">${i18n[currentLang].cats[p.category]}</span><h3>${p[`title_${currentLang}`]}</h3></div>`;
-                item.onclick = () => openDetail(p);
-                indexList.appendChild(item);
+                const div = document.createElement('div');
+                div.className = `project ${p.size || ''}`;
+                div.innerHTML = `
+                    <div class="img-container" onclick="openModal(${index})">
+                        <img src="${p.images[0]}" alt="${p.title_es}">
+                    </div>
+                    <div class="project-meta">
+                        <div class="project-title">${p.title_es}</div>
+                        <div class="project-info-sub">${p.category} / ${p.prod}</div>
+                    </div>
+                `;
+                grid.appendChild(div);
             });
         }
 
-        function showSection(type) {
-            const sections = { home: 'home-section', all: 'all-projects-section', about: 'about-section' };
-            Object.values(sections).forEach(id => document.getElementById(id).style.display = 'none');
-            const bg = document.getElementById('bg-container');
+        function openModal(index) {
+            const p = projects[index];
+            const modal = document.getElementById('modal');
+            const body = document.getElementById('modal-body');
+            
+            let videoHTML = p.yt ? `
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/${p.yt}?autoplay=1" frameborder="0" allowfullscreen></iframe>
+                </div>` : `<div style="padding: 100px; text-align: center; border: 1px solid #333;">Video próximamente / Link privado</div>`;
 
-            if (type === 'home') {
-                document.getElementById('home-section').style.display = 'flex';
-                bg.style.display = 'block';
-                changeHeroProject(currentIdx);
-                document.body.style.overflow = 'hidden';
-            } else {
-                bg.style.display = 'none';
-                clearTimeout(previewTimer);
-                if (type === 'about') {
-                    document.getElementById('about-section').style.display = 'flex';
-                    document.body.style.overflow = 'hidden';
-                } else {
-                    document.getElementById('all-projects-section').style.display = 'block';
-                    document.body.style.overflowY = 'auto';
-                }
-            }
-            window.scrollTo(0,0);
+            body.innerHTML = `
+                ${videoHTML}
+                <h2 style="font-size: 3rem; margin-bottom: 20px; text-transform: uppercase;">${p.title_es}</h2>
+                <p style="font-size: 1.2rem; max-width: 800px; margin-bottom: 40px; opacity: 0.8;">${p.desc_es}</p>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; border-top: 1px solid #333; padding-top: 20px;">
+                    <div><strong>DIRECTOR:</strong> ${p.director}</div>
+                    <div><strong>PROD:</strong> ${p.prod}</div>
+                </div>
+            `;
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
         }
 
-        function openDetail(p) {
-            currentProject = p;
-            const det = document.getElementById('project-detail'), bg = document.getElementById('detail-bg'), ui = document.getElementById('gallery-ui');
-            if (p.yt && !det.style.display) {
-                bg.innerHTML = `<iframe src="https://www.youtube.com/embed/${p.yt}?autoplay=1&rel=0" style="width:100%;height:100%;"></iframe>`;
-                ui.style.display = 'none';
-            } else if (!p.yt) {
-                updateGalleryImg();
-                ui.style.display = p.images.length > 1 ? 'flex' : 'none';
-            }
-            document.getElementById('detail-dynamic-content').innerHTML = `
-                <div class="detail-header"><h2>${p[`title_${currentLang}`]}</h2></div>
-                <div class="detail-footer"><div class="detail-meta-container">
-                    <div class="detail-meta-item"><strong>${i18n[currentLang].director}</strong><p>${p.director}</p></div>
-                    <div class="detail-meta-item"><strong>${i18n[currentLang].prod}</strong><p>${p.prod}</p></div>
-                    <div class="detail-meta-item"><strong>${i18n[currentLang].editor}</strong><p>leandro bruno</p></div>
-                </div></div>`;
-            det.style.display = 'block';
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+            document.getElementById('modal-body').innerHTML = '';
+            document.body.style.overflow = 'auto';
         }
 
-        function updateGalleryImg() {
-            document.getElementById('detail-bg').innerHTML = `<img src="${currentProject.images[currentImgIdx]}" style="width:100%;height:100%;object-fit:cover;">`;
-            document.getElementById('img-counter').innerText = currentProject.images.length > 1 ? `${currentImgIdx + 1} / ${currentProject.images.length}` : '';
+        function filterProjects(cat) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderProjects(cat);
         }
 
-        function changeImg(dir) {
-            currentImgIdx = (currentImgIdx + dir + currentProject.images.length) % currentProject.images.length;
-            updateGalleryImg();
-        }
-
-        function closeDetail() { document.getElementById('project-detail').style.display = 'none'; document.getElementById('detail-bg').innerHTML = ''; currentProject = null; }
-
-        function updateHomeActiveUI() { document.querySelectorAll('.film-item').forEach((el, i) => el.classList.toggle('active', i === currentIdx)); }
-
-        function changeHeroProject(idx) {
-            clearTimeout(previewTimer);
-            const featured = projects.filter(p => p.yt);
-            const nextPaneId = activePaneId === 1 ? 2 : 1;
-            const nextPane = document.getElementById(`pane-${nextPaneId}`);
-            const p = featured[idx];
-            nextPane.innerHTML = `<div id="yt-${Date.now()}"></div>`;
-            new YT.Player(nextPane.firstChild.id, {
-                videoId: p.yt, 
-                playerVars: { autoplay: 1, mute: 1, controls: 0, start: 15, loop: 1, playlist: p.yt },
-                events: { onReady: () => { 
-                    nextPane.classList.add('active'); 
-                    document.getElementById(`pane-${activePaneId}`).classList.remove('active');
-                    activePaneId = nextPaneId;
-                    previewTimer = setTimeout(() => { currentIdx = (idx + 1) % featured.length; updateHomeActiveUI(); changeHeroProject(currentIdx); }, 10000);
-                } }
-            });
-        }
-
-        window.onload = () => { setLang('es'); showSection('home'); };
+        // Initial Render
+        renderProjects();
     </script>
 </body>
 </html>
