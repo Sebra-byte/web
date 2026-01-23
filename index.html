@@ -250,6 +250,7 @@
 
     <script>
         // DATA MASTER
+        // NOTA: Si pones 'previewUrl', el home usa Video. Si no lo pones, usa 'image' (Foto full screen).
         const allProjects = [
             {
                 title: "Menem",
@@ -267,7 +268,7 @@
                 prod: "Pop Studios",
                 platform: "Global Campaign",
                 yt: "7Cllu0Rme74",
-                // Sin previewUrl para probar la imagen full frame
+                previewUrl: "./assets/oreo_preview.mp4",
                 image: "./assets/Oreo_Thumbnail_5.png",
                 featured: true
             },
@@ -291,6 +292,15 @@
                 image: "./assets/Moscas_Thumbnail_1.jpg",
                 featured: true
             },
+            // --- AQUI ESTA LA PRUEBA (FEATURED + NO VIDEO) ---
+            {
+                title: "Las manos de la abuela",
+                director: "Camila Migliore",
+                prod: "Calesita Films",
+                platform: "Short Film",
+                image: "./assets/MA_Thumbnail_1.png",
+                featured: true // La activé para que la veas en el Home
+            },
             // --- VOLUMEN ---
             {
                 title: "Levis x Winona Riders",
@@ -307,13 +317,6 @@
                 platform: "Music Video",
                 yt: "ItX5aqhqsmo",
                 image: "./assets/Blair_Thumbnail_1.jpg"
-            },
-            {
-                title: "Las manos de la abuela",
-                director: "Camila Migliore",
-                prod: "Calesita Films",
-                platform: "Short Film",
-                image: "./assets/MA_Thumbnail_1.png"
             },
             {
                 title: "Ratones Paranoicos",
@@ -367,6 +370,7 @@
                                     <source src="${p.previewUrl}" type="video/mp4">
                                  </video>`;
                 } else {
+                    // Si no hay video, usa la imagen con clase 'bg-media' para que tenga el mismo zoom/estilo
                     mediaHTML = `<img class="bg-media" src="${p.image}" alt="${p.title}">`;
                 }
 
