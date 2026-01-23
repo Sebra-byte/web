@@ -12,6 +12,7 @@
         :root {
             --bg: #050505;
             --text: #ffffff;
+            --radius: 12px; /* Redondeado sutil estilo Whitehouse */
             --font-main: 'Inter', sans-serif;
             --font-serif: 'Playfair Display', serif;
         }
@@ -30,14 +31,13 @@
         nav {
             position: fixed; top: 0; width: 100%; padding: 40px 60px;
             display: flex; justify-content: space-between; align-items: flex-start;
-            z-index: 500; /* Z-index alto para estar sobre todo */
+            z-index: 500;
             pointer-events: none; 
             background: linear-gradient(to bottom, rgba(0,0,0,0.6), transparent);
             transition: background 0.3s;
         }
 
-        /* Clase para cuando el Index está abierto (fondo sólido en nav) */
-        nav.index-active { background: #050505; }
+        nav.index-active { background: #050505; pointer-events: auto; }
 
         .brand, .nav-links a { pointer-events: auto; cursor: pointer; }
 
@@ -62,7 +62,7 @@
         }
         .nav-links a:hover { opacity: 1; }
 
-        /* --- CAROUSEL (HERO) --- */
+        /* --- CAROUSEL (HOME HERO) --- */
         .carousel { height: 100vh; width: 100vw; position: relative; z-index: 1; }
 
         .slide {
@@ -114,11 +114,11 @@
         }
         .dot.active { background: #fff; width: 60px; }
 
-        /* --- INDEX OVERLAY (ALL PROJECTS) --- */
+        /* --- INDEX OVERLAY (BENTO GRID STYLE) --- */
         #index-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg); z-index: 400; /* Sobre carousel, bajo Nav */
-            padding: 140px 60px 60px 60px; /* Padding top deja espacio al Nav */
+            background: var(--bg); z-index: 400; 
+            padding: 140px 60px 60px 60px; 
             overflow-y: auto;
             opacity: 0; pointer-events: none;
             transition: opacity 0.5s ease, transform 0.5s ease;
@@ -127,34 +127,58 @@
 
         #index-overlay.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
 
+        /* Estilo Bento Grid (Whitehouse Ref) */
         .grid {
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px;
+            display: grid; 
+            grid-template-columns: 1fr 1fr; /* 2 columnas base */
+            gap: 30px;
             padding-bottom: 100px;
+            max-width: 1800px; margin: 0 auto;
         }
 
-        .grid-item { cursor: pointer; group; }
-
-        .thumb-container {
-            width: 100%; aspect-ratio: 16/9; overflow: hidden;
-            background: #111; margin-bottom: 15px; position: relative;
+        .grid-item { 
+            position: relative; 
+            cursor: pointer; 
+            border-radius: var(--radius);
+            overflow: hidden;
+            background: #111;
         }
 
-        .thumb-container img {
+        /* Clases de tamaño */
+        .grid-item.full { grid-column: span 2; aspect-ratio: 21/9; } /* Panorámico ancho */
+        .grid-item.half { grid-column: span 1; aspect-ratio: 16/9; } /* Estándar */
+
+        .grid-item img {
             width: 100%; height: 100%; object-fit: cover;
-            filter: grayscale(100%); transition: all 0.5s ease;
-            opacity: 0.8;
+            transition: transform 0.6s ease; opacity: 0.8;
+            filter: grayscale(100%);
         }
 
-        .grid-item:hover img { filter: grayscale(0%); transform: scale(1.05); opacity: 1; }
+        .grid-item:hover img { 
+            transform: scale(1.03); 
+            opacity: 1; 
+            filter: grayscale(0%); 
+        }
+
+        .grid-info {
+            position: absolute; bottom: 0; left: 0; width: 100%;
+            padding: 30px;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            opacity: 0; transform: translateY(10px);
+            transition: 0.4s;
+        }
+        
+        /* En mobile o hover se muestra la info */
+        .grid-item:hover .grid-info { opacity: 1; transform: translateY(0); }
 
         .grid-title {
-            font-family: var(--font-serif); font-size: 1.2rem;
+            font-family: var(--font-serif); font-size: 1.8rem;
             margin-bottom: 5px; color: #fff;
         }
         
         .grid-meta {
-            font-family: var(--font-main); font-size: 0.75rem;
-            color: #888; text-transform: uppercase; letter-spacing: 1px;
+            font-family: var(--font-main); font-size: 0.8rem;
+            color: #ccc; text-transform: uppercase; letter-spacing: 1px;
         }
 
         /* --- MODAL VIDEO --- */
@@ -173,13 +197,14 @@
         .video-wrapper { width: 100%; height: 100%; }
         iframe { width: 100%; height: 100%; border: none; }
         
-        @media(max-width: 1024px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+        /* Responsive Grid */
         @media(max-width: 768px) {
             nav { padding: 30px; flex-direction: column; gap: 20px; }
-            .grid { grid-template-columns: 1fr; }
-            #index-overlay { padding: 180px 30px 30px 30px; }
+            .grid { grid-template-columns: 1fr; gap: 20px; }
+            .grid-item.full, .grid-item.half { grid-column: span 1; aspect-ratio: 16/9; }
+            #index-overlay { padding: 160px 20px 20px 20px; }
             .project-title { font-size: 2.5rem; }
-            .controls { right: auto; left: 30px; bottom: 30px; }
+            .grid-info { opacity: 1; transform: translateY(0); background: rgba(0,0,0,0.5); }
         }
     </style>
 </head>
@@ -191,7 +216,9 @@
             <span>film editor</span>
         </div>
         <div class="nav-links">
-            <a onclick="closeIndex()">selected</a> <a onclick="openIndex()">index</a>     <a href="mailto:hola@tuemail.com">contact</a>
+            <a onclick="closeIndex()">selected</a>
+            <a onclick="openIndex()">index</a>
+            <a href="mailto:hola@tuemail.com">contact</a>
         </div>
     </nav>
 
@@ -209,9 +236,9 @@
     </div>
 
     <script>
-        // DATA MASTER: TODOS TUS PROYECTOS
-        // 'featured: true' son los 4 que van al carrusel
-        // 'image': Ruta al thumbnail estático para el Index
+        // CONFIGURACIÓN MAESTRA
+        // layout: "full" (Ocupa 2 columnas) o "half" (Ocupa 1 columna)
+        // featured: true (Aparece en el Carrusel principal)
         const allProjects = [
             {
                 title: "Menem",
@@ -220,7 +247,8 @@
                 yt: "-2AmqmciWXE",
                 previewUrl: "./assets/menem_preview.mp4",
                 image: "./assets/Menem_Thumbnail_1.jpg",
-                featured: true
+                featured: true,
+                layout: "half"
             },
             {
                 title: "Oreo: Sigamos Divirtiéndonos",
@@ -229,7 +257,8 @@
                 yt: "7Cllu0Rme74",
                 previewUrl: "./assets/oreo_preview.mp4",
                 image: "./assets/Oreo_Thumbnail_5.png",
-                featured: true
+                featured: true,
+                layout: "half"
             },
             {
                 title: "Coppola, el representante",
@@ -238,7 +267,8 @@
                 yt: "ecr24akKDbs",
                 previewUrl: "./assets/coppola_preview.mp4",
                 image: "./assets/Coppola_Thumbnail_2.jpg",
-                featured: true
+                featured: true,
+                layout: "full" // DESTACADO GRANDE EN INDEX
             },
             {
                 title: "El tiempo de las moscas",
@@ -247,16 +277,17 @@
                 yt: "A0d6wnlMRRk",
                 previewUrl: "./assets/moscas_preview.mp4",
                 image: "./assets/Moscas_Thumbnail_1.jpg",
-                featured: true
+                featured: true,
+                layout: "half"
             },
-            // --- PROYECTOS DE VOLUMEN (SOLO INDEX) ---
+            // --- VOLUMEN ---
             {
                 title: "Levis x Winona Riders",
                 director: "nico alarcos",
                 prod: "primo",
                 yt: "1eE588vXvqSECtESSjgwN_vpRmMFaUpRg",
                 image: "./assets/Levis_Thumbnail_v01.jpg",
-                category: "Advertising"
+                layout: "half"
             },
             {
                 title: "Blair - Todo lo que tengo",
@@ -264,51 +295,46 @@
                 prod: "poster",
                 yt: "ItX5aqhqsmo",
                 image: "./assets/Blair_Thumbnail_1.jpg",
-                category: "Music Video"
+                layout: "full" // DESTACADO GRANDE EN INDEX
             },
             {
                 title: "Las manos de la abuela",
                 director: "camila migliore",
                 prod: "calesita films",
-                yt: "", // Si no hay link, el script lo maneja
                 image: "./assets/MA_Thumbnail_1.png",
-                category: "Short Film"
+                layout: "half"
             },
             {
                 title: "Ratones Paranoicos",
                 director: "alex roux",
                 prod: "poster",
-                yt: "",
                 image: "./assets/RP_Thumbmail_1.png",
-                category: "Music Video"
+                layout: "half"
             },
             {
                 title: "Besos Brujos",
                 director: "karina flonembaum",
                 prod: "indie",
-                yt: "",
                 image: "./assets/BB_Thumbnail_1.png",
-                category: "Short Film"
+                layout: "full"
             },
             {
                 title: "Las Marias",
                 director: "a. berger parrado",
                 prod: "navajo films",
-                yt: "",
                 image: "./assets/Marias_Thumbnail_1.png",
-                category: "Documentary"
+                layout: "half"
             },
             {
                 title: "Todo lo que recuerdo",
                 director: "n. fernandez melian",
                 prod: "festival mdq",
-                yt: "",
                 image: "./assets/TodoLoQueRecuerdo_Thumbnail_1.png",
-                category: "Short Film"
+                layout: "half"
             }
         ];
 
-        // --- LÓGICA CARRUSEL ---
+        // --- LÓGICA CARRUSEL (Solo Featured) ---
         const featuredProjects = allProjects.filter(p => p.featured);
         let currentSlide = 0;
         let autoPlayInterval;
@@ -348,7 +374,7 @@
             startAutoPlay();
         }
 
-        // --- LÓGICA INDEX (GRILLA) ---
+        // --- LÓGICA INDEX (BENTO GRID) ---
         const indexOverlay = document.getElementById('index-overlay');
         const gridContainer = document.getElementById('grid-container');
         const nav = document.getElementById('navbar');
@@ -357,39 +383,40 @@
             gridContainer.innerHTML = '';
             allProjects.forEach(p => {
                 const item = document.createElement('div');
-                item.className = 'grid-item';
+                // Aplica clase 'full' o 'half' según data
+                item.className = `grid-item ${p.layout || 'half'}`;
                 item.onclick = () => {
                     if(p.yt) openVideo(p.yt);
                     else alert('Video no disponible');
                 };
 
                 item.innerHTML = `
-                    <div class="thumb-container">
-                        <img src="${p.image}" alt="${p.title}" loading="lazy">
+                    <img src="${p.image}" alt="${p.title}" loading="lazy">
+                    <div class="grid-info">
+                        <div class="grid-title">${p.title}</div>
+                        <div class="grid-meta">${p.prod} | ${p.director}</div>
                     </div>
-                    <div class="grid-title">${p.title}</div>
-                    <div class="grid-meta">${p.category || p.prod} | ${p.director}</div>
                 `;
                 gridContainer.appendChild(item);
             });
         }
 
         function openIndex() {
-            renderIndex(); // Renderiza al abrir para asegurar datos frescos
+            renderIndex();
             indexOverlay.classList.add('open');
             nav.classList.add('index-active');
-            clearInterval(autoPlayInterval); // Pausar carrusel de fondo
+            clearInterval(autoPlayInterval);
             document.querySelectorAll('video').forEach(v => v.pause());
         }
 
         function closeIndex() {
             indexOverlay.classList.remove('open');
             nav.classList.remove('index-active');
-            playActiveVideo(); // Reanudar video fondo
+            playActiveVideo();
             startAutoPlay();
         }
 
-        // --- FUNCIONES COMUNES (Video/Carrusel) ---
+        // --- FUNCIONES COMUNES ---
         function playActiveVideo() {
             document.querySelectorAll('video').forEach(v => v.pause());
             const slides = document.querySelectorAll('.slide');
@@ -434,9 +461,6 @@
 
         function openVideo(ytId) {
             if(!ytId) return;
-            // Cerrar index si estaba abierto
-            // indexOverlay.classList.remove('open'); 
-            
             clearInterval(autoPlayInterval);
             document.querySelectorAll('video').forEach(v => v.pause());
             
@@ -451,7 +475,6 @@
             modal.classList.remove('open');
             setTimeout(() => { videoContainer.innerHTML = ''; }, 300);
             
-            // Si el index estaba abierto, no reanudamos el carrusel visualmente
             if(!indexOverlay.classList.contains('open')) {
                 playActiveVideo();
                 startAutoPlay();
@@ -462,7 +485,6 @@
             if (e.key === "Escape") closeVideo();
         });
 
-        // INICIALIZAR
         initCarousel();
     </script>
 </body>
