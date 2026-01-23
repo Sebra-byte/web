@@ -6,7 +6,7 @@
     <title>Leandro Bruno | Film Editor</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -28,241 +28,180 @@
 
         /* --- NAVIGATION --- */
         nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 40px 60px;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            z-index: 100;
+            position: fixed; top: 0; width: 100%; padding: 40px 60px;
+            display: flex; justify-content: space-between; align-items: flex-start;
+            z-index: 500; /* Z-index alto para estar sobre todo */
             pointer-events: none; 
-            background: linear-gradient(to bottom, rgba(0,0,0,0.5), transparent);
+            background: linear-gradient(to bottom, rgba(0,0,0,0.6), transparent);
+            transition: background 0.3s;
         }
 
-        .brand, .nav-links a { pointer-events: auto; }
+        /* Clase para cuando el Index está abierto (fondo sólido en nav) */
+        nav.index-active { background: #050505; }
+
+        .brand, .nav-links a { pointer-events: auto; cursor: pointer; }
 
         .brand {
             font-size: clamp(1.5rem, 2vw, 2.5rem); 
-            font-weight: 600;
-            letter-spacing: -1px;
-            text-transform: lowercase;
-            line-height: 1;
-            font-family: var(--font-serif);
+            font-weight: 600; letter-spacing: -1px; text-transform: lowercase;
+            line-height: 1; font-family: var(--font-serif);
         }
         
         .brand span {
-            display: block;
-            font-family: var(--font-main);
-            font-size: 0.4em;
-            letter-spacing: 2px;
-            opacity: 0.7;
-            margin-top: 5px;
-            text-transform: uppercase;
-            font-weight: 400;
+            display: block; font-family: var(--font-main); font-size: 0.4em;
+            letter-spacing: 2px; opacity: 0.7; margin-top: 5px;
+            text-transform: uppercase; font-weight: 400;
         }
 
-        .nav-links {
-            display: flex;
-            gap: 40px;
-            padding-top: 10px;
-        }
+        .nav-links { display: flex; gap: 40px; padding-top: 10px; }
 
         .nav-links a {
-            color: var(--text);
-            text-decoration: none;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            opacity: 0.7;
-            transition: opacity 0.3s;
-            position: relative;
-        }
-
-        .nav-links a::after {
-            content: ''; position: absolute; bottom: -5px; left: 0; width: 0%; height: 1px; background: white; transition: 0.3s;
+            color: var(--text); text-decoration: none; font-size: 0.9rem;
+            text-transform: uppercase; letter-spacing: 1px; opacity: 0.7;
+            transition: opacity 0.3s; position: relative;
         }
         .nav-links a:hover { opacity: 1; }
-        .nav-links a:hover::after { width: 100%; }
 
-        /* --- CAROUSEL --- */
-        .carousel {
-            height: 100vh;
-            width: 100vw;
-            position: relative;
-        }
+        /* --- CAROUSEL (HERO) --- */
+        .carousel { height: 100vh; width: 100vw; position: relative; z-index: 1; }
 
         .slide {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            opacity: 0;
-            transition: opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding: 40px 60px 80px 60px;
-            cursor: pointer;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0; transition: opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+            overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end;
+            padding: 40px 60px 80px 60px; cursor: pointer;
         }
 
         .slide.active { opacity: 1; z-index: 1; }
 
-        /* VIDEO BACKGROUND */
         .slide video {
-            position: absolute;
-            top: 50%; left: 50%;
-            width: 100%; height: 100%;
-            object-fit: cover;
-            transform: translate(-50%, -50%) scale(1.05);
-            transition: transform 6s ease;
-            z-index: 0;
+            position: absolute; top: 50%; left: 50%; width: 100%; height: 100%;
+            object-fit: cover; transform: translate(-50%, -50%) scale(1.05);
+            transition: transform 6s ease; z-index: 0;
         }
+        .slide.active video { transform: translate(-50%, -50%) scale(1); }
 
-        .slide.active video {
-            transform: translate(-50%, -50%) scale(1);
-        }
-
-        /* OVERLAY */
         .slide::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 1;
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;
             background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.4) 100%);
         }
 
         .slide-info {
-            position: relative;
-            z-index: 2;
-            max-width: 1100px; /* Aumentado para títulos largos */
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 1s ease 0.3s;
+            position: relative; z-index: 2; max-width: 1100px; opacity: 0;
+            transform: translateY(30px); transition: all 1s ease 0.3s;
         }
-
-        .slide.active .slide-info {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .slide.active .slide-info { opacity: 1; transform: translateY(0); }
 
         .project-title {
-            font-family: var(--font-serif);
-            /* AJUSTADO: Un poco más chico el mínimo para que entren títulos largos */
-            font-size: clamp(3rem, 7vw, 6.5rem); 
-            margin-bottom: 15px;
-            letter-spacing: -1px;
-            line-height: 1.1;
-            color: #fff;
+            font-family: var(--font-serif); font-size: clamp(3rem, 7vw, 6.5rem); 
+            margin-bottom: 15px; letter-spacing: -1px; line-height: 1.1; color: #fff;
             text-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        .project-title i {
-            font-family: var(--font-main);
-            font-style: normal;
-            font-size: 0.3em;
-            vertical-align: middle;
-            border: 1px solid white;
-            border-radius: 50%;
-            padding: 10px 14px 10px 16px;
-            margin-left: 20px;
-            opacity: 0;
-            transition: 0.4s;
-            font-weight: 300;
-        }
-
-        .slide:hover .project-title i { opacity: 1; background: white; color: black; }
-
         .credits {
-            display: flex;
-            gap: 30px;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 20px;
-            color: rgba(255,255,255,0.8);
+            display: flex; gap: 30px; font-size: 0.9rem; text-transform: uppercase;
+            letter-spacing: 1px; margin-top: 20px; color: rgba(255,255,255,0.8);
         }
-
         .credits span b { color: #fff; margin-right: 5px; }
 
-        /* --- CONTROLS --- */
         .controls {
-            position: absolute;
-            bottom: 50px;
-            right: 60px;
-            z-index: 10;
-            display: flex;
-            gap: 15px;
+            position: absolute; bottom: 50px; right: 60px; z-index: 10;
+            display: flex; gap: 15px;
         }
-
         .dot {
-            width: 40px;
-            height: 3px;
-            background: rgba(255,255,255,0.3);
-            cursor: pointer;
-            transition: 0.3s;
+            width: 40px; height: 3px; background: rgba(255,255,255,0.3);
+            cursor: pointer; transition: 0.3s;
         }
-
         .dot.active { background: #fff; width: 60px; }
 
-        /* --- MODAL --- */
-        #video-modal {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            background: #000;
-            z-index: 2000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.5s ease;
+        /* --- INDEX OVERLAY (ALL PROJECTS) --- */
+        #index-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg); z-index: 400; /* Sobre carousel, bajo Nav */
+            padding: 140px 60px 60px 60px; /* Padding top deja espacio al Nav */
+            overflow-y: auto;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            transform: translateY(20px);
         }
 
+        #index-overlay.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
+
+        .grid {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px;
+            padding-bottom: 100px;
+        }
+
+        .grid-item { cursor: pointer; group; }
+
+        .thumb-container {
+            width: 100%; aspect-ratio: 16/9; overflow: hidden;
+            background: #111; margin-bottom: 15px; position: relative;
+        }
+
+        .thumb-container img {
+            width: 100%; height: 100%; object-fit: cover;
+            filter: grayscale(100%); transition: all 0.5s ease;
+            opacity: 0.8;
+        }
+
+        .grid-item:hover img { filter: grayscale(0%); transform: scale(1.05); opacity: 1; }
+
+        .grid-title {
+            font-family: var(--font-serif); font-size: 1.2rem;
+            margin-bottom: 5px; color: #fff;
+        }
+        
+        .grid-meta {
+            font-family: var(--font-main); font-size: 0.75rem;
+            color: #888; text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        /* --- MODAL VIDEO --- */
+        #video-modal {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: #000; z-index: 2000;
+            display: flex; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
+        }
         #video-modal.open { opacity: 1; pointer-events: auto; }
 
         .modal-close {
-            position: absolute;
-            top: 40px; right: 40px;
-            color: #fff;
-            font-size: 1.5rem;
-            cursor: pointer;
-            z-index: 2001;
-            mix-blend-mode: difference;
+            position: absolute; top: 40px; right: 40px; color: #fff;
+            font-size: 1.5rem; cursor: pointer; z-index: 2001; mix-blend-mode: difference;
         }
-
-        .video-wrapper {
-            width: 100%; height: 100%;
-        }
-
+        .video-wrapper { width: 100%; height: 100%; }
         iframe { width: 100%; height: 100%; border: none; }
         
+        @media(max-width: 1024px) { .grid { grid-template-columns: repeat(2, 1fr); } }
         @media(max-width: 768px) {
             nav { padding: 30px; flex-direction: column; gap: 20px; }
-            .slide { padding: 30px; }
+            .grid { grid-template-columns: 1fr; }
+            #index-overlay { padding: 180px 30px 30px 30px; }
             .project-title { font-size: 2.5rem; }
             .controls { right: auto; left: 30px; bottom: 30px; }
-            .credits { flex-direction: column; gap: 5px; font-size: 0.7rem; }
         }
     </style>
 </head>
 <body>
 
-    <nav>
-        <div class="brand">
+    <nav id="navbar">
+        <div class="brand" onclick="closeIndex()">
             leandro bruno
             <span>film editor</span>
         </div>
         <div class="nav-links">
-            <a href="#">selected</a>
-            <a href="#">index</a>
-            <a href="mailto:hola@tuemail.com">contact</a>
+            <a onclick="closeIndex()">selected</a> <a onclick="openIndex()">index</a>     <a href="mailto:hola@tuemail.com">contact</a>
         </div>
     </nav>
 
     <div class="carousel" id="mainCarousel"></div>
     <div class="controls" id="dotsContainer"></div>
+
+    <div id="index-overlay">
+        <div class="grid" id="grid-container">
+            </div>
+    </div>
 
     <div id="video-modal">
         <div class="modal-close" onclick="closeVideo()">&times;</div>
@@ -270,70 +209,138 @@
     </div>
 
     <script>
-        // TÍTULOS CORREGIDOS Y COMPLETOS
-        const projects = [
+        // DATA MASTER: TODOS TUS PROYECTOS
+        // 'featured: true' son los 4 que van al carrusel
+        // 'image': Ruta al thumbnail estático para el Index
+        const allProjects = [
             {
-                title: "Menem", // La serie se suele titular "Menem" a secas en medios oficiales
+                title: "Menem",
                 director: "ariel winograd",
                 prod: "prime video",
                 yt: "-2AmqmciWXE",
-                previewUrl: "assets/menem_preview.mp4" 
+                previewUrl: "./assets/menem_preview.mp4",
+                image: "./assets/Menem_Thumbnail_1.jpg",
+                featured: true
             },
             {
-                title: "Oreo: Sigamos Divirtiéndonos", // Título completo de campaña
+                title: "Oreo: Sigamos Divirtiéndonos",
                 director: "martín jalfen",
                 prod: "pop studios",
                 yt: "7Cllu0Rme74",
-                previewUrl: "assets/oreo_preview.mp4"
+                previewUrl: "./assets/oreo_preview.mp4",
+                image: "./assets/Oreo_Thumbnail_5.png",
+                featured: true
             },
             {
-                title: "Coppola, el representante", // Título completo
+                title: "Coppola, el representante",
                 director: "ariel winograd",
                 prod: "disney+",
                 yt: "ecr24akKDbs",
-                previewUrl: "assets/coppola_preview.mp4"
+                previewUrl: "./assets/coppola_preview.mp4",
+                image: "./assets/Coppola_Thumbnail_2.jpg",
+                featured: true
             },
             {
-                title: "El tiempo de las moscas", // Título completo
+                title: "El tiempo de las moscas",
                 director: "b. naishtat",
                 prod: "netflix",
                 yt: "A0d6wnlMRRk",
-                previewUrl: "assets/moscas_preview.mp4"
+                previewUrl: "./assets/moscas_preview.mp4",
+                image: "./assets/Moscas_Thumbnail_1.jpg",
+                featured: true
+            },
+            // --- PROYECTOS DE VOLUMEN (SOLO INDEX) ---
+            {
+                title: "Levis x Winona Riders",
+                director: "nico alarcos",
+                prod: "primo",
+                yt: "1eE588vXvqSECtESSjgwN_vpRmMFaUpRg",
+                image: "./assets/Levis_Thumbnail_v01.jpg",
+                category: "Advertising"
+            },
+            {
+                title: "Blair - Todo lo que tengo",
+                director: "dana campanello",
+                prod: "poster",
+                yt: "ItX5aqhqsmo",
+                image: "./assets/Blair_Thumbnail_1.jpg",
+                category: "Music Video"
+            },
+            {
+                title: "Las manos de la abuela",
+                director: "camila migliore",
+                prod: "calesita films",
+                yt: "", // Si no hay link, el script lo maneja
+                image: "./assets/MA_Thumbnail_1.png",
+                category: "Short Film"
+            },
+            {
+                title: "Ratones Paranoicos",
+                director: "alex roux",
+                prod: "poster",
+                yt: "",
+                image: "./assets/RP_Thumbmail_1.png",
+                category: "Music Video"
+            },
+            {
+                title: "Besos Brujos",
+                director: "karina flonembaum",
+                prod: "indie",
+                yt: "",
+                image: "./assets/BB_Thumbnail_1.png",
+                category: "Short Film"
+            },
+            {
+                title: "Las Marias",
+                director: "a. berger parrado",
+                prod: "navajo films",
+                yt: "",
+                image: "./assets/Marias_Thumbnail_1.png",
+                category: "Documentary"
+            },
+            {
+                title: "Todo lo que recuerdo",
+                director: "n. fernandez melian",
+                prod: "festival mdq",
+                yt: "",
+                image: "./assets/TodoLoQueRecuerdo_Thumbnail_1.png",
+                category: "Short Film"
             }
         ];
 
+        // --- LÓGICA CARRUSEL ---
+        const featuredProjects = allProjects.filter(p => p.featured);
         let currentSlide = 0;
         let autoPlayInterval;
-        const container = document.getElementById('mainCarousel');
+        const carouselContainer = document.getElementById('mainCarousel');
         const dotsContainer = document.getElementById('dotsContainer');
 
         function initCarousel() {
-            projects.forEach((p, i) => {
+            carouselContainer.innerHTML = '';
+            dotsContainer.innerHTML = '';
+            
+            featuredProjects.forEach((p, i) => {
                 const slide = document.createElement('div');
                 slide.className = `slide ${i === 0 ? 'active' : ''}`;
                 
                 slide.innerHTML = `
-                    <video loop muted playsinline poster="assets/placeholder.jpg">
+                    <video loop muted playsinline poster="./assets/placeholder.jpg">
                         <source src="${p.previewUrl}" type="video/mp4">
                     </video>
                     <div class="slide-info">
-                        <h2 class="project-title">${p.title} <i>&#9658;</i></h2>
+                        <h2 class="project-title">${p.title}</h2>
                         <div class="credits">
                             <span><b>Dir:</b> ${p.director}</span>
                             <span><b>Prod:</b> ${p.prod}</span>
                         </div>
                     </div>
                 `;
-                
                 slide.onclick = () => openVideo(p.yt);
-                container.appendChild(slide);
+                carouselContainer.appendChild(slide);
 
                 const dot = document.createElement('div');
                 dot.className = `dot ${i === 0 ? 'active' : ''}`;
-                dot.onclick = (e) => {
-                    e.stopPropagation();
-                    goToSlide(i);
-                };
+                dot.onclick = (e) => { e.stopPropagation(); goToSlide(i); };
                 dotsContainer.appendChild(dot);
             });
 
@@ -341,23 +348,63 @@
             startAutoPlay();
         }
 
+        // --- LÓGICA INDEX (GRILLA) ---
+        const indexOverlay = document.getElementById('index-overlay');
+        const gridContainer = document.getElementById('grid-container');
+        const nav = document.getElementById('navbar');
+
+        function renderIndex() {
+            gridContainer.innerHTML = '';
+            allProjects.forEach(p => {
+                const item = document.createElement('div');
+                item.className = 'grid-item';
+                item.onclick = () => {
+                    if(p.yt) openVideo(p.yt);
+                    else alert('Video no disponible');
+                };
+
+                item.innerHTML = `
+                    <div class="thumb-container">
+                        <img src="${p.image}" alt="${p.title}" loading="lazy">
+                    </div>
+                    <div class="grid-title">${p.title}</div>
+                    <div class="grid-meta">${p.category || p.prod} | ${p.director}</div>
+                `;
+                gridContainer.appendChild(item);
+            });
+        }
+
+        function openIndex() {
+            renderIndex(); // Renderiza al abrir para asegurar datos frescos
+            indexOverlay.classList.add('open');
+            nav.classList.add('index-active');
+            clearInterval(autoPlayInterval); // Pausar carrusel de fondo
+            document.querySelectorAll('video').forEach(v => v.pause());
+        }
+
+        function closeIndex() {
+            indexOverlay.classList.remove('open');
+            nav.classList.remove('index-active');
+            playActiveVideo(); // Reanudar video fondo
+            startAutoPlay();
+        }
+
+        // --- FUNCIONES COMUNES (Video/Carrusel) ---
         function playActiveVideo() {
             document.querySelectorAll('video').forEach(v => v.pause());
-            const activeSlide = document.querySelectorAll('.slide')[currentSlide];
-            const video = activeSlide.querySelector('video');
-            if(video) {
-                video.currentTime = 0;
-                video.play().catch(e => console.log("Interacción requerida para play"));
+            const slides = document.querySelectorAll('.slide');
+            if(slides.length > 0) {
+                const video = slides[currentSlide].querySelector('video');
+                if(video) {
+                    video.currentTime = 0;
+                    video.play().catch(e => {});
+                }
             }
         }
 
         function updateCarousel() {
-            document.querySelectorAll('.slide').forEach((s, i) => {
-                s.classList.toggle('active', i === currentSlide);
-            });
-            document.querySelectorAll('.dot').forEach((d, i) => {
-                d.classList.toggle('active', i === currentSlide);
-            });
+            document.querySelectorAll('.slide').forEach((s, i) => s.classList.toggle('active', i === currentSlide));
+            document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === currentSlide));
             playActiveVideo();
         }
 
@@ -368,7 +415,7 @@
         }
 
         function nextSlide() {
-            currentSlide = (currentSlide + 1) % projects.length;
+            currentSlide = (currentSlide + 1) % featuredProjects.length;
             updateCarousel();
         }
 
@@ -381,13 +428,18 @@
             startAutoPlay();
         }
 
-        // --- VIDEO MODAL LOGIC ---
+        // --- MODAL YOUTUBE ---
         const modal = document.getElementById('video-modal');
         const videoContainer = document.getElementById('video-container');
 
         function openVideo(ytId) {
+            if(!ytId) return;
+            // Cerrar index si estaba abierto
+            // indexOverlay.classList.remove('open'); 
+            
             clearInterval(autoPlayInterval);
             document.querySelectorAll('video').forEach(v => v.pause());
+            
             videoContainer.innerHTML = `
                 <iframe src="https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0&controls=1" 
                 allow="autoplay; encrypted-media" allowfullscreen></iframe>
@@ -398,14 +450,19 @@
         function closeVideo() {
             modal.classList.remove('open');
             setTimeout(() => { videoContainer.innerHTML = ''; }, 300);
-            playActiveVideo();
-            startAutoPlay();
+            
+            // Si el index estaba abierto, no reanudamos el carrusel visualmente
+            if(!indexOverlay.classList.contains('open')) {
+                playActiveVideo();
+                startAutoPlay();
+            }
         }
 
         document.addEventListener('keydown', (e) => {
             if (e.key === "Escape") closeVideo();
         });
 
+        // INICIALIZAR
         initCarousel();
     </script>
 </body>
