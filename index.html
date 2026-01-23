@@ -44,16 +44,23 @@
 
         /* --- HEADER DINÁMICO --- */
         .header-main {
-            position: fixed; top: 60px; right: 80px;
+            position: fixed; top: 0; left: 0; width: 100%;
+            padding: 60px 80px;
             display: flex; flex-direction: column; align-items: flex-end;
             z-index: 9999; text-align: right;
-            pointer-events: none; transition: all 0.6s var(--transition-smooth);
+            pointer-events: none; transition: all 0.4s ease;
         }
         .header-main * { pointer-events: auto; }
 
-        /* Estado Horizontal (Fuera del Home) */
+        /* Fondo con opacidad al hacer scroll */
+        .header-main.scrolled {
+            padding: 20px 80px;
+            background: rgba(26, 26, 26, 0.85);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 228, 0.05);
+        }
+
         .header-main.internal-mode {
-            left: 80px; right: 80px;
             flex-direction: row-reverse;
             justify-content: space-between;
             align-items: flex-start;
@@ -73,7 +80,6 @@
         }
         .nav-link:hover { opacity: 1; font-style: italic; }
         
-        /* Dropdown */
         .dropdown-work {
             position: absolute; top: 0; right: 110%;
             display: none; flex-direction: column; gap: 10px;
@@ -92,7 +98,7 @@
         section { display: none; position: relative; z-index: 100; min-height: 100vh; }
 
         /* HOME */
-        #home-section { display: flex; align-items: center; padding-left: 80px; }
+        #home-section { display: flex; align-items: center; padding: 0 80px; }
         .section-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; opacity: 0.4; margin-bottom: 25px; }
         
         .film-item { 
@@ -102,9 +108,18 @@
         }
         .film-item.active, .film-item:hover { color: var(--hueso); -webkit-text-stroke: 0px; transform: translateX(25px); }
 
-        /* GRID PROYECTOS */
+        /* GRID PROYECTOS (Dinámico) */
         #all-projects-section { padding: 180px 0 0; background: var(--bg-grafito); }
-        .all-projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+        .all-projects-grid { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 4px; 
+            transition: all 0.8s var(--transition-smooth);
+        }
+        /* Clase para cuando filtramos por categoría específica */
+        .all-projects-grid.filtered {
+            grid-template-columns: repeat(2, 1fr);
+        }
 
         .grid-item {
             position: relative; width: 100%; aspect-ratio: 16/9;
@@ -119,11 +134,11 @@
             opacity: 0; transition: 0.4s ease; pointer-events: none; text-align: center; padding: 30px;
         }
         .grid-item:hover .grid-hover-info { opacity: 1; }
-        .grid-hover-info h3 { font-size: 1.8rem; font-weight: 800; text-transform: uppercase; line-height: 1; margin-bottom: 10px; }
+        .grid-hover-info h3 { font-size: 2.2rem; font-weight: 800; text-transform: uppercase; line-height: 1; margin-bottom: 10px; }
         .grid-hover-info .cat-tag { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; opacity: 0.6; margin-bottom: 8px; }
 
         /* ABOUT */
-        #about-section { padding: 200px 80px 100px; display: none; align-items: flex-start; background: var(--bg-grafito); }
+        #about-section { padding: 220px 80px 100px; display: none; align-items: flex-start; background: var(--bg-grafito); }
         .about-text { max-width: 900px; font-size: 2.8rem; font-weight: 500; line-height: 1.1; letter-spacing: -0.02em; }
         .about-text strong { font-weight: 800; }
 
@@ -151,7 +166,8 @@
         .lang-btn.active { opacity: 1; text-decoration: underline; }
 
         @media (max-width: 1200px) {
-            .all-projects-grid { grid-template-columns: 1fr; }
+            .all-projects-grid, .all-projects-grid.filtered { grid-template-columns: 1fr; }
+            .header-main { padding: 30px 40px; }
             .header-main.internal-mode { flex-direction: column; align-items: flex-end; }
             .header-main.internal-mode .nav-menu { flex-direction: column; gap: 10px; align-items: flex-end; }
             .film-item { font-size: 2.5rem; }
@@ -234,6 +250,16 @@
 
         let currentLang = 'es', activePaneId = 1, currentIdx = 0, previewTimer, currentProject = null, currentImgIdx = 0;
 
+        // Listener para el scroll del header
+        window.onscroll = function() {
+            const header = document.getElementById('main-header');
+            if (window.pageYOffset > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        };
+
         function setLang(lang) {
             currentLang = lang;
             document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
@@ -244,8 +270,17 @@
         }
 
         function renderLists(filterCat = 'all') {
-            const featList = document.getElementById('featured-list'), indexList = document.getElementById('full-index-list'), menuCats = document.getElementById('cat-dropdown');
+            const featList = document.getElementById('featured-list'), 
+                  indexList = document.getElementById('full-index-list'), 
+                  menuCats = document.getElementById('cat-dropdown');
             
+            // Lógica de columnas: todo=3, categoría=2
+            if (filterCat !== 'all') {
+                indexList.classList.add('filtered');
+            } else {
+                indexList.classList.remove('filtered');
+            }
+
             if (filterCat === 'all') {
                 featList.innerHTML = ''; menuCats.innerHTML = '';
                 projects.filter(p => p.yt).forEach((p, idx) => {
