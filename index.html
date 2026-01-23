@@ -42,41 +42,44 @@
             transform: translate(-50%, -50%) scale(1.6);
         }
 
-        /* --- HEADER DINÁMICO CON FADE ULTRA SUAVE --- */
+        /* --- HEADER HORIZONTAL CON FADE SUAVE --- */
         .header-main {
             position: fixed; top: 0; left: 0; width: 100%;
             padding: 60px 80px;
-            display: flex; flex-direction: column; align-items: flex-end;
-            z-index: 9999; text-align: right;
+            display: flex; 
+            flex-direction: row; /* Cambio a horizontal */
+            justify-content: space-between;
+            align-items: flex-start;
+            z-index: 9999;
             pointer-events: none; transition: all 0.5s var(--transition-smooth);
             background: transparent;
         }
         .header-main * { pointer-events: auto; }
 
-        /* Efecto Fade al scrollear: más corto y fundido */
+        /* Efecto Fade al scrollear */
         .header-main.scrolled {
-            padding: 30px 80px 60px; /* Reduje el padding inferior */
+            padding: 30px 80px 60px;
             background: linear-gradient(to bottom, 
                 rgba(26, 26, 26, 1) 0%, 
                 rgba(26, 26, 26, 0.95) 30%, 
                 rgba(26, 26, 26, 0.6) 60%, 
                 rgba(26, 26, 26, 0) 100%
             );
-            backdrop-filter: blur(6px); /* Blur más sutil para evitar el efecto nube */
+            backdrop-filter: blur(6px);
         }
 
-        .header-main.internal-mode {
-            flex-direction: row-reverse;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-
-        .brand-header { cursor: pointer; transition: 0.5s; }
+        .brand-header { cursor: pointer; transition: 0.5s; text-align: left; }
         .brand-header h2 { font-size: 2.6rem; font-weight: 800; text-transform: uppercase; line-height: 0.8; letter-spacing: -0.04em; }
         .brand-header p { font-size: 0.95rem; font-weight: 200; margin-top: 8px; opacity: 0.8; letter-spacing: 0.05em; }
 
-        .nav-menu { display: flex; flex-direction: column; gap: 12px; margin-top: 25px; transition: 0.5s; }
-        .header-main.internal-mode .nav-menu { flex-direction: row; gap: 45px; margin-top: 10px; }
+        /* Menú siempre horizontal */
+        .nav-menu { 
+            display: flex; 
+            flex-direction: row; 
+            gap: 40px; 
+            margin-top: 10px; 
+            transition: 0.5s; 
+        }
 
         .nav-item { position: relative; }
         .nav-link {
@@ -85,25 +88,29 @@
         }
         .nav-link:hover { opacity: 1; font-style: italic; }
         
+        /* Dropdown ajustado para menú horizontal */
         .dropdown-work {
-            position: absolute; top: 0; right: 110%;
+            position: absolute; top: 100%; right: 0;
             display: none; flex-direction: column; gap: 10px;
-            padding-right: 20px; min-width: 150px;
+            padding: 15px 0; min-width: 140px; text-align: right;
         }
-        .header-main.internal-mode .dropdown-work { top: 100%; left: 0; right: auto; padding: 15px 0; text-align: left; }
         
         .nav-item:hover .dropdown-work { display: flex; }
         .dropdown-link {
             text-decoration: none; color: var(--hueso); font-size: 0.75rem;
             text-transform: uppercase; letter-spacing: 0.2em; opacity: 0.4; transition: 0.3s;
         }
-        .dropdown-link:hover { opacity: 1; padding-left: 5px; }
+        .dropdown-link:hover { opacity: 1; padding-right: 5px; }
 
         /* --- SECCIONES --- */
         section { display: none; position: relative; z-index: 100; min-height: 100vh; }
 
-        /* HOME */
-        #home-section { display: flex; align-items: center; padding: 0 80px; }
+        /* HOME - Bajamos el contenido verticalmente */
+        #home-section { 
+            display: flex; 
+            align-items: flex-start; /* Alineación al tope */
+            padding: 280px 80px 100px; /* Mucho más padding top para despejar el menú */
+        }
         .section-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; opacity: 0.4; margin-bottom: 25px; }
         
         .film-item { 
@@ -171,11 +178,11 @@
 
         @media (max-width: 1200px) {
             .all-projects-grid, .all-projects-grid.filtered { grid-template-columns: 1fr; }
-            .header-main { padding: 30px 40px; }
+            .header-main { padding: 30px 40px; flex-direction: column; align-items: flex-start; }
+            .nav-menu { gap: 20px; margin-top: 20px; }
             .header-main.scrolled { padding: 20px 40px 60px; }
-            .header-main.internal-mode { flex-direction: column; align-items: flex-end; }
-            .header-main.internal-mode .nav-menu { flex-direction: column; gap: 10px; align-items: flex-end; }
             .film-item { font-size: 2.5rem; }
+            #home-section { padding-top: 180px; }
         }
     </style>
 </head>
@@ -318,13 +325,11 @@
             const header = document.getElementById('main-header');
 
             if (type === 'home') {
-                header.classList.remove('internal-mode');
                 document.getElementById('home-section').style.display = 'flex';
                 bg.style.display = 'block';
                 changeHeroProject(currentIdx);
                 document.body.style.overflow = 'hidden';
             } else {
-                header.classList.add('internal-mode');
                 bg.style.display = 'none';
                 clearTimeout(previewTimer);
                 if (type === 'about') {
