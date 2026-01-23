@@ -21,7 +21,7 @@
             background: var(--bg);
             color: var(--text);
             font-family: var(--font-main);
-            overflow: hidden;
+            overflow: hidden; /* Evita scroll mientras se ve el carrusel */
         }
 
         /* --- NAVIGATION --- */
@@ -34,7 +34,10 @@
             justify-content: space-between;
             align-items: flex-start;
             z-index: 100;
+            pointer-events: none; /* Deja pasar clicks al carrusel salvo en los links */
         }
+
+        .brand, .nav-links a { pointer-events: auto; }
 
         .brand {
             font-size: 1.2rem;
@@ -70,50 +73,84 @@
             top: 0; left: 0;
             width: 100%; height: 100%;
             opacity: 0;
-            transition: opacity 0.8s ease-in-out;
+            transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
             background-size: cover;
             background-position: center;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
-            padding: 40px;
+            padding: 40px 40px 80px 40px;
+            cursor: pointer; /* Indica que es cliqueable */
         }
 
-        .slide.active { opacity: 1; }
+        .slide.active { opacity: 1; z-index: 1; }
 
-        /* Overlay para legibilidad */
+        /* Overlay gradiente para leer textos */
         .slide::after {
             content: '';
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(0deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 30%);
+            background: linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(0,0,0,0.8) 100%);
             z-index: 1;
+            transition: opacity 0.5s;
         }
+        
+        /* Efecto hover sutil en la imagen */
+        .slide:hover::after { opacity: 0.6; }
 
         .slide-info {
             position: relative;
             z-index: 2;
-            max-width: 600px;
+            max-width: 800px;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.8s 0.2s, opacity 0.8s 0.2s;
+        }
+
+        .slide.active .slide-info {
+            transform: translateY(0);
+            opacity: 1;
         }
 
         .project-title {
             font-family: var(--font-serif);
-            font-size: 2.5rem;
-            margin-bottom: 10px;
+            font-size: clamp(3rem, 6vw, 5rem); /* Responsive typography */
+            margin-bottom: 20px;
             letter-spacing: -1px;
+            line-height: 1;
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Icono de Play sutil al lado del titulo */
+        .project-title::after {
+            content: '▶'; 
+            font-size: 0.4em;
+            vertical-align: middle;
+            margin-left: 20px;
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.3s;
+        }
+
+        .slide:hover .project-title::after {
+            opacity: 1;
+            transform: translateX(0);
         }
 
         .credits {
             display: flex;
-            gap: 15px;
-            font-size: 0.7rem;
+            flex-wrap: wrap;
+            gap: 20px;
+            font-size: 0.8rem;
             text-transform: lowercase;
-            opacity: 0.9;
+            opacity: 0.8;
             letter-spacing: 0.5px;
+            font-family: 'Inter', sans-serif;
         }
 
         .credits span { display: flex; gap: 5px; }
-        .credits b { font-weight: 400; opacity: 0.6; }
+        .credits b { font-weight: 600; opacity: 0.5; }
 
         /* --- CONTROLS --- */
         .controls {
@@ -122,37 +159,85 @@
             left: 40px;
             z-index: 10;
             display: flex;
-            gap: 8px;
-            margin-top: 20px;
+            gap: 12px;
         }
 
         .dot {
-            width: 6px;
-            height: 6px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
-            background: rgba(255,255,255,0.3);
+            border: 1px solid rgba(255,255,255,0.5);
             cursor: pointer;
             transition: 0.3s;
+            background: transparent;
         }
 
-        .dot.active { background: #fff; transform: scale(1.2); }
+        .dot.active { background: #fff; border-color: #fff; transform: scale(1.1); }
 
-        /* Flechas sutiles */
         .arrow {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            z-index: 10;
+            z-index: 20;
             cursor: pointer;
-            opacity: 0.3;
-            transition: 0.3s;
-            padding: 20px;
-            font-size: 1.5rem;
-            user-select: none;
+            color: white;
+            padding: 40px;
+            font-size: 2rem;
+            opacity: 0; /* Ocultas por defecto para mas limpieza */
+            transition: opacity 0.3s;
         }
-        .arrow:hover { opacity: 1; }
-        .prev { left: 10px; }
-        .next { right: 10px; }
+        
+        .carousel:hover .arrow { opacity: 0.5; }
+        .arrow:hover { opacity: 1 !important; }
+        .prev { left: 0; }
+        .next { right: 0; }
+
+        /* --- VIDEO MODAL (FULLSCREEN) --- */
+        #video-modal {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: #000;
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        #video-modal.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 40px; right: 40px;
+            color: #fff;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            z-index: 2001;
+            opacity: 0.7;
+            transition: 0.3s;
+        }
+        .modal-close:hover { opacity: 1; }
+
+        .video-wrapper {
+            width: 90%;
+            max-width: 1600px;
+            aspect-ratio: 16/9;
+            background: #000;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+        }
 
     </style>
 </head>
@@ -161,8 +246,8 @@
     <nav>
         <div class="brand">leandro bruno <span style="opacity: 0.5">film editor</span></div>
         <div class="nav-links">
-            <a href="#">work</a>
-            <a href="#">about</a>
+            <a href="#">selected work</a>
+            <a href="#">all projects</a>
             <a href="#">contact</a>
         </div>
     </nav>
@@ -170,46 +255,78 @@
     <div class="carousel" id="mainCarousel">
         <div class="arrow prev" onclick="moveSlide(-1)">&#8249;</div>
         <div class="arrow next" onclick="moveSlide(1)">&#8250;</div>
-        
         </div>
 
     <div class="controls" id="dotsContainer"></div>
 
+    <div id="video-modal">
+        <div class="modal-close" onclick="closeVideo()">Close [x]</div>
+        <div class="video-wrapper" id="video-container">
+            </div>
+    </div>
+
     <script>
+        // Datos de tus proyectos (Añadí los YT IDs reales que pasaste)
         const projects = [
             {
-                title: "menem",
+                title: "Menem",
                 director: "ariel winograd",
                 prod: "claxon / prime video",
                 editor: "leandro bruno",
-                img: "assets/Menem_Thumbnail_1.jpg"
+                img: "assets/Menem_Thumbnail_1.jpg",
+                yt: "-2AmqmciWXE" 
             },
             {
-                title: "oreo - sigamos divirtiendonos",
+                title: "Oreo",
                 director: "martín jalfen",
                 prod: "pop studios mx",
                 editor: "leandro bruno",
-                img: "assets/Oreo_Thumbnail_5.png"
+                img: "assets/Oreo_Thumbnail_5.png",
+                yt: "7Cllu0Rme74"
             },
             {
-                title: "coppola, el representante",
+                title: "Coppola, el representante",
                 director: "ariel winograd",
                 prod: "pampa films",
                 editor: "leandro bruno",
-                img: "assets/Coppola_Thumbnail_2.jpg"
+                img: "assets/Coppola_Thumbnail_2.jpg",
+                yt: "ecr24akKDbs"
+            },
+            {
+                title: "El tiempo de las moscas",
+                director: "benjamín naishtat",
+                prod: "netflix",
+                editor: "leandro bruno",
+                img: "assets/Moscas_Thumbnail_1.jpg",
+                yt: "A0d6wnlMRRk"
+            },
+            {
+                title: "Levis x Winona Riders",
+                director: "nico alarcos",
+                prod: "primo",
+                editor: "leandro bruno",
+                img: "assets/Levis_Thumbnail_v01.jpg",
+                yt: "1eE588vXvqSECtESSjgwN_vpRmMFaUpRg" // Nota: ID largo, verifica si es correcto en YT
             }
         ];
 
         let currentSlide = 0;
         const container = document.getElementById('mainCarousel');
         const dotsContainer = document.getElementById('dotsContainer');
+        const modal = document.getElementById('video-modal');
+        const videoContainer = document.getElementById('video-container');
 
+        // Inicializar Carrusel
         function initCarousel() {
             projects.forEach((p, i) => {
                 // Crear Slide
                 const slide = document.createElement('div');
                 slide.className = `slide ${i === 0 ? 'active' : ''}`;
                 slide.style.backgroundImage = `url('${p.img}')`;
+                
+                // Evento click para abrir video
+                slide.onclick = () => openVideo(p.yt);
+
                 slide.innerHTML = `
                     <div class="slide-info">
                         <h2 class="project-title">${p.title}</h2>
@@ -225,11 +342,15 @@
                 // Crear Dot
                 const dot = document.createElement('div');
                 dot.className = `dot ${i === 0 ? 'active' : ''}`;
-                dot.onclick = () => goToSlide(i);
+                dot.onclick = (e) => {
+                    e.stopPropagation(); // Evita disparar el video al hacer click en el dot
+                    goToSlide(i);
+                }
                 dotsContainer.appendChild(dot);
             });
         }
 
+        // Lógica de movimiento
         function updateCarousel() {
             document.querySelectorAll('.slide').forEach((s, i) => {
                 s.classList.toggle('active', i === currentSlide);
@@ -240,6 +361,9 @@
         }
 
         function moveSlide(step) {
+            // Detener propagación si se usaron flechas
+            if(window.event) window.event.stopPropagation();
+            
             currentSlide = (currentSlide + step + projects.length) % projects.length;
             updateCarousel();
         }
@@ -249,10 +373,47 @@
             updateCarousel();
         }
 
-        // Auto-play opcional
-        // setInterval(() => moveSlide(1), 5000);
+        // --- LÓGICA DE VIDEO MODAL ---
+        
+        function openVideo(ytId) {
+            if (!ytId) {
+                alert("Video no disponible por el momento.");
+                return;
+            }
+            
+            // Inyectar iframe con Autoplay
+            videoContainer.innerHTML = `
+                <iframe 
+                    src="https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0&modestbranding=1&controls=1" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            `;
+            
+            modal.classList.add('open');
+            document.body.style.cursor = 'default';
+        }
 
+        function closeVideo() {
+            modal.classList.remove('open');
+            // Limpiar iframe para detener el audio
+            setTimeout(() => {
+                videoContainer.innerHTML = '';
+            }, 300); // Esperar a la transición CSS
+        }
+
+        // Cerrar con tecla ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === "Escape") closeVideo();
+        });
+
+        // Inicializar
         initCarousel();
+        
+        // Autoplay del carrusel (opcional, quitar si molesta)
+        // setInterval(() => moveSlide(1), 6000);
+
     </script>
 </body>
 </html>
