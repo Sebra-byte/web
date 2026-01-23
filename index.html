@@ -42,27 +42,31 @@
             transform: translate(-50%, -50%) scale(1.6);
         }
 
-        /* --- HEADER DINÁMICO CON DEGRADADO (FEATHER) --- */
+        /* --- HEADER DINÁMICO CON DEGRADADO SUAVE (FEATHER) --- */
         .header-main {
             position: fixed; top: 0; left: 0; width: 100%;
             padding: 60px 80px;
             display: flex; flex-direction: column; align-items: flex-end;
             z-index: 9999; text-align: right;
-            pointer-events: none; transition: all 0.5s ease;
+            pointer-events: none; transition: all 0.6s ease;
             /* Fondo inicial transparente */
             background: linear-gradient(to bottom, rgba(26,26,26,0) 0%, rgba(26,26,26,0) 100%);
         }
         .header-main * { pointer-events: auto; }
 
-        /* Efecto Feather al scrollear */
+        /* Efecto Feather Suave al scrollear */
         .header-main.scrolled {
             padding: 30px 80px 80px; /* Padding inferior amplio para el degradado */
+            /* Degradado de múltiples pasos para un fundido ultra suave */
             background: linear-gradient(to bottom, 
                 rgba(26, 26, 26, 1) 0%, 
+                rgba(26, 26, 26, 0.98) 20%, 
                 rgba(26, 26, 26, 0.9) 40%, 
+                rgba(26, 26, 26, 0.7) 60%, 
+                rgba(26, 26, 26, 0.4) 80%, 
                 rgba(26, 26, 26, 0) 100%
             );
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(12px); /* Un poco más de blur para suavizar */
         }
 
         .header-main.internal-mode {
@@ -113,7 +117,7 @@
         }
         .film-item.active, .film-item:hover { color: var(--hueso); -webkit-text-stroke: 0px; transform: translateX(25px); }
 
-        /* GRID PROYECTOS (Ajustado Padding) */
+        /* GRID PROYECTOS */
         #all-projects-section { padding: 130px 0 0; background: var(--bg-grafito); }
         .all-projects-grid { 
             display: grid; 
@@ -242,7 +246,7 @@
 
         const projects = [
             { title_es: "menem", category: "narrative", platform: "prime", images: ["assets/Menem_Thumbnail_1.jpg", "assets/Menem_Thumbnail_2.jpg"], yt: "-2AmqmciWXE", director: "ariel winograd", prod: "claxon" },
-            { title_es: "OREO - Sigamos divirtiendonos", category: "advertising", images: ["assets/Oreo_Thumbnail_5.png"], yt: "7Cllu0Rme74", director: "Martín Jalfen", prod: "Pop Studios" },
+            { title_es: "OREO - Sigamos divirtiendonos", category: "advertising", platform: "", images: ["assets/Oreo_Thumbnail_5.png"], yt: "7Cllu0Rme74", director: "Martín Jalfen", prod: "Pop Studios" },
             { title_es: "el tiempo de las moscas", category: "narrative", platform: "netflix", images: ["assets/Moscas_Thumbnail_1.jpg"], yt: "A0d6wnlMRRk", director: "ana katz", prod: "netflix" },
             { title_es: "levis x winona riders", category: "advertising", images: ["assets/Levis_Thumbnail_v01.jpg"], yt: "mb2RPesGf7Q", director: "nico alarcos", prod: "primo" },
             { title_es: "coppola, el representante", category: "narrative", platform: "disney", images: ["assets/Coppola_Thumbnail_2.jpg"], yt: "ecr24akKDbs", director: "ariel winograd", prod: "pampa films" },
