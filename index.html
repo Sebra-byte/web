@@ -10,10 +10,11 @@
     
     <style>
         :root {
-            /* PALETA */
-            --bg: #798476;
-            --text: #ffffff;
-            --accent: rgba(255, 255, 255, 0.8);
+            /* PALETA NUEVA */
+            --bg: #757c71; /* Nuevo color de fondo */
+            --text: #eae5dc; /* Nuevo color de texto (crema) */
+            /* Versión con opacidad del nuevo color de texto para acentos */
+            --accent: rgba(234, 229, 220, 0.8); 
             
             --font-main: 'Inter', sans-serif;
             --font-serif: 'Playfair Display', serif;
@@ -95,13 +96,15 @@
             margin-bottom: 15px; letter-spacing: -0.5px; line-height: 1; color: var(--text);
             text-shadow: 0 2px 10px rgba(0,0,0,0.5);
             display: inline-block; 
-            border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+            /* Subrayado con el nuevo color crema y opacidad */
+            border-bottom: 1px solid rgba(234, 229, 220, 0.6);
             padding-bottom: 5px;
         }
         .credits {
             display: flex; gap: 20px; font-size: 0.75rem; 
             text-transform: uppercase;
-            letter-spacing: 1px; margin-top: 10px; color: rgba(242, 242, 242, 0.8);
+            /* Usamos la variable accent actualizada */
+            letter-spacing: 1px; margin-top: 10px; color: var(--accent);
             text-shadow: 0 1px 5px rgba(0,0,0,0.5);
             font-family: var(--font-main);
         }
@@ -113,7 +116,8 @@
             pointer-events: none; 
         }
         .arrow {
-            color: rgba(255, 255, 255, 0.4); font-size: 1.5rem; cursor: pointer;
+            /* Flechas con el nuevo color crema y opacidad */
+            color: rgba(234, 229, 220, 0.4); font-size: 1.5rem; cursor: pointer;
             pointer-events: auto; transition: color 0.3s, transform 0.3s;
             padding: 20px;
         }
@@ -154,7 +158,7 @@
         }
         .grid-item:hover img { transform: scale(1.05); filter: grayscale(0%); }
 
-        /* OVERLAY TEXTO */
+        /* OVERLAY TEXTO (ALL PROJECTS) */
         .item-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);
@@ -169,18 +173,19 @@
         .item-title {
             font-family: var(--font-serif);
             font-size: 1.4rem;
-            color: #fff;
+            color: var(--text); /* Usa el nuevo color crema */
             margin-bottom: 8px;
             line-height: 1.1;
             display: inline-block;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+            /* Subrayado con el nuevo color crema y opacidad */
+            border-bottom: 1px solid rgba(234, 229, 220, 0.6);
             padding-bottom: 4px;
         }
 
         .item-meta {
             font-family: var(--font-main);
             font-size: 0.7rem;
-            color: rgba(255,255,255,0.9);
+            color: var(--accent); /* Usa la variable accent */
             letter-spacing: 0.5px;
             text-transform: uppercase;
             margin-top: 5px;
@@ -197,7 +202,7 @@
             font-family: var(--font-main); font-size: 1.3rem; line-height: 1.6;
             color: var(--text); margin-bottom: 30px; font-weight: 300;
         }
-        .about-text strong { font-weight: 600; color: #fff; }
+        .about-text strong { font-weight: 600; color: var(--text); }
         .imdb-link {
             display: inline-flex; align-items: center; gap: 5px; justify-content: center;
             color: var(--text); text-decoration: none; font-weight: 600;
@@ -312,7 +317,7 @@
         // DATA MASTER
         const allProjects = [
             { title: "Menem", director: "Ariel Winograd", prod: "Claxson/Prime Video", platform: "Prime Video", yt: "-2AmqmciWXE", previewUrl: "./assets/menem_preview.mp4", image: "./assets/Menem_Thumbnail_1.jpg", featured: true, size: 'half' },
-            { title: "Oreo: Keep Playful", director: "Martín Jalfen", prod: "Pop Studios", platform: "Global Campaign", yt: "7Cllu0Rme74", previewUrl: "./assets/oreo_preview.mp4", image: "./assets/Oreo_Thumbnail_4.png", featured: true, size: 'half' },
+            { title: "Oreo: Keep Playful", director: "Martín Jalfen", prod: "Pop Studios", platform: "Global Campaign", yt: "7Cllu0Rme74", previewUrl: "./assets/oreo_preview.mp4", image: "./assets/Oreo_Thumbnail_5.png", featured: true, size: 'half' },
             { title: "El tiempo de las moscas", director: "B. Naishtat/A.Katz", prod: "Haddock Films/Netflix", platform: "Netflix", yt: "A0d6wnlMRRk", previewUrl: "./assets/moscas_preview.mp4", image: "./assets/Moscas_Thumbnail_2.png", featured: true, size: 'third' },
             { title: "Coppola, el representante", director: "Ariel Winograd", prod: "Pampa Films/Disney+", platform: "Disney+", yt: "ecr24akKDbs", previewUrl: "./assets/coppola_preview.mp4", image: "./assets/Coppola_Thumbnail_2.jpg", featured: true, size: 'third' },
             { title: "Levis x Winona Riders", director: "Nico Alarcos", prod: "Primo", platform: "Commercial", yt: "mb2RPesGf7Q", image: "./assets/Levis_Thumbnail_v01.jpg", size: 'third' },
