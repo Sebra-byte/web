@@ -38,26 +38,19 @@
             background: linear-gradient(to bottom, rgba(121, 132, 118, 0.9), transparent);
             transition: background 0.3s;
         }
-
         nav.index-active { background: var(--bg); pointer-events: auto; }
-
         .brand, .nav-links a { pointer-events: auto; cursor: pointer; }
-
         .brand {
             font-size: clamp(1.5rem, 2vw, 2.5rem); 
             font-weight: 600; letter-spacing: -1px; text-transform: lowercase;
-            line-height: 1; font-family: var(--font-serif);
-            color: var(--text);
+            line-height: 1; font-family: var(--font-serif); color: var(--text);
         }
-        
         .brand span {
             display: block; font-family: var(--font-main); font-size: 0.4em;
             letter-spacing: 2px; opacity: 0.8; margin-top: 5px;
             text-transform: uppercase; font-weight: 400;
         }
-
         .nav-links { display: flex; gap: 40px; padding-top: 10px; }
-
         .nav-links a {
             color: var(--text); text-decoration: none; font-size: 0.9rem;
             text-transform: uppercase; letter-spacing: 1px; opacity: 0.8;
@@ -65,9 +58,8 @@
         }
         .nav-links a:hover { opacity: 1; }
 
-        /* --- CAROUSEL (HOME HERO) --- */
+        /* --- CAROUSEL (HOME) --- */
         .carousel { height: 100vh; width: 100vw; position: relative; z-index: 1; }
-
         .slide {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             opacity: 0; transition: opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1);
@@ -75,42 +67,31 @@
             padding: 40px 60px 80px 60px; cursor: pointer;
         }
         .slide.active { opacity: 1; z-index: 1; }
-
-        /* ESTILOS PARA LA MEDIA DE FONDO (Video O Imagen) */
         .bg-media {
             position: absolute; top: 50%; left: 50%; width: 100%; height: 100%;
-            object-fit: cover; 
-            transform: translate(-50%, -50%) scale(1.08); /* Zoom inicial */
-            transition: transform 7s ease-out; /* Efecto Ken Burns suave */
-            z-index: 0;
+            object-fit: cover; transform: translate(-50%, -50%) scale(1.08);
+            transition: transform 7s ease-out; z-index: 0;
         }
-
-        /* Al estar activo, la imagen/video se acomoda lentamente */
         .slide.active .bg-media { transform: translate(-50%, -50%) scale(1); }
-
         .slide::after {
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;
             background: linear-gradient(0deg, rgba(47, 53, 46, 0.9) 0%, rgba(47, 53, 46, 0.2) 50%, rgba(47, 53, 46, 0.4) 100%);
         }
-
         .slide-info {
             position: relative; z-index: 2; max-width: 1100px; opacity: 0;
             transform: translateY(30px); transition: all 1s ease 0.3s;
         }
         .slide.active .slide-info { opacity: 1; transform: translateY(0); }
-
         .project-title {
             font-family: var(--font-serif); font-size: clamp(3rem, 7vw, 6.5rem); 
             margin-bottom: 15px; letter-spacing: -1px; line-height: 1.1; color: var(--text);
             text-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
-
         .credits {
             display: flex; gap: 30px; font-size: 0.9rem; text-transform: uppercase;
             letter-spacing: 1px; margin-top: 20px; color: rgba(242, 242, 242, 0.8);
         }
         .credits span b { color: var(--text); margin-right: 5px; }
-
         .controls {
             position: absolute; bottom: 50px; right: 60px; z-index: 10;
             display: flex; gap: 15px;
@@ -126,96 +107,94 @@
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--bg); z-index: 400; 
             padding: 140px 60px 60px 60px; 
-            overflow-y: auto;
-            opacity: 0; pointer-events: none;
+            overflow-y: auto; opacity: 0; pointer-events: none;
             transition: opacity 0.5s ease, transform 0.5s ease;
             transform: translateY(20px);
         }
-
         #index-overlay.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
-
-        .project-list {
-            max-width: 1600px; margin: 0 auto;
-            display: flex; flex-direction: column;
-            padding-bottom: 100px;
-        }
-
+        .project-list { max-width: 1600px; margin: 0 auto; display: flex; flex-direction: column; padding-bottom: 100px; }
         .list-item {
-            display: grid;
-            grid-template-columns: 360px 1fr 200px; 
-            gap: 80px; 
-            align-items: center;
-            padding: 50px 0;
-            border-bottom: 1px solid var(--border);
-            cursor: pointer;
-            transition: background 0.3s;
+            display: grid; grid-template-columns: 360px 1fr 200px; gap: 80px; 
+            align-items: center; padding: 50px 0; border-bottom: 1px solid var(--border);
+            cursor: pointer; transition: background 0.3s;
         }
-
         .list-item:hover { background: rgba(255,255,255,0.03); }
-
         .list-thumb {
-            width: 100%; aspect-ratio: 16/9;
-            overflow: hidden; border-radius: 4px;
-            background: #4a5248;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            width: 100%; aspect-ratio: 16/9; overflow: hidden; border-radius: 4px;
+            background: #4a5248; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
         .list-thumb img {
-            width: 100%; height: 100%; object-fit: cover;
-            filter: grayscale(30%); transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            width: 100%; height: 100%; object-fit: cover; filter: grayscale(30%);
+            transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .list-item:hover .list-thumb img { filter: grayscale(0%); transform: scale(1.03); }
-
-        .list-info {
-            display: flex; flex-direction: column; gap: 12px;
-            justify-content: center;
-        }
-        
+        .list-info { display: flex; flex-direction: column; gap: 12px; justify-content: center; }
         .list-title {
-            font-family: var(--font-main);
-            font-weight: 700; font-size: 2.2rem; 
-            text-transform: uppercase; letter-spacing: -1px;
-            color: var(--text); margin-bottom: 5px;
+            font-family: var(--font-main); font-weight: 700; font-size: 2.2rem; 
+            text-transform: uppercase; letter-spacing: -1px; color: var(--text); margin-bottom: 5px;
         }
-
         .list-details {
-            font-family: var(--font-main); font-size: 0.9rem;
-            line-height: 1.6; color: var(--accent);
+            font-family: var(--font-main); font-size: 0.9rem; line-height: 1.6; color: var(--accent);
         }
         .list-details span { display: block; }
         .list-details b { color: var(--text); font-weight: 600; margin-right: 8px; }
-
         .list-platform {
-            text-align: right; font-family: var(--font-main);
-            font-weight: 700; font-size: 1rem; color: var(--text);
-            opacity: 0.9; text-transform: uppercase; letter-spacing: 1px;
+            text-align: right; font-family: var(--font-main); font-weight: 700; 
+            font-size: 1rem; color: var(--text); opacity: 0.9; text-transform: uppercase; letter-spacing: 1px;
         }
 
-        /* --- MODAL VIDEO --- */
-        #video-modal {
+        /* --- MODAL VIDEO & GALLERY --- */
+        #modal-container {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: #2F352E; z-index: 2000;
             display: flex; justify-content: center; align-items: center;
             opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
         }
-        #video-modal.open { opacity: 1; pointer-events: auto; }
+        #modal-container.open { opacity: 1; pointer-events: auto; }
 
         .modal-close {
             position: absolute; top: 40px; right: 40px; color: var(--text);
-            font-size: 1.5rem; cursor: pointer; z-index: 2001;
+            font-size: 1.5rem; cursor: pointer; z-index: 2005;
         }
+
+        .modal-content { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
+
+        /* Estilos específicos para Video */
         .video-wrapper { width: 100%; height: 100%; }
         iframe { width: 100%; height: 100%; border: none; }
-        
+
+        /* Estilos específicos para Galería */
+        .gallery-wrapper {
+            width: 100%; height: 100%;
+            display: flex;
+            overflow-x: auto; /* Scroll horizontal */
+            scroll-snap-type: x mandatory; /* Efecto magnético */
+            align-items: center;
+        }
+        .gallery-item {
+            min-width: 100vw; height: 100vh;
+            scroll-snap-align: center;
+            display: flex; justify-content: center; align-items: center;
+            padding: 60px;
+        }
+        .gallery-item img {
+            max-width: 100%; max-height: 90%;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            border-radius: 4px;
+        }
+        /* Flechas de galería */
+        .gallery-hint {
+            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+            color: var(--text); opacity: 0.5; font-size: 0.8rem; text-transform: uppercase;
+        }
+
         @media(max-width: 1200px) {
             .list-item { grid-template-columns: 300px 1fr auto; gap: 40px; }
         }
-
         @media(max-width: 768px) {
             nav { padding: 30px; flex-direction: column; gap: 20px; }
             #index-overlay { padding: 160px 20px 20px 20px; }
-            .list-item { 
-                grid-template-columns: 1fr; gap: 20px; text-align: left; padding: 30px 0;
-            }
+            .list-item { grid-template-columns: 1fr; gap: 20px; text-align: left; padding: 30px 0; }
             .list-thumb { width: 100%; max-width: none; }
             .list-title { font-size: 1.5rem; }
             .list-platform { text-align: left; margin-top: -10px; font-size: 0.8rem; opacity: 0.6; }
@@ -243,14 +222,14 @@
         <div class="project-list" id="list-container"></div>
     </div>
 
-    <div id="video-modal">
-        <div class="modal-close" onclick="closeVideo()">&times;</div>
-        <div class="video-wrapper" id="video-container"></div>
+    <div id="modal-container">
+        <div class="modal-close" onclick="closeModal()">&times;</div>
+        <div class="modal-content" id="modal-content-area"></div>
     </div>
 
     <script>
-        // DATA MASTER
-        // NOTA: Si pones 'previewUrl', el home usa Video. Si no lo pones, usa 'image' (Foto full screen).
+        // DATA MASTER COMPLETA
+        // NOTA: He agregado el array 'images' (plural) para la galería en los proyectos sin YT.
         const allProjects = [
             {
                 title: "Menem",
@@ -292,14 +271,16 @@
                 image: "./assets/Moscas_Thumbnail_1.jpg",
                 featured: true
             },
-            // --- AQUI ESTA LA PRUEBA (FEATURED + NO VIDEO) ---
+            // --- PROYECTO FEATURED SIN VIDEO (Muestra Galería) ---
             {
                 title: "Las manos de la abuela",
                 director: "Camila Migliore",
                 prod: "Calesita Films",
                 platform: "Short Film",
                 image: "./assets/MA_Thumbnail_1.png",
-                featured: true // La activé para que la veas en el Home
+                featured: true,
+                yt: "", // Sin video
+                images: ["./assets/MA_Thumbnail_1.png", "./assets/MA_Thumbnail_3.png", "./assets/MA_Thumbnail_4.png", "./assets/MA_Thumbnail_5.png"]
             },
             // --- VOLUMEN ---
             {
@@ -323,28 +304,36 @@
                 director: "Alex Roux",
                 prod: "Poster",
                 platform: "Music Video",
-                image: "./assets/RP_Thumbmail_1.png"
+                yt: "",
+                image: "./assets/RP_Thumbmail_1.png",
+                images: ["./assets/RP_Thumbmail_1.png", "./assets/RP_Thumbmail_2.png", "./assets/RP_Thumbmail_3.png"]
             },
             {
                 title: "Besos Brujos",
                 director: "Karina Flonembaum",
                 prod: "Indie",
                 platform: "Short Film",
-                image: "./assets/BB_Thumbnail_1.png"
+                yt: "",
+                image: "./assets/BB_Thumbnail_1.png",
+                images: ["./assets/BB_Thumbnail_1.png", "./assets/BB_Thumbnail_2.png", "./assets/BB_Thumbnail_3.png"]
             },
             {
                 title: "Las Marias",
                 director: "A. Berger Parrado",
                 prod: "Navajo Films",
                 platform: "Documentary",
-                image: "./assets/Marias_Thumbnail_1.png"
+                yt: "",
+                image: "./assets/Marias_Thumbnail_1.png",
+                images: ["./assets/Marias_Thumbnail_1.png", "./assets/Marias_Thumbnail_2.png", "./assets/Marias_Thumbnail_3.png"]
             },
             {
                 title: "Todo lo que recuerdo",
                 director: "N. Fernandez Melian",
                 prod: "Festival MDQ",
                 platform: "Short Film",
-                image: "./assets/TodoLoQueRecuerdo_Thumbnail_1.png"
+                yt: "",
+                image: "./assets/TodoLoQueRecuerdo_Thumbnail_1.png",
+                images: ["./assets/TodoLoQueRecuerdo_Thumbnail_1.png"]
             }
         ];
 
@@ -363,14 +352,13 @@
                 const slide = document.createElement('div');
                 slide.className = `slide ${i === 0 ? 'active' : ''}`;
                 
-                // LÓGICA HÍBRIDA: Video o Imagen
+                // Fallback de Video a Imagen en el Carrusel
                 let mediaHTML = '';
                 if(p.previewUrl) {
                     mediaHTML = `<video class="bg-media" loop muted playsinline poster="./assets/placeholder.jpg">
                                     <source src="${p.previewUrl}" type="video/mp4">
                                  </video>`;
                 } else {
-                    // Si no hay video, usa la imagen con clase 'bg-media' para que tenga el mismo zoom/estilo
                     mediaHTML = `<img class="bg-media" src="${p.image}" alt="${p.title}">`;
                 }
 
@@ -384,7 +372,8 @@
                         </div>
                     </div>
                 `;
-                slide.onclick = () => openVideo(p.yt);
+                // NUEVA LÓGICA DE CLICK: Pasa el objeto 'p' completo, no solo el 'yt'
+                slide.onclick = () => openProject(p);
                 carouselContainer.appendChild(slide);
 
                 const dot = document.createElement('div');
@@ -407,10 +396,9 @@
             allProjects.forEach(p => {
                 const item = document.createElement('div');
                 item.className = 'list-item';
-                item.onclick = () => {
-                    if(p.yt) openVideo(p.yt);
-                    else alert('Video no disponible');
-                };
+                
+                // CLICK: Llama a la función unificada
+                item.onclick = () => openProject(p);
 
                 item.innerHTML = `
                     <div class="list-thumb">
@@ -483,23 +471,49 @@
             startAutoPlay();
         }
 
-        const modal = document.getElementById('video-modal');
-        const videoContainer = document.getElementById('video-container');
+        // --- LÓGICA UNIFICADA DE MODAL (VIDEO O GALERÍA) ---
+        const modalContainer = document.getElementById('modal-container');
+        const modalContent = document.getElementById('modal-content-area');
 
-        function openVideo(ytId) {
-            if(!ytId) return;
+        function openProject(p) {
+            // Pausar todo el fondo
             clearInterval(autoPlayInterval);
             document.querySelectorAll('video').forEach(v => v.pause());
-            videoContainer.innerHTML = `
-                <iframe src="https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0&controls=1" 
-                allow="autoplay; encrypted-media" allowfullscreen></iframe>
-            `;
-            modal.classList.add('open');
+            
+            // LÓGICA DE DECISIÓN
+            if (p.yt && p.yt.length > 0) {
+                // TIENE YOUTUBE -> MOSTRAR VIDEO
+                modalContent.innerHTML = `
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube.com/embed/${p.yt}?autoplay=1&rel=0&controls=1" 
+                        allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    </div>
+                `;
+            } else if (p.images && p.images.length > 0) {
+                // NO TIENE YT PERO TIENE FOTOS -> MOSTRAR GALERÍA
+                // Creamos el HTML de las imágenes
+                const imagesHTML = p.images.map(imgSrc => 
+                    `<div class="gallery-item"><img src="${imgSrc}" loading="lazy"></div>`
+                ).join('');
+
+                modalContent.innerHTML = `
+                    <div class="gallery-wrapper">
+                        ${imagesHTML}
+                    </div>
+                    <div class="gallery-hint">Scroll Horizontal &#8594;</div>
+                `;
+            } else {
+                // FALLBACK TOTAL (Por si acaso)
+                modalContent.innerHTML = `<img src="${p.image}" style="max-height:90vh; max-width:90vw;">`;
+            }
+
+            modalContainer.classList.add('open');
         }
 
-        function closeVideo() {
-            modal.classList.remove('open');
-            setTimeout(() => { videoContainer.innerHTML = ''; }, 300);
+        function closeModal() {
+            modalContainer.classList.remove('open');
+            setTimeout(() => { modalContent.innerHTML = ''; }, 300);
+            
             if(!indexOverlay.classList.contains('open')) {
                 playActiveVideo();
                 startAutoPlay();
@@ -507,7 +521,7 @@
         }
 
         document.addEventListener('keydown', (e) => {
-            if (e.key === "Escape") closeVideo();
+            if (e.key === "Escape") closeModal();
         });
 
         initCarousel();
