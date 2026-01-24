@@ -12,7 +12,7 @@
     
     <style>
         :root {
-            /* PALETA */
+            /* PALETA DE COLORES */
             --bg: #757c71;
             --text: #eae5dc;
             --accent: rgba(234, 229, 220, 0.8);
@@ -60,7 +60,8 @@
             font-weight: 600; letter-spacing: -0.5px; text-transform: lowercase;
             line-height: 1; font-family: var(--font-serif); color: var(--text);
             text-shadow: 0 2px 10px rgba(0,0,0,0.3);
-            z-index: 501; position: relative;
+            z-index: 501; /* Sobre el menú móvil */
+            position: relative;
         }
         .brand span {
             display: block; font-family: var(--font-main); font-size: 0.45em;
@@ -68,7 +69,7 @@
             text-transform: uppercase; font-weight: 400;
         }
         
-        /* DESKTOP NAV */
+        /* DESKTOP NAV LINKS */
         .nav-links { display: flex; gap: 30px; padding-top: 8px; align-items: center; }
         
         .nav-links a, .lang-toggle {
@@ -80,6 +81,7 @@
         }
         .nav-links a:hover, .lang-toggle:hover { opacity: 1; }
         
+        /* Clase para ocultar link activo */
         .nav-hidden { opacity: 0 !important; pointer-events: none; }
 
         .lang-toggle {
@@ -88,10 +90,13 @@
             padding: 4px 8px; border-radius: 4px; margin-right: 10px; 
         }
 
-        /* --- MOBILE MENU --- */
+        /* --- MOBILE MENU (HAMBURGER) --- */
         .hamburger {
-            display: none; font-size: 1.5rem; color: var(--text); z-index: 600; padding: 10px;
+            display: none; /* Oculto en desktop */
+            font-size: 1.5rem; color: var(--text); z-index: 600;
+            padding: 10px;
         }
+        
         #mobile-menu-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--bg); z-index: 550;
@@ -111,7 +116,7 @@
             display: inline-block; margin-top: 20px; text-transform: uppercase; cursor: pointer;
         }
 
-        /* --- CAROUSEL --- */
+        /* --- CAROUSEL (HOME) --- */
         .carousel { height: 100vh; width: 100vw; position: relative; z-index: 1; }
         .slide {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -134,7 +139,7 @@
         }
         .slide.active .slide-info { opacity: 1; transform: translateY(0); }
 
-        /* LABEL "SELECTED WORKS" SOBRE EL TITULO */
+        /* LABEL "SELECTED WORKS" */
         .label-text {
             font-family: var(--font-main);
             font-size: 0.65rem;
@@ -172,23 +177,22 @@
         .arrow:hover { color: var(--text); transform: scale(1.1); }
         .controls { display: none; } 
 
-        /* --- GRID (DESKTOP FIXED) --- */
+        /* --- GRID (INDEX) --- */
         .project-grid {
             display: grid;
             grid-template-columns: repeat(12, 1fr);
             auto-rows: 350px; 
             gap: 0; 
             max-width: 1800px; margin: 0 auto; padding-bottom: 100px;
-            width: 100%; /* Asegura ancho total */
+            width: 100%;
         }
-        /* Importante: position relative para que el absolute hijo funcione */
         .grid-item { 
             position: relative; 
             overflow: hidden; 
             cursor: pointer; 
             border: none; 
-            width: 100%; /* Forzar ancho */
-            min-height: 100%; /* Forzar altura de la celda */
+            width: 100%;
+            min-height: 100%; 
         }
         
         .grid-item.half { grid-column: span 6; } 
@@ -197,7 +201,7 @@
         .grid-item.quarter { grid-column: span 3; } 
         .grid-item.tall { grid-row: span 2; } 
 
-        /* IMAGEN CON POSITION ABSOLUTE PARA EVITAR SALTOS */
+        /* ESTABILIDAD DE IMAGEN (ABSOLUTE) */
         .grid-item img {
             position: absolute; 
             top: 0; left: 0;
@@ -228,7 +232,15 @@
         }
         .item-meta span { margin-right: 15px; }
 
-        /* --- ABOUT & MODAL --- */
+        /* --- OVERLAYS & MODAL --- */
+        .overlay-section {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg); z-index: 400; padding: 120px 40px 60px 40px; 
+            overflow-y: auto; opacity: 0; pointer-events: none;
+            transition: opacity 0.5s ease, transform 0.5s ease; transform: translateY(20px);
+        }
+        .overlay-section.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
+        
         .about-container {
             max-width: 800px; margin: 0 auto; padding-top: 100px;
             display: flex; flex-direction: column; justify-content: center; text-align: center; 
@@ -245,13 +257,7 @@
             margin-top: 10px; font-size: 0.9rem; letter-spacing: 0.5px;
         }
         .imdb-link:hover { border-bottom: 1px solid var(--text); }
-        .overlay-section {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg); z-index: 400; padding: 120px 40px 60px 40px; 
-            overflow-y: auto; opacity: 0; pointer-events: none;
-            transition: opacity 0.5s ease, transform 0.5s ease; transform: translateY(20px);
-        }
-        .overlay-section.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
+
         #modal-container {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: #2F352E; z-index: 2000; display: flex; justify-content: center; align-items: center;
@@ -282,16 +288,20 @@
             color: var(--text); opacity: 0.5; font-size: 0.8rem; text-transform: uppercase;
         }
 
-        /* --- MOBILE --- */
+        /* --- MOBILE OPTIMIZATION --- */
         @media(max-width: 1024px) {
+            /* Grid se convierte en Feed */
             .project-grid { display: flex; flex-direction: column; } 
+            
+            /* Items en móvil al 100% y altura fija */
             .grid-item.half, .grid-item.third, .grid-item.three-quarters, .grid-item.quarter, .grid-item.tall { 
                 width: 100%; height: 300px; grid-column: auto; grid-row: auto; 
             }
             .item-overlay { opacity: 1; background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 70%); }
             
+            /* Navbar Mobile */
             nav { padding: 20px 30px; align-items: center; }
-            .nav-links { display: none; } /* Ocultar links de escritorio */
+            .nav-links { display: none; } /* Ocultar desktop links */
             .hamburger { display: block; } /* Mostrar hamburguesa */
             
             .brand { font-size: 1.5rem; }
@@ -330,10 +340,12 @@
     </div>
 
     <div class="carousel" id="mainCarousel"></div>
+    
     <div class="carousel-arrows">
         <div class="arrow" onclick="prevSlide()">&#10094;</div>
         <div class="arrow" onclick="nextSlide()">&#10095;</div>
     </div>
+    
     <div class="controls" id="dotsContainer"></div>
 
     <div id="index-overlay" class="overlay-section">
@@ -714,7 +726,9 @@
                     let imgIndex = 0;
                     item.onmouseenter = () => {
                         const img = item.querySelector('img');
+                        // Preload
                         p.images.forEach(src => { const i = new Image(); i.src = src; });
+                        
                         hoverInterval = setInterval(() => {
                             imgIndex = (imgIndex + 1) % p.images.length;
                             img.src = p.images[imgIndex];
