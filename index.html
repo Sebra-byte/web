@@ -10,7 +10,7 @@
     
     <style>
         :root {
-            /* PALETA */
+            /* PALETA VERDE OLIVA */
             --bg: #798476;
             --text: #F2F2F2;
             --accent: rgba(242, 242, 242, 0.7);
@@ -30,10 +30,10 @@
             overflow: hidden;
         }
 
-        /* --- NAVIGATION (REDUCIDA 30%) --- */
+        /* --- NAVIGATION --- */
         nav {
             position: fixed; top: 0; width: 100%; 
-            padding: 30px 50px; /* Padding reducido */
+            padding: 30px 50px; 
             display: flex; justify-content: space-between; align-items: flex-start;
             z-index: 500; pointer-events: none; 
             background: linear-gradient(to bottom, rgba(121, 132, 118, 0.9), transparent);
@@ -44,7 +44,6 @@
         .brand, .nav-links a { pointer-events: auto; cursor: pointer; }
         
         .brand {
-            /* Tamaño reducido un ~30% */
             font-size: clamp(1.1rem, 1.5vw, 1.8rem); 
             font-weight: 600; letter-spacing: -0.5px; text-transform: lowercase;
             line-height: 1; font-family: var(--font-serif); color: var(--text);
@@ -55,10 +54,10 @@
             text-transform: uppercase; font-weight: 400;
         }
         
-        .nav-links { display: flex; gap: 30px; padding-top: 5px; } /* Gap reducido */
+        .nav-links { display: flex; gap: 30px; padding-top: 5px; }
         .nav-links a {
             color: var(--text); text-decoration: none; 
-            font-size: 0.7rem; /* Reducido de 0.9rem */
+            font-size: 0.7rem;
             text-transform: uppercase; letter-spacing: 1px; opacity: 0.8;
             transition: opacity 0.3s; position: relative;
         }
@@ -110,7 +109,7 @@
         }
         .dot.active { background: var(--text); width: 60px; }
 
-        /* --- SHARED OVERLAY STYLES (INDEX & ABOUT) --- */
+        /* --- SHARED OVERLAY STYLES --- */
         .overlay-section {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--bg); z-index: 400; 
@@ -172,6 +171,15 @@
             background: #4a5248;
         }
         .about-img img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%); }
+
+        /* IMDB LINK STYLE */
+        .imdb-link {
+            display: inline-flex; align-items: center; gap: 5px;
+            color: var(--text); text-decoration: none; font-weight: 600;
+            border-bottom: 1px solid transparent; transition: border 0.3s;
+            margin-top: 10px; font-size: 0.9rem; letter-spacing: 0.5px;
+        }
+        .imdb-link:hover { border-bottom: 1px solid var(--text); }
 
         /* --- MODAL VIDEO & GALLERY --- */
         #modal-container {
@@ -244,13 +252,21 @@
             <div class="about-text">
                 <h2>Editor based in<br>Buenos Aires.</h2>
                 <p>
-                    Leandro Bruno is a film editor specializing in narrative, commercial, and music video projects. With over a decade of experience, he has collaborated with top directors like Ariel Winograd and Benjamin Naishtat.
+                    Leandro Bruno is a Buenos Aires-based editor specializing in rhythmic storytelling. With a portfolio that bridges <strong>narrative fiction and visual media</strong>, he has crafted series for <strong>Netflix, Disney+, and Prime Video</strong>, alongside dynamic work in <strong>advertising and music videos</strong>.
                 </p>
                 <p>
-                    His work has been featured on Netflix, Prime Video, and Disney+, bringing stories to life with a keen sense of rhythm and emotion.
+                    He brings a distinct cinematic language to every cut, regardless of the format.
                 </p>
-                <br>
-                <p style="opacity: 1; font-weight: 600;">leandrobrunoeditor@gmail.com</p>
+                
+                <div style="margin-top: 40px;">
+                    <a href="mailto:leandrobrunoeditor@gmail.com" style="text-decoration: none; color: inherit; display: block; margin-bottom: 10px;">
+                        <p style="opacity: 1; font-weight: 600; cursor: pointer; margin: 0;">leandrobrunoeditor@gmail.com</p>
+                    </a>
+                    
+                    <a href="https://www.imdb.com/name/nm11460466/" target="_blank" class="imdb-link">
+                        IMDb PROFILE &#8599;
+                    </a>
+                </div>
             </div>
             <div class="about-img">
                 <img src="./assets/about_photo.jpg" alt="Leandro Bruno" onerror="this.src='https://via.placeholder.com/600x800/4a5248/fff?text=LB'">
@@ -369,7 +385,7 @@
             }
         ];
 
-        // --- LÓGICA CORE ---
+        // --- CORE LOGIC ---
         const featuredProjects = allProjects.filter(p => p.featured);
         let currentSlide = 0;
         let autoPlayInterval;
