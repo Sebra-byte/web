@@ -64,13 +64,12 @@
         }
         .nav-links a:hover { opacity: 1; }
 
-        /* --- CAROUSEL (HOME - TENTHREE STYLE) --- */
+        /* --- CAROUSEL (HOME) --- */
         .carousel { height: 100vh; width: 100vw; position: relative; z-index: 1; }
         .slide {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             opacity: 0; transition: opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1);
             overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end;
-            /* Padding reducido y alineación a la izquierda para el texto */
             padding: 0 0 60px 60px; 
             cursor: pointer;
         }
@@ -85,38 +84,33 @@
 
         .slide-info {
             position: relative; z-index: 2; max-width: 1100px; opacity: 0;
-            /* Animación de entrada sutil */
             transform: translateY(20px); transition: all 0.8s ease 0.4s;
-            text-align: left; /* Asegura alineación izquierda */
+            text-align: left; 
         }
         .slide.active .slide-info { opacity: 1; transform: translateY(0); }
         
         .project-title {
             font-family: var(--font-serif); 
-            /* Tamaño MUCHO más chico, estilo tenthree */
             font-size: clamp(1.8rem, 3vw, 2.5rem); 
             margin-bottom: 15px; letter-spacing: -0.5px; line-height: 1; color: var(--text);
             text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-            display: inline-block; /* Para que el subrayado se ajuste al texto */
-            /* Subrayado fino */
+            display: inline-block; 
             border-bottom: 1px solid rgba(255, 255, 255, 0.6);
             padding-bottom: 5px;
         }
         .credits {
-            display: flex; gap: 20px; font-size: 0.75rem; /* Texto créditos más chico */
+            display: flex; gap: 20px; font-size: 0.75rem; 
             text-transform: uppercase;
             letter-spacing: 1px; margin-top: 10px; color: rgba(242, 242, 242, 0.8);
             text-shadow: 0 1px 5px rgba(0,0,0,0.5);
             font-family: var(--font-main);
         }
-        /* Formato d: y p: minúsculas */
         .credits span b { color: var(--text); margin-right: 5px; font-weight: 400; text-transform: lowercase; }
         
-        /* CONTROLES FLECHAS */
         .carousel-arrows {
             position: absolute; top: 50%; width: 100%; transform: translateY(-50%);
             display: flex; justify-content: space-between; padding: 0 30px; z-index: 10;
-            pointer-events: none; /* Para que el click pase al slide */
+            pointer-events: none; 
         }
         .arrow {
             color: rgba(255, 255, 255, 0.4); font-size: 1.5rem; cursor: pointer;
@@ -124,8 +118,6 @@
             padding: 20px;
         }
         .arrow:hover { color: var(--text); transform: scale(1.1); }
-
-        /* Ocultamos los puntos viejos */
         .controls { display: none; } 
 
         /* --- SHARED OVERLAY STYLES --- */
@@ -141,20 +133,13 @@
 
         /* --- INDEX (GRID MOSAICO CLEAN) --- */
         .project-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0; 
-            max-width: 1800px;
-            margin: 0 auto;
-            padding-bottom: 100px;
+            display: flex; flex-wrap: wrap; gap: 0; 
+            max-width: 1800px; margin: 0 auto; padding-bottom: 100px;
         }
 
         .grid-item {
-            position: relative;
-            height: 350px; 
-            overflow: hidden;
-            cursor: pointer;
-            border: none; 
+            position: relative; height: 350px; 
+            overflow: hidden; cursor: pointer; border: none; 
         }
         
         .grid-item.half { width: 50%; } 
@@ -169,7 +154,7 @@
         }
         .grid-item:hover img { transform: scale(1.05); filter: grayscale(0%); }
 
-        /* OVERLAY TEXTO */
+        /* OVERLAY TEXTO (ALL PROJECTS) */
         .item-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);
@@ -183,18 +168,23 @@
 
         .item-title {
             font-family: var(--font-serif);
-            font-size: 1.8rem; 
+            font-size: 1.4rem; /* REDUCIDO (Antes 1.8rem) */
             color: #fff;
             margin-bottom: 8px;
-            line-height: 1;
+            line-height: 1.1;
+            /* ESTILO SUBRAYADO AGREGADO */
+            display: inline-block;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+            padding-bottom: 4px;
         }
 
         .item-meta {
             font-family: var(--font-main);
-            font-size: 0.8rem;
-            color: rgba(255,255,255,0.8);
+            font-size: 0.7rem; /* REDUCIDO (Antes 0.8rem) */
+            color: rgba(255,255,255,0.9);
             letter-spacing: 0.5px;
             text-transform: uppercase;
+            margin-top: 5px; /* Espacio extra post-subrayado */
         }
         .item-meta span { margin-right: 15px; }
 
@@ -322,17 +312,17 @@
     <script>
         // DATA MASTER
         const allProjects = [
-            { title: "Menem", director: "Ariel Winograd", prod: "Claxon/Prime Video", platform: "Prime Video", yt: "-2AmqmciWXE", previewUrl: "./assets/menem_preview.mp4", image: "./assets/Menem_Thumbnail_1.jpg", featured: true, size: 'half' },
-            { title: "Oreo: Keep Playful", director: "Martín Jalfen", prod: "Pop Studios", platform: "Global Campaign", yt: "7Cllu0Rme74", previewUrl: "./assets/oreo_preview.mp4", image: "./assets/Oreo_Thumbnail_4.png", featured: true, size: 'half' },
-            { title: "El tiempo de las moscas", director: "B. Naishtat", prod: "Haddock films/Netfllix", platform: "Netflix", yt: "A0d6wnlMRRk", previewUrl: "./assets/moscas_preview.mp4", image: "./assets/Moscas_Thumbnail_2.jpg", featured: true, size: 'third' },
-            { title: "Coppola, el representante", director: "Ariel Winograd", prod: "Pampa Films", platform: "Disney+", yt: "ecr24akKDbs", previewUrl: "./assets/coppola_preview.mp4", image: "./assets/Coppola_Thumbnail_2.jpg", featured: true, size: 'third' },
-            { title: "Levis x Winona Riders", director: "Nico Alarcos", prod: "Primo", platform: "Web / Social", yt: "mb2RPesGf7Q", image: "./assets/Levis_Thumbnail_v01.jpg", size: 'third' },
+            { title: "Menem", director: "Ariel Winograd", prod: "Claxson/Prime Video", platform: "Prime Video", yt: "-2AmqmciWXE", previewUrl: "./assets/menem_preview.mp4", image: "./assets/Menem_Thumbnail_1.jpg", featured: true, size: 'half' },
+            { title: "Oreo: Keep Playful", director: "Martín Jalfen", prod: "Pop Studios", platform: "Global Campaign", yt: "7Cllu0Rme74", previewUrl: "./assets/oreo_preview.mp4", image: "./assets/Oreo_Thumbnail_5.png", featured: true, size: 'half' },
+            { title: "El tiempo de las moscas", director: "B. Naishtat/A.Katz", prod: "Haddock Films/Netflix", platform: "Netflix", yt: "A0d6wnlMRRk", previewUrl: "./assets/moscas_preview.mp4", image: "./assets/Moscas_Thumbnail_2.png", featured: true, size: 'third' },
+            { title: "Coppola, el representante", director: "Ariel Winograd", prod: "Pampa Films/Disney+", platform: "Disney+", yt: "ecr24akKDbs", previewUrl: "./assets/coppola_preview.mp4", image: "./assets/Coppola_Thumbnail_2.jpg", featured: true, size: 'third' },
+            { title: "Levis x Winona Riders", director: "Nico Alarcos", prod: "Primo", platform: "Commercial", yt: "mb2RPesGf7Q", image: "./assets/Levis_Thumbnail_v01.jpg", size: 'third' },
             { title: "Blair - Todo lo que tengo", director: "Dana Campanello", prod: "Poster", platform: "Music Video", yt: "ItX5aqhqsmo", image: "./assets/Blair_Thumbnail_1.jpg", size: 'half' },
             { title: "Ratones Paranoicos", director: "Alex Roux", prod: "Poster", platform: "Music Video", yt: "", image: "./assets/RP_Thumbmail_1.png", images: ["./assets/RP_Thumbmail_1.png", "./assets/RP_Thumbmail_2.png", "./assets/RP_Thumbmail_3.png", "./assets/RP_Thumbmail_4.png", "./assets/RP_Thumbmail_5.png"], size: 'half' },
             { title: "Las manos de la abuela", director: "Camila Migliore", prod: "Calesita Films", platform: "Short Film", image: "./assets/MA_Thumbnail_1.png", yt: "", images: ["./assets/MA_Thumbnail_1.png", "./assets/MA_Thumbnail_3.png", "./assets/MA_Thumbnail_4.png", "./assets/MA_Thumbnail_5.png"], featured: false, size: 'third' },
-            { title: "Besos Brujos", director: "Karina Flonembaum", prod: "Nevada Cine, Tres Esquimales", platform: "Short Film", yt: "", image: "./assets/BB_Thumbnail_1.png", images: ["./assets/BB_Thumbnail_1.png", "./assets/BB_Thumbnail_2.png", "./assets/BB_Thumbnail_3.png"], size: 'third' },
-            {title: "Todo lo que recuerdo", director: "N. Fernandez Melian", prod: "", platform: "Short Film", yt: "", image: "./assets/TodoLoQueRecuerdo_Thumbnail_1.png", images: ["./assets/TodoLoQueRecuerdo_Thumbnail_1.png"], size: 'third' },
-            { title: "Las Marias", director: "A. Berger Parrado", prod: "Navajo Films", platform: "Documentary", yt: "", image: "./assets/Marias_Thumbnail_1.png", images: ["./assets/Marias_Thumbnail_1.png", "./assets/Marias_Thumbnail_2.png", "./assets/Marias_Thumbnail_3.png"], size: 'three quarters' }
+            { title: "Besos Brujos", director: "Karina Flonembaum", prod: "Nevada Cine/Tres esquimales", platform: "Short Film", yt: "", image: "./assets/BB_Thumbnail_1.png", images: ["./assets/BB_Thumbnail_1.png", "./assets/BB_Thumbnail_2.png", "./assets/BB_Thumbnail_3.png"], size: 'third' },
+            { title: "Las Marias", director: "A. Berger Parrado", prod: "Navajo Films", platform: "Commercial", yt: "", image: "./assets/Marias_Thumbnail_1.png", images: ["./assets/Marias_Thumbnail_1.png", "./assets/Marias_Thumbnail_2.png", "./assets/Marias_Thumbnail_3.png"], size: 'three quarters' },
+            { title: "Todo lo que recuerdo", director: "N. Fernandez Melian", prod: "", platform: "Short Film Documentary", yt: "", image: "./assets/TodoLoQueRecuerdo_Thumbnail_1.png", images: ["./assets/TodoLoQueRecuerdo_Thumbnail_1.png"], size: 'third' }
         ];
 
         // --- CORE LOGIC ---
@@ -370,7 +360,6 @@
                 slide.onclick = () => openProject(p);
                 carouselContainer.appendChild(slide);
 
-                // Puntos creados pero ocultos por CSS
                 const dot = document.createElement('div');
                 dot.className = `dot ${i === 0 ? 'active' : ''}`;
                 dotsContainer.appendChild(dot);
@@ -428,7 +417,6 @@
         }
 
         function goToSlide(index) { currentSlide = index; updateCarousel(); resetAutoPlay(); }
-        // Funciones para flechas
         function nextSlide() { currentSlide = (currentSlide + 1) % featuredProjects.length; updateCarousel(); resetAutoPlay(); }
         function prevSlide() { currentSlide = (currentSlide - 1 + featuredProjects.length) % featuredProjects.length; updateCarousel(); resetAutoPlay(); }
         
