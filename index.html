@@ -152,25 +152,29 @@
             font-size: 1rem; color: var(--text); opacity: 0.9; text-transform: uppercase; letter-spacing: 1px;
         }
 
-        /* --- ABOUT OVERLAY --- */
+        /* --- ABOUT OVERLAY (REDISEÑADO) --- */
         .about-container {
-            max-width: 1000px; margin: 0 auto; padding-top: 40px;
-            display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
-            align-items: start;
+            /* Diseño centrado de una sola columna */
+            max-width: 800px; 
+            margin: 0 auto; 
+            padding-top: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 80%; /* Para centrar verticalmente si se desea */
         }
-        .about-text h2 {
-            font-family: var(--font-serif); font-size: 3rem; margin-bottom: 30px;
-            font-weight: 400; letter-spacing: -1px;
-        }
+        
         .about-text p {
-            font-family: var(--font-main); font-size: 1rem; line-height: 1.8;
-            color: var(--accent); margin-bottom: 20px;
+            font-family: var(--font-main); font-size: 1.2rem; line-height: 1.6;
+            color: var(--text); margin-bottom: 30px;
+            font-weight: 300;
         }
-        .about-img {
-            width: 100%; aspect-ratio: 3/4; border-radius: 4px; overflow: hidden;
-            background: #4a5248;
+        
+        /* Negritas en el texto del about */
+        .about-text strong {
+            font-weight: 600;
+            color: #fff;
         }
-        .about-img img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%); }
 
         /* IMDB LINK STYLE */
         .imdb-link {
@@ -221,8 +225,8 @@
             .list-thumb { width: 100%; max-width: none; }
             .list-platform { text-align: left; margin-top: -10px; font-size: 0.8rem; opacity: 0.6; }
             
-            .about-container { grid-template-columns: 1fr; gap: 40px; }
-            .about-text h2 { font-size: 2rem; }
+            .about-container { padding-top: 0; }
+            .about-text p { font-size: 1rem; }
         }
     </style>
 </head>
@@ -250,26 +254,25 @@
     <div id="about-overlay" class="overlay-section">
         <div class="about-container">
             <div class="about-text">
-                <h2>Editor based in<br>Buenos Aires.</h2>
                 <p>
-                    Leandro Bruno is a Buenos Aires-based editor specializing in rhythmic storytelling. With a portfolio that bridges <strong>narrative fiction and visual media</strong>, he has crafted series for <strong>Netflix, Disney+, and Prime Video</strong>, alongside dynamic work in <strong>advertising and music videos</strong>.
+                    Leandro Bruno is a Buenos Aires-based editor specializing in rhythmic storytelling.
+                </p>
+                <p>
+                    With a portfolio that bridges <strong>narrative fiction and visual media</strong>, he has crafted series for <strong>Netflix, Disney+, and Prime Video</strong>, alongside dynamic work in <strong>advertising and music videos</strong>.
                 </p>
                 <p>
                     He brings a distinct cinematic language to every cut, regardless of the format.
                 </p>
                 
-                <div style="margin-top: 40px;">
+                <div style="margin-top: 60px;">
                     <a href="mailto:leandrobrunoeditor@gmail.com" style="text-decoration: none; color: inherit; display: block; margin-bottom: 10px;">
-                        <p style="opacity: 1; font-weight: 600; cursor: pointer; margin: 0;">leandrobrunoeditor@gmail.com</p>
+                        <p style="opacity: 1; font-weight: 600; cursor: pointer; margin: 0; font-size: 1rem;">leandrobrunoeditor@gmail.com</p>
                     </a>
                     
                     <a href="https://www.imdb.com/name/nm11460466/" target="_blank" class="imdb-link">
                         IMDb PROFILE &#8599;
                     </a>
                 </div>
-            </div>
-            <div class="about-img">
-                <img src="./assets/about_photo.jpg" alt="Leandro Bruno" onerror="this.src='https://via.placeholder.com/600x800/4a5248/fff?text=LB'">
             </div>
         </div>
     </div>
@@ -280,6 +283,7 @@
     </div>
 
     <script>
+        // DATA MASTER
         const allProjects = [
             {
                 title: "Menem",
@@ -428,7 +432,7 @@
 
             playActiveVideo();
             startAutoPlay();
-            renderIndex(); // Pre-render list
+            renderIndex();
         }
 
         // --- NAVIGATION CONTROL ---
@@ -437,7 +441,7 @@
         }
 
         function openIndex() {
-            closeAllOverlays(false); // Cierra otros, mantiene pausa
+            closeAllOverlays(false);
             indexOverlay.classList.add('open');
             nav.classList.add('solid-bg');
             pauseHero();
