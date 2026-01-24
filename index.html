@@ -36,7 +36,8 @@
             padding: 30px 50px; 
             display: flex; justify-content: space-between; align-items: flex-start;
             z-index: 500; pointer-events: none; 
-            background: linear-gradient(to bottom, rgba(121, 132, 118, 0.9), transparent);
+            /* CAMBIO: Fondo transparente puro, sin degradado */
+            background: transparent;
             transition: background 0.3s;
         }
         nav.solid-bg { background: var(--bg); pointer-events: auto; }
@@ -47,6 +48,8 @@
             font-size: clamp(1.1rem, 1.5vw, 1.8rem); 
             font-weight: 600; letter-spacing: -0.5px; text-transform: lowercase;
             line-height: 1; font-family: var(--font-serif); color: var(--text);
+            /* Sombra sutil para lectura sin degradado */
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
         .brand span {
             display: block; font-family: var(--font-main); font-size: 0.45em;
@@ -58,8 +61,9 @@
         .nav-links a {
             color: var(--text); text-decoration: none; 
             font-size: 0.7rem;
-            text-transform: uppercase; letter-spacing: 1px; opacity: 0.8;
+            text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; /* Un poco más opaco para leer mejor */
             transition: opacity 0.3s; position: relative;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
         .nav-links a:hover { opacity: 1; }
 
@@ -78,10 +82,9 @@
             transition: transform 7s ease-out; z-index: 0;
         }
         .slide.active .bg-media { transform: translate(-50%, -50%) scale(1); }
-        .slide::after {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;
-            background: linear-gradient(0deg, rgba(47, 53, 46, 0.9) 0%, rgba(47, 53, 46, 0.2) 50%, rgba(47, 53, 46, 0.4) 100%);
-        }
+        
+        /* CAMBIO: Eliminé el .slide::after que contenía el degradado verde/oscuro */
+
         .slide-info {
             position: relative; z-index: 2; max-width: 1100px; opacity: 0;
             transform: translateY(30px); transition: all 1s ease 0.3s;
@@ -92,11 +95,13 @@
             font-family: var(--font-serif); 
             font-size: clamp(2.25rem, 5.25vw, 5rem); 
             margin-bottom: 15px; letter-spacing: -1px; line-height: 1.1; color: var(--text);
-            text-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            /* Sombra un poco más fuerte para garantizar lectura sobre videos claros */
+            text-shadow: 0 5px 30px rgba(0,0,0,0.5);
         }
         .credits {
             display: flex; gap: 30px; font-size: 0.9rem; text-transform: uppercase;
-            letter-spacing: 1px; margin-top: 20px; color: rgba(242, 242, 242, 0.8);
+            letter-spacing: 1px; margin-top: 20px; color: rgba(242, 242, 242, 0.9);
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
         .credits span b { color: var(--text); margin-right: 5px; }
         .controls {
@@ -104,8 +109,9 @@
             display: flex; gap: 15px;
         }
         .dot {
-            width: 40px; height: 3px; background: rgba(242, 242, 242, 0.3);
+            width: 40px; height: 3px; background: rgba(242, 242, 242, 0.5); /* Más visible sin fondo oscuro */
             cursor: pointer; transition: 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
         }
         .dot.active { background: var(--text); width: 60px; }
 
@@ -124,9 +130,9 @@
         .project-list { max-width: 1600px; margin: 0 auto; display: flex; flex-direction: column; padding-bottom: 100px; }
         
         .list-item {
-            position: relative; /* Para posicionar el logo a la derecha */
+            position: relative; 
             display: flex;
-            justify-content: center; /* CENTRADO HORIZONTAL DEL GRUPO */
+            justify-content: center; 
             align-items: center;
             padding: 60px 0;
             border-bottom: 1px solid var(--border);
@@ -134,20 +140,14 @@
         }
         .list-item:hover { background: rgba(255,255,255,0.03); }
 
-        /* GRUPO CENTRAL (THUMB + TEXTO) */
         .list-group {
-            display: flex;
-            align-items: center;
-            gap: 60px; /* Separación entre foto y texto */
-            width: 100%;
-            max-width: 900px; /* Ancho máximo del bloque central */
+            display: flex; align-items: center; gap: 60px; width: 100%; max-width: 900px;
         }
 
         .list-thumb {
-            width: 360px; /* Tamaño fijo para consistencia */
-            aspect-ratio: 16/9; overflow: hidden; border-radius: 4px;
+            width: 360px; aspect-ratio: 16/9; overflow: hidden; border-radius: 4px;
             background: #4a5248; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            flex-shrink: 0; /* Evita que se aplaste */
+            flex-shrink: 0;
         }
         .list-thumb img {
             width: 100%; height: 100%; object-fit: cover; filter: grayscale(30%);
@@ -166,29 +166,14 @@
         .list-details span { display: block; }
         .list-details b { color: var(--text); font-weight: 600; margin-right: 8px; }
 
-        /* PLATAFORMA / LOGO (FLOTANDO A LA DERECHA) */
         .list-platform {
-            position: absolute;
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 150px; /* Espacio reservado para el logo */
-            text-align: right;
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
+            position: absolute; right: 0; top: 50%; transform: translateY(-50%);
+            width: 150px; text-align: right; display: flex; justify-content: flex-end; align-items: center;
         }
-        
-        /* Estilo para el logo de imagen */
         .platform-logo {
-            max-width: 100px;
-            max-height: 40px;
-            object-fit: contain;
-            filter: brightness(0) invert(1); /* Vuelve blancos los logos negros si son PNG simples */
-            opacity: 0.9;
+            max-width: 100px; max-height: 40px; object-fit: contain;
+            filter: brightness(0) invert(1); opacity: 0.9;
         }
-        
-        /* Estilo fallback texto */
         .platform-text {
             font-family: var(--font-main); font-weight: 700; 
             font-size: 0.9rem; color: var(--text); opacity: 0.8; 
@@ -199,7 +184,7 @@
         .about-container {
             max-width: 800px; margin: 0 auto; padding-top: 100px;
             display: flex; flex-direction: column; justify-content: center;
-            text-align: center; /* Centrado editorial */
+            text-align: center; 
         }
         .about-text p {
             font-family: var(--font-main); font-size: 1.3rem; line-height: 1.6;
@@ -305,14 +290,14 @@
     </div>
 
     <script>
-        // DATA MASTER (Con Logos)
+        // DATA MASTER
         const allProjects = [
             {
                 title: "Menem",
                 director: "Ariel Winograd",
                 prod: "Claxon",
                 platform: "Prime Video",
-                logo: "./assets/logo_prime.png", // Asegúrate de tener este archivo
+                logo: "./assets/logo_prime.png", 
                 yt: "-2AmqmciWXE",
                 previewUrl: "./assets/menem_preview.mp4",
                 image: "./assets/Menem_Thumbnail_1.jpg",
@@ -323,7 +308,6 @@
                 director: "Martín Jalfen",
                 prod: "Pop Studios",
                 platform: "Global Campaign",
-                // Sin logo, mostrará texto
                 yt: "7Cllu0Rme74",
                 previewUrl: "./assets/oreo_preview.mp4",
                 image: "./assets/Oreo_Thumbnail_5.png",
@@ -478,7 +462,6 @@
                 item.className = 'list-item';
                 item.onclick = () => openProject(p);
                 
-                // Lógica para mostrar Logo o Texto
                 let platformHTML = '';
                 if(p.logo) {
                     platformHTML = `<img src="${p.logo}" alt="${p.platform}" class="platform-logo">`;
