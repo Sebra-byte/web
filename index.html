@@ -29,19 +29,21 @@
             overflow: hidden;
         }
 
-        /* --- CUSTOM SCROLLBAR (DISEÑO A MEDIDA) --- */
+        /* --- CUSTOM SCROLLBAR (INTEGRADA AL DISEÑO) --- */
         ::-webkit-scrollbar {
-            width: 8px;
+            width: 10px;
         }
         ::-webkit-scrollbar-track {
-            background: var(--bg); 
+            background: var(--bg); /* Invisible, color del fondo */
         }
         ::-webkit-scrollbar-thumb {
-            background: rgba(234, 229, 220, 0.4); 
-            border-radius: 4px;
+            background-color: var(--text); /* Color crema */
+            border-radius: 10px;
+            border: 3px solid var(--bg); /* Padding visual para que flote */
+            opacity: 0.5;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: rgba(234, 229, 220, 0.8); 
+            background-color: #fff;
         }
 
         /* --- NAVIGATION --- */
@@ -71,7 +73,6 @@
         
         .nav-links { display: flex; gap: 30px; padding-top: 8px; align-items: center; }
         
-        /* Estilos compartidos para links y el toggle */
         .nav-links a, .lang-toggle {
             color: var(--text); text-decoration: none; 
             font-size: 0.7rem;
@@ -81,13 +82,12 @@
         }
         .nav-links a:hover, .lang-toggle:hover { opacity: 1; }
         
-        /* Separador visual para el idioma */
         .lang-toggle {
             font-weight: 600;
             border: 1px solid rgba(234, 229, 220, 0.3);
             padding: 4px 8px;
             border-radius: 4px;
-            margin-right: 10px; /* Separación de All Projects */
+            margin-right: 10px; 
         }
 
         /* --- CAROUSEL (HOME) --- */
@@ -157,20 +157,30 @@
         }
         .overlay-section.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
 
-        /* --- INDEX (GRID) --- */
+        /* --- INDEX (CSS GRID AVANZADO) --- */
         .project-grid {
-            display: flex; flex-wrap: wrap; gap: 0; 
+            display: grid;
+            /* Sistema de 12 columnas para máxima flexibilidad */
+            grid-template-columns: repeat(12, 1fr);
+            auto-rows: 350px; /* Altura base de cada fila */
+            gap: 0; /* Pegados */
             max-width: 1800px; margin: 0 auto; padding-bottom: 100px;
         }
 
         .grid-item {
-            position: relative; height: 350px; 
+            position: relative; 
             overflow: hidden; cursor: pointer; border: none; 
+            min-height: 100%; /* Asegura que llene la celda del grid */
         }
         
-        .grid-item.half { width: 50%; } 
-        .grid-item.third { width: 33.333%; } 
-        .grid-item.three-quarters { width: 75%; } 
+        /* CLASES DE TAMAÑO GRID */
+        .grid-item.half { grid-column: span 6; } /* 50% ancho */
+        .grid-item.third { grid-column: span 4; } /* 33% ancho */
+        .grid-item.three-quarters { grid-column: span 9; } /* 75% ancho */
+        .grid-item.quarter { grid-column: span 3; } /* 25% ancho */
+        
+        /* CLASE ESPECIAL PARA EL GIGANTE VERTICAL */
+        .grid-item.tall { grid-row: span 2; } 
 
         .grid-item img {
             width: 100%; height: 100%; object-fit: cover;
@@ -254,11 +264,13 @@
         }
 
         @media(max-width: 1024px) {
-            .grid-item.half, .grid-item.third, .grid-item.three-quarters { width: 50%; height: 250px; }
+            .project-grid { display: flex; } /* Volver a flex simple en movil */
+            .grid-item.half, .grid-item.third, .grid-item.three-quarters, .grid-item.quarter { width: 50%; height: 250px; grid-column: auto; grid-row: auto; }
+            .grid-item.tall { height: 250px; grid-row: auto; }
             .item-overlay { opacity: 1; background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 60%); }
         }
         @media(max-width: 600px) {
-            .grid-item.half, .grid-item.third, .grid-item.three-quarters { width: 100%; height: 250px; }
+            .grid-item.half, .grid-item.third, .grid-item.three-quarters, .grid-item.quarter, .grid-item.tall { width: 100%; height: 250px; }
             nav { padding: 20px 30px; }
             .overlay-section { padding: 100px 20px 20px 20px; }
             .slide { padding: 0 0 40px 30px; }
@@ -271,8 +283,7 @@
     <nav id="navbar">
         <div class="brand" onclick="goHome()">
             leandro bruno
-            <span id="role-subtitle">film editor</span>
-        </div>
+            <span>film editor</span> </div>
         <div class="nav-links">
             <span class="lang-toggle" onclick="toggleLanguage()">ES</span>
             <a onclick="openIndex()" id="nav-projects">All Projects</a>
@@ -310,7 +321,6 @@
         // --- TRANSLATIONS CONFIG ---
         const translations = {
             en: {
-                role: "film editor",
                 nav_projects: "All Projects",
                 nav_about: "About",
                 nav_contact: "Contact",
@@ -327,7 +337,6 @@
                 `
             },
             es: {
-                role: "editor de cine",
                 nav_projects: "Proyectos",
                 nav_about: "Sobre mí",
                 nav_contact: "Contacto",
@@ -348,6 +357,7 @@
         let currentLang = 'en';
 
         // --- DATA MASTER ---
+        // size ahora soporta clases grid: 'half', 'third', 'quarter', 'tall'
         const allProjects = [
             { title: "Menem", director: "Ariel Winograd", prod: "Claxson/Prime Video", platform: "Prime Video", yt: "-2AmqmciWXE", previewUrl: "./assets/menem_preview.mp4", image: "./assets/Menem_Thumbnail_1.jpg", featured: true, size: 'half' },
             { title: "Oreo: Keep Playful", director: "Martín Jalfen", prod: "Pop Studios", platform: "Global Campaign", yt: "7Cllu0Rme74", previewUrl: "./assets/oreo_preview.mp4", image: "./assets/Oreo_Thumbnail_5.png", featured: true, size: 'half' },
@@ -358,10 +368,11 @@
             { title: "Ratones Paranoicos", director: "Alex Roux", prod: "Poster", platform: "Music Video", yt: "", image: "./assets/RP_Thumbmail_1.png", images: ["./assets/RP_Thumbmail_1.png", "./assets/RP_Thumbmail_2.png", "./assets/RP_Thumbmail_3.png", "./assets/RP_Thumbmail_4.png", "./assets/RP_Thumbmail_5.png"], size: 'half' },
             { title: "Las manos de la abuela", director: "Camila Migliore", prod: "Calesita Films", platform: "Short Film", image: "./assets/MA_Thumbnail_1.png", yt: "", images: ["./assets/MA_Thumbnail_1.png", "./assets/MA_Thumbnail_3.png", "./assets/MA_Thumbnail_4.png", "./assets/MA_Thumbnail_5.png"], featured: false, size: 'third' },
             { title: "Besos Brujos", director: "Karina Flonembaum", prod: "Nevada Cine/Tres esquimales", platform: "Short Film", yt: "", image: "./assets/BB_Thumbnail_1.png", images: ["./assets/BB_Thumbnail_1.png", "./assets/BB_Thumbnail_2.png", "./assets/BB_Thumbnail_3.png"], size: 'third' },
-            { title: "Las Marias", director: "A. Berger Parrado", prod: "Navajo Films", platform: "Documentary", yt: "", image: "./assets/Marias_Thumbnail_1.png", images: ["./assets/Marias_Thumbnail_1.png", "./assets/Marias_Thumbnail_2.png", "./assets/Marias_Thumbnail_3.png"], size: 'three quarters' },
-            { title: "Todo lo que recuerdo", director: "N. Fernandez Melian", prod: "", platform: "Short Film Documentary", yt: "", image: "./assets/TodoLoQueRecuerdo_Thumbnail_1.png", images: ["./assets/TodoLoQueRecuerdo_Thumbnail_1.png"], size: 'third' },
-            { title: "Brillar a oscuras", director: "Karina Flonembaum / Tali Feites", prod: "Tres Esquimales", platform: "Documentary", yt: "", image: "./assets/Brillar_Thumbnail_1.png", size: 'third' },
-            { title: "Agujeros negros", director: "N. Fernandez Melian", prod: "", platform: "Fiction", yt: "", image: "./assets/Agujeros_Thumbnail_1.png", size: 'third' }
+            // BLOQUE GRID COMPLEJO FINAL
+            { title: "Las Marias", director: "A. Berger Parrado", prod: "Navajo Films", platform: "Commercial", yt: "", image: "./assets/Marias_Thumbnail_1.png", images: ["./assets/Marias_Thumbnail_1.png", "./assets/Marias_Thumbnail_2.png", "./assets/Marias_Thumbnail_3.png"], size: 'half tall' }, // MITAD ANCHO, DOBLE ALTO (IZQUIERDA)
+            { title: "Todo lo que recuerdo", director: "N. Fernandez Melian", prod: "", platform: "Short Film Documentary", yt: "", image: "./assets/TodoLoQueRecuerdo_Thumbnail_1.png", images: ["./assets/TodoLoQueRecuerdo_Thumbnail_1.png"], size: 'half' }, // MITAD ANCHO (DERECHA ARRIBA)
+            { title: "Brillar a oscuras", director: "Karina Flonembaum / Tali Feites", prod: "Tres Esquimales", platform: "Documentary", yt: "", image: "./assets/Brillar_Thumbnail_1.png", size: 'quarter' }, // CUARTO (DERECHA ABAJO 1)
+            { title: "Agujeros negros", director: "N. Fernandez Melian", prod: "", platform: "Fiction", yt: "", image: "./assets/Agujeros_Thumbnail_1.png", size: 'quarter' } // CUARTO (DERECHA ABAJO 2)
         ];
 
         // --- CORE LOGIC ---
@@ -377,7 +388,6 @@
         // Inicializar textos
         function updateLanguageUI() {
             const t = translations[currentLang];
-            document.getElementById('role-subtitle').innerText = t.role;
             document.getElementById('nav-projects').innerText = t.nav_projects;
             document.getElementById('nav-about').innerText = t.nav_about;
             document.getElementById('nav-contact').innerText = t.nav_contact;
@@ -394,7 +404,6 @@
         }
 
         function initCarousel() {
-            // Cargar idioma inicial (Inglés por defecto en HTML, pero aseguramos JS)
             updateLanguageUI();
 
             carouselContainer.innerHTML = '';
