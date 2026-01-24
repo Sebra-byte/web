@@ -10,6 +10,7 @@
     
     <style>
         :root {
+            /* PALETA */
             --bg: #757c71;
             --text: #eae5dc;
             --accent: rgba(234, 229, 220, 0.8);
@@ -28,7 +29,7 @@
             overflow: hidden;
         }
 
-        /* SCROLLBAR */
+        /* --- CUSTOM SCROLLBAR --- */
         ::-webkit-scrollbar { width: 10px; }
         ::-webkit-scrollbar-track { background: var(--bg); }
         ::-webkit-scrollbar-thumb {
@@ -37,8 +38,9 @@
             border: 3px solid var(--bg);
             opacity: 0.5;
         }
+        ::-webkit-scrollbar-thumb:hover { background-color: #fff; }
 
-        /* NAVIGATION */
+        /* --- NAVIGATION --- */
         nav {
             position: fixed; top: 0; width: 100%; 
             padding: 30px 50px; 
@@ -80,7 +82,7 @@
             padding: 4px 8px; border-radius: 4px; margin-right: 10px; 
         }
 
-        /* CAROUSEL */
+        /* --- CAROUSEL --- */
         .carousel { height: 100vh; width: 100vw; position: relative; z-index: 1; }
         .slide {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -113,7 +115,6 @@
             text-shadow: 0 1px 5px rgba(0,0,0,0.5); font-family: var(--font-main);
         }
         .credits span b { color: var(--text); margin-right: 5px; font-weight: 400; text-transform: lowercase; }
-        
         .carousel-arrows {
             position: absolute; top: 50%; width: 100%; transform: translateY(-50%);
             display: flex; justify-content: space-between; padding: 0 30px; z-index: 10;
@@ -126,7 +127,7 @@
         .arrow:hover { color: var(--text); transform: scale(1.1); }
         .controls { display: none; } 
 
-        /* GRID (DESKTOP) */
+        /* --- GRID --- */
         .project-grid {
             display: grid;
             grid-template-columns: repeat(12, 1fr);
@@ -167,15 +168,7 @@
         }
         .item-meta span { margin-right: 15px; }
 
-        /* OVERLAY SECTIONS */
-        .overlay-section {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg); z-index: 400; padding: 120px 40px 60px 40px; 
-            overflow-y: auto; opacity: 0; pointer-events: none;
-            transition: opacity 0.5s ease, transform 0.5s ease; transform: translateY(20px);
-        }
-        .overlay-section.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
-
+        /* --- ABOUT & MODAL --- */
         .about-container {
             max-width: 800px; margin: 0 auto; padding-top: 100px;
             display: flex; flex-direction: column; justify-content: center; text-align: center; 
@@ -192,8 +185,13 @@
             margin-top: 10px; font-size: 0.9rem; letter-spacing: 0.5px;
         }
         .imdb-link:hover { border-bottom: 1px solid var(--text); }
-
-        /* MODAL */
+        .overlay-section {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg); z-index: 400; padding: 120px 40px 60px 40px; 
+            overflow-y: auto; opacity: 0; pointer-events: none;
+            transition: opacity 0.5s ease, transform 0.5s ease; transform: translateY(20px);
+        }
+        .overlay-section.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
         #modal-container {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: #2F352E; z-index: 2000; display: flex; justify-content: center; align-items: center;
@@ -210,7 +208,6 @@
         .gallery-wrapper {
             width: 100%; height: 100%; display: flex; overflow-x: auto;
             scroll-snap-type: x mandatory; align-items: center;
-            /* Suavizado para teclado */
             scroll-behavior: smooth;
         }
         .gallery-item {
@@ -227,35 +224,18 @@
 
         /* --- MOBILE OPTIMIZATION --- */
         @media(max-width: 1024px) {
-            /* Grid se convierte en Flex columna (Feed Style) */
             .project-grid { display: flex; flex-direction: column; } 
-            
-            /* Todos los items al 100% de ancho y altura fija consistente */
             .grid-item.half, .grid-item.third, .grid-item.three-quarters, .grid-item.quarter, .grid-item.tall { 
-                width: 100%; 
-                height: 300px; /* Altura cómoda para ver la imagen en cel */
-                grid-column: auto; 
-                grid-row: auto; 
+                width: 100%; height: 300px; grid-column: auto; grid-row: auto; 
             }
-            
-            /* Texto siempre visible con fondo oscuro para lectura */
-            .item-overlay { 
-                opacity: 1; 
-                background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 70%); 
-            }
-            
-            /* Ajustes navegación */
+            .item-overlay { opacity: 1; background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 70%); }
             nav { padding: 20px 30px; }
             .brand { font-size: 1.5rem; }
             .nav-links { gap: 15px; }
             .nav-links a { font-size: 0.6rem; }
-            
-            /* Ajustes Carrusel Home */
-            .slide { padding: 0 0 80px 30px; } /* Mas espacio abajo para flechas/dedos */
-            .slide-info { transform: translateY(0); opacity: 1; } /* Sin animación compleja en movil */
+            .slide { padding: 0 0 80px 30px; } 
+            .slide-info { transform: translateY(0); opacity: 1; }
             .project-title { font-size: 2rem; }
-            
-            /* Overlay general */
             .overlay-section { padding: 100px 20px 40px 20px; }
         }
     </style>
@@ -276,12 +256,10 @@
     </nav>
 
     <div class="carousel" id="mainCarousel"></div>
-    
     <div class="carousel-arrows">
         <div class="arrow" onclick="prevSlide()">&#10094;</div>
         <div class="arrow" onclick="nextSlide()">&#10095;</div>
     </div>
-
     <div class="controls" id="dotsContainer"></div>
 
     <div id="index-overlay" class="overlay-section">
@@ -318,20 +296,19 @@
 
         let currentLang = 'en';
 
-        // --- DATA ---
+        // --- DATA MASTER ---
         const allProjects = [
             { title: "Menem", director: "Ariel Winograd", prod: "Claxson/Prime Video", platform: "Prime Video", yt: "-2AmqmciWXE", previewUrl: "./assets/menem_preview.mp4", image: "./assets/Menem_Thumbnail_1.jpg", featured: true, size: 'half' },
             { title: {en: "Oreo: Keep Playful", es: "Oreo: Sigamos Jugando"}, director: "Martín Jalfen", prod: "Pop Studios", platform: "Global Campaign", yt: "7Cllu0Rme74", previewUrl: "./assets/oreo_preview.mp4", image: "./assets/Oreo_Thumbnail_4.png", featured: true, size: 'half' },
             { title: {en: "The Time of the Flies", es: "El tiempo de las moscas"}, director: "B. Naishtat/A.Katz", prod: "Haddock Films/Netflix", platform: "Netflix", yt: "A0d6wnlMRRk", previewUrl: "./assets/moscas_preview.mp4", image: "./assets/Moscas_Thumbnail_2.png", featured: true, size: 'third' },
-            { title: "Coppola, el representante", director: "Ariel Winograd", prod: "Pampa Films/Disney+", platform: "Disney+", yt: "ecr24akKDbs", previewUrl: "./assets/coppola_preview.mp4", image: "./assets/Coppola_Thumbnail_2.jpg", featured: true, size: 'third' },
+            { title: {en: "Coppola, the Agent", es: "Coppola, el representante"}, director: "Ariel Winograd", prod: "Pampa Films/Disney+", platform: "Disney+", yt: "ecr24akKDbs", previewUrl: "./assets/coppola_preview.mp4", image: "./assets/Coppola_Thumbnail_4.jpg", featured: true, size: 'third' },
             { title: "Levis x Winona Riders", director: "Nico Alarcos", prod: "Primo", platform: "Commercial", yt: "mb2RPesGf7Q", image: "./assets/Levis_Thumbnail_v01.jpg", size: 'third' },
             { title: "Blair - Todo lo que tengo", director: "Dana Campanello", prod: "Poster", platform: "Music Video", yt: "ItX5aqhqsmo", image: "./assets/Blair_Thumbnail_1.jpg", size: 'half' },
             { title: "Ratones Paranoicos", director: "Alex Roux", prod: "Poster", platform: "Music Video", yt: "", image: "./assets/RP_Thumbmail_1.png", images: ["./assets/RP_Thumbmail_1.png", "./assets/RP_Thumbmail_2.png", "./assets/RP_Thumbmail_3.png", "./assets/RP_Thumbmail_4.png", "./assets/RP_Thumbmail_5.png"], size: 'half' },
             { title: {en: "The Hands of the Grandmother", es: "Las manos de la abuela"}, director: "Camila Migliore", prod: "Calesita Films", platform: "Short Film", image: "./assets/MA_Thumbnail_1.png", yt: "", images: ["./assets/MA_Thumbnail_1.png", "./assets/MA_Thumbnail_3.png", "./assets/MA_Thumbnail_4.png", "./assets/MA_Thumbnail_5.png"], featured: false, size: 'half' },
-            { title: "Besos Brujos", director: "Karina Flonembaum", prod: "Nevada Cine/Tres esquimales", platform: "Short Film", yt: "", image: "./assets/BB_Thumbnail_1.png", images: ["./assets/BB_Thumbnail_1.png", "./assets/BB_Thumbnail_2.png", "./assets/BB_Thumbnail_3.png"], size: 'half' },
+            { title: {en: "Bewitching Kisses", es: "Besos Brujos"}, director: "Karina Flonembaum", prod: "Nevada Cine/Tres esquimales", platform: "Short Film", yt: "", image: "./assets/BB_Thumbnail_1.png", images: ["./assets/BB_Thumbnail_1.png", "./assets/BB_Thumbnail_2.png", "./assets/BB_Thumbnail_3.png"], size: 'half' },
             
-            // BLOQUE GRID
-            { title: "Las Marias", director: "A. Berger Parrado", prod: "Navajo Films", platform: "Documentary", yt: "", image: "./assets/Marias_Thumbnail_1.png", images: ["./assets/Marias_Thumbnail_1.png", "./assets/Marias_Thumbnail_2.png", "./assets/Marias_Thumbnail_3.png"], size: 'half tall' },
+            { title: {en: "The Marias", es: "Las Marias"}, director: "A. Berger Parrado", prod: "Navajo Films", platform: "Documentary", yt: "", image: "./assets/Marias_Thumbnail_1.png", images: ["./assets/Marias_Thumbnail_1.png", "./assets/Marias_Thumbnail_2.png", "./assets/Marias_Thumbnail_3.png"], size: 'half tall' },
             { title: {en: "Shining in the Dark", es: "Brillar a oscuras"}, director: "Karina Flonembaum / Tali Feites", prod: "Tres Esquimales", platform: "Documentary", yt: "", image: "./assets/Brillar_Thumbnail_1.png", size: 'half' },
             { title: {en: "All That I Remember", es: "Todo lo que recuerdo"}, director: "N. Fernandez Melian", prod: "", platform: "Short Film Documentary", yt: "", image: "./assets/TodoLoQueRecuerdo_Thumbnail_1.png", images: ["./assets/TodoLoQueRecuerdo_Thumbnail_1.png"], size: 'quarter' },
             { title: {en: "Black Holes", es: "Agujeros negros"}, director: "N. Fernandez Melian", prod: "", platform: "Fiction", yt: "", image: "./assets/Agujeros_Thumbnail_1.png", size: 'quarter' }
@@ -364,7 +341,7 @@
 
         function toggleLanguage() {
             currentLang = currentLang === 'en' ? 'es' : 'en';
-            initCarousel(); // Recarga textos
+            initCarousel();
         }
 
         function initCarousel() {
@@ -478,30 +455,19 @@
             }
         }
 
-        // --- KEYBOARD LISTENERS ---
         document.addEventListener('keydown', (e) => { 
             if (e.key === "Escape") closeModal(); 
-            
-            // Flecha Derecha
             if (e.key === "ArrowRight") {
                 if(modalContainer.classList.contains('open')) {
-                    // Si hay galería, scrollear
                     const wrapper = document.querySelector('.gallery-wrapper');
                     if(wrapper) wrapper.scrollBy({ left: window.innerWidth, behavior: 'smooth' });
-                } else if (!indexOverlay.classList.contains('open')) {
-                    // Si estamos en Home, pasar slide
-                    nextSlide();
-                }
+                } else if (!indexOverlay.classList.contains('open')) nextSlide();
             }
-
-            // Flecha Izquierda
             if (e.key === "ArrowLeft") {
                 if(modalContainer.classList.contains('open')) {
                     const wrapper = document.querySelector('.gallery-wrapper');
                     if(wrapper) wrapper.scrollBy({ left: -window.innerWidth, behavior: 'smooth' });
-                } else if (!indexOverlay.classList.contains('open')) {
-                    prevSlide();
-                }
+                } else if (!indexOverlay.classList.contains('open')) prevSlide();
             }
         });
 
