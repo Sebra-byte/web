@@ -31,7 +31,7 @@
             overflow: hidden;
         }
 
-        /* --- CUSTOM SCROLLBAR --- */
+        /* --- SCROLLBAR --- */
         ::-webkit-scrollbar { width: 10px; }
         ::-webkit-scrollbar-track { background: var(--bg); }
         ::-webkit-scrollbar-thumb {
@@ -81,7 +81,7 @@
         }
         .nav-links a:hover, .lang-toggle:hover { opacity: 1; }
         
-        /* Clase para ocultar link activo */
+        /* Ocultar link activo */
         .nav-hidden { opacity: 0 !important; pointer-events: none; }
 
         .lang-toggle {
@@ -90,9 +90,9 @@
             padding: 4px 8px; border-radius: 4px; margin-right: 10px; 
         }
 
-        /* --- MOBILE MENU (HAMBURGER) --- */
+        /* --- MOBILE MENU --- */
         .hamburger {
-            display: none; /* Oculto en desktop */
+            display: none; /* Oculto en PC */
             font-size: 1.5rem; color: var(--text); z-index: 600;
             padding: 10px;
         }
@@ -116,7 +116,7 @@
             display: inline-block; margin-top: 20px; text-transform: uppercase; cursor: pointer;
         }
 
-        /* --- CAROUSEL (HOME) --- */
+        /* --- CAROUSEL --- */
         .carousel { height: 100vh; width: 100vw; position: relative; z-index: 1; }
         .slide {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -139,7 +139,7 @@
         }
         .slide.active .slide-info { opacity: 1; transform: translateY(0); }
 
-        /* LABEL "SELECTED WORKS" (Sobre el título) */
+        /* SELECTED WORKS LABEL */
         .label-text {
             font-family: var(--font-main);
             font-size: 0.65rem;
@@ -192,7 +192,7 @@
             cursor: pointer; 
             border: none; 
             width: 100%;
-            height: 100%; /* IMPORTANTE PARA PC: Altura definida */
+            height: 100%; 
         }
         
         .grid-item.half { grid-column: span 6; } 
@@ -201,7 +201,6 @@
         .grid-item.quarter { grid-column: span 3; } 
         .grid-item.tall { grid-row: span 2; } 
 
-        /* ESTABILIDAD DE IMAGEN */
         .grid-item img {
             position: absolute; 
             top: 0; left: 0;
@@ -288,21 +287,18 @@
             color: var(--text); opacity: 0.5; font-size: 0.8rem; text-transform: uppercase;
         }
 
-        /* --- MOBILE OPTIMIZATION --- */
+        /* --- MOBILE --- */
         @media(max-width: 1024px) {
-            /* Grid se convierte en Feed */
             .project-grid { display: flex; flex-direction: column; } 
             
-            /* Items en móvil al 100% y altura fija */
             .grid-item.half, .grid-item.third, .grid-item.three-quarters, .grid-item.quarter, .grid-item.tall { 
                 width: 100%; height: 300px; grid-column: auto; grid-row: auto; 
             }
             .item-overlay { opacity: 1; background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 70%); }
             
-            /* Navbar Mobile */
             nav { padding: 20px 30px; align-items: center; }
-            .nav-links { display: none; } /* Ocultar desktop links */
-            .hamburger { display: block; } /* Mostrar hamburguesa */
+            .nav-links { display: none; } 
+            .hamburger { display: block; }
             
             .brand { font-size: 1.5rem; }
             .slide { padding: 0 0 80px 30px; } 
@@ -384,7 +380,7 @@
 
         let currentLang = 'en';
 
-        // --- DATA MASTER (LISTA DESGLOSADA) ---
+        // --- DATA MASTER ---
         const allProjects = [
             { 
                 title: "Menem", 
