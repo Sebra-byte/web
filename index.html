@@ -12,11 +12,9 @@
     
     <style>
         :root {
-            /* PALETA */
             --bg: #757c71;
             --text: #eae5dc;
             --accent: rgba(234, 229, 220, 0.8);
-            
             --font-main: 'Inter', sans-serif;
             --font-serif: 'Playfair Display', serif;
         }
@@ -31,7 +29,7 @@
             overflow: hidden;
         }
 
-        /* --- CUSTOM SCROLLBAR --- */
+        /* CUSTOM SCROLLBAR */
         ::-webkit-scrollbar { width: 10px; }
         ::-webkit-scrollbar-track { background: var(--bg); }
         ::-webkit-scrollbar-thumb {
@@ -42,7 +40,7 @@
         }
         ::-webkit-scrollbar-thumb:hover { background-color: #fff; }
 
-        /* --- NAVIGATION --- */
+        /* NAVIGATION */
         nav {
             position: fixed; top: 0; width: 100%; 
             padding: 30px 50px; 
@@ -68,7 +66,6 @@
         }
         
         .nav-links { display: flex; gap: 30px; padding-top: 8px; align-items: center; }
-        
         .nav-links a, .lang-toggle {
             color: var(--text); text-decoration: none; 
             font-size: 0.7rem;
@@ -84,7 +81,7 @@
             padding: 4px 8px; border-radius: 4px; margin-right: 10px; 
         }
 
-        /* --- CAROUSEL --- */
+        /* CAROUSEL */
         .carousel { height: 100vh; width: 100vw; position: relative; z-index: 1; }
         .slide {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -129,11 +126,12 @@
         .arrow:hover { color: var(--text); transform: scale(1.1); }
         .controls { display: none; } 
 
-        /* --- GRID --- */
+        /* GRID */
         .project-grid {
             display: grid;
             grid-template-columns: repeat(12, 1fr);
-            auto-rows: 350px; gap: 0; 
+            auto-rows: 350px; /* Altura fija para evitar saltos */
+            gap: 0; 
             max-width: 1800px; margin: 0 auto; padding-bottom: 100px;
         }
         .grid-item { position: relative; overflow: hidden; cursor: pointer; border: none; min-height: 100%; }
@@ -143,15 +141,14 @@
         .grid-item.quarter { grid-column: span 3; } 
         .grid-item.tall { grid-row: span 2; } 
 
-        /* --- CORRECCIÓN DE ESTABILIDAD DE IMAGEN --- */
+        /* IMAGEN EN GRID */
         .grid-item img {
-            position: absolute; /* Fija la imagen al contenedor */
-            top: 0;
-            left: 0;
-            width: 100%; height: 100%; 
-            object-fit: cover; /* Recorta para llenar sin estirar */
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; /* Esto evita deformaciones */
             filter: grayscale(20%);
             transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s;
+            display: block;
         }
         .grid-item:hover img { transform: scale(1.05); filter: grayscale(0%); }
 
@@ -174,7 +171,15 @@
         }
         .item-meta span { margin-right: 15px; }
 
-        /* --- ABOUT & MODAL --- */
+        /* OVERLAYS */
+        .overlay-section {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg); z-index: 400; padding: 120px 40px 60px 40px; 
+            overflow-y: auto; opacity: 0; pointer-events: none;
+            transition: opacity 0.5s ease, transform 0.5s ease; transform: translateY(20px);
+        }
+        .overlay-section.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
+        
         .about-container {
             max-width: 800px; margin: 0 auto; padding-top: 100px;
             display: flex; flex-direction: column; justify-content: center; text-align: center; 
@@ -191,13 +196,8 @@
             margin-top: 10px; font-size: 0.9rem; letter-spacing: 0.5px;
         }
         .imdb-link:hover { border-bottom: 1px solid var(--text); }
-        .overlay-section {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg); z-index: 400; padding: 120px 40px 60px 40px; 
-            overflow-y: auto; opacity: 0; pointer-events: none;
-            transition: opacity 0.5s ease, transform 0.5s ease; transform: translateY(20px);
-        }
-        .overlay-section.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
+
+        /* MODAL */
         #modal-container {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: #2F352E; z-index: 2000; display: flex; justify-content: center; align-items: center;
@@ -228,7 +228,7 @@
             color: var(--text); opacity: 0.5; font-size: 0.8rem; text-transform: uppercase;
         }
 
-        /* --- MOBILE --- */
+        /* MOBILE */
         @media(max-width: 1024px) {
             .project-grid { display: flex; flex-direction: column; } 
             .grid-item.half, .grid-item.third, .grid-item.three-quarters, .grid-item.quarter, .grid-item.tall { 
@@ -302,7 +302,7 @@
 
         let currentLang = 'en';
 
-        // --- DATA MASTER (SYNTAX CORREGIDA) ---
+        // --- DATA MASTER (CORREGIDO) ---
         const allProjects = [
             { 
                 title: "Menem", 
@@ -312,7 +312,12 @@
                 yt: "-2AmqmciWXE", 
                 previewUrl: "./assets/menem_preview.mp4", 
                 image: "./assets/Menem_Thumbnail_1.jpg", 
-                images: ["./assets/Menem_Thumbnail_1.jpg", "./assets/Menem_Thumbnail_2.jpg", "./assets/Menem_Thumbnail_4.jpg", "./assets/Menem_Thumbnail_5.jpg"],
+                images: [
+                    "./assets/Menem_Thumbnail_1.jpg", 
+                    "./assets/Menem_Thumbnail_2.jpg", 
+                    "./assets/Menem_Thumbnail_4.jpg", 
+                    "./assets/Menem_Thumbnail_5.jpg"
+                ],
                 featured: true, 
                 size: 'half' 
             },
@@ -324,7 +329,13 @@
                 yt: "7Cllu0Rme74", 
                 previewUrl: "./assets/oreo_preview.mp4", 
                 image: "./assets/Oreo_Thumbnail_4.png", 
-                images: ["./assets/Oreo_Thumbnail_4.png", "./assets/Oreo_Thumbnail_1.png", "./assets/Oreo_Thumbnail_2.png", "./assets/Oreo_Thumbnail_3.png", "./assets/Oreo_Thumbnail_5.png"],
+                images: [
+                    "./assets/Oreo_Thumbnail_4.png", 
+                    "./assets/Oreo_Thumbnail_1.png", 
+                    "./assets/Oreo_Thumbnail_2.png", 
+                    "./assets/Oreo_Thumbnail_3.png", 
+                    "./assets/Oreo_Thumbnail_5.png"
+                ],
                 featured: true, 
                 size: 'half' 
             },
@@ -336,7 +347,13 @@
                 yt: "A0d6wnlMRRk", 
                 previewUrl: "./assets/moscas_preview.mp4", 
                 image: "./assets/Moscas_Thumbnail_2.png", 
-                images: ["./assets/Moscas_Thumbnail_2.png", "./assets/Moscas_Thumbnail_1.jpg", "./assets/Moscas_Thumbnail_3.png", "./assets/Moscas_Thumbnail_4.png", "./assets/Moscas_Thumbnail_5.png"],
+                images: [
+                    "./assets/Moscas_Thumbnail_2.png", 
+                    "./assets/Moscas_Thumbnail_1.jpg", 
+                    "./assets/Moscas_Thumbnail_3.png", 
+                    "./assets/Moscas_Thumbnail_4.png", 
+                    "./assets/Moscas_Thumbnail_5.png"
+                ],
                 featured: true, 
                 size: 'third' 
             },
@@ -348,7 +365,11 @@
                 yt: "ecr24akKDbs", 
                 previewUrl: "./assets/coppola_preview.mp4", 
                 image: "./assets/Coppola_Thumbnail_4.jpg", 
-                images: ["./assets/Coppola_Thumbnail_4.jpg", "./assets/Coppola_Thumbnail_3.png", "./assets/Coppola_Thumbnail_2.jpg"],
+                images: [
+                    "./assets/Coppola_Thumbnail_4.jpg", 
+                    "./assets/Coppola_Thumbnail_3.png", 
+                    "./assets/Coppola_Thumbnail_2.jpg"
+                ],
                 featured: true, 
                 size: 'third' 
             },
@@ -359,7 +380,13 @@
                 platform: "Commercial", 
                 yt: "mb2RPesGf7Q", 
                 image: "./assets/Levis_Thumbnail_v01.jpg", 
-                images: ["./assets/Levis_Thumbnail_v01.jpg", "./assets/Levis_Thumbnail_2.png", "./assets/Levis_Thumbnail_3.png", "./assets/Levis_Thumbnail_4.png", "./assets/Levis_Thumbnail_5.png"],
+                images: [
+                    "./assets/Levis_Thumbnail_v01.jpg", 
+                    "./assets/Levis_Thumbnail_2.png", 
+                    "./assets/Levis_Thumbnail_3.png", 
+                    "./assets/Levis_Thumbnail_4.png", 
+                    "./assets/Levis_Thumbnail_5.png"
+                ],
                 size: 'third' 
             },
             { 
@@ -369,7 +396,13 @@
                 platform: "Music Video", 
                 yt: "ItX5aqhqsmo", 
                 image: "./assets/Blair_Thumbnail_1.jpg", 
-                images: ["./assets/Blair_Thumbnail_1.jpg", "./assets/Blair_Thumbnail_2.png", "./assets/Blair_Thumbnail_3.png", "./assets/Blair_Thumbnail_4.png", "./assets/Blair_Thumbnail_5.png"],
+                images: [
+                    "./assets/Blair_Thumbnail_1.jpg", 
+                    "./assets/Blair_Thumbnail_2.png", 
+                    "./assets/Blair_Thumbnail_3.png", 
+                    "./assets/Blair_Thumbnail_4.png", 
+                    "./assets/Blair_Thumbnail_5.png"
+                ],
                 size: 'half' 
             },
             { 
@@ -379,7 +412,13 @@
                 platform: "Music Video", 
                 yt: "", 
                 image: "./assets/RP_Thumbmail_1.png", 
-                images: ["./assets/RP_Thumbmail_1.png", "./assets/RP_Thumbmail_2.png", "./assets/RP_Thumbmail_3.png", "./assets/RP_Thumbmail_4.png", "./assets/RP_Thumbmail_5.png"], 
+                images: [
+                    "./assets/RP_Thumbmail_1.png", 
+                    "./assets/RP_Thumbmail_2.png", 
+                    "./assets/RP_Thumbmail_3.png", 
+                    "./assets/RP_Thumbmail_4.png", 
+                    "./assets/RP_Thumbmail_5.png"
+                ], 
                 size: 'half' 
             },
             { 
@@ -389,7 +428,12 @@
                 platform: "Short Film", 
                 image: "./assets/MA_Thumbnail_1.png", 
                 yt: "", 
-                images: ["./assets/MA_Thumbnail_1.png", "./assets/MA_Thumbnail_3.png", "./assets/MA_Thumbnail_4.png", "./assets/MA_Thumbnail_5.png"], 
+                images: [
+                    "./assets/MA_Thumbnail_1.png", 
+                    "./assets/MA_Thumbnail_3.png", 
+                    "./assets/MA_Thumbnail_4.png", 
+                    "./assets/MA_Thumbnail_5.png"
+                ], 
                 featured: false, 
                 size: 'half' 
             },
@@ -400,7 +444,13 @@
                 platform: "Short Film", 
                 yt: "", 
                 image: "./assets/BB_Thumbnail_1.png", 
-                images: ["./assets/BB_Thumbnail_1.png", "./assets/BB_Thumbnail_2.png", "./assets/BB_Thumbnail_3.png", "./assets/BB_Thumbnail_4.png", "./assets/BB_Thumbnail_5.png"], 
+                images: [
+                    "./assets/BB_Thumbnail_1.png", 
+                    "./assets/BB_Thumbnail_2.png", 
+                    "./assets/BB_Thumbnail_3.png", 
+                    "./assets/BB_Thumbnail_4.png", 
+                    "./assets/BB_Thumbnail_5.png"
+                ], 
                 size: 'half' 
             },
             
@@ -411,7 +461,11 @@
                 platform: "Documentary", 
                 yt: "", 
                 image: "./assets/Marias_Thumbnail_1.png", 
-                images: ["./assets/Marias_Thumbnail_1.png", "./assets/Marias_Thumbnail_2.png", "./assets/Marias_Thumbnail_3.png"], 
+                images: [
+                    "./assets/Marias_Thumbnail_1.png", 
+                    "./assets/Marias_Thumbnail_2.png", 
+                    "./assets/Marias_Thumbnail_3.png"
+                ], 
                 size: 'half tall' 
             },
             { 
@@ -544,7 +598,9 @@
                     let imgIndex = 0;
                     item.onmouseenter = () => {
                         const img = item.querySelector('img');
+                        // Preload
                         p.images.forEach(src => { const i = new Image(); i.src = src; });
+                        
                         hoverInterval = setInterval(() => {
                             imgIndex = (imgIndex + 1) % p.images.length;
                             img.src = p.images[imgIndex];
