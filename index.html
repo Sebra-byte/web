@@ -82,11 +82,16 @@
             transform: translateY(30px); transition: all 1s ease 0.3s;
         }
         .slide.active .slide-info { opacity: 1; transform: translateY(0); }
+        
+        /* CAMBIO: Tipografía del título reducida un 25% */
         .project-title {
-            font-family: var(--font-serif); font-size: clamp(3rem, 7vw, 6.5rem); 
+            font-family: var(--font-serif); 
+            /* Antes: clamp(3rem, 7vw, 6.5rem); */
+            font-size: clamp(2.25rem, 5.25vw, 5rem); 
             margin-bottom: 15px; letter-spacing: -1px; line-height: 1.1; color: var(--text);
             text-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
+
         .credits {
             display: flex; gap: 30px; font-size: 0.9rem; text-transform: uppercase;
             letter-spacing: 1px; margin-top: 20px; color: rgba(242, 242, 242, 0.8);
@@ -228,8 +233,7 @@
     </div>
 
     <script>
-        // DATA MASTER COMPLETA
-        // NOTA: He agregado el array 'images' (plural) para la galería en los proyectos sin YT.
+        // DATA MASTER COMPLETA (Orden actualizado)
         const allProjects = [
             {
                 title: "Menem",
@@ -239,7 +243,7 @@
                 yt: "-2AmqmciWXE",
                 previewUrl: "./assets/menem_preview.mp4",
                 image: "./assets/Menem_Thumbnail_1.jpg",
-                featured: true
+                featured: true // Posición 1
             },
             {
                 title: "Oreo: Keep Playful",
@@ -249,17 +253,7 @@
                 yt: "7Cllu0Rme74",
                 previewUrl: "./assets/oreo_preview.mp4",
                 image: "./assets/Oreo_Thumbnail_5.png",
-                featured: true
-            },
-            {
-                title: "Coppola, el representante",
-                director: "Ariel Winograd",
-                prod: "Pampa Films",
-                platform: "Disney+",
-                yt: "ecr24akKDbs",
-                previewUrl: "./assets/coppola_preview.mp4",
-                image: "./assets/Coppola_Thumbnail_2.jpg",
-                featured: true
+                featured: true // Posición 2
             },
             {
                 title: "El tiempo de las moscas",
@@ -269,18 +263,17 @@
                 yt: "A0d6wnlMRRk",
                 previewUrl: "./assets/moscas_preview.mp4",
                 image: "./assets/Moscas_Thumbnail_1.jpg",
-                featured: true
+                featured: true // Posición 3
             },
-            // --- PROYECTO FEATURED SIN VIDEO (Muestra Galería) ---
             {
-                title: "Las manos de la abuela",
-                director: "Camila Migliore",
-                prod: "Calesita Films",
-                platform: "Short Film",
-                image: "./assets/MA_Thumbnail_1.png",
-                featured: true,
-                yt: "", // Sin video
-                images: ["./assets/MA_Thumbnail_1.png", "./assets/MA_Thumbnail_3.png", "./assets/MA_Thumbnail_4.png", "./assets/MA_Thumbnail_5.png"]
+                title: "Coppola, el representante",
+                director: "Ariel Winograd",
+                prod: "Pampa Films",
+                platform: "Disney+",
+                yt: "ecr24akKDbs",
+                previewUrl: "./assets/coppola_preview.mp4",
+                image: "./assets/Coppola_Thumbnail_2.jpg",
+                featured: true // Posición 4
             },
             // --- VOLUMEN ---
             {
@@ -288,7 +281,7 @@
                 director: "Nico Alarcos",
                 prod: "Primo",
                 platform: "Web / Social",
-                yt: "1eE588vXvqSECtESSjgwN_vpRmMFaUpRg",
+                yt: "mb2RPesGf7Q", // Link actualizado
                 image: "./assets/Levis_Thumbnail_v01.jpg"
             },
             {
@@ -298,6 +291,15 @@
                 platform: "Music Video",
                 yt: "ItX5aqhqsmo",
                 image: "./assets/Blair_Thumbnail_1.jpg"
+            },
+            {
+                title: "Las manos de la abuela",
+                director: "Camila Migliore",
+                prod: "Calesita Films",
+                platform: "Short Film",
+                image: "./assets/MA_Thumbnail_1.png",
+                yt: "",
+                images: ["./assets/MA_Thumbnail_1.png", "./assets/MA_Thumbnail_3.png", "./assets/MA_Thumbnail_4.png", "./assets/MA_Thumbnail_5.png"]
             },
             {
                 title: "Ratones Paranoicos",
@@ -352,7 +354,6 @@
                 const slide = document.createElement('div');
                 slide.className = `slide ${i === 0 ? 'active' : ''}`;
                 
-                // Fallback de Video a Imagen en el Carrusel
                 let mediaHTML = '';
                 if(p.previewUrl) {
                     mediaHTML = `<video class="bg-media" loop muted playsinline poster="./assets/placeholder.jpg">
@@ -372,7 +373,6 @@
                         </div>
                     </div>
                 `;
-                // NUEVA LÓGICA DE CLICK: Pasa el objeto 'p' completo, no solo el 'yt'
                 slide.onclick = () => openProject(p);
                 carouselContainer.appendChild(slide);
 
@@ -397,7 +397,6 @@
                 const item = document.createElement('div');
                 item.className = 'list-item';
                 
-                // CLICK: Llama a la función unificada
                 item.onclick = () => openProject(p);
 
                 item.innerHTML = `
@@ -471,18 +470,15 @@
             startAutoPlay();
         }
 
-        // --- LÓGICA UNIFICADA DE MODAL (VIDEO O GALERÍA) ---
+        // --- LÓGICA UNIFICADA DE MODAL ---
         const modalContainer = document.getElementById('modal-container');
         const modalContent = document.getElementById('modal-content-area');
 
         function openProject(p) {
-            // Pausar todo el fondo
             clearInterval(autoPlayInterval);
             document.querySelectorAll('video').forEach(v => v.pause());
             
-            // LÓGICA DE DECISIÓN
             if (p.yt && p.yt.length > 0) {
-                // TIENE YOUTUBE -> MOSTRAR VIDEO
                 modalContent.innerHTML = `
                     <div class="video-wrapper">
                         <iframe src="https://www.youtube.com/embed/${p.yt}?autoplay=1&rel=0&controls=1" 
@@ -490,30 +486,22 @@
                     </div>
                 `;
             } else if (p.images && p.images.length > 0) {
-                // NO TIENE YT PERO TIENE FOTOS -> MOSTRAR GALERÍA
-                // Creamos el HTML de las imágenes
                 const imagesHTML = p.images.map(imgSrc => 
                     `<div class="gallery-item"><img src="${imgSrc}" loading="lazy"></div>`
                 ).join('');
-
                 modalContent.innerHTML = `
-                    <div class="gallery-wrapper">
-                        ${imagesHTML}
-                    </div>
+                    <div class="gallery-wrapper">${imagesHTML}</div>
                     <div class="gallery-hint">Scroll Horizontal &#8594;</div>
                 `;
             } else {
-                // FALLBACK TOTAL (Por si acaso)
                 modalContent.innerHTML = `<img src="${p.image}" style="max-height:90vh; max-width:90vw;">`;
             }
-
             modalContainer.classList.add('open');
         }
 
         function closeModal() {
             modalContainer.classList.remove('open');
             setTimeout(() => { modalContent.innerHTML = ''; }, 300);
-            
             if(!indexOverlay.classList.contains('open')) {
                 playActiveVideo();
                 startAutoPlay();
