@@ -12,9 +12,11 @@
     
     <style>
         :root {
+            /* PALETA */
             --bg: #757c71;
             --text: #eae5dc;
             --accent: rgba(234, 229, 220, 0.8);
+            
             --font-main: 'Inter', sans-serif;
             --font-serif: 'Playfair Display', serif;
         }
@@ -29,7 +31,7 @@
             overflow: hidden;
         }
 
-        /* CUSTOM SCROLLBAR */
+        /* --- CUSTOM SCROLLBAR --- */
         ::-webkit-scrollbar { width: 10px; }
         ::-webkit-scrollbar-track { background: var(--bg); }
         ::-webkit-scrollbar-thumb {
@@ -40,7 +42,7 @@
         }
         ::-webkit-scrollbar-thumb:hover { background-color: #fff; }
 
-        /* NAVIGATION */
+        /* --- NAVIGATION --- */
         nav {
             position: fixed; top: 0; width: 100%; 
             padding: 30px 50px; 
@@ -51,13 +53,15 @@
         }
         nav.solid-bg { background: var(--bg); pointer-events: auto; }
         
-        .brand, .nav-links a, .lang-toggle { pointer-events: auto; cursor: pointer; }
+        .brand, .nav-links a, .lang-toggle, .hamburger { pointer-events: auto; cursor: pointer; }
         
         .brand {
             font-size: clamp(1.45rem, 2vw, 2.35rem); 
             font-weight: 600; letter-spacing: -0.5px; text-transform: lowercase;
             line-height: 1; font-family: var(--font-serif); color: var(--text);
             text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            z-index: 501; /* Siempre visible sobre el menu movil */
+            position: relative;
         }
         .brand span {
             display: block; font-family: var(--font-main); font-size: 0.45em;
@@ -65,7 +69,9 @@
             text-transform: uppercase; font-weight: 400;
         }
         
+        /* DESKTOP NAV LINKS */
         .nav-links { display: flex; gap: 30px; padding-top: 8px; align-items: center; }
+        
         .nav-links a, .lang-toggle {
             color: var(--text); text-decoration: none; 
             font-size: 0.7rem;
@@ -75,13 +81,52 @@
         }
         .nav-links a:hover, .lang-toggle:hover { opacity: 1; }
         
+        .nav-hidden { opacity: 0 !important; pointer-events: none; }
+
         .lang-toggle {
             font-weight: 600;
             border: 1px solid rgba(234, 229, 220, 0.3);
             padding: 4px 8px; border-radius: 4px; margin-right: 10px; 
         }
 
-        /* CAROUSEL */
+        /* --- MOBILE MENU (HAMBURGER) --- */
+        .hamburger {
+            display: none; /* Oculto en desktop */
+            font-size: 1.5rem; color: var(--text); z-index: 600;
+            padding: 10px;
+        }
+        
+        #mobile-menu-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg); z-index: 550;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
+        }
+        #mobile-menu-overlay.open { opacity: 1; pointer-events: auto; }
+        
+        .mobile-links { display: flex; flex-direction: column; gap: 40px; text-align: center; }
+        .mobile-links a, .mobile-links span {
+            font-family: var(--font-serif); font-size: 2rem; color: var(--text);
+            text-decoration: none; cursor: pointer;
+        }
+        .mobile-lang-btn {
+            font-family: var(--font-main) !important; font-size: 1rem !important;
+            border: 1px solid var(--text); padding: 10px 20px; border-radius: 50px;
+            display: inline-block; margin-top: 20px; text-transform: uppercase;
+        }
+
+        /* --- HOME LABEL (Selected Works) --- */
+        #home-label {
+            position: fixed; bottom: 30px; left: 50px;
+            font-family: var(--font-main); font-size: 0.7rem;
+            text-transform: uppercase; letter-spacing: 2px;
+            color: var(--text); opacity: 0.8; z-index: 100;
+            transition: opacity 0.3s; pointer-events: none;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        .overlay-open #home-label { opacity: 0; }
+
+        /* --- CAROUSEL --- */
         .carousel { height: 100vh; width: 100vw; position: relative; z-index: 1; }
         .slide {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -126,12 +171,11 @@
         .arrow:hover { color: var(--text); transform: scale(1.1); }
         .controls { display: none; } 
 
-        /* GRID */
+        /* --- GRID --- */
         .project-grid {
             display: grid;
             grid-template-columns: repeat(12, 1fr);
-            auto-rows: 350px; /* Altura fija para evitar saltos */
-            gap: 0; 
+            auto-rows: 350px; gap: 0; 
             max-width: 1800px; margin: 0 auto; padding-bottom: 100px;
         }
         .grid-item { position: relative; overflow: hidden; cursor: pointer; border: none; min-height: 100%; }
@@ -141,14 +185,12 @@
         .grid-item.quarter { grid-column: span 3; } 
         .grid-item.tall { grid-row: span 2; } 
 
-        /* IMAGEN EN GRID */
+        /* --- ESTABILIDAD DE IMAGEN --- */
         .grid-item img {
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; /* Esto evita deformaciones */
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%; object-fit: cover; 
             filter: grayscale(20%);
             transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s;
-            display: block;
         }
         .grid-item:hover img { transform: scale(1.05); filter: grayscale(0%); }
 
@@ -171,15 +213,7 @@
         }
         .item-meta span { margin-right: 15px; }
 
-        /* OVERLAYS */
-        .overlay-section {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg); z-index: 400; padding: 120px 40px 60px 40px; 
-            overflow-y: auto; opacity: 0; pointer-events: none;
-            transition: opacity 0.5s ease, transform 0.5s ease; transform: translateY(20px);
-        }
-        .overlay-section.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
-        
+        /* --- ABOUT & MODAL --- */
         .about-container {
             max-width: 800px; margin: 0 auto; padding-top: 100px;
             display: flex; flex-direction: column; justify-content: center; text-align: center; 
@@ -196,8 +230,13 @@
             margin-top: 10px; font-size: 0.9rem; letter-spacing: 0.5px;
         }
         .imdb-link:hover { border-bottom: 1px solid var(--text); }
-
-        /* MODAL */
+        .overlay-section {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg); z-index: 400; padding: 120px 40px 60px 40px; 
+            overflow-y: auto; opacity: 0; pointer-events: none;
+            transition: opacity 0.5s ease, transform 0.5s ease; transform: translateY(20px);
+        }
+        .overlay-section.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
         #modal-container {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: #2F352E; z-index: 2000; display: flex; justify-content: center; align-items: center;
@@ -228,38 +267,57 @@
             color: var(--text); opacity: 0.5; font-size: 0.8rem; text-transform: uppercase;
         }
 
-        /* MOBILE */
+        /* --- MOBILE OPTIMIZATION --- */
         @media(max-width: 1024px) {
+            /* Grid se convierte en Feed */
             .project-grid { display: flex; flex-direction: column; } 
             .grid-item.half, .grid-item.third, .grid-item.three-quarters, .grid-item.quarter, .grid-item.tall { 
                 width: 100%; height: 300px; grid-column: auto; grid-row: auto; 
             }
             .item-overlay { opacity: 1; background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 70%); }
-            nav { padding: 20px 30px; }
+            
+            /* Navbar Mobile */
+            nav { padding: 20px 30px; align-items: center; }
+            .nav-links { display: none; } /* Ocultar links de escritorio */
+            .hamburger { display: block; } /* Mostrar hamburguesa */
+            
             .brand { font-size: 1.5rem; }
-            .nav-links { gap: 15px; }
-            .nav-links a { font-size: 0.6rem; }
             .slide { padding: 0 0 80px 30px; } 
             .slide-info { transform: translateY(0); opacity: 1; }
             .project-title { font-size: 2rem; }
             .overlay-section { padding: 100px 20px 40px 20px; }
+            #home-label { left: 30px; bottom: 20px; font-size: 0.6rem; }
         }
     </style>
 </head>
-<body>
+<body id="body-main">
 
     <nav id="navbar">
         <div class="brand" onclick="goHome()">
             leandro bruno
             <span>film editor</span>
         </div>
+        
         <div class="nav-links">
             <span class="lang-toggle" onclick="toggleLanguage()">ES</span>
-            <a onclick="openIndex()" id="nav-projects">All Projects</a>
+            <a onclick="openIndex()" id="nav-projects">Projects</a>
             <a onclick="openAbout()" id="nav-about">About</a>
             <a href="mailto:leandrobrunoeditor@gmail.com" id="nav-contact">Contact</a>
         </div>
+
+        <div class="hamburger" onclick="toggleMobileMenu()">&#9776;</div>
     </nav>
+
+    <div id="mobile-menu-overlay">
+        <div class="mobile-links">
+            <a onclick="openIndex(); toggleMobileMenu()" id="mob-nav-projects">Projects</a>
+            <a onclick="openAbout(); toggleMobileMenu()" id="mob-nav-about">About</a>
+            <a href="mailto:leandrobrunoeditor@gmail.com" id="mob-nav-contact">Contact</a>
+            <span class="mobile-lang-btn" onclick="toggleLanguage()">ES</span>
+        </div>
+    </div>
+
+    <div id="home-label">Selected Works</div>
 
     <div class="carousel" id="mainCarousel"></div>
     <div class="carousel-arrows">
@@ -287,22 +345,24 @@
         // --- TRANSLATIONS ---
         const translations = {
             en: {
-                nav_projects: "All Projects",
+                nav_projects: "Projects",
                 nav_about: "About",
                 nav_contact: "Contact",
+                home_label: "Selected Works",
                 bio: `<p>Leandro Bruno is a Buenos Aires-based editor specializing in rhythmic storytelling.</p><p>With a portfolio that bridges <strong>narrative fiction and visual media</strong>, he has crafted series for <strong>Netflix, Disney+, and Prime Video</strong>, alongside dynamic work in <strong>advertising and music videos</strong>.</p><p>He brings a distinct cinematic language to every cut, regardless of the format.</p><div style="margin-top: 60px;"><a href="mailto:leandrobrunoeditor@gmail.com" style="text-decoration: none; color: inherit; display: block; margin-bottom: 15px;"><p style="opacity: 1; font-weight: 600; cursor: pointer; margin: 0; font-size: 1rem;">leandrobrunoeditor@gmail.com</p></a><a href="https://www.imdb.com/name/nm11460466/" target="_blank" class="imdb-link">IMDb PROFILE &#8599;</a></div>`
             },
             es: {
                 nav_projects: "Proyectos",
                 nav_about: "Sobre mí",
                 nav_contact: "Contacto",
+                home_label: "Trabajos Seleccionados",
                 bio: `<p>Leandro Bruno es un editor con base en Buenos Aires especializado en narrativa rítmica.</p><p>Con un portfolio que une <strong>ficción narrativa y medios visuales</strong>, ha editado series para <strong>Netflix, Disney+ y Prime Video</strong>, junto con trabajos dinámicos en <strong>publicidad y videos musicales</strong>.</p><p>Aporta un lenguaje cinematográfico distintivo a cada corte, sin importar el formato.</p><div style="margin-top: 60px;"><a href="mailto:leandrobrunoeditor@gmail.com" style="text-decoration: none; color: inherit; display: block; margin-bottom: 15px;"><p style="opacity: 1; font-weight: 600; cursor: pointer; margin: 0; font-size: 1rem;">leandrobrunoeditor@gmail.com</p></a><a href="https://www.imdb.com/name/nm11460466/" target="_blank" class="imdb-link">PERFIL IMDb &#8599;</a></div>`
             }
         };
 
         let currentLang = 'en';
 
-        // --- DATA MASTER (CORREGIDO) ---
+        // --- DATA MASTER ---
         const allProjects = [
             { 
                 title: "Menem", 
@@ -509,6 +569,8 @@
         const nav = document.getElementById('navbar');
         const modalContainer = document.getElementById('modal-container');
         const modalContent = document.getElementById('modal-content-area');
+        const bodyMain = document.getElementById('body-main');
+        const mobileMenu = document.getElementById('mobile-menu-overlay');
 
         function getProjectTitle(p) {
             return (typeof p.title === 'object') ? p.title[currentLang] : p.title;
@@ -516,16 +578,39 @@
 
         function updateLanguageUI() {
             const t = translations[currentLang];
+            // Desktop
             document.getElementById('nav-projects').innerText = t.nav_projects;
             document.getElementById('nav-about').innerText = t.nav_about;
             document.getElementById('nav-contact').innerText = t.nav_contact;
+            // Mobile
+            document.getElementById('mob-nav-projects').innerText = t.nav_projects;
+            document.getElementById('mob-nav-about').innerText = t.nav_about;
+            document.getElementById('mob-nav-contact').innerText = t.nav_contact;
+            
             document.getElementById('about-content').innerHTML = t.bio;
-            document.querySelector('.lang-toggle').innerText = currentLang === 'en' ? 'ES' : 'EN';
+            document.getElementById('home-label').innerText = t.home_label;
+            
+            const btnText = currentLang === 'en' ? 'ES' : 'EN';
+            document.querySelector('.lang-toggle').innerText = btnText;
+            document.querySelector('.mobile-lang-btn').innerText = btnText;
         }
 
         function toggleLanguage() {
             currentLang = currentLang === 'en' ? 'es' : 'en';
             initCarousel();
+        }
+
+        function toggleMobileMenu() {
+            const ham = document.querySelector('.hamburger');
+            if (mobileMenu.classList.contains('open')) {
+                mobileMenu.classList.remove('open');
+                bodyMain.classList.remove('overlay-open');
+                ham.innerHTML = '&#9776;'; // Hamburger icon
+            } else {
+                mobileMenu.classList.add('open');
+                bodyMain.classList.add('overlay-open');
+                ham.innerHTML = '&times;'; // Close icon
+            }
         }
 
         function initCarousel() {
@@ -564,13 +649,38 @@
             renderIndex();
         }
 
-        function goHome() { closeAllOverlays(); }
-        function openIndex() { closeAllOverlays(false); indexOverlay.classList.add('open'); nav.classList.add('solid-bg'); pauseHero(); }
-        function openAbout() { closeAllOverlays(false); aboutOverlay.classList.add('open'); nav.classList.add('solid-bg'); pauseHero(); }
+        function goHome() { 
+            closeAllOverlays(); 
+            if(mobileMenu.classList.contains('open')) toggleMobileMenu();
+        }
+        
+        function openIndex() { 
+            closeAllOverlays(false); 
+            indexOverlay.classList.add('open'); 
+            nav.classList.add('solid-bg'); 
+            document.getElementById('nav-projects').classList.add('nav-hidden'); 
+            bodyMain.classList.add('overlay-open'); 
+            pauseHero(); 
+        }
+        
+        function openAbout() { 
+            closeAllOverlays(false); 
+            aboutOverlay.classList.add('open'); 
+            nav.classList.add('solid-bg'); 
+            bodyMain.classList.add('overlay-open'); 
+            pauseHero(); 
+        }
+        
         function closeAllOverlays(resumeHero = true) {
-            indexOverlay.classList.remove('open'); aboutOverlay.classList.remove('open'); nav.classList.remove('solid-bg');
+            indexOverlay.classList.remove('open'); 
+            aboutOverlay.classList.remove('open'); 
+            nav.classList.remove('solid-bg');
+            document.getElementById('nav-projects').classList.remove('nav-hidden');
+            bodyMain.classList.remove('overlay-open'); 
+            
             if(resumeHero) { playActiveVideo(); startAutoPlay(); }
         }
+        
         function pauseHero() { clearInterval(autoPlayInterval); document.querySelectorAll('video').forEach(v => v.pause()); }
 
         function renderIndex() {
@@ -598,9 +708,7 @@
                     let imgIndex = 0;
                     item.onmouseenter = () => {
                         const img = item.querySelector('img');
-                        // Preload
                         p.images.forEach(src => { const i = new Image(); i.src = src; });
-                        
                         hoverInterval = setInterval(() => {
                             imgIndex = (imgIndex + 1) % p.images.length;
                             img.src = p.images[imgIndex];
