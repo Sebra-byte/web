@@ -114,7 +114,7 @@
         .overlay-section {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--bg); z-index: 400; 
-            padding: 120px 40px 60px 40px; /* Padding lateral ajustado */
+            padding: 120px 40px 60px 40px; 
             overflow-y: auto; opacity: 0; pointer-events: none;
             transition: opacity 0.5s ease, transform 0.5s ease;
             transform: translateY(20px);
@@ -125,7 +125,7 @@
         .project-grid {
             display: flex;
             flex-wrap: wrap;
-            gap: 0; /* Sin gap, estilo mosaico pegado. Si quieres espacio pon 10px */
+            gap: 0; 
             max-width: 1800px;
             margin: 0 auto;
             padding-bottom: 100px;
@@ -133,15 +133,14 @@
 
         .grid-item {
             position: relative;
-            height: 350px; /* Altura fija para uniformidad visual de filas */
+            height: 350px; 
             overflow: hidden;
             cursor: pointer;
-            border: 4px solid var(--bg); /* Truco para crear "gap" del color del fondo */
+            border: 4px solid var(--bg); 
         }
         
-        /* Clases de tamaño para el ritmo */
-        .grid-item.half { width: 50%; } /* 2 por fila */
-        .grid-item.third { width: 33.333%; } /* 3 por fila */
+        .grid-item.half { width: 50%; } 
+        .grid-item.third { width: 33.333%; } 
 
         .grid-item img {
             width: 100%; height: 100%; object-fit: cover;
@@ -150,7 +149,7 @@
         }
         .grid-item:hover img { transform: scale(1.05); filter: grayscale(0%); }
 
-        /* OVERLAY TEXTO (TENTHREE STYLE) */
+        /* OVERLAY TEXTO */
         .item-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 50%);
@@ -163,7 +162,7 @@
 
         .item-title {
             font-family: var(--font-serif);
-            font-size: 1.8rem; /* Estilo Pic 2 */
+            font-size: 1.8rem; 
             color: #fff;
             margin-bottom: 5px;
         }
@@ -240,9 +239,8 @@
         }
 
         @media(max-width: 1024px) {
-            /* En tablet/móvil, todo al 100% o 50% */
             .grid-item.half, .grid-item.third { width: 50%; height: 250px; }
-            .item-overlay { opacity: 1; background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 60%); } /* Texto siempre visible en touch */
+            .item-overlay { opacity: 1; background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 60%); }
         }
         @media(max-width: 600px) {
             .grid-item.half, .grid-item.third { width: 100%; height: 250px; }
@@ -304,16 +302,15 @@
     </div>
 
     <script>
-        // DATA MASTER (Con propiedad 'size' para el grid)
-        // size: 'half' (50% ancho) | 'third' (33% ancho)
+        // DATA MASTER (Logos actualizados a .png simple)
         const allProjects = [
-            // FILA 1 (2 Items)
+            // FILA 1
             {
                 title: "Menem",
                 director: "Ariel Winograd",
                 prod: "Claxon",
                 platform: "Prime Video",
-                logo: "./assets/logo_prime.png", 
+                logo: "./assets/prime.png", // ACTUALIZADO
                 yt: "-2AmqmciWXE",
                 previewUrl: "./assets/menem_preview.mp4",
                 image: "./assets/Menem_Thumbnail_1.jpg",
@@ -331,13 +328,13 @@
                 featured: true,
                 size: 'half'
             },
-            // FILA 2 (3 Items)
+            // FILA 2
             {
                 title: "El tiempo de las moscas",
                 director: "B. Naishtat",
                 prod: "K&S Films",
                 platform: "Netflix",
-                logo: "./assets/logo_netflix.png",
+                logo: "./assets/netflix.png", // ACTUALIZADO
                 yt: "A0d6wnlMRRk",
                 previewUrl: "./assets/moscas_preview.mp4",
                 image: "./assets/Moscas_Thumbnail_1.jpg",
@@ -349,7 +346,7 @@
                 director: "Ariel Winograd",
                 prod: "Pampa Films",
                 platform: "Disney+",
-                logo: "./assets/logo_disney.png",
+                logo: "./assets/disney.png", // ACTUALIZADO
                 yt: "ecr24akKDbs",
                 previewUrl: "./assets/coppola_preview.mp4",
                 image: "./assets/Coppola_Thumbnail_2.jpg",
@@ -365,7 +362,7 @@
                 image: "./assets/Levis_Thumbnail_v01.jpg",
                 size: 'third'
             },
-            // FILA 3 (2 Items)
+            // FILA 3
             {
                 title: "Blair - Todo lo que tengo",
                 director: "Dana Campanello",
@@ -385,7 +382,7 @@
                 images: ["./assets/RP_Thumbmail_1.png", "./assets/RP_Thumbmail_2.png", "./assets/RP_Thumbmail_3.png"],
                 size: 'half'
             },
-            // FILA 4 (3 Items)
+            // FILA 4
             {
                 title: "Las manos de la abuela",
                 director: "Camila Migliore",
@@ -425,7 +422,7 @@
                 yt: "",
                 image: "./assets/TodoLoQueRecuerdo_Thumbnail_1.png",
                 images: ["./assets/TodoLoQueRecuerdo_Thumbnail_1.png"],
-                size: 'half' // Rompemos simetria al final
+                size: 'half'
             }
         ];
 
@@ -489,7 +486,6 @@
             gridContainer.innerHTML = '';
             allProjects.forEach(p => {
                 const item = document.createElement('div');
-                // Asigna clase 'half' o 'third'
                 item.className = `grid-item ${p.size || 'third'}`; 
                 item.onclick = () => openProject(p);
                 
