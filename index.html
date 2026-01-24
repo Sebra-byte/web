@@ -120,24 +120,42 @@
         }
         .overlay-section.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
 
-        /* --- INDEX (LIST) --- */
+        /* --- INDEX (LIST CENTERED) --- */
         .project-list { max-width: 1600px; margin: 0 auto; display: flex; flex-direction: column; padding-bottom: 100px; }
+        
         .list-item {
-            display: grid; grid-template-columns: 360px 1fr 200px; gap: 80px; 
-            align-items: center; padding: 50px 0; border-bottom: 1px solid var(--border);
+            position: relative; /* Para posicionar el logo a la derecha */
+            display: flex;
+            justify-content: center; /* CENTRADO HORIZONTAL DEL GRUPO */
+            align-items: center;
+            padding: 60px 0;
+            border-bottom: 1px solid var(--border);
             cursor: pointer; transition: background 0.3s;
         }
         .list-item:hover { background: rgba(255,255,255,0.03); }
+
+        /* GRUPO CENTRAL (THUMB + TEXTO) */
+        .list-group {
+            display: flex;
+            align-items: center;
+            gap: 60px; /* Separación entre foto y texto */
+            width: 100%;
+            max-width: 900px; /* Ancho máximo del bloque central */
+        }
+
         .list-thumb {
-            width: 100%; aspect-ratio: 16/9; overflow: hidden; border-radius: 4px;
+            width: 360px; /* Tamaño fijo para consistencia */
+            aspect-ratio: 16/9; overflow: hidden; border-radius: 4px;
             background: #4a5248; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            flex-shrink: 0; /* Evita que se aplaste */
         }
         .list-thumb img {
             width: 100%; height: 100%; object-fit: cover; filter: grayscale(30%);
             transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .list-item:hover .list-thumb img { filter: grayscale(0%); transform: scale(1.03); }
-        .list-info { display: flex; flex-direction: column; gap: 12px; justify-content: center; }
+
+        .list-info { display: flex; flex-direction: column; gap: 10px; justify-content: center; }
         .list-title {
             font-family: var(--font-main); font-weight: 700; font-size: 2.2rem; 
             text-transform: uppercase; letter-spacing: -1px; color: var(--text); margin-bottom: 5px;
@@ -147,45 +165,56 @@
         }
         .list-details span { display: block; }
         .list-details b { color: var(--text); font-weight: 600; margin-right: 8px; }
+
+        /* PLATAFORMA / LOGO (FLOTANDO A LA DERECHA) */
         .list-platform {
-            text-align: right; font-family: var(--font-main); font-weight: 700; 
-            font-size: 1rem; color: var(--text); opacity: 0.9; text-transform: uppercase; letter-spacing: 1px;
-        }
-
-        /* --- ABOUT OVERLAY (REDISEÑADO) --- */
-        .about-container {
-            /* Diseño centrado de una sola columna */
-            max-width: 800px; 
-            margin: 0 auto; 
-            padding-top: 80px;
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 150px; /* Espacio reservado para el logo */
+            text-align: right;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            height: 80%; /* Para centrar verticalmente si se desea */
+            justify-content: flex-end;
+            align-items: center;
         }
         
-        .about-text p {
-            font-family: var(--font-main); font-size: 1.2rem; line-height: 1.6;
-            color: var(--text); margin-bottom: 30px;
-            font-weight: 300;
+        /* Estilo para el logo de imagen */
+        .platform-logo {
+            max-width: 100px;
+            max-height: 40px;
+            object-fit: contain;
+            filter: brightness(0) invert(1); /* Vuelve blancos los logos negros si son PNG simples */
+            opacity: 0.9;
         }
         
-        /* Negritas en el texto del about */
-        .about-text strong {
-            font-weight: 600;
-            color: #fff;
+        /* Estilo fallback texto */
+        .platform-text {
+            font-family: var(--font-main); font-weight: 700; 
+            font-size: 0.9rem; color: var(--text); opacity: 0.8; 
+            text-transform: uppercase; letter-spacing: 1px;
         }
 
-        /* IMDB LINK STYLE */
+        /* --- ABOUT OVERLAY (CLEAN) --- */
+        .about-container {
+            max-width: 800px; margin: 0 auto; padding-top: 100px;
+            display: flex; flex-direction: column; justify-content: center;
+            text-align: center; /* Centrado editorial */
+        }
+        .about-text p {
+            font-family: var(--font-main); font-size: 1.3rem; line-height: 1.6;
+            color: var(--text); margin-bottom: 30px; font-weight: 300;
+        }
+        .about-text strong { font-weight: 600; color: #fff; }
         .imdb-link {
-            display: inline-flex; align-items: center; gap: 5px;
+            display: inline-flex; align-items: center; gap: 5px; justify-content: center;
             color: var(--text); text-decoration: none; font-weight: 600;
             border-bottom: 1px solid transparent; transition: border 0.3s;
             margin-top: 10px; font-size: 0.9rem; letter-spacing: 0.5px;
         }
         .imdb-link:hover { border-bottom: 1px solid var(--text); }
 
-        /* --- MODAL VIDEO & GALLERY --- */
+        /* --- MODAL --- */
         #modal-container {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: #2F352E; z-index: 2000;
@@ -193,7 +222,6 @@
             opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
         }
         #modal-container.open { opacity: 1; pointer-events: auto; }
-
         .modal-close {
             position: absolute; top: 40px; right: 40px; color: var(--text);
             font-size: 1.5rem; cursor: pointer; z-index: 2005;
@@ -217,16 +245,10 @@
             color: var(--text); opacity: 0.5; font-size: 0.8rem; text-transform: uppercase;
         }
 
-        @media(max-width: 1200px) { .list-item { grid-template-columns: 300px 1fr auto; gap: 40px; } }
-        @media(max-width: 768px) {
-            nav { padding: 20px 30px; flex-direction: column; gap: 15px; }
-            #index-overlay, .overlay-section { padding: 140px 20px 20px 20px; }
-            .list-item { grid-template-columns: 1fr; gap: 20px; text-align: left; padding: 30px 0; }
-            .list-thumb { width: 100%; max-width: none; }
-            .list-platform { text-align: left; margin-top: -10px; font-size: 0.8rem; opacity: 0.6; }
-            
-            .about-container { padding-top: 0; }
-            .about-text p { font-size: 1rem; }
+        @media(max-width: 1024px) {
+            .list-group { flex-direction: column; text-align: center; gap: 20px; }
+            .list-platform { position: relative; width: 100%; text-align: center; justify-content: center; margin-top: 20px; right: auto; top: auto; transform: none; }
+            .list-item { flex-direction: column; padding: 40px 20px; }
         }
     </style>
 </head>
@@ -265,7 +287,7 @@
                 </p>
                 
                 <div style="margin-top: 60px;">
-                    <a href="mailto:leandrobrunoeditor@gmail.com" style="text-decoration: none; color: inherit; display: block; margin-bottom: 10px;">
+                    <a href="mailto:leandrobrunoeditor@gmail.com" style="text-decoration: none; color: inherit; display: block; margin-bottom: 15px;">
                         <p style="opacity: 1; font-weight: 600; cursor: pointer; margin: 0; font-size: 1rem;">leandrobrunoeditor@gmail.com</p>
                     </a>
                     
@@ -283,13 +305,14 @@
     </div>
 
     <script>
-        // DATA MASTER
+        // DATA MASTER (Con Logos)
         const allProjects = [
             {
                 title: "Menem",
                 director: "Ariel Winograd",
                 prod: "Claxon",
                 platform: "Prime Video",
+                logo: "./assets/logo_prime.png", // Asegúrate de tener este archivo
                 yt: "-2AmqmciWXE",
                 previewUrl: "./assets/menem_preview.mp4",
                 image: "./assets/Menem_Thumbnail_1.jpg",
@@ -300,6 +323,7 @@
                 director: "Martín Jalfen",
                 prod: "Pop Studios",
                 platform: "Global Campaign",
+                // Sin logo, mostrará texto
                 yt: "7Cllu0Rme74",
                 previewUrl: "./assets/oreo_preview.mp4",
                 image: "./assets/Oreo_Thumbnail_5.png",
@@ -310,6 +334,7 @@
                 director: "B. Naishtat",
                 prod: "K&S Films",
                 platform: "Netflix",
+                logo: "./assets/logo_netflix.png",
                 yt: "A0d6wnlMRRk",
                 previewUrl: "./assets/moscas_preview.mp4",
                 image: "./assets/Moscas_Thumbnail_1.jpg",
@@ -320,6 +345,7 @@
                 director: "Ariel Winograd",
                 prod: "Pampa Films",
                 platform: "Disney+",
+                logo: "./assets/logo_disney.png",
                 yt: "ecr24akKDbs",
                 previewUrl: "./assets/coppola_preview.mp4",
                 image: "./assets/Coppola_Thumbnail_2.jpg",
@@ -435,39 +461,14 @@
             renderIndex();
         }
 
-        // --- NAVIGATION CONTROL ---
-        function goHome() {
-            closeAllOverlays();
-        }
-
-        function openIndex() {
-            closeAllOverlays(false);
-            indexOverlay.classList.add('open');
-            nav.classList.add('solid-bg');
-            pauseHero();
-        }
-
-        function openAbout() {
-            closeAllOverlays(false);
-            aboutOverlay.classList.add('open');
-            nav.classList.add('solid-bg');
-            pauseHero();
-        }
-
+        function goHome() { closeAllOverlays(); }
+        function openIndex() { closeAllOverlays(false); indexOverlay.classList.add('open'); nav.classList.add('solid-bg'); pauseHero(); }
+        function openAbout() { closeAllOverlays(false); aboutOverlay.classList.add('open'); nav.classList.add('solid-bg'); pauseHero(); }
         function closeAllOverlays(resumeHero = true) {
-            indexOverlay.classList.remove('open');
-            aboutOverlay.classList.remove('open');
-            nav.classList.remove('solid-bg');
-            if(resumeHero) {
-                playActiveVideo();
-                startAutoPlay();
-            }
+            indexOverlay.classList.remove('open'); aboutOverlay.classList.remove('open'); nav.classList.remove('solid-bg');
+            if(resumeHero) { playActiveVideo(); startAutoPlay(); }
         }
-
-        function pauseHero() {
-            clearInterval(autoPlayInterval);
-            document.querySelectorAll('video').forEach(v => v.pause());
-        }
+        function pauseHero() { clearInterval(autoPlayInterval); document.querySelectorAll('video').forEach(v => v.pause()); }
 
         function renderIndex() {
             const listContainer = document.getElementById('list-container');
@@ -476,19 +477,29 @@
                 const item = document.createElement('div');
                 item.className = 'list-item';
                 item.onclick = () => openProject(p);
+                
+                // Lógica para mostrar Logo o Texto
+                let platformHTML = '';
+                if(p.logo) {
+                    platformHTML = `<img src="${p.logo}" alt="${p.platform}" class="platform-logo">`;
+                } else {
+                    platformHTML = `<span class="platform-text">${p.platform || ''}</span>`;
+                }
+
                 item.innerHTML = `
-                    <div class="list-thumb"><img src="${p.image}" alt="${p.title}" loading="lazy"></div>
-                    <div class="list-info">
-                        <div class="list-title">${p.title}</div>
-                        <div class="list-details"><span><b>Director:</b> ${p.director}</span><span><b>Prod Co:</b> ${p.prod}</span><span><b>Editor:</b> Leandro Bruno</span></div>
+                    <div class="list-group">
+                        <div class="list-thumb"><img src="${p.image}" alt="${p.title}" loading="lazy"></div>
+                        <div class="list-info">
+                            <div class="list-title">${p.title}</div>
+                            <div class="list-details"><span><b>Director:</b> ${p.director}</span><span><b>Prod Co:</b> ${p.prod}</span><span><b>Editor:</b> Leandro Bruno</span></div>
+                        </div>
                     </div>
-                    <div class="list-platform">${p.platform || ''}</div>
+                    <div class="list-platform">${platformHTML}</div>
                 `;
                 listContainer.appendChild(item);
             });
         }
 
-        // --- CAROUSEL LOGIC ---
         function playActiveVideo() {
             document.querySelectorAll('.carousel video').forEach(v => v.pause());
             const slides = document.querySelectorAll('.slide');
@@ -509,7 +520,6 @@
         function startAutoPlay() { autoPlayInterval = setInterval(nextSlide, 7000); }
         function resetAutoPlay() { clearInterval(autoPlayInterval); startAutoPlay(); }
 
-        // --- MODAL LOGIC ---
         const modalContainer = document.getElementById('modal-container');
         const modalContent = document.getElementById('modal-content-area');
 
