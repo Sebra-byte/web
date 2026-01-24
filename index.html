@@ -12,7 +12,7 @@
     
     <style>
         :root {
-            /* PALETA DE COLORES */
+            /* PALETA */
             --bg: #757c71;
             --text: #eae5dc;
             --accent: rgba(234, 229, 220, 0.8);
@@ -60,7 +60,7 @@
             font-weight: 600; letter-spacing: -0.5px; text-transform: lowercase;
             line-height: 1; font-family: var(--font-serif); color: var(--text);
             text-shadow: 0 2px 10px rgba(0,0,0,0.3);
-            z-index: 501; /* Sobre el menú móvil */
+            z-index: 501; /* Siempre visible */
             position: relative;
         }
         .brand span {
@@ -69,7 +69,7 @@
             text-transform: uppercase; font-weight: 400;
         }
         
-        /* DESKTOP NAV LINKS */
+        /* DESKTOP NAV */
         .nav-links { display: flex; gap: 30px; padding-top: 8px; align-items: center; }
         
         .nav-links a, .lang-toggle {
@@ -139,7 +139,7 @@
         }
         .slide.active .slide-info { opacity: 1; transform: translateY(0); }
 
-        /* LABEL "SELECTED WORKS" */
+        /* LABEL "SELECTED WORKS" (Sobre el título) */
         .label-text {
             font-family: var(--font-main);
             font-size: 0.65rem;
@@ -147,7 +147,7 @@
             letter-spacing: 2px;
             color: var(--text);
             opacity: 0.7;
-            margin-bottom: 15px; /* Separación del título */
+            margin-bottom: 15px;
             display: block;
             text-shadow: 0 2px 5px rgba(0,0,0,0.3);
         }
@@ -192,7 +192,7 @@
             cursor: pointer; 
             border: none; 
             width: 100%;
-            min-height: 100%; 
+            height: 100%; /* IMPORTANTE PARA PC: Altura definida */
         }
         
         .grid-item.half { grid-column: span 6; } 
@@ -201,7 +201,7 @@
         .grid-item.quarter { grid-column: span 3; } 
         .grid-item.tall { grid-row: span 2; } 
 
-        /* ESTABILIDAD DE IMAGEN (ABSOLUTE) */
+        /* ESTABILIDAD DE IMAGEN */
         .grid-item img {
             position: absolute; 
             top: 0; left: 0;
@@ -384,7 +384,7 @@
 
         let currentLang = 'en';
 
-        // --- DATA MASTER ---
+        // --- DATA MASTER (LISTA DESGLOSADA) ---
         const allProjects = [
             { 
                 title: "Menem", 
