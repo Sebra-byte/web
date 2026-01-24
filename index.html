@@ -43,7 +43,7 @@
         .brand, .nav-links a { pointer-events: auto; cursor: pointer; }
         
         .brand {
-            /* TAMAÑO GRANDE (+30%) */
+            /* TAMAÑO GRANDE */
             font-size: clamp(1.45rem, 2vw, 2.35rem); 
             font-weight: 600; letter-spacing: -0.5px; text-transform: lowercase;
             line-height: 1; font-family: var(--font-serif); color: var(--text);
@@ -126,7 +126,7 @@
         .project-grid {
             display: flex;
             flex-wrap: wrap;
-            gap: 0; 
+            gap: 0; /* CERO ESPACIO ENTRE ITEMS */
             max-width: 1800px;
             margin: 0 auto;
             padding-bottom: 100px;
@@ -137,17 +137,19 @@
             height: 350px; 
             overflow: hidden;
             cursor: pointer;
-            border: 4px solid var(--bg); /* Borde del color del fondo para separar */
+            border: none; /* BORDE ELIMINADO PARA EFECTO PEGADO */
         }
         
         /* Tamaños mosaico */
         .grid-item.half { width: 50%; } 
         .grid-item.third { width: 33.333%; } 
+        .grid-item.three-quarters { width: 75%; } /* Agregado por si usas 'three quarters' */
 
         .grid-item img {
             width: 100%; height: 100%; object-fit: cover;
             filter: grayscale(20%);
             transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s;
+            display: block; /* Evita espacios fantasma debajo de las imagenes */
         }
         .grid-item:hover img { transform: scale(1.05); filter: grayscale(0%); }
 
@@ -231,11 +233,11 @@
         }
 
         @media(max-width: 1024px) {
-            .grid-item.half, .grid-item.third { width: 50%; height: 250px; }
+            .grid-item.half, .grid-item.third, .grid-item.three-quarters { width: 50%; height: 250px; }
             .item-overlay { opacity: 1; background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 60%); }
         }
         @media(max-width: 600px) {
-            .grid-item.half, .grid-item.third { width: 100%; height: 250px; }
+            .grid-item.half, .grid-item.third, .grid-item.three-quarters { width: 100%; height: 250px; }
             nav { padding: 20px 30px; }
             .overlay-section { padding: 100px 20px 20px 20px; }
         }
@@ -315,7 +317,7 @@
                 platform: "Global Campaign",
                 yt: "7Cllu0Rme74",
                 previewUrl: "./assets/oreo_preview.mp4",
-                image: "./assets/Oreo_Thumbnail_4.png",
+                image: "./assets/Oreo_Thumbnail_5.png",
                 featured: true,
                 size: 'half'
             },
@@ -327,7 +329,7 @@
                 platform: "Netflix",
                 yt: "A0d6wnlMRRk",
                 previewUrl: "./assets/moscas_preview.mp4",
-                image: "./assets/Moscas_Thumbnail_2.jpg",
+                image: "./assets/Moscas_Thumbnail_1.jpg",
                 featured: true,
                 size: 'third'
             },
@@ -391,7 +393,7 @@
                 yt: "",
                 image: "./assets/BB_Thumbnail_1.png",
                 images: ["./assets/BB_Thumbnail_1.png", "./assets/BB_Thumbnail_2.png", "./assets/BB_Thumbnail_3.png"],
-                size: 'half'
+                size: 'third'
             },
             {
                 title: "Las Marias",
@@ -406,8 +408,8 @@
             {
                 title: "Todo lo que recuerdo",
                 director: "N. Fernandez Melian",
-                prod: "",
-                platform: "Short Film Documentary",
+                prod: "Festival MDQ",
+                platform: "Short Film",
                 yt: "",
                 image: "./assets/TodoLoQueRecuerdo_Thumbnail_1.png",
                 images: ["./assets/TodoLoQueRecuerdo_Thumbnail_1.png"],
