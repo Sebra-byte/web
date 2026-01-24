@@ -143,7 +143,8 @@
         .grid-item.quarter { grid-column: span 3; } 
         .grid-item.tall { grid-row: span 2; } 
 
-        /* --- CORRECCIÓN DE ESTABILIDAD DE IMAGEN (CSS Absolute) --- */
+        /* --- ESTABILIDAD DE IMAGEN (CSS Absolute) --- */
+        /* Esto evita que la foto salte o cambie de tamaño al hacer hover */
         .grid-item img {
             position: absolute; 
             top: 0; left: 0;
@@ -301,7 +302,7 @@
 
         let currentLang = 'en';
 
-        // --- DATA MASTER (SYNTAX CORREGIDA) ---
+        // --- DATA MASTER CORREGIDO Y ORDENADO ---
         const allProjects = [
             { 
                 title: "Menem", 
@@ -411,6 +412,7 @@
                 platform: "Music Video", 
                 yt: "", 
                 image: "./assets/RP_Thumbmail_1.png", 
+                /* OJO: Dejé RP_Thumbmail con 'M' porque así lo tenías en tu carpeta. Si falla, cambialo a 'Thumbnail' */
                 images: [
                     "./assets/RP_Thumbmail_1.png", 
                     "./assets/RP_Thumbmail_2.png", 
@@ -592,16 +594,19 @@
                 `;
                 gridContainer.appendChild(item);
 
+                // HOVER SLIDESHOW
                 if(p.images && p.images.length > 1) {
                     let hoverInterval;
                     let imgIndex = 0;
                     item.onmouseenter = () => {
                         const img = item.querySelector('img');
+                        // Preload
                         p.images.forEach(src => { const i = new Image(); i.src = src; });
+                        
                         hoverInterval = setInterval(() => {
                             imgIndex = (imgIndex + 1) % p.images.length;
                             img.src = p.images[imgIndex];
-                        }, 700);
+                        }, 700); // 700ms de intervalo
                     };
                     item.onmouseleave = () => {
                         clearInterval(hoverInterval);
