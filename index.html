@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,11 +10,10 @@
     
     <style>
         :root {
-            /* PALETA NUEVA */
-            --bg: #757c71; /* Nuevo color de fondo */
-            --text: #eae5dc; /* Nuevo color de texto (crema) */
-            /* Versión con opacidad del nuevo color de texto para acentos */
-            --accent: rgba(234, 229, 220, 0.8); 
+            /* PALETA */
+            --bg: #757c71;
+            --text: #eae5dc;
+            --accent: rgba(234, 229, 220, 0.8);
             
             --font-main: 'Inter', sans-serif;
             --font-serif: 'Playfair Display', serif;
@@ -30,6 +29,21 @@
             overflow: hidden;
         }
 
+        /* --- CUSTOM SCROLLBAR (DISEÑO A MEDIDA) --- */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg); 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(234, 229, 220, 0.4); 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(234, 229, 220, 0.8); 
+        }
+
         /* --- NAVIGATION --- */
         nav {
             position: fixed; top: 0; width: 100%; 
@@ -41,7 +55,7 @@
         }
         nav.solid-bg { background: var(--bg); pointer-events: auto; }
         
-        .brand, .nav-links a { pointer-events: auto; cursor: pointer; }
+        .brand, .nav-links a, .lang-toggle { pointer-events: auto; cursor: pointer; }
         
         .brand {
             font-size: clamp(1.45rem, 2vw, 2.35rem); 
@@ -56,14 +70,25 @@
         }
         
         .nav-links { display: flex; gap: 30px; padding-top: 8px; align-items: center; }
-        .nav-links a {
+        
+        /* Estilos compartidos para links y el toggle */
+        .nav-links a, .lang-toggle {
             color: var(--text); text-decoration: none; 
             font-size: 0.7rem;
             text-transform: uppercase; letter-spacing: 1px; opacity: 0.9;
             transition: opacity 0.3s; position: relative;
             text-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
-        .nav-links a:hover { opacity: 1; }
+        .nav-links a:hover, .lang-toggle:hover { opacity: 1; }
+        
+        /* Separador visual para el idioma */
+        .lang-toggle {
+            font-weight: 600;
+            border: 1px solid rgba(234, 229, 220, 0.3);
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-right: 10px; /* Separación de All Projects */
+        }
 
         /* --- CAROUSEL (HOME) --- */
         .carousel { height: 100vh; width: 100vw; position: relative; z-index: 1; }
@@ -96,14 +121,12 @@
             margin-bottom: 15px; letter-spacing: -0.5px; line-height: 1; color: var(--text);
             text-shadow: 0 2px 10px rgba(0,0,0,0.5);
             display: inline-block; 
-            /* Subrayado con el nuevo color crema y opacidad */
             border-bottom: 1px solid rgba(234, 229, 220, 0.6);
             padding-bottom: 5px;
         }
         .credits {
             display: flex; gap: 20px; font-size: 0.75rem; 
             text-transform: uppercase;
-            /* Usamos la variable accent actualizada */
             letter-spacing: 1px; margin-top: 10px; color: var(--accent);
             text-shadow: 0 1px 5px rgba(0,0,0,0.5);
             font-family: var(--font-main);
@@ -116,7 +139,6 @@
             pointer-events: none; 
         }
         .arrow {
-            /* Flechas con el nuevo color crema y opacidad */
             color: rgba(234, 229, 220, 0.4); font-size: 1.5rem; cursor: pointer;
             pointer-events: auto; transition: color 0.3s, transform 0.3s;
             padding: 20px;
@@ -135,7 +157,7 @@
         }
         .overlay-section.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
 
-        /* --- INDEX (GRID MOSAICO CLEAN) --- */
+        /* --- INDEX (GRID) --- */
         .project-grid {
             display: flex; flex-wrap: wrap; gap: 0; 
             max-width: 1800px; margin: 0 auto; padding-bottom: 100px;
@@ -158,7 +180,7 @@
         }
         .grid-item:hover img { transform: scale(1.05); filter: grayscale(0%); }
 
-        /* OVERLAY TEXTO (ALL PROJECTS) */
+        /* OVERLAY TEXTO */
         .item-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);
@@ -167,28 +189,17 @@
             padding: 30px;
             pointer-events: none; 
         }
-        
         .grid-item:hover .item-overlay { opacity: 1; }
 
         .item-title {
-            font-family: var(--font-serif);
-            font-size: 1.4rem;
-            color: var(--text); /* Usa el nuevo color crema */
-            margin-bottom: 8px;
-            line-height: 1.1;
-            display: inline-block;
-            /* Subrayado con el nuevo color crema y opacidad */
-            border-bottom: 1px solid rgba(234, 229, 220, 0.6);
-            padding-bottom: 4px;
+            font-family: var(--font-serif); font-size: 1.4rem; color: var(--text);
+            margin-bottom: 8px; line-height: 1.1; display: inline-block;
+            border-bottom: 1px solid rgba(234, 229, 220, 0.6); padding-bottom: 4px;
         }
 
         .item-meta {
-            font-family: var(--font-main);
-            font-size: 0.7rem;
-            color: var(--accent); /* Usa la variable accent */
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            margin-top: 5px;
+            font-family: var(--font-main); font-size: 0.7rem; color: var(--accent);
+            letter-spacing: 0.5px; text-transform: uppercase; margin-top: 5px;
         }
         .item-meta span { margin-right: 15px; }
 
@@ -260,12 +271,13 @@
     <nav id="navbar">
         <div class="brand" onclick="goHome()">
             leandro bruno
-            <span>film editor</span>
+            <span id="role-subtitle">film editor</span>
         </div>
         <div class="nav-links">
-            <a onclick="openIndex()">All Projects</a>
-            <a onclick="openAbout()">About</a>
-            <a href="mailto:leandrobrunoeditor@gmail.com">Contact</a>
+            <span class="lang-toggle" onclick="toggleLanguage()">ES</span>
+            <a onclick="openIndex()" id="nav-projects">All Projects</a>
+            <a onclick="openAbout()" id="nav-about">About</a>
+            <a href="mailto:leandrobrunoeditor@gmail.com" id="nav-contact">Contact</a>
         </div>
     </nav>
 
@@ -284,27 +296,8 @@
 
     <div id="about-overlay" class="overlay-section">
         <div class="about-container">
-            <div class="about-text">
-                <p>
-                    Leandro Bruno is a Buenos Aires-based editor specializing in rhythmic storytelling.
-                </p>
-                <p>
-                    With a portfolio that bridges <strong>narrative fiction and visual media</strong>, he has crafted series for <strong>Netflix, Disney+, and Prime Video</strong>, alongside dynamic work in <strong>advertising and music videos</strong>.
-                </p>
-                <p>
-                    He brings a distinct cinematic language to every cut, regardless of the format.
-                </p>
-                
-                <div style="margin-top: 60px;">
-                    <a href="mailto:leandrobrunoeditor@gmail.com" style="text-decoration: none; color: inherit; display: block; margin-bottom: 15px;">
-                        <p style="opacity: 1; font-weight: 600; cursor: pointer; margin: 0; font-size: 1rem;">leandrobrunoeditor@gmail.com</p>
-                    </a>
-                    
-                    <a href="https://www.imdb.com/name/nm11460466/" target="_blank" class="imdb-link">
-                        IMDb PROFILE &#8599;
-                    </a>
+            <div class="about-text" id="about-content">
                 </div>
-            </div>
         </div>
     </div>
 
@@ -314,10 +307,50 @@
     </div>
 
     <script>
-        // DATA MASTER
+        // --- TRANSLATIONS CONFIG ---
+        const translations = {
+            en: {
+                role: "film editor",
+                nav_projects: "All Projects",
+                nav_about: "About",
+                nav_contact: "Contact",
+                bio: `
+                    <p>Leandro Bruno is a Buenos Aires-based editor specializing in rhythmic storytelling.</p>
+                    <p>With a portfolio that bridges <strong>narrative fiction and visual media</strong>, he has crafted series for <strong>Netflix, Disney+, and Prime Video</strong>, alongside dynamic work in <strong>advertising and music videos</strong>.</p>
+                    <p>He brings a distinct cinematic language to every cut, regardless of the format.</p>
+                    <div style="margin-top: 60px;">
+                        <a href="mailto:leandrobrunoeditor@gmail.com" style="text-decoration: none; color: inherit; display: block; margin-bottom: 15px;">
+                            <p style="opacity: 1; font-weight: 600; cursor: pointer; margin: 0; font-size: 1rem;">leandrobrunoeditor@gmail.com</p>
+                        </a>
+                        <a href="https://www.imdb.com/name/nm11460466/" target="_blank" class="imdb-link">IMDb PROFILE &#8599;</a>
+                    </div>
+                `
+            },
+            es: {
+                role: "editor de cine",
+                nav_projects: "Proyectos",
+                nav_about: "Sobre mí",
+                nav_contact: "Contacto",
+                bio: `
+                    <p>Leandro Bruno es un editor con base en Buenos Aires especializado en narrativa rítmica.</p>
+                    <p>Con un portfolio que une <strong>ficción narrativa y medios visuales</strong>, ha editado series para <strong>Netflix, Disney+ y Prime Video</strong>, junto con trabajos dinámicos en <strong>publicidad y videos musicales</strong>.</p>
+                    <p>Aporta un lenguaje cinematográfico distintivo a cada corte, sin importar el formato.</p>
+                    <div style="margin-top: 60px;">
+                        <a href="mailto:leandrobrunoeditor@gmail.com" style="text-decoration: none; color: inherit; display: block; margin-bottom: 15px;">
+                            <p style="opacity: 1; font-weight: 600; cursor: pointer; margin: 0; font-size: 1rem;">leandrobrunoeditor@gmail.com</p>
+                        </a>
+                        <a href="https://www.imdb.com/name/nm11460466/" target="_blank" class="imdb-link">PERFIL IMDb &#8599;</a>
+                    </div>
+                `
+            }
+        };
+
+        let currentLang = 'en';
+
+        // --- DATA MASTER ---
         const allProjects = [
             { title: "Menem", director: "Ariel Winograd", prod: "Claxson/Prime Video", platform: "Prime Video", yt: "-2AmqmciWXE", previewUrl: "./assets/menem_preview.mp4", image: "./assets/Menem_Thumbnail_1.jpg", featured: true, size: 'half' },
-            { title: "Oreo: Keep Playful", director: "Martín Jalfen", prod: "Pop Studios", platform: "Global Campaign", yt: "7Cllu0Rme74", previewUrl: "./assets/oreo_preview.mp4", image: "./assets/Oreo_Thumbnail_4.png", featured: true, size: 'half' },
+            { title: "Oreo: Keep Playful", director: "Martín Jalfen", prod: "Pop Studios", platform: "Global Campaign", yt: "7Cllu0Rme74", previewUrl: "./assets/oreo_preview.mp4", image: "./assets/Oreo_Thumbnail_5.png", featured: true, size: 'half' },
             { title: "El tiempo de las moscas", director: "B. Naishtat/A.Katz", prod: "Haddock Films/Netflix", platform: "Netflix", yt: "A0d6wnlMRRk", previewUrl: "./assets/moscas_preview.mp4", image: "./assets/Moscas_Thumbnail_2.png", featured: true, size: 'third' },
             { title: "Coppola, el representante", director: "Ariel Winograd", prod: "Pampa Films/Disney+", platform: "Disney+", yt: "ecr24akKDbs", previewUrl: "./assets/coppola_preview.mp4", image: "./assets/Coppola_Thumbnail_2.jpg", featured: true, size: 'third' },
             { title: "Levis x Winona Riders", director: "Nico Alarcos", prod: "Primo", platform: "Commercial", yt: "mb2RPesGf7Q", image: "./assets/Levis_Thumbnail_v01.jpg", size: 'third' },
@@ -325,7 +358,7 @@
             { title: "Ratones Paranoicos", director: "Alex Roux", prod: "Poster", platform: "Music Video", yt: "", image: "./assets/RP_Thumbmail_1.png", images: ["./assets/RP_Thumbmail_1.png", "./assets/RP_Thumbmail_2.png", "./assets/RP_Thumbmail_3.png", "./assets/RP_Thumbmail_4.png", "./assets/RP_Thumbmail_5.png"], size: 'half' },
             { title: "Las manos de la abuela", director: "Camila Migliore", prod: "Calesita Films", platform: "Short Film", image: "./assets/MA_Thumbnail_1.png", yt: "", images: ["./assets/MA_Thumbnail_1.png", "./assets/MA_Thumbnail_3.png", "./assets/MA_Thumbnail_4.png", "./assets/MA_Thumbnail_5.png"], featured: false, size: 'third' },
             { title: "Besos Brujos", director: "Karina Flonembaum", prod: "Nevada Cine/Tres esquimales", platform: "Short Film", yt: "", image: "./assets/BB_Thumbnail_1.png", images: ["./assets/BB_Thumbnail_1.png", "./assets/BB_Thumbnail_2.png", "./assets/BB_Thumbnail_3.png"], size: 'third' },
-            { title: "Las Marias", director: "A. Berger Parrado", prod: "Navajo Films", platform: "Documentary", yt: "", image: "./assets/Marias_Thumbnail_1.png", images: ["./assets/Marias_Thumbnail_1.png", "./assets/Marias_Thumbnail_2.png", "./assets/Marias_Thumbnail_3.png"], size: 'third' },
+            { title: "Las Marias", director: "A. Berger Parrado", prod: "Navajo Films", platform: "Documentary", yt: "", image: "./assets/Marias_Thumbnail_1.png", images: ["./assets/Marias_Thumbnail_1.png", "./assets/Marias_Thumbnail_2.png", "./assets/Marias_Thumbnail_3.png"], size: 'three quarters' },
             { title: "Todo lo que recuerdo", director: "N. Fernandez Melian", prod: "", platform: "Short Film Documentary", yt: "", image: "./assets/TodoLoQueRecuerdo_Thumbnail_1.png", images: ["./assets/TodoLoQueRecuerdo_Thumbnail_1.png"], size: 'third' },
             { title: "Brillar a oscuras", director: "Karina Flonembaum / Tali Feites", prod: "Tres Esquimales", platform: "Documentary", yt: "", image: "./assets/Brillar_Thumbnail_1.png", size: 'third' },
             { title: "Agujeros negros", director: "N. Fernandez Melian", prod: "", platform: "Fiction", yt: "", image: "./assets/Agujeros_Thumbnail_1.png", size: 'third' }
@@ -341,7 +374,29 @@
         const aboutOverlay = document.getElementById('about-overlay');
         const nav = document.getElementById('navbar');
 
+        // Inicializar textos
+        function updateLanguageUI() {
+            const t = translations[currentLang];
+            document.getElementById('role-subtitle').innerText = t.role;
+            document.getElementById('nav-projects').innerText = t.nav_projects;
+            document.getElementById('nav-about').innerText = t.nav_about;
+            document.getElementById('nav-contact').innerText = t.nav_contact;
+            document.getElementById('about-content').innerHTML = t.bio;
+            
+            // Boton toggle
+            const toggleBtn = document.querySelector('.lang-toggle');
+            toggleBtn.innerText = currentLang === 'en' ? 'ES' : 'EN';
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'es' : 'en';
+            updateLanguageUI();
+        }
+
         function initCarousel() {
+            // Cargar idioma inicial (Inglés por defecto en HTML, pero aseguramos JS)
+            updateLanguageUI();
+
             carouselContainer.innerHTML = '';
             dotsContainer.innerHTML = '';
             
