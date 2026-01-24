@@ -10,7 +10,7 @@
     
     <style>
         :root {
-            /* PALETA VERDE OLIVA */
+            /* PALETA */
             --bg: #798476;
             --text: #F2F2F2;
             --accent: rgba(242, 242, 242, 0.7);
@@ -30,29 +30,35 @@
             overflow: hidden;
         }
 
-        /* --- NAVIGATION --- */
+        /* --- NAVIGATION (REDUCIDA 30%) --- */
         nav {
-            position: fixed; top: 0; width: 100%; padding: 40px 60px;
+            position: fixed; top: 0; width: 100%; 
+            padding: 30px 50px; /* Padding reducido */
             display: flex; justify-content: space-between; align-items: flex-start;
             z-index: 500; pointer-events: none; 
             background: linear-gradient(to bottom, rgba(121, 132, 118, 0.9), transparent);
             transition: background 0.3s;
         }
-        nav.index-active { background: var(--bg); pointer-events: auto; }
+        nav.solid-bg { background: var(--bg); pointer-events: auto; }
+        
         .brand, .nav-links a { pointer-events: auto; cursor: pointer; }
+        
         .brand {
-            font-size: clamp(1.5rem, 2vw, 2.5rem); 
-            font-weight: 600; letter-spacing: -1px; text-transform: lowercase;
+            /* Tamaño reducido un ~30% */
+            font-size: clamp(1.1rem, 1.5vw, 1.8rem); 
+            font-weight: 600; letter-spacing: -0.5px; text-transform: lowercase;
             line-height: 1; font-family: var(--font-serif); color: var(--text);
         }
         .brand span {
-            display: block; font-family: var(--font-main); font-size: 0.4em;
-            letter-spacing: 2px; opacity: 0.8; margin-top: 5px;
+            display: block; font-family: var(--font-main); font-size: 0.45em;
+            letter-spacing: 2px; opacity: 0.8; margin-top: 4px;
             text-transform: uppercase; font-weight: 400;
         }
-        .nav-links { display: flex; gap: 40px; padding-top: 10px; }
+        
+        .nav-links { display: flex; gap: 30px; padding-top: 5px; } /* Gap reducido */
         .nav-links a {
-            color: var(--text); text-decoration: none; font-size: 0.9rem;
+            color: var(--text); text-decoration: none; 
+            font-size: 0.7rem; /* Reducido de 0.9rem */
             text-transform: uppercase; letter-spacing: 1px; opacity: 0.8;
             transition: opacity 0.3s; position: relative;
         }
@@ -83,15 +89,12 @@
         }
         .slide.active .slide-info { opacity: 1; transform: translateY(0); }
         
-        /* CAMBIO: Tipografía del título reducida un 25% */
         .project-title {
             font-family: var(--font-serif); 
-            /* Antes: clamp(3rem, 7vw, 6.5rem); */
             font-size: clamp(2.25rem, 5.25vw, 5rem); 
             margin-bottom: 15px; letter-spacing: -1px; line-height: 1.1; color: var(--text);
             text-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
-
         .credits {
             display: flex; gap: 30px; font-size: 0.9rem; text-transform: uppercase;
             letter-spacing: 1px; margin-top: 20px; color: rgba(242, 242, 242, 0.8);
@@ -107,16 +110,18 @@
         }
         .dot.active { background: var(--text); width: 60px; }
 
-        /* --- INDEX OVERLAY (LIST STYLE) --- */
-        #index-overlay {
+        /* --- SHARED OVERLAY STYLES (INDEX & ABOUT) --- */
+        .overlay-section {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--bg); z-index: 400; 
-            padding: 140px 60px 60px 60px; 
+            padding: 120px 60px 60px 60px; 
             overflow-y: auto; opacity: 0; pointer-events: none;
             transition: opacity 0.5s ease, transform 0.5s ease;
             transform: translateY(20px);
         }
-        #index-overlay.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
+        .overlay-section.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
+
+        /* --- INDEX (LIST) --- */
         .project-list { max-width: 1600px; margin: 0 auto; display: flex; flex-direction: column; padding-bottom: 100px; }
         .list-item {
             display: grid; grid-template-columns: 360px 1fr 200px; gap: 80px; 
@@ -148,6 +153,26 @@
             font-size: 1rem; color: var(--text); opacity: 0.9; text-transform: uppercase; letter-spacing: 1px;
         }
 
+        /* --- ABOUT OVERLAY --- */
+        .about-container {
+            max-width: 1000px; margin: 0 auto; padding-top: 40px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+            align-items: start;
+        }
+        .about-text h2 {
+            font-family: var(--font-serif); font-size: 3rem; margin-bottom: 30px;
+            font-weight: 400; letter-spacing: -1px;
+        }
+        .about-text p {
+            font-family: var(--font-main); font-size: 1rem; line-height: 1.8;
+            color: var(--accent); margin-bottom: 20px;
+        }
+        .about-img {
+            width: 100%; aspect-ratio: 3/4; border-radius: 4px; overflow: hidden;
+            background: #4a5248;
+        }
+        .about-img img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%); }
+
         /* --- MODAL VIDEO & GALLERY --- */
         #modal-container {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
@@ -161,70 +186,76 @@
             position: absolute; top: 40px; right: 40px; color: var(--text);
             font-size: 1.5rem; cursor: pointer; z-index: 2005;
         }
-
         .modal-content { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
-
-        /* Estilos específicos para Video */
         .video-wrapper { width: 100%; height: 100%; }
         iframe { width: 100%; height: 100%; border: none; }
-
-        /* Estilos específicos para Galería */
         .gallery-wrapper {
-            width: 100%; height: 100%;
-            display: flex;
-            overflow-x: auto; /* Scroll horizontal */
-            scroll-snap-type: x mandatory; /* Efecto magnético */
-            align-items: center;
+            width: 100%; height: 100%; display: flex; overflow-x: auto;
+            scroll-snap-type: x mandatory; align-items: center;
         }
         .gallery-item {
-            min-width: 100vw; height: 100vh;
-            scroll-snap-align: center;
-            display: flex; justify-content: center; align-items: center;
-            padding: 60px;
+            min-width: 100vw; height: 100vh; scroll-snap-align: center;
+            display: flex; justify-content: center; align-items: center; padding: 60px;
         }
         .gallery-item img {
-            max-width: 100%; max-height: 90%;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            border-radius: 4px;
+            max-width: 100%; max-height: 90%; box-shadow: 0 20px 50px rgba(0,0,0,0.5); border-radius: 4px;
         }
-        /* Flechas de galería */
         .gallery-hint {
             position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
             color: var(--text); opacity: 0.5; font-size: 0.8rem; text-transform: uppercase;
         }
 
-        @media(max-width: 1200px) {
-            .list-item { grid-template-columns: 300px 1fr auto; gap: 40px; }
-        }
+        @media(max-width: 1200px) { .list-item { grid-template-columns: 300px 1fr auto; gap: 40px; } }
         @media(max-width: 768px) {
-            nav { padding: 30px; flex-direction: column; gap: 20px; }
-            #index-overlay { padding: 160px 20px 20px 20px; }
+            nav { padding: 20px 30px; flex-direction: column; gap: 15px; }
+            #index-overlay, .overlay-section { padding: 140px 20px 20px 20px; }
             .list-item { grid-template-columns: 1fr; gap: 20px; text-align: left; padding: 30px 0; }
             .list-thumb { width: 100%; max-width: none; }
-            .list-title { font-size: 1.5rem; }
             .list-platform { text-align: left; margin-top: -10px; font-size: 0.8rem; opacity: 0.6; }
+            
+            .about-container { grid-template-columns: 1fr; gap: 40px; }
+            .about-text h2 { font-size: 2rem; }
         }
     </style>
 </head>
 <body>
 
     <nav id="navbar">
-        <div class="brand" onclick="closeIndex()">
+        <div class="brand" onclick="goHome()">
             leandro bruno
             <span>film editor</span>
         </div>
         <div class="nav-links">
-            <a onclick="closeIndex()">selected</a>
-            <a onclick="openIndex()">index</a>
-            <a href="mailto:hola@tuemail.com">contact</a>
+            <a onclick="openIndex()">All Projects</a>
+            <a onclick="openAbout()">About</a>
+            <a href="mailto:leandrobrunoeditor@gmail.com">Contact</a>
         </div>
     </nav>
 
     <div class="carousel" id="mainCarousel"></div>
     <div class="controls" id="dotsContainer"></div>
 
-    <div id="index-overlay">
+    <div id="index-overlay" class="overlay-section">
         <div class="project-list" id="list-container"></div>
+    </div>
+
+    <div id="about-overlay" class="overlay-section">
+        <div class="about-container">
+            <div class="about-text">
+                <h2>Editor based in<br>Buenos Aires.</h2>
+                <p>
+                    Leandro Bruno is a film editor specializing in narrative, commercial, and music video projects. With over a decade of experience, he has collaborated with top directors like Ariel Winograd and Benjamin Naishtat.
+                </p>
+                <p>
+                    His work has been featured on Netflix, Prime Video, and Disney+, bringing stories to life with a keen sense of rhythm and emotion.
+                </p>
+                <br>
+                <p style="opacity: 1; font-weight: 600;">leandrobrunoeditor@gmail.com</p>
+            </div>
+            <div class="about-img">
+                <img src="./assets/about_photo.jpg" alt="Leandro Bruno" onerror="this.src='https://via.placeholder.com/600x800/4a5248/fff?text=LB'">
+            </div>
+        </div>
     </div>
 
     <div id="modal-container">
@@ -233,7 +264,6 @@
     </div>
 
     <script>
-        // DATA MASTER COMPLETA (Orden actualizado)
         const allProjects = [
             {
                 title: "Menem",
@@ -243,7 +273,7 @@
                 yt: "-2AmqmciWXE",
                 previewUrl: "./assets/menem_preview.mp4",
                 image: "./assets/Menem_Thumbnail_1.jpg",
-                featured: true // Posición 1
+                featured: true
             },
             {
                 title: "Oreo: Keep Playful",
@@ -253,35 +283,34 @@
                 yt: "7Cllu0Rme74",
                 previewUrl: "./assets/oreo_preview.mp4",
                 image: "./assets/Oreo_Thumbnail_5.png",
-                featured: true // Posición 2
+                featured: true
             },
             {
                 title: "El tiempo de las moscas",
-                director: "B. Naishtat y A.Katz",
-                prod: "Haddock Films,  Zona Audiovisual, Netflix",
+                director: "B. Naishtat",
+                prod: "K&S Films",
                 platform: "Netflix",
                 yt: "A0d6wnlMRRk",
                 previewUrl: "./assets/moscas_preview.mp4",
                 image: "./assets/Moscas_Thumbnail_1.jpg",
-                featured: true // Posición 3
+                featured: true
             },
             {
                 title: "Coppola, el representante",
                 director: "Ariel Winograd",
-                prod: "Pampa Films, Disney+",
+                prod: "Pampa Films",
                 platform: "Disney+",
                 yt: "ecr24akKDbs",
                 previewUrl: "./assets/coppola_preview.mp4",
                 image: "./assets/Coppola_Thumbnail_2.jpg",
-                featured: true // Posición 4
+                featured: true
             },
-            // --- VOLUMEN ---
             {
                 title: "Levis x Winona Riders",
                 director: "Nico Alarcos",
                 prod: "Primo",
                 platform: "Web / Social",
-                yt: "mb2RPesGf7Q", // Link actualizado
+                yt: "mb2RPesGf7Q",
                 image: "./assets/Levis_Thumbnail_v01.jpg"
             },
             {
@@ -299,7 +328,8 @@
                 platform: "Short Film",
                 image: "./assets/MA_Thumbnail_1.png",
                 yt: "",
-                images: ["./assets/MA_Thumbnail_1.png", "./assets/MA_Thumbnail_3.png", "./assets/MA_Thumbnail_4.png", "./assets/MA_Thumbnail_5.png"]
+                images: ["./assets/MA_Thumbnail_1.png", "./assets/MA_Thumbnail_3.png", "./assets/MA_Thumbnail_4.png", "./assets/MA_Thumbnail_5.png"],
+                featured: false
             },
             {
                 title: "Ratones Paranoicos",
@@ -339,12 +369,15 @@
             }
         ];
 
-        // --- LÓGICA CARRUSEL ---
+        // --- LÓGICA CORE ---
         const featuredProjects = allProjects.filter(p => p.featured);
         let currentSlide = 0;
         let autoPlayInterval;
         const carouselContainer = document.getElementById('mainCarousel');
         const dotsContainer = document.getElementById('dotsContainer');
+        const indexOverlay = document.getElementById('index-overlay');
+        const aboutOverlay = document.getElementById('about-overlay');
+        const nav = document.getElementById('navbar');
 
         function initCarousel() {
             carouselContainer.innerHTML = '';
@@ -354,14 +387,9 @@
                 const slide = document.createElement('div');
                 slide.className = `slide ${i === 0 ? 'active' : ''}`;
                 
-                let mediaHTML = '';
-                if(p.previewUrl) {
-                    mediaHTML = `<video class="bg-media" loop muted playsinline poster="./assets/placeholder.jpg">
-                                    <source src="${p.previewUrl}" type="video/mp4">
-                                 </video>`;
-                } else {
-                    mediaHTML = `<img class="bg-media" src="${p.image}" alt="${p.title}">`;
-                }
+                let mediaHTML = p.previewUrl ? 
+                    `<video class="bg-media" loop muted playsinline poster="./assets/placeholder.jpg"><source src="${p.previewUrl}" type="video/mp4"></video>` : 
+                    `<img class="bg-media" src="${p.image}" alt="${p.title}">`;
 
                 slide.innerHTML = `
                     ${mediaHTML}
@@ -384,32 +412,55 @@
 
             playActiveVideo();
             startAutoPlay();
+            renderIndex(); // Pre-render list
         }
 
-        // --- LÓGICA INDEX (LISTA) ---
-        const indexOverlay = document.getElementById('index-overlay');
-        const listContainer = document.getElementById('list-container');
-        const nav = document.getElementById('navbar');
+        // --- NAVIGATION CONTROL ---
+        function goHome() {
+            closeAllOverlays();
+        }
+
+        function openIndex() {
+            closeAllOverlays(false); // Cierra otros, mantiene pausa
+            indexOverlay.classList.add('open');
+            nav.classList.add('solid-bg');
+            pauseHero();
+        }
+
+        function openAbout() {
+            closeAllOverlays(false);
+            aboutOverlay.classList.add('open');
+            nav.classList.add('solid-bg');
+            pauseHero();
+        }
+
+        function closeAllOverlays(resumeHero = true) {
+            indexOverlay.classList.remove('open');
+            aboutOverlay.classList.remove('open');
+            nav.classList.remove('solid-bg');
+            if(resumeHero) {
+                playActiveVideo();
+                startAutoPlay();
+            }
+        }
+
+        function pauseHero() {
+            clearInterval(autoPlayInterval);
+            document.querySelectorAll('video').forEach(v => v.pause());
+        }
 
         function renderIndex() {
+            const listContainer = document.getElementById('list-container');
             listContainer.innerHTML = '';
             allProjects.forEach(p => {
                 const item = document.createElement('div');
                 item.className = 'list-item';
-                
                 item.onclick = () => openProject(p);
-
                 item.innerHTML = `
-                    <div class="list-thumb">
-                        <img src="${p.image}" alt="${p.title}" loading="lazy">
-                    </div>
+                    <div class="list-thumb"><img src="${p.image}" alt="${p.title}" loading="lazy"></div>
                     <div class="list-info">
                         <div class="list-title">${p.title}</div>
-                        <div class="list-details">
-                            <span><b>Director:</b> ${p.director}</span>
-                            <span><b>Prod Co:</b> ${p.prod}</span>
-                            <span><b>Editor:</b> Leandro Bruno</span> 
-                        </div>
+                        <div class="list-details"><span><b>Director:</b> ${p.director}</span><span><b>Prod Co:</b> ${p.prod}</span><span><b>Editor:</b> Leandro Bruno</span></div>
                     </div>
                     <div class="list-platform">${p.platform || ''}</div>
                 `;
@@ -417,30 +468,13 @@
             });
         }
 
-        function openIndex() {
-            renderIndex();
-            indexOverlay.classList.add('open');
-            nav.classList.add('index-active');
-            clearInterval(autoPlayInterval);
-            document.querySelectorAll('video').forEach(v => v.pause());
-        }
-
-        function closeIndex() {
-            indexOverlay.classList.remove('open');
-            nav.classList.remove('index-active');
-            playActiveVideo();
-            startAutoPlay();
-        }
-
+        // --- CAROUSEL LOGIC ---
         function playActiveVideo() {
-            document.querySelectorAll('video').forEach(v => v.pause());
+            document.querySelectorAll('.carousel video').forEach(v => v.pause());
             const slides = document.querySelectorAll('.slide');
             if(slides.length > 0) {
                 const video = slides[currentSlide].querySelector('video');
-                if(video) {
-                    video.currentTime = 0;
-                    video.play().catch(e => {});
-                }
+                if(video) { video.currentTime = 0; video.play().catch(e => {}); }
             }
         }
 
@@ -450,49 +484,22 @@
             playActiveVideo();
         }
 
-        function goToSlide(index) {
-            currentSlide = index;
-            updateCarousel();
-            resetAutoPlay();
-        }
+        function goToSlide(index) { currentSlide = index; updateCarousel(); resetAutoPlay(); }
+        function nextSlide() { currentSlide = (currentSlide + 1) % featuredProjects.length; updateCarousel(); }
+        function startAutoPlay() { autoPlayInterval = setInterval(nextSlide, 7000); }
+        function resetAutoPlay() { clearInterval(autoPlayInterval); startAutoPlay(); }
 
-        function nextSlide() {
-            currentSlide = (currentSlide + 1) % featuredProjects.length;
-            updateCarousel();
-        }
-
-        function startAutoPlay() {
-            autoPlayInterval = setInterval(nextSlide, 7000);
-        }
-
-        function resetAutoPlay() {
-            clearInterval(autoPlayInterval);
-            startAutoPlay();
-        }
-
-        // --- LÓGICA UNIFICADA DE MODAL ---
+        // --- MODAL LOGIC ---
         const modalContainer = document.getElementById('modal-container');
         const modalContent = document.getElementById('modal-content-area');
 
         function openProject(p) {
-            clearInterval(autoPlayInterval);
-            document.querySelectorAll('video').forEach(v => v.pause());
-            
+            pauseHero();
             if (p.yt && p.yt.length > 0) {
-                modalContent.innerHTML = `
-                    <div class="video-wrapper">
-                        <iframe src="https://www.youtube.com/embed/${p.yt}?autoplay=1&rel=0&controls=1" 
-                        allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                    </div>
-                `;
+                modalContent.innerHTML = `<div class="video-wrapper"><iframe src="https://www.youtube.com/embed/${p.yt}?autoplay=1&rel=0&controls=1" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>`;
             } else if (p.images && p.images.length > 0) {
-                const imagesHTML = p.images.map(imgSrc => 
-                    `<div class="gallery-item"><img src="${imgSrc}" loading="lazy"></div>`
-                ).join('');
-                modalContent.innerHTML = `
-                    <div class="gallery-wrapper">${imagesHTML}</div>
-                    <div class="gallery-hint">Scroll Horizontal &#8594;</div>
-                `;
+                const imagesHTML = p.images.map(img => `<div class="gallery-item"><img src="${img}" loading="lazy"></div>`).join('');
+                modalContent.innerHTML = `<div class="gallery-wrapper">${imagesHTML}</div><div class="gallery-hint">Scroll Horizontal &#8594;</div>`;
             } else {
                 modalContent.innerHTML = `<img src="${p.image}" style="max-height:90vh; max-width:90vw;">`;
             }
@@ -502,15 +509,13 @@
         function closeModal() {
             modalContainer.classList.remove('open');
             setTimeout(() => { modalContent.innerHTML = ''; }, 300);
-            if(!indexOverlay.classList.contains('open')) {
+            if(!indexOverlay.classList.contains('open') && !aboutOverlay.classList.contains('open')) {
                 playActiveVideo();
                 startAutoPlay();
             }
         }
 
-        document.addEventListener('keydown', (e) => {
-            if (e.key === "Escape") closeModal();
-        });
+        document.addEventListener('keydown', (e) => { if (e.key === "Escape") closeModal(); });
 
         initCarousel();
     </script>
