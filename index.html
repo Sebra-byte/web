@@ -143,11 +143,15 @@
         .grid-item.quarter { grid-column: span 3; } 
         .grid-item.tall { grid-row: span 2; } 
 
+        /* --- CORRECCIÓN DE ESTABILIDAD DE IMAGEN --- */
         .grid-item img {
-            width: 100%; height: 100%; object-fit: cover;
+            position: absolute; /* Fija la imagen al contenedor */
+            top: 0;
+            left: 0;
+            width: 100%; height: 100%; 
+            object-fit: cover; /* Recorta para llenar sin estirar */
             filter: grayscale(20%);
             transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s;
-            display: block; 
         }
         .grid-item:hover img { transform: scale(1.05); filter: grayscale(0%); }
 
