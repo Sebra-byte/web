@@ -6,15 +6,14 @@
     <title>Leandro Bruno | Film Editor</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            /* PALETA VERDE OLIVA */
+            /* PALETA */
             --bg: #798476;
-            --text: #F2F2F2;
-            --accent: rgba(242, 242, 242, 0.7);
-            --border: rgba(242, 242, 242, 0.2);
+            --text: #ffffff;
+            --accent: rgba(255, 255, 255, 0.8);
             
             --font-main: 'Inter', sans-serif;
             --font-serif: 'Playfair Display', serif;
@@ -36,7 +35,6 @@
             padding: 30px 50px; 
             display: flex; justify-content: space-between; align-items: flex-start;
             z-index: 500; pointer-events: none; 
-            /* CAMBIO: Fondo transparente puro, sin degradado */
             background: transparent;
             transition: background 0.3s;
         }
@@ -48,7 +46,6 @@
             font-size: clamp(1.1rem, 1.5vw, 1.8rem); 
             font-weight: 600; letter-spacing: -0.5px; text-transform: lowercase;
             line-height: 1; font-family: var(--font-serif); color: var(--text);
-            /* Sombra sutil para lectura sin degradado */
             text-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
         .brand span {
@@ -61,7 +58,7 @@
         .nav-links a {
             color: var(--text); text-decoration: none; 
             font-size: 0.7rem;
-            text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; /* Un poco más opaco para leer mejor */
+            text-transform: uppercase; letter-spacing: 1px; opacity: 0.9;
             transition: opacity 0.3s; position: relative;
             text-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
@@ -76,14 +73,13 @@
             padding: 40px 60px 80px 60px; cursor: pointer;
         }
         .slide.active { opacity: 1; z-index: 1; }
+        
         .bg-media {
             position: absolute; top: 50%; left: 50%; width: 100%; height: 100%;
             object-fit: cover; transform: translate(-50%, -50%) scale(1.08);
             transition: transform 7s ease-out; z-index: 0;
         }
         .slide.active .bg-media { transform: translate(-50%, -50%) scale(1); }
-        
-        /* CAMBIO: Eliminé el .slide::after que contenía el degradado verde/oscuro */
 
         .slide-info {
             position: relative; z-index: 2; max-width: 1100px; opacity: 0;
@@ -95,7 +91,6 @@
             font-family: var(--font-serif); 
             font-size: clamp(2.25rem, 5.25vw, 5rem); 
             margin-bottom: 15px; letter-spacing: -1px; line-height: 1.1; color: var(--text);
-            /* Sombra un poco más fuerte para garantizar lectura sobre videos claros */
             text-shadow: 0 5px 30px rgba(0,0,0,0.5);
         }
         .credits {
@@ -104,14 +99,14 @@
             text-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
         .credits span b { color: var(--text); margin-right: 5px; }
+        
         .controls {
             position: absolute; bottom: 50px; right: 60px; z-index: 10;
             display: flex; gap: 15px;
         }
         .dot {
-            width: 40px; height: 3px; background: rgba(242, 242, 242, 0.5); /* Más visible sin fondo oscuro */
-            cursor: pointer; transition: 0.3s;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            width: 40px; height: 3px; background: rgba(242, 242, 242, 0.5);
+            cursor: pointer; transition: 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.3);
         }
         .dot.active { background: var(--text); width: 60px; }
 
@@ -119,65 +114,79 @@
         .overlay-section {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--bg); z-index: 400; 
-            padding: 120px 60px 60px 60px; 
+            padding: 120px 40px 60px 40px; /* Padding lateral ajustado */
             overflow-y: auto; opacity: 0; pointer-events: none;
             transition: opacity 0.5s ease, transform 0.5s ease;
             transform: translateY(20px);
         }
         .overlay-section.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
 
-        /* --- INDEX (LIST CENTERED) --- */
-        .project-list { max-width: 1600px; margin: 0 auto; display: flex; flex-direction: column; padding-bottom: 100px; }
-        
-        .list-item {
-            position: relative; 
+        /* --- INDEX (GRID MOSAICO TENTHREE STYLE) --- */
+        .project-grid {
             display: flex;
-            justify-content: center; 
-            align-items: center;
-            padding: 60px 0;
-            border-bottom: 1px solid var(--border);
-            cursor: pointer; transition: background 0.3s;
-        }
-        .list-item:hover { background: rgba(255,255,255,0.03); }
-
-        .list-group {
-            display: flex; align-items: center; gap: 60px; width: 100%; max-width: 900px;
+            flex-wrap: wrap;
+            gap: 0; /* Sin gap, estilo mosaico pegado. Si quieres espacio pon 10px */
+            max-width: 1800px;
+            margin: 0 auto;
+            padding-bottom: 100px;
         }
 
-        .list-thumb {
-            width: 360px; aspect-ratio: 16/9; overflow: hidden; border-radius: 4px;
-            background: #4a5248; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            flex-shrink: 0;
+        .grid-item {
+            position: relative;
+            height: 350px; /* Altura fija para uniformidad visual de filas */
+            overflow: hidden;
+            cursor: pointer;
+            border: 4px solid var(--bg); /* Truco para crear "gap" del color del fondo */
         }
-        .list-thumb img {
-            width: 100%; height: 100%; object-fit: cover; filter: grayscale(30%);
-            transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .list-item:hover .list-thumb img { filter: grayscale(0%); transform: scale(1.03); }
+        
+        /* Clases de tamaño para el ritmo */
+        .grid-item.half { width: 50%; } /* 2 por fila */
+        .grid-item.third { width: 33.333%; } /* 3 por fila */
 
-        .list-info { display: flex; flex-direction: column; gap: 10px; justify-content: center; }
-        .list-title {
-            font-family: var(--font-main); font-weight: 700; font-size: 2.2rem; 
-            text-transform: uppercase; letter-spacing: -1px; color: var(--text); margin-bottom: 5px;
+        .grid-item img {
+            width: 100%; height: 100%; object-fit: cover;
+            filter: grayscale(20%);
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s;
         }
-        .list-details {
-            font-family: var(--font-main); font-size: 0.9rem; line-height: 1.6; color: var(--accent);
-        }
-        .list-details span { display: block; }
-        .list-details b { color: var(--text); font-weight: 600; margin-right: 8px; }
+        .grid-item:hover img { transform: scale(1.05); filter: grayscale(0%); }
 
-        .list-platform {
-            position: absolute; right: 0; top: 50%; transform: translateY(-50%);
-            width: 150px; text-align: right; display: flex; justify-content: flex-end; align-items: center;
+        /* OVERLAY TEXTO (TENTHREE STYLE) */
+        .item-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 50%);
+            opacity: 0; transition: opacity 0.3s ease;
+            display: flex; flex-direction: column; justify-content: flex-end;
+            padding: 25px;
         }
-        .platform-logo {
-            max-width: 100px; max-height: 40px; object-fit: contain;
-            filter: brightness(0) invert(1); opacity: 0.9;
+        
+        .grid-item:hover .item-overlay { opacity: 1; }
+
+        .item-title {
+            font-family: var(--font-serif);
+            font-size: 1.8rem; /* Estilo Pic 2 */
+            color: #fff;
+            margin-bottom: 5px;
         }
-        .platform-text {
-            font-family: var(--font-main); font-weight: 700; 
-            font-size: 0.9rem; color: var(--text); opacity: 0.8; 
-            text-transform: uppercase; letter-spacing: 1px;
+
+        .item-meta {
+            font-family: var(--font-main);
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.8);
+            letter-spacing: 0.5px;
+        }
+        .item-meta span { margin-right: 15px; }
+
+        /* LOGO PLATAFORMA (ABSOLUTE RIGHT) */
+        .item-logo {
+            position: absolute; bottom: 25px; right: 25px;
+            height: 25px; width: auto; max-width: 80px;
+            object-fit: contain;
+            filter: brightness(0) invert(1); opacity: 0.8;
+        }
+        .item-platform-text {
+            position: absolute; bottom: 25px; right: 25px;
+            font-family: var(--font-main); font-size: 0.7rem; 
+            text-transform: uppercase; letter-spacing: 1px; color: #fff; opacity: 0.8;
         }
 
         /* --- ABOUT OVERLAY (CLEAN) --- */
@@ -231,9 +240,14 @@
         }
 
         @media(max-width: 1024px) {
-            .list-group { flex-direction: column; text-align: center; gap: 20px; }
-            .list-platform { position: relative; width: 100%; text-align: center; justify-content: center; margin-top: 20px; right: auto; top: auto; transform: none; }
-            .list-item { flex-direction: column; padding: 40px 20px; }
+            /* En tablet/móvil, todo al 100% o 50% */
+            .grid-item.half, .grid-item.third { width: 50%; height: 250px; }
+            .item-overlay { opacity: 1; background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 60%); } /* Texto siempre visible en touch */
+        }
+        @media(max-width: 600px) {
+            .grid-item.half, .grid-item.third { width: 100%; height: 250px; }
+            nav { padding: 20px 30px; }
+            .overlay-section { padding: 100px 20px 20px 20px; }
         }
     </style>
 </head>
@@ -255,7 +269,7 @@
     <div class="controls" id="dotsContainer"></div>
 
     <div id="index-overlay" class="overlay-section">
-        <div class="project-list" id="list-container"></div>
+        <div class="project-grid" id="grid-container"></div>
     </div>
 
     <div id="about-overlay" class="overlay-section">
@@ -290,8 +304,10 @@
     </div>
 
     <script>
-        // DATA MASTER
+        // DATA MASTER (Con propiedad 'size' para el grid)
+        // size: 'half' (50% ancho) | 'third' (33% ancho)
         const allProjects = [
+            // FILA 1 (2 Items)
             {
                 title: "Menem",
                 director: "Ariel Winograd",
@@ -301,7 +317,8 @@
                 yt: "-2AmqmciWXE",
                 previewUrl: "./assets/menem_preview.mp4",
                 image: "./assets/Menem_Thumbnail_1.jpg",
-                featured: true
+                featured: true,
+                size: 'half'
             },
             {
                 title: "Oreo: Keep Playful",
@@ -311,8 +328,10 @@
                 yt: "7Cllu0Rme74",
                 previewUrl: "./assets/oreo_preview.mp4",
                 image: "./assets/Oreo_Thumbnail_5.png",
-                featured: true
+                featured: true,
+                size: 'half'
             },
+            // FILA 2 (3 Items)
             {
                 title: "El tiempo de las moscas",
                 director: "B. Naishtat",
@@ -322,7 +341,8 @@
                 yt: "A0d6wnlMRRk",
                 previewUrl: "./assets/moscas_preview.mp4",
                 image: "./assets/Moscas_Thumbnail_1.jpg",
-                featured: true
+                featured: true,
+                size: 'third'
             },
             {
                 title: "Coppola, el representante",
@@ -333,7 +353,8 @@
                 yt: "ecr24akKDbs",
                 previewUrl: "./assets/coppola_preview.mp4",
                 image: "./assets/Coppola_Thumbnail_2.jpg",
-                featured: true
+                featured: true,
+                size: 'third'
             },
             {
                 title: "Levis x Winona Riders",
@@ -341,25 +362,18 @@
                 prod: "Primo",
                 platform: "Web / Social",
                 yt: "mb2RPesGf7Q",
-                image: "./assets/Levis_Thumbnail_v01.jpg"
+                image: "./assets/Levis_Thumbnail_v01.jpg",
+                size: 'third'
             },
+            // FILA 3 (2 Items)
             {
                 title: "Blair - Todo lo que tengo",
                 director: "Dana Campanello",
                 prod: "Poster",
                 platform: "Music Video",
                 yt: "ItX5aqhqsmo",
-                image: "./assets/Blair_Thumbnail_1.jpg"
-            },
-            {
-                title: "Las manos de la abuela",
-                director: "Camila Migliore",
-                prod: "Calesita Films",
-                platform: "Short Film",
-                image: "./assets/MA_Thumbnail_1.png",
-                yt: "",
-                images: ["./assets/MA_Thumbnail_1.png", "./assets/MA_Thumbnail_3.png", "./assets/MA_Thumbnail_4.png", "./assets/MA_Thumbnail_5.png"],
-                featured: false
+                image: "./assets/Blair_Thumbnail_1.jpg",
+                size: 'half'
             },
             {
                 title: "Ratones Paranoicos",
@@ -368,7 +382,20 @@
                 platform: "Music Video",
                 yt: "",
                 image: "./assets/RP_Thumbmail_1.png",
-                images: ["./assets/RP_Thumbmail_1.png", "./assets/RP_Thumbmail_2.png", "./assets/RP_Thumbmail_3.png"]
+                images: ["./assets/RP_Thumbmail_1.png", "./assets/RP_Thumbmail_2.png", "./assets/RP_Thumbmail_3.png"],
+                size: 'half'
+            },
+            // FILA 4 (3 Items)
+            {
+                title: "Las manos de la abuela",
+                director: "Camila Migliore",
+                prod: "Calesita Films",
+                platform: "Short Film",
+                image: "./assets/MA_Thumbnail_1.png",
+                yt: "",
+                images: ["./assets/MA_Thumbnail_1.png", "./assets/MA_Thumbnail_3.png", "./assets/MA_Thumbnail_4.png", "./assets/MA_Thumbnail_5.png"],
+                featured: false,
+                size: 'third'
             },
             {
                 title: "Besos Brujos",
@@ -377,7 +404,8 @@
                 platform: "Short Film",
                 yt: "",
                 image: "./assets/BB_Thumbnail_1.png",
-                images: ["./assets/BB_Thumbnail_1.png", "./assets/BB_Thumbnail_2.png", "./assets/BB_Thumbnail_3.png"]
+                images: ["./assets/BB_Thumbnail_1.png", "./assets/BB_Thumbnail_2.png", "./assets/BB_Thumbnail_3.png"],
+                size: 'third'
             },
             {
                 title: "Las Marias",
@@ -386,7 +414,8 @@
                 platform: "Documentary",
                 yt: "",
                 image: "./assets/Marias_Thumbnail_1.png",
-                images: ["./assets/Marias_Thumbnail_1.png", "./assets/Marias_Thumbnail_2.png", "./assets/Marias_Thumbnail_3.png"]
+                images: ["./assets/Marias_Thumbnail_1.png", "./assets/Marias_Thumbnail_2.png", "./assets/Marias_Thumbnail_3.png"],
+                size: 'third'
             },
             {
                 title: "Todo lo que recuerdo",
@@ -395,7 +424,8 @@
                 platform: "Short Film",
                 yt: "",
                 image: "./assets/TodoLoQueRecuerdo_Thumbnail_1.png",
-                images: ["./assets/TodoLoQueRecuerdo_Thumbnail_1.png"]
+                images: ["./assets/TodoLoQueRecuerdo_Thumbnail_1.png"],
+                size: 'half' // Rompemos simetria al final
             }
         ];
 
@@ -455,31 +485,33 @@
         function pauseHero() { clearInterval(autoPlayInterval); document.querySelectorAll('video').forEach(v => v.pause()); }
 
         function renderIndex() {
-            const listContainer = document.getElementById('list-container');
-            listContainer.innerHTML = '';
+            const gridContainer = document.getElementById('grid-container');
+            gridContainer.innerHTML = '';
             allProjects.forEach(p => {
                 const item = document.createElement('div');
-                item.className = 'list-item';
+                // Asigna clase 'half' o 'third'
+                item.className = `grid-item ${p.size || 'third'}`; 
                 item.onclick = () => openProject(p);
                 
                 let platformHTML = '';
                 if(p.logo) {
-                    platformHTML = `<img src="${p.logo}" alt="${p.platform}" class="platform-logo">`;
+                    platformHTML = `<img src="${p.logo}" alt="${p.platform}" class="item-logo">`;
                 } else {
-                    platformHTML = `<span class="platform-text">${p.platform || ''}</span>`;
+                    platformHTML = `<span class="item-platform-text">${p.platform || ''}</span>`;
                 }
 
                 item.innerHTML = `
-                    <div class="list-group">
-                        <div class="list-thumb"><img src="${p.image}" alt="${p.title}" loading="lazy"></div>
-                        <div class="list-info">
-                            <div class="list-title">${p.title}</div>
-                            <div class="list-details"><span><b>Director:</b> ${p.director}</span><span><b>Prod Co:</b> ${p.prod}</span><span><b>Editor:</b> Leandro Bruno</span></div>
+                    <img src="${p.image}" alt="${p.title}" loading="lazy">
+                    <div class="item-overlay">
+                        <div class="item-title">${p.title}</div>
+                        <div class="item-meta">
+                            <span>d: ${p.director}</span>
+                            <span>p: ${p.prod}</span>
                         </div>
+                        ${platformHTML}
                     </div>
-                    <div class="list-platform">${platformHTML}</div>
                 `;
-                listContainer.appendChild(item);
+                gridContainer.appendChild(item);
             });
         }
 
