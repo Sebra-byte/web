@@ -14,9 +14,7 @@
     
     <style>
         :root {
-            /* COLOR SÓLIDO ORIGINAL (Limpio) */
             --bg-color: #757c71; 
-            
             --text: #eae5dc;
             --accent: rgba(234, 229, 220, 0.8);
             --font-main: 'Inter', sans-serif;
@@ -241,7 +239,7 @@
             display: grid; grid-template-columns: repeat(12, 1fr);
             grid-auto-rows: 350px; grid-auto-flow: dense; 
             gap: var(--grid-gap); 
-            max-width: 1800px; margin: 0 auto; padding-bottom: 0px; 
+            max-width: 1800px; margin: 0 auto; 
             width: 100%;
         }
 
@@ -281,9 +279,10 @@
 
         /* --- BOTTOM FOOTER (Back to Top) --- */
         .grid-footer {
-            grid-column: 1 / -1; 
+            /* IMPORTANTE: No es grid-item, es un bloque flex debajo */
             display: flex; justify-content: center; align-items: center;
-            padding: 60px 0;
+            padding: 80px 0;
+            width: 100%;
             cursor: pointer;
             transition: opacity 0.3s ease;
             background: transparent;
@@ -305,7 +304,7 @@
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: var(--bg-color);
             z-index: 400; 
-            padding: 120px 40px 0px 40px; 
+            padding: 120px 40px 0px 40px; /* Padding bottom 0 para el footer */
             overflow-y: auto; opacity: 0; pointer-events: none;
             transition: opacity 0.5s ease, transform 0.5s var(--transition-smooth); 
             transform: translateY(30px);
@@ -836,12 +835,10 @@
 
         function renderIndex() {
             const gridContainer = document.getElementById('grid-container');
-            // Limpiamos solo los items de la grilla, no el footer
-            const gridItems = gridContainer.querySelectorAll('.grid-item');
-            gridItems.forEach(item => item.remove());
+            // SIMPLIFICADO: Limpiamos TODO el contenedor de la grilla
+            gridContainer.innerHTML = '';
             
-            const footer = document.querySelector('.grid-footer');
-
+            // Creamos los items uno por uno
             allProjects.forEach(p => {
                 const item = document.createElement('div');
                 let gridClass = p.size || 'third';
@@ -857,8 +854,7 @@
                         </div>
                     </div>
                 `;
-                // Insertamos antes del footer
-                gridContainer.insertBefore(item, footer);
+                gridContainer.appendChild(item);
 
                 if(p.images && p.images.length > 1) {
                     let hoverInterval;
