@@ -14,9 +14,8 @@
     
     <style>
         :root {
-            /* COLORES PARA EL DEGRADADO DE PAPEL */
-            --bg-color: #757c71; /* Color original (Bordes) */
-            --bg-light: #838b7e; /* Color luz sutil (Centro) */
+            /* COLOR SÓLIDO ORIGINAL */
+            --bg-color: #757c71; 
             
             --text: #eae5dc;
             --accent: rgba(234, 229, 220, 0.8);
@@ -24,50 +23,21 @@
             --font-serif: 'Playfair Display', serif;
             --grid-gap: 0px; 
             --transition-smooth: cubic-bezier(0.22, 1, 0.36, 1);
-            
-            /* TEXTURA DE GRANO DE PAPEL (SVG BASE64) - Fina y suave */
-            --paper-noise: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)" opacity="1"/%3E%3C/svg%3E');
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body, html {
             height: 100%; width: 100%;
+            background-color: var(--bg-color);
             color: var(--text);
             font-family: var(--font-main);
             overflow: hidden; 
-            background-color: var(--bg-color); /* Fallback */
         }
 
-        /* --- FONDO CON DEGRADADO Y TEXTURA DE PAPEL --- */
-        body {
-            /* 1. Degradado Radial para volumen */
-            background: radial-gradient(circle at center, var(--bg-light) 0%, var(--bg-color) 100%);
-            position: relative;
-        }
-
-        /* Pseudo-elemento fijo para la textura de papel */
-        body::before {
-            content: "";
-            position: fixed; /* Fijo para que no haga scroll con el contenido */
-            top: 0; left: 0; width: 100%; height: 100%;
-            
-            /* Aplicamos la textura */
-            background-image: var(--paper-noise);
-            
-            /* Mezcla suave para efecto papel mate */
-            opacity: 0.15; /* Sutil */
-            mix-blend-mode: soft-light; 
-            
-            pointer-events: none; 
-            z-index: 0; /* Detrás del contenido principal */
-        }
-
-        /* SCROLLBAR CON TEXTURA */
+        /* SCROLLBAR */
         ::-webkit-scrollbar { width: 10px; }
-        ::-webkit-scrollbar-track { 
-             background: radial-gradient(circle at center, var(--bg-light) 0%, var(--bg-color) 100%);
-        }
+        ::-webkit-scrollbar-track { background-color: var(--bg-color); }
         ::-webkit-scrollbar-thumb {
             background-color: var(--text);
             border-radius: 10px;
@@ -87,10 +57,7 @@
         }
         
         nav.solid-bg { 
-            /* Fondo sólido del nav con textura y desenfoque */
-            background-color: rgba(117, 124, 113, 0.90);
-            background-image: var(--paper-noise);
-            background-blend-mode: soft-light;
+            background-color: rgba(117, 124, 113, 0.95);
             backdrop-filter: blur(12px); 
             -webkit-backdrop-filter: blur(12px);
             pointer-events: auto; 
@@ -154,12 +121,7 @@
         
         #mobile-menu-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            
-            /* Fondo con textura para el menú móvil */
             background-color: rgba(117, 124, 113, 0.98);
-            background-image: var(--paper-noise);
-            background-blend-mode: soft-light;
-
             backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
             z-index: 550; display: flex; flex-direction: column; justify-content: center; align-items: center;
             opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
@@ -319,12 +281,11 @@
 
         /* --- BOTTOM FOOTER (Back to Top) --- */
         .grid-footer {
-            grid-column: 1 / -1; /* Ocupa todo el ancho */
+            grid-column: 1 / -1; 
             display: flex; justify-content: center; align-items: center;
             padding: 60px 0;
             cursor: pointer;
             transition: opacity 0.3s ease;
-            /* Aseguramos que el footer tenga el mismo fondo que el overlay */
             background: transparent;
         }
         .grid-footer:hover { opacity: 0.7; }
@@ -343,21 +304,11 @@
         .overlay-section {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: var(--bg-color);
-            
-            /* Background del overlay hereda el degradado */
-            background: radial-gradient(circle at center, var(--bg-light) 0%, var(--bg-color) 100%);
-            
             z-index: 400; 
             padding: 120px 40px 0px 40px; 
             overflow-y: auto; opacity: 0; pointer-events: none;
             transition: opacity 0.5s ease, transform 0.5s var(--transition-smooth); 
             transform: translateY(30px);
-        }
-        /* Pseudo-elemento para textura en el overlay */
-        .overlay-section::before {
-            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: var(--paper-noise);
-            opacity: 0.15; mix-blend-mode: soft-light; pointer-events: none; z-index: -1;
         }
 
         .overlay-section.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
@@ -388,7 +339,6 @@
         
         .modal-content { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
         .video-wrapper { width: 100%; height: 100%; }
-        /* El div del player de Youtube ocupa todo el espacio */
         #player { width: 100%; height: 100%; }
         
         .gallery-wrapper {
@@ -419,9 +369,8 @@
             .grid-item, .grid-item.half, .grid-item.third, .grid-item.quarter { 
                 width: 100%; height: 500px; grid-column: auto; grid-row: auto; 
             }
-            .overlay-section { padding: 100px 0 0px 0; } /* Sin padding lateral */
+            .overlay-section { padding: 100px 0 0px 0; }
             
-            /* Textos siempre visibles en móvil */
             .item-overlay {
                 opacity: 1 !important; 
                 background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%); 
