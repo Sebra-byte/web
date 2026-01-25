@@ -178,7 +178,7 @@
         }
 
         .project-title {
-            font-family: var(--font-serif); font-size: clamp(2.5rem, 4vw, 4rem); /* Títulos grandes */
+            font-family: var(--font-serif); font-size: clamp(2.5rem, 4vw, 4rem); 
             margin-bottom: 15px; letter-spacing: -1px; line-height: 0.9; color: var(--text);
             text-shadow: 0 2px 20px rgba(0,0,0,0.5); display: block; 
             font-weight: 400;
@@ -190,7 +190,7 @@
         }
         .credits span b { color: var(--text); margin-right: 5px; font-weight: 400; text-transform: lowercase; }
         
-        /* Flechas Desktop Laterales (Opcional, se pueden ocultar si solo quieres click) */
+        /* Flechas Desktop Laterales */
         .carousel-arrows {
             position: absolute; top: 50%; width: 100%; transform: translateY(-50%);
             display: flex; justify-content: space-between; padding: 0 30px; z-index: 10;
@@ -207,7 +207,7 @@
             display: flex; flex-direction: column; align-items: flex-end;
             position: absolute; bottom: 40px; right: 50px; z-index: 20;
             color: var(--text); font-family: var(--font-main);
-            pointer-events: none; /* Dejar pasar clicks */
+            pointer-events: none; 
         }
         
         .counter-box {
@@ -287,7 +287,7 @@
         .overlay-section {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--bg); z-index: 400; 
-            padding: 120px 40px 60px 40px; /* Padding Desktop Default */
+            padding: 120px 40px 60px 40px; 
             overflow-y: auto; opacity: 0; pointer-events: none;
             transition: opacity 0.5s ease, transform 0.5s var(--transition-smooth); 
             transform: translateY(30px);
@@ -356,8 +356,16 @@
                 grid-column: auto; grid-row: auto; 
             }
             
-            /* Eliminamos padding lateral del overlay para que fotos toquen bordes */
+            /* Eliminamos padding lateral para que fotos toquen bordes */
             .overlay-section { padding: 100px 0 40px 0; }
+            
+            /* 3. FORZAR VISIBILIDAD DE TITULOS EN MÓVIL */
+            .item-overlay {
+                opacity: 1 !important; /* Siempre visible */
+                background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%); /* Gradiente más fuerte para lectura */
+                padding: 20px 30px; /* Separación del borde */
+            }
+            .item-title { font-size: 1.8rem; }
             
             nav { padding: 20px 30px; align-items: center; }
             .nav-links { display: none; }
@@ -369,8 +377,8 @@
             .slide { padding: 0 30px 100px 30px; justify-content: flex-end; } 
             .slide-info { transform: translateY(0); opacity: 1; max-width: 90%; }
             .project-title { font-size: 2.8rem; border: none; }
-            .credits { flex-direction: column; gap: 5px; display: none; /* A24 es super minimal en home móvil */ }
-            .label-text { display: none; } /* A24 solo muestra titulo y año/numero */
+            .credits { flex-direction: column; gap: 5px; display: none; }
+            .label-text { display: none; }
             
             /* Ajuste A24 UI en Movil */
             .a24-ui { bottom: 30px; right: 30px; }
