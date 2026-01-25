@@ -426,7 +426,8 @@
 
         let currentLang = 'en';
 
-        // --- DATA MASTER (ACTUALIZADO A .WEBP) ---
+        // --- DATA MASTER (CORREGIDO SEGÚN CAPTURAS DE PANTALLA) ---
+        // IMPORTANTE: Se corrigieron typos como "Thumbmail" -> "Thumbnail" y rutas específicas.
         const allProjects = [
             { 
                 title: "Menem", 
@@ -535,13 +536,13 @@
                 prod: "Poster", 
                 platform: "Music Video", 
                 yt: "", 
-                image: "./assets/RP_Thumbmail_1.webp", 
+                image: "./assets/RP_Thumbnail_1.webp", 
                 images: [
-                    "./assets/RP_Thumbmail_1.webp", 
-                    "./assets/RP_Thumbmail_2.webp", 
-                    "./assets/RP_Thumbmail_3.webp", 
-                    "./assets/RP_Thumbmail_4.webp", 
-                    "./assets/RP_Thumbmail_5.webp"
+                    "./assets/RP_Thumbnail_1.webp", 
+                    "./assets/RP_Thumbnail_2.webp", 
+                    "./assets/RP_Thumbnail_3.webp", 
+                    "./assets/RP_Thumbnail_4.webp", 
+                    "./assets/RP_Thumbnail_5.webp"
                 ], 
                 size: 'half' 
             },
@@ -750,8 +751,9 @@
                 
                 item.onclick = () => openProject(p);
                 
+                // Se agregó onerror para ocultar imágenes rotas en lugar de romper el layout
                 item.innerHTML = `
-                    <img src="${p.image}" alt="${getProjectTitle(p)}" loading="lazy" onload="this.classList.add('img-loaded')">
+                    <img src="${p.image}" alt="${getProjectTitle(p)}" loading="lazy" onload="this.classList.add('img-loaded')" onerror="this.style.display='none'">
                     <div class="item-overlay">
                         <div class="item-title">${getProjectTitle(p)}</div>
                         <div class="item-meta">
@@ -767,7 +769,7 @@
                     let imgIndex = 0;
                     item.onmouseenter = () => {
                         const img = item.querySelector('img');
-                        // Preload
+                        // Preload simple
                         p.images.forEach(src => { const i = new Image(); i.src = src; });
                         
                         hoverInterval = setInterval(() => {
@@ -811,7 +813,7 @@
             if (p.yt && p.yt.length > 0) {
                 modalContent.innerHTML = `<div class="video-wrapper"><iframe src="https://www.youtube.com/embed/${p.yt}?autoplay=1&rel=0&controls=1" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>`;
             } else if (p.images && p.images.length > 0) {
-                const imagesHTML = p.images.map(img => `<div class="gallery-item"><img src="${img}" loading="lazy"></div>`).join('');
+                const imagesHTML = p.images.map(img => `<div class="gallery-item"><img src="${img}" loading="lazy" onerror="this.style.display='none'"></div>`).join('');
                 modalContent.innerHTML = `<div class="gallery-wrapper">${imagesHTML}</div><div class="gallery-hint">Scroll Horizontal &#8594;</div>`;
             } else {
                 modalContent.innerHTML = `<img src="${p.image}" style="max-height:90vh; max-width:90vw;">`;
