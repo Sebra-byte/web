@@ -17,6 +17,7 @@
             --accent: rgba(234, 229, 220, 0.8);
             --font-main: 'Inter', sans-serif;
             --font-serif: 'Playfair Display', serif;
+            --grid-gap: 4px; /* Pequeño espacio para evitar solapamientos por redondeo */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -168,15 +169,20 @@
         .arrow:hover { color: var(--text); transform: scale(1.1); }
         .controls { display: none; } 
 
-        /* --- GRID (SOLUCIÓN PC) --- */
+        /* --- GRID SYSTEM (CORREGIDO) --- */
         .project-grid {
             display: grid;
+            /* Sistema de 12 columnas */
             grid-template-columns: repeat(12, 1fr);
-            auto-rows: 350px; /* ESTO ES CLAVE PARA PC: Define la altura fija de la fila */
-            gap: 0; 
+            /* Rows automáticas de 350px */
+            grid-auto-rows: 350px;
+            /* DENSE: Clave para rellenar huecos vacíos automáticamente */
+            grid-auto-flow: dense; 
+            gap: var(--grid-gap); 
             max-width: 1800px; margin: 0 auto; padding-bottom: 100px;
             width: 100%;
         }
+
         .grid-item { 
             position: relative; 
             overflow: hidden; 
@@ -184,20 +190,24 @@
             border: none; 
             width: 100%;
             height: 100%; 
+            background-color: #000; /* Fondo negro para evitar flash al cargar */
         }
         
+        /* Spans para Desktop */
         .grid-item.half { grid-column: span 6; } 
         .grid-item.third { grid-column: span 4; } 
         .grid-item.three-quarters { grid-column: span 9; } 
         .grid-item.quarter { grid-column: span 3; } 
+        
+        /* Spans Verticales */
         .grid-item.tall { grid-row: span 2; } 
 
-        /* Estabilidad de Imagen (Absolute para que no salte) */
+        /* Imágenes en Grid */
         .grid-item img {
             position: absolute; 
             top: 0; left: 0;
             width: 100%; height: 100%; 
-            object-fit: cover; 
+            object-fit: cover; /* Asegura que la imagen llene la celda sin deformarse */
             filter: grayscale(20%);
             transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s;
             display: block;
@@ -212,6 +222,7 @@
             padding: 30px; pointer-events: none; 
         }
         .grid-item:hover .item-overlay { opacity: 1; }
+        
         .item-title {
             font-family: var(--font-serif); font-size: 1.4rem; color: var(--text);
             margin-bottom: 8px; line-height: 1.1; display: inline-block;
@@ -279,11 +290,39 @@
             color: var(--text); opacity: 0.5; font-size: 0.8rem; text-transform: uppercase;
         }
 
-        /* --- MOBILE OPTIMIZATION --- */
-        @media(max-width: 1024px) {
+        /* --- BREAKPOINTS RESPONSIVOS --- */
+        
+        /* Tablet / Laptop Pequeña (hasta 1200px) */
+        @media (max-width: 1200px) {
+             /* Pasamos a 2 columnas principales en lugar de 12 complejas */
+            .project-grid {
+                grid-template-columns: repeat(2, 1fr); 
+                grid-auto-rows: 300px;
+            }
+            
+            /* Reseteamos los spans para este tamaño */
+            .grid-item.half, 
+            .grid-item.third, 
+            .grid-item.three-quarters, 
+            .grid-item.quarter { 
+                grid-column: span 1; /* Todos ocupan 1 de las 2 columnas */
+            }
+
+            .grid-item.half.tall {
+                grid-row: span 2; /* Mantenemos items altos si existen */
+            }
+        }
+
+        /* Mobile (hasta 768px) */
+        @media(max-width: 768px) {
             .project-grid { display: flex; flex-direction: column; } 
             
-            .grid-item.half, .grid-item.third, .grid-item.three-quarters, .grid-item.quarter, .grid-item.tall { 
+            .grid-item, 
+            .grid-item.half, 
+            .grid-item.third, 
+            .grid-item.three-quarters, 
+            .grid-item.quarter, 
+            .grid-item.tall { 
                 width: 100%; height: 300px; grid-column: auto; grid-row: auto; 
             }
             .item-overlay { opacity: 1; background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 70%); }
@@ -694,7 +733,11 @@
             gridContainer.innerHTML = '';
             allProjects.forEach(p => {
                 const item = document.createElement('div');
-                item.className = `grid-item ${p.size || 'third'}`; 
+                
+                // Manejo de clase 'tall' y tamaños en el Grid
+                let gridClass = p.size || 'third';
+                item.className = `grid-item ${gridClass}`; 
+                
                 item.onclick = () => openProject(p);
                 
                 item.innerHTML = `
