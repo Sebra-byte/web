@@ -28,7 +28,7 @@
             background: var(--bg);
             color: var(--text);
             font-family: var(--font-main);
-            overflow: hidden;
+            overflow: hidden; /* Scroll gestionado por overlays */
         }
 
         /* SCROLLBAR */
@@ -70,8 +70,7 @@
             z-index: 501; position: relative;
             transition: transform 0.3s ease;
         }
-        .brand:hover { transform: scale(1.02); }
-
+        
         .brand span {
             display: block; font-family: var(--font-main); font-size: 0.45em;
             letter-spacing: 2px; opacity: 0.8; margin-top: 4px;
@@ -94,71 +93,43 @@
         .nav-links a:hover { opacity: 1; transform: translateY(-2px); }
         .nav-hidden { opacity: 0 !important; pointer-events: none; transform: translateY(-10px); }
 
-        /* --- LANGUAGE TOGGLE ANIMADO (ESTABILIZADO) --- */
+        /* --- LANGUAGE TOGGLE --- */
         .lang-container {
-            position: relative;
-            overflow: hidden; 
-            height: 32px; 
-            min-width: 44px;
-            border: 1px solid rgba(234, 229, 220, 0.3);
-            border-radius: 4px;
-            /* Cambiamos el margen para separarlo de los links a su izquierda */
-            margin-left: 25px; 
-            margin-right: 0;
-            transition: border-color 0.3s ease;
+            position: relative; overflow: hidden; height: 32px; min-width: 44px;
+            border: 1px solid rgba(234, 229, 220, 0.3); border-radius: 4px;
+            margin-left: 25px; margin-right: 0; transition: border-color 0.3s ease;
         }
-        
         .lang-container:hover { border-color: var(--text); }
-
         .lang-track {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            display: flex; flex-direction: column; align-items: center;
             transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); 
         }
-
         .lang-opt {
-            height: 30px; 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 0.75rem;
-            text-transform: uppercase;
+            height: 30px; display: flex; align-items: center; justify-content: center;
+            font-weight: 600; font-size: 0.75rem; text-transform: uppercase;
         }
-
-        .lang-container.es-active .lang-track {
-            transform: translateY(-30px); 
-        }
+        .lang-container.es-active .lang-track { transform: translateY(-30px); }
 
         /* --- MOBILE MENU --- */
         .hamburger {
-            display: none; 
-            font-size: 1.5rem; color: var(--text); z-index: 600;
-            padding: 15px; margin: -15px;
-            transition: transform 0.3s ease;
+            display: none; font-size: 1.5rem; color: var(--text); z-index: 600;
+            padding: 15px; margin: -15px; transition: transform 0.3s ease;
         }
-        .hamburger:active { transform: scale(0.9); }
         
         #mobile-menu-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(117, 124, 113, 0.95);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            z-index: 550;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            z-index: 550; display: flex; flex-direction: column; justify-content: center; align-items: center;
             opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
         }
         #mobile-menu-overlay.open { opacity: 1; pointer-events: auto; }
         
         .mobile-links { display: flex; flex-direction: column; gap: 40px; text-align: center; }
-        
         .mobile-links a {
             font-family: var(--font-serif); font-size: 2.2rem; color: var(--text);
-            text-decoration: none; cursor: pointer;
-            opacity: 0; transform: translateY(20px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
-            padding: 20px;
+            text-decoration: none; cursor: pointer; opacity: 0; transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease; padding: 20px;
         }
         
         #mobile-menu-overlay.open .mobile-links a:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
@@ -167,11 +138,9 @@
         #mobile-menu-overlay.open .mobile-links .mobile-lang-container { transition-delay: 0.4s; opacity: 1; transform: translateY(0); }
 
         .mobile-lang-container {
-            position: relative; overflow: hidden;
-            height: 42px; width: 80px;
+            position: relative; overflow: hidden; height: 42px; width: 80px;
             border: 1px solid var(--text); border-radius: 50px;
-            margin: 20px auto 0; cursor: pointer;
-            opacity: 0; transform: translateY(20px);
+            margin: 20px auto 0; cursor: pointer; opacity: 0; transform: translateY(20px);
             transition: all 0.3s ease;
         }
         .mobile-lang-container .lang-opt { height: 40px; font-size: 1rem; }
@@ -229,7 +198,9 @@
             pointer-events: auto; transition: all 0.3s ease; padding: 20px;
         }
         .arrow:hover { color: var(--text); transform: scale(1.2); }
-        .controls { display: none; } 
+        
+        /* A24 MOBILE UI (Hidden on desktop) */
+        .mobile-a24-ui { display: none; }
 
         /* --- GRID SYSTEM --- */
         .project-grid {
@@ -242,11 +213,7 @@
             width: 100%;
         }
 
-        .grid-item { 
-            position: relative; overflow: hidden; cursor: pointer; 
-            border: none; width: 100%; height: 100%; background-color: #0c0c0c; 
-        }
-        
+        .grid-item { position: relative; overflow: hidden; cursor: pointer; background-color: #0c0c0c; }
         .grid-item.half { grid-column: span 6; } 
         .grid-item.third { grid-column: span 4; } 
         .grid-item.three-quarters { grid-column: span 9; } 
@@ -254,11 +221,9 @@
         .grid-item.tall { grid-row: span 2; } 
 
         .grid-item img {
-            position: absolute; top: 0; left: 0;
-            width: 100%; height: 100%; object-fit: cover; 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; 
             filter: grayscale(20%); opacity: 0; 
             transition: opacity 0.6s ease, transform 0.6s var(--transition-smooth), filter 0.3s ease;
-            display: block;
         }
         .grid-item img.img-loaded { opacity: 1; }
         .grid-item:hover img { transform: scale(1.05); filter: grayscale(0%); }
@@ -267,8 +232,7 @@
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);
             opacity: 0; transition: opacity 0.3s ease;
-            display: flex; flex-direction: column; justify-content: flex-end;
-            padding: 30px; pointer-events: none; 
+            display: flex; flex-direction: column; justify-content: flex-end; padding: 30px; pointer-events: none; 
         }
         .grid-item:hover .item-overlay { opacity: 1; }
         
@@ -293,14 +257,8 @@
         }
         .overlay-section.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
         
-        .about-container {
-            max-width: 800px; margin: 0 auto; padding-top: 100px;
-            display: flex; flex-direction: column; justify-content: center; text-align: center; 
-        }
-        .about-text p {
-            font-family: var(--font-main); font-size: 1.3rem; line-height: 1.6;
-            color: var(--text); margin-bottom: 30px; font-weight: 300;
-        }
+        .about-container { max-width: 800px; margin: 0 auto; padding-top: 100px; text-align: center; }
+        .about-text p { font-family: var(--font-main); font-size: 1.3rem; line-height: 1.6; color: var(--text); margin-bottom: 30px; font-weight: 300; }
         .about-text strong { font-weight: 600; color: var(--text); }
         .imdb-link {
             display: inline-flex; align-items: center; gap: 5px; justify-content: center;
@@ -312,16 +270,14 @@
 
         #modal-container {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(47, 53, 46, 0.95); 
-            backdrop-filter: blur(10px); 
+            background: rgba(47, 53, 46, 0.95); backdrop-filter: blur(10px); 
             z-index: 2000; display: flex; justify-content: center; align-items: center;
             opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
         }
         #modal-container.open { opacity: 1; pointer-events: auto; }
         .modal-close {
             position: absolute; top: 40px; right: 40px; color: var(--text);
-            font-size: 2rem; cursor: pointer; z-index: 2005;
-            transition: transform 0.3s ease;
+            font-size: 2rem; cursor: pointer; z-index: 2005; transition: transform 0.3s ease;
         }
         .modal-close:hover { transform: rotate(90deg); }
         
@@ -331,16 +287,13 @@
         
         .gallery-wrapper {
             width: 100%; height: 100%; display: flex; overflow-x: auto;
-            scroll-snap-type: x mandatory; align-items: center;
-            scroll-behavior: smooth;
+            scroll-snap-type: x mandatory; align-items: center; scroll-behavior: smooth;
         }
         .gallery-item {
             min-width: 100vw; height: 100vh; scroll-snap-align: center;
             display: flex; justify-content: center; align-items: center; padding: 60px;
         }
-        .gallery-item img {
-            max-width: 100%; max-height: 90%; box-shadow: 0 20px 50px rgba(0,0,0,0.5); border-radius: 4px;
-        }
+        .gallery-item img { max-width: 100%; max-height: 90%; box-shadow: 0 20px 50px rgba(0,0,0,0.5); border-radius: 4px; }
         .gallery-hint {
             position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
             color: var(--text); opacity: 0.5; font-size: 0.8rem; text-transform: uppercase;
@@ -348,30 +301,72 @@
 
         /* --- BREAKPOINTS --- */
         @media (max-width: 1200px) {
-            .project-grid {
-                grid-template-columns: repeat(2, 1fr); 
-                grid-auto-rows: 300px;
-            }
+            .project-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 300px; }
             .grid-item.half, .grid-item.third, .grid-item.three-quarters, .grid-item.quarter { grid-column: span 1; }
             .grid-item.half.tall { grid-row: span 2; }
         }
 
+        /* --- MOBILE STYLES (A24 MODE) --- */
         @media(max-width: 768px) {
-            .project-grid { display: flex; flex-direction: column; } 
+            /* 1. Hero Full Screen 100dvh (Dynamic Height) */
+            .carousel, body, html { height: 100dvh; } 
             
-            .grid-item, .grid-item.half, .grid-item.third, .grid-item.three-quarters, .grid-item.quarter, .grid-item.tall { 
-                width: 100%; height: 300px; grid-column: auto; grid-row: auto; 
+            /* 2. Grid Items Gigantes */
+            .project-grid { display: flex; flex-direction: column; } 
+            .grid-item, .grid-item.half, .grid-item.third, .grid-item.quarter { 
+                width: 100%; 
+                height: 500px; /* Aumento drástico de altura para poster look */
+                grid-column: auto; grid-row: auto; 
             }
-            .item-overlay { opacity: 1; background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 70%); }
             
             nav { padding: 20px 30px; align-items: center; }
             .nav-links { display: none; }
             .hamburger { display: block; }
             
             .brand { font-size: 1.5rem; }
-            .slide { padding: 0 0 80px 30px; } 
-            .slide-info { transform: translateY(0); opacity: 1; }
-            .project-title { font-size: 2rem; }
+            
+            /* Ajuste de Texto del Slide */
+            .slide { padding: 0 30px 100px 30px; justify-content: flex-end; } 
+            .slide-info { transform: translateY(0); opacity: 1; max-width: 80%; }
+            .project-title { font-size: 2.2rem; }
+            .credits { flex-direction: column; gap: 5px; }
+            
+            /* Ocultar elementos desktop en movil */
+            .carousel-arrows, .controls { display: none; }
+            
+            /* 3. A24 MOBILE UI */
+            .mobile-a24-ui {
+                display: flex; flex-direction: column; align-items: flex-end;
+                position: absolute; bottom: 30px; right: 30px; z-index: 20;
+                color: var(--text); font-family: var(--font-main);
+            }
+            
+            .counter-box {
+                font-size: 1.2rem; font-weight: 500; letter-spacing: 1px;
+                margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
+            }
+            
+            .progress-container {
+                width: 100%; height: 2px; background: rgba(255,255,255,0.2);
+                margin-bottom: 20px; position: relative;
+            }
+            
+            .progress-bar {
+                height: 100%; background: var(--text); width: 0%;
+                transition: width 0.1s linear; /* Animación continua */
+            }
+            
+            .scroll-down-btn {
+                font-size: 1.5rem; cursor: pointer; animation: bounce 2s infinite;
+                opacity: 0.8;
+            }
+            
+            @keyframes bounce {
+                0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+                40% {transform: translateY(-10px);}
+                60% {transform: translateY(-5px);}
+            }
+
             .overlay-section { padding: 100px 20px 40px 20px; }
         }
     </style>
@@ -423,6 +418,18 @@
     </div>
     
     <div class="controls" id="dotsContainer"></div>
+
+    <div class="mobile-a24-ui">
+        <div class="counter-box">
+            <span id="mob-current">1</span>
+            <span style="opacity:0.5">|</span>
+            <span id="mob-total">0</span>
+        </div>
+        <div class="progress-container" style="width: 60px;">
+            <div class="progress-bar" id="mob-progress"></div>
+        </div>
+        <div class="scroll-down-btn" onclick="openIndex()">&#8595;</div>
+    </div>
 
     <div id="index-overlay" class="overlay-section">
         <div class="project-grid" id="grid-container"></div>
@@ -660,6 +667,10 @@
         const featuredProjects = allProjects.filter(p => p.featured);
         let currentSlide = 0;
         let autoPlayInterval;
+        const SLIDE_DURATION = 7000; // 7 segundos
+        let progressStartTime;
+        let progressInterval;
+
         const carouselContainer = document.getElementById('mainCarousel');
         const dotsContainer = document.getElementById('dotsContainer');
         const indexOverlay = document.getElementById('index-overlay');
@@ -669,6 +680,11 @@
         const modalContent = document.getElementById('modal-content-area');
         const bodyMain = document.getElementById('body-main');
         const mobileMenu = document.getElementById('mobile-menu-overlay');
+        
+        // A24 Mobile Elements
+        const mobCurrentDisplay = document.getElementById('mob-current');
+        const mobTotalDisplay = document.getElementById('mob-total');
+        const mobProgressBar = document.getElementById('mob-progress');
 
         function getProjectTitle(p) {
             return (typeof p.title === 'object') ? p.title[currentLang] : p.title;
@@ -685,7 +701,6 @@
             
             document.getElementById('about-content').innerHTML = t.bio;
             
-            // --- ACTUALIZACIÓN ANIMADA ---
             const desktopToggle = document.querySelector('.lang-container');
             const mobileToggle = document.querySelector('.mobile-lang-container');
             
@@ -718,6 +733,9 @@
             updateLanguageUI();
             carouselContainer.innerHTML = '';
             dotsContainer.innerHTML = '';
+            
+            // Init A24 Mobile Counters
+            mobTotalDisplay.innerText = featuredProjects.length;
             
             featuredProjects.forEach((p, i) => {
                 const slide = document.createElement('div');
@@ -780,7 +798,11 @@
             if(resumeHero) { playActiveVideo(); startAutoPlay(); }
         }
         
-        function pauseHero() { clearInterval(autoPlayInterval); document.querySelectorAll('video').forEach(v => v.pause()); }
+        function pauseHero() { 
+            clearInterval(autoPlayInterval); 
+            cancelAnimationFrame(progressInterval);
+            document.querySelectorAll('video').forEach(v => v.pause()); 
+        }
 
         function renderIndex() {
             const gridContainer = document.getElementById('grid-container');
@@ -809,9 +831,7 @@
                     let imgIndex = 0;
                     item.onmouseenter = () => {
                         const img = item.querySelector('img');
-                        // Preload simple
                         p.images.forEach(src => { const i = new Image(); i.src = src; });
-                        
                         hoverInterval = setInterval(() => {
                             imgIndex = (imgIndex + 1) % p.images.length;
                             img.src = p.images[imgIndex];
@@ -838,6 +858,13 @@
         function updateCarousel() {
             document.querySelectorAll('.slide').forEach((s, i) => s.classList.toggle('active', i === currentSlide));
             document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === currentSlide));
+            
+            // Update Mobile A24 Counter
+            mobCurrentDisplay.innerText = currentSlide + 1;
+            
+            // Reset Progress Bar
+            mobProgressBar.style.width = '0%';
+            
             playActiveVideo();
         }
 
@@ -845,8 +872,32 @@
         function nextSlide() { currentSlide = (currentSlide + 1) % featuredProjects.length; updateCarousel(); resetAutoPlay(); }
         function prevSlide() { currentSlide = (currentSlide - 1 + featuredProjects.length) % featuredProjects.length; updateCarousel(); resetAutoPlay(); }
         
-        function startAutoPlay() { autoPlayInterval = setInterval(nextSlide, 7000); }
-        function resetAutoPlay() { clearInterval(autoPlayInterval); startAutoPlay(); }
+        // Animación fluida de la barra de progreso
+        function animateProgressBar() {
+            const now = Date.now();
+            const elapsed = now - progressStartTime;
+            const percentage = Math.min((elapsed / SLIDE_DURATION) * 100, 100);
+            
+            mobProgressBar.style.width = `${percentage}%`;
+            
+            if (percentage < 100) {
+                progressInterval = requestAnimationFrame(animateProgressBar);
+            }
+        }
+
+        function startAutoPlay() { 
+            clearInterval(autoPlayInterval);
+            cancelAnimationFrame(progressInterval);
+            
+            progressStartTime = Date.now();
+            animateProgressBar(); // Arrancar animación visual
+            
+            autoPlayInterval = setInterval(() => {
+                nextSlide();
+            }, SLIDE_DURATION); 
+        }
+        
+        function resetAutoPlay() { startAutoPlay(); }
 
         function openProject(p) {
             pauseHero();
