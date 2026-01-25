@@ -7,6 +7,8 @@
     
     <link rel="icon" type="image/png" href="./assets/favicon.png">
     
+    <script src="https://www.youtube.com/iframe_api"></script>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     
@@ -28,7 +30,7 @@
             background: var(--bg);
             color: var(--text);
             font-family: var(--font-main);
-            overflow: hidden; /* Scroll gestionado por overlays */
+            overflow: hidden; 
         }
 
         /* SCROLLBAR */
@@ -78,9 +80,7 @@
             text-transform: uppercase; font-weight: 400;
         }
         
-        .nav-links { 
-            display: flex; gap: 10px; padding-top: 0; align-items: center; 
-        }
+        .nav-links { display: flex; gap: 10px; padding-top: 0; align-items: center; }
         
         .nav-links a {
             color: var(--text); text-decoration: none; 
@@ -116,7 +116,6 @@
             display: none; font-size: 1.5rem; color: var(--text); z-index: 600;
             padding: 15px; margin: -15px; transition: transform 0.3s ease;
         }
-        .hamburger:active { transform: scale(0.9); }
         
         #mobile-menu-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -180,8 +179,7 @@
         .project-title {
             font-family: var(--font-serif); font-size: clamp(2.5rem, 4vw, 4rem); 
             margin-bottom: 15px; letter-spacing: -1px; line-height: 0.9; color: var(--text);
-            text-shadow: 0 2px 20px rgba(0,0,0,0.5); display: block; 
-            font-weight: 400;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.5); display: block; font-weight: 400;
         }
         .credits {
             display: flex; gap: 20px; font-size: 0.75rem; text-transform: uppercase;
@@ -190,7 +188,7 @@
         }
         .credits span b { color: var(--text); margin-right: 5px; font-weight: 400; text-transform: lowercase; }
         
-        /* Flechas Desktop Laterales */
+        /* FLECHAS DESKTOP */
         .carousel-arrows {
             position: absolute; top: 50%; width: 100%; transform: translateY(-50%);
             display: flex; justify-content: space-between; padding: 0 30px; z-index: 10;
@@ -202,12 +200,11 @@
         }
         .arrow:hover { color: var(--text); transform: scale(1.2); }
         
-        /* --- A24 UI (Global: Desktop & Mobile) --- */
+        /* --- A24 UI --- */
         .a24-ui {
             display: flex; flex-direction: column; align-items: flex-end;
             position: absolute; bottom: 40px; right: 50px; z-index: 20;
-            color: var(--text); font-family: var(--font-main);
-            pointer-events: none; 
+            color: var(--text); font-family: var(--font-main); pointer-events: none; 
         }
         
         .counter-box {
@@ -228,8 +225,7 @@
         
         .scroll-down-btn {
             font-size: 1.5rem; cursor: pointer; pointer-events: auto;
-            opacity: 0.8; animation: bounce 2s infinite;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            opacity: 0.8; animation: bounce 2s infinite; text-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
         
         @keyframes bounce {
@@ -240,13 +236,9 @@
 
         /* --- GRID SYSTEM --- */
         .project-grid {
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            grid-auto-rows: 350px;
-            grid-auto-flow: dense; 
-            gap: var(--grid-gap); 
-            max-width: 1800px; margin: 0 auto; padding-bottom: 100px;
-            width: 100%;
+            display: grid; grid-template-columns: repeat(12, 1fr);
+            grid-auto-rows: 350px; grid-auto-flow: dense; gap: var(--grid-gap); 
+            max-width: 1800px; margin: 0 auto; padding-bottom: 100px; width: 100%;
         }
 
         .grid-item { position: relative; overflow: hidden; cursor: pointer; background-color: #0c0c0c; }
@@ -286,8 +278,7 @@
         /* --- OVERLAYS & MODAL --- */
         .overlay-section {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg); z-index: 400; 
-            padding: 120px 40px 60px 40px; 
+            background: var(--bg); z-index: 400; padding: 120px 40px 60px 40px; 
             overflow-y: auto; opacity: 0; pointer-events: none;
             transition: opacity 0.5s ease, transform 0.5s var(--transition-smooth); 
             transform: translateY(30px);
@@ -320,7 +311,8 @@
         
         .modal-content { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
         .video-wrapper { width: 100%; height: 100%; }
-        iframe { width: 100%; height: 100%; border: none; }
+        /* El div del player de Youtube ocupa todo el espacio */
+        #player { width: 100%; height: 100%; }
         
         .gallery-wrapper {
             width: 100%; height: 100%; display: flex; overflow-x: auto;
@@ -343,46 +335,34 @@
             .grid-item.half.tall { grid-row: span 2; }
         }
 
-        /* --- MOBILE STYLES (A24 MODE) --- */
+        /* --- MOBILE STYLES --- */
         @media(max-width: 768px) {
-            /* 1. Hero Full Screen */
             .carousel, body, html { height: 100dvh; } 
-            
-            /* 2. Grid Items Gigantes & Full Bleed */
             .project-grid { display: flex; flex-direction: column; } 
             .grid-item, .grid-item.half, .grid-item.third, .grid-item.quarter { 
-                width: 100%; 
-                height: 500px; 
-                grid-column: auto; grid-row: auto; 
+                width: 100%; height: 500px; grid-column: auto; grid-row: auto; 
             }
-            
-            /* Eliminamos padding lateral para que fotos toquen bordes */
             .overlay-section { padding: 100px 0 40px 0; }
             
-            /* 3. FORZAR VISIBILIDAD DE TITULOS EN MÓVIL */
+            /* Textos siempre visibles en móvil */
             .item-overlay {
-                opacity: 1 !important; /* Siempre visible */
-                background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%); /* Gradiente más fuerte para lectura */
-                padding: 20px 30px; /* Separación del borde */
+                opacity: 1 !important; 
+                background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%); 
+                padding: 20px 30px; 
             }
             .item-title { font-size: 1.8rem; }
             
             nav { padding: 20px 30px; align-items: center; }
             .nav-links { display: none; }
             .hamburger { display: block; }
-            
             .brand { font-size: 1.5rem; }
             
-            /* Ajuste de Texto del Slide */
             .slide { padding: 0 30px 100px 30px; justify-content: flex-end; } 
             .slide-info { transform: translateY(0); opacity: 1; max-width: 90%; }
             .project-title { font-size: 2.8rem; border: none; }
-            .credits { flex-direction: column; gap: 5px; display: none; }
+            .credits { display: none; }
             .label-text { display: none; }
-            
-            /* Ajuste A24 UI en Movil */
             .a24-ui { bottom: 30px; right: 30px; }
-            
             .carousel-arrows { display: none; }
         }
     </style>
@@ -480,6 +460,7 @@
         };
 
         let currentLang = 'en';
+        let ytPlayer; // Variable global para el reproductor de YouTube
 
         // --- DATA MASTER ---
         const allProjects = [
@@ -678,7 +659,7 @@
                     "./assets/Agujeros_Thumbnail_2.webp", 
                     "./assets/Agujeros_Thumbnail_3.webp", 
                     "./assets/Agujeros_Thumbnail_4.webp"
-                ], 
+                ],
                 size: 'quarter' 
             }
         ];
@@ -687,7 +668,7 @@
         const featuredProjects = allProjects.filter(p => p.featured);
         let currentSlide = 0;
         let autoPlayInterval;
-        const SLIDE_DURATION = 7000; // 7 segundos
+        const SLIDE_DURATION = 7000;
         let progressStartTime;
         let progressInterval;
 
@@ -700,7 +681,6 @@
         const bodyMain = document.getElementById('body-main');
         const mobileMenu = document.getElementById('mobile-menu-overlay');
         
-        // UI Elements
         const uiCurrentDisplay = document.getElementById('ui-current');
         const uiTotalDisplay = document.getElementById('ui-total');
         const uiProgressBar = document.getElementById('ui-progress');
@@ -751,8 +731,6 @@
         function initCarousel() {
             updateLanguageUI();
             carouselContainer.innerHTML = '';
-            
-            // Init UI Counters
             uiTotalDisplay.innerText = featuredProjects.length;
             
             featuredProjects.forEach((p, i) => {
@@ -808,7 +786,6 @@
             aboutOverlay.classList.remove('open'); 
             nav.classList.remove('solid-bg');
             document.getElementById('nav-projects').classList.remove('nav-hidden');
-            
             if(resumeHero) { playActiveVideo(); startAutoPlay(); }
         }
         
@@ -825,9 +802,7 @@
                 const item = document.createElement('div');
                 let gridClass = p.size || 'third';
                 item.className = `grid-item ${gridClass}`; 
-                
                 item.onclick = () => openProject(p);
-                
                 item.innerHTML = `
                     <img src="${p.image}" alt="${getProjectTitle(p)}" loading="lazy" onload="this.classList.add('img-loaded')" onerror="this.style.display='none'">
                     <div class="item-overlay">
@@ -871,13 +846,8 @@
 
         function updateCarousel() {
             document.querySelectorAll('.slide').forEach((s, i) => s.classList.toggle('active', i === currentSlide));
-            
-            // Update A24 UI Counter
             uiCurrentDisplay.innerText = currentSlide + 1;
-            
-            // Reset Progress Bar
             uiProgressBar.style.width = '0%';
-            
             playActiveVideo();
         }
 
@@ -885,48 +855,73 @@
         function nextSlide() { currentSlide = (currentSlide + 1) % featuredProjects.length; updateCarousel(); resetAutoPlay(); }
         function prevSlide() { currentSlide = (currentSlide - 1 + featuredProjects.length) % featuredProjects.length; updateCarousel(); resetAutoPlay(); }
         
-        // Animación fluida de la barra de progreso
         function animateProgressBar() {
             const now = Date.now();
             const elapsed = now - progressStartTime;
             const percentage = Math.min((elapsed / SLIDE_DURATION) * 100, 100);
-            
             uiProgressBar.style.width = `${percentage}%`;
-            
-            if (percentage < 100) {
-                progressInterval = requestAnimationFrame(animateProgressBar);
-            }
+            if (percentage < 100) { progressInterval = requestAnimationFrame(animateProgressBar); }
         }
 
         function startAutoPlay() { 
             clearInterval(autoPlayInterval);
             cancelAnimationFrame(progressInterval);
-            
             progressStartTime = Date.now();
-            animateProgressBar(); // Arrancar animación visual
-            
-            autoPlayInterval = setInterval(() => {
-                nextSlide();
-            }, SLIDE_DURATION); 
+            animateProgressBar(); 
+            autoPlayInterval = setInterval(() => { nextSlide(); }, SLIDE_DURATION); 
         }
         
         function resetAutoPlay() { startAutoPlay(); }
 
+        // --- YOUTUBE API HANDLER ---
+        function onPlayerStateChange(event) {
+            // Si el video termina (Estado 0), cerrar modal automáticamente
+            if (event.data === 0) {
+                closeModal();
+            }
+        }
+
         function openProject(p) {
             pauseHero();
+            modalContainer.classList.add('open');
+            
             if (p.yt && p.yt.length > 0) {
-                modalContent.innerHTML = `<div class="video-wrapper"><iframe src="https://www.youtube.com/embed/${p.yt}?autoplay=1&rel=0&controls=1" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>`;
+                // Inyectamos el div para la API
+                modalContent.innerHTML = `<div class="video-wrapper"><div id="player"></div></div>`;
+                
+                // Creamos el player de YouTube
+                ytPlayer = new YT.Player('player', {
+                    height: '100%',
+                    width: '100%',
+                    videoId: p.yt,
+                    playerVars: {
+                        'autoplay': 1,
+                        'rel': 0,
+                        'controls': 1,
+                        'fs': 1
+                    },
+                    events: {
+                        'onStateChange': onPlayerStateChange
+                    }
+                });
+
             } else if (p.images && p.images.length > 0) {
                 const imagesHTML = p.images.map(img => `<div class="gallery-item"><img src="${img}" loading="lazy" onerror="this.style.display='none'"></div>`).join('');
-                modalContent.innerHTML = `<div class="gallery-wrapper">${imagesHTML}</div><div class="gallery-hint">Scroll Horizontal &#8594;</div>`;
+                modalContent.innerHTML = `<div class="gallery-wrapper">${imagesHTML}</div><div class="gallery-hint">Use Arrows &#8596;</div>`;
             } else {
                 modalContent.innerHTML = `<img src="${p.image}" style="max-height:90vh; max-width:90vw;">`;
             }
-            modalContainer.classList.add('open');
         }
 
         function closeModal() {
             modalContainer.classList.remove('open');
+            
+            // Destruir player para cortar audio
+            if(ytPlayer && typeof ytPlayer.destroy === 'function') {
+                ytPlayer.destroy();
+                ytPlayer = null;
+            }
+            
             setTimeout(() => { modalContent.innerHTML = ''; }, 300);
             if(!indexOverlay.classList.contains('open') && !aboutOverlay.classList.contains('open')) {
                 playActiveVideo();
@@ -934,19 +929,32 @@
             }
         }
 
+        // --- KEYBOARD NAVIGATION LOGIC ---
         document.addEventListener('keydown', (e) => { 
             if (e.key === "Escape") closeModal(); 
+            
             if (e.key === "ArrowRight") {
-                if(modalContainer.classList.contains('open')) {
+                // Caso 1: Galería de fotos abierta (Modal)
+                if (modalContainer.classList.contains('open')) {
                     const wrapper = document.querySelector('.gallery-wrapper');
                     if(wrapper) wrapper.scrollBy({ left: window.innerWidth, behavior: 'smooth' });
-                } else if (!indexOverlay.classList.contains('open')) nextSlide();
+                } 
+                // Caso 2: Navegación Home (solo si no hay overlays)
+                else if (!indexOverlay.classList.contains('open') && !aboutOverlay.classList.contains('open')) {
+                    nextSlide();
+                }
             }
+            
             if (e.key === "ArrowLeft") {
-                if(modalContainer.classList.contains('open')) {
+                // Caso 1: Galería de fotos abierta (Modal)
+                if (modalContainer.classList.contains('open')) {
                     const wrapper = document.querySelector('.gallery-wrapper');
                     if(wrapper) wrapper.scrollBy({ left: -window.innerWidth, behavior: 'smooth' });
-                } else if (!indexOverlay.classList.contains('open')) prevSlide();
+                } 
+                // Caso 2: Navegación Home
+                else if (!indexOverlay.classList.contains('open') && !aboutOverlay.classList.contains('open')) {
+                    prevSlide();
+                }
             }
         });
 
