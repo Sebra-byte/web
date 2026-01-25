@@ -19,7 +19,10 @@
             --accent: rgba(234, 229, 220, 0.8);
             --font-main: 'Inter', sans-serif;
             --font-serif: 'Playfair Display', serif;
-            --grid-gap: 4px;
+            
+            /* --- CAMBIO CLAVE: GAP 0 PARA QUE ESTÉN PEGADOS --- */
+            --grid-gap: 0px; 
+            
             --transition-smooth: cubic-bezier(0.22, 1, 0.36, 1);
         }
 
@@ -237,7 +240,8 @@
         /* --- GRID SYSTEM --- */
         .project-grid {
             display: grid; grid-template-columns: repeat(12, 1fr);
-            grid-auto-rows: 350px; grid-auto-flow: dense; gap: var(--grid-gap); 
+            grid-auto-rows: 350px; grid-auto-flow: dense; 
+            gap: var(--grid-gap); /* Ahora es 0 */
             max-width: 1800px; margin: 0 auto; padding-bottom: 100px; width: 100%;
         }
 
@@ -659,7 +663,7 @@
                     "./assets/Agujeros_Thumbnail_2.webp", 
                     "./assets/Agujeros_Thumbnail_3.webp", 
                     "./assets/Agujeros_Thumbnail_4.webp"
-                ],
+                ], 
                 size: 'quarter' 
             }
         ];
