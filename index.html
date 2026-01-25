@@ -14,43 +14,45 @@
     
     <style>
         :root {
-            --bg-color: #757c71; /* Color base */
+            --bg-color: #757c71;
             --text: #eae5dc;
             --accent: rgba(234, 229, 220, 0.8);
             --font-main: 'Inter', sans-serif;
             --font-serif: 'Playfair Display', serif;
             --grid-gap: 0px; 
             --transition-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+            
+            /* TEXTURA DE RUIDO GENERADA POR CÓDIGO (SVG BASE64) */
+            --noise-url: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)" opacity="0.15"/%3E%3C/svg%3E');
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body, html {
             height: 100%;
-            /* --- TEXTURA APLICADA --- */
             background-color: var(--bg-color);
-            background-image: url('./assets/noise-texture.png'); /* Asegúrate de tener esta imagen */
+            /* Aplicamos textura al body */
+            background-image: var(--noise-url);
             background-repeat: repeat;
-            background-blend-mode: overlay; /* Mezcla la textura con el color */
+            background-blend-mode: overlay;
             
             color: var(--text);
             font-family: var(--font-main);
             overflow: hidden; 
         }
 
-        /* SCROLLBAR */
+        /* SCROLLBAR CON TEXTURA */
         ::-webkit-scrollbar { width: 10px; }
-        /* Scrollbar track también con textura para consistencia */
         ::-webkit-scrollbar-track { 
             background-color: var(--bg-color);
-            background-image: url('./assets/noise-texture.png');
+            background-image: var(--noise-url);
             background-repeat: repeat;
             background-blend-mode: overlay;
         }
         ::-webkit-scrollbar-thumb {
             background-color: var(--text);
             border-radius: 10px;
-            border: 3px solid var(--bg-color); /* Borde del color sólido para contraste */
+            border: 3px solid var(--bg-color);
             opacity: 0.5;
         }
         ::-webkit-scrollbar-thumb:hover { background-color: #fff; }
@@ -66,9 +68,8 @@
         }
         
         nav.solid-bg { 
-            /* Fondo sólido con textura para el menú activo */
             background-color: rgba(117, 124, 113, 0.95);
-            background-image: url('./assets/noise-texture.png');
+            background-image: var(--noise-url);
             background-repeat: repeat;
             background-blend-mode: overlay;
             
@@ -136,9 +137,8 @@
         #mobile-menu-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             
-            /* Fondo con textura para el menú móvil */
             background-color: rgba(117, 124, 113, 0.98);
-            background-image: url('./assets/noise-texture.png');
+            background-image: var(--noise-url);
             background-repeat: repeat;
             background-blend-mode: overlay;
 
@@ -260,7 +260,7 @@
         .project-grid {
             display: grid; grid-template-columns: repeat(12, 1fr);
             grid-auto-rows: 350px; grid-auto-flow: dense; 
-            gap: var(--grid-gap); /* Ahora es 0 */
+            gap: var(--grid-gap); /* 0px */
             max-width: 1800px; margin: 0 auto; padding-bottom: 100px; width: 100%;
         }
 
@@ -302,9 +302,8 @@
         .overlay-section {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             
-            /* Fondo con textura para los overlays */
             background-color: var(--bg-color);
-            background-image: url('./assets/noise-texture.png');
+            background-image: var(--noise-url);
             background-repeat: repeat;
             background-blend-mode: overlay;
 
@@ -369,9 +368,13 @@
         @media(max-width: 768px) {
             .carousel, body, html { height: 100dvh; } 
             .project-grid { display: flex; flex-direction: column; } 
+            
+            /* Fotos gigantes en móvil */
             .grid-item, .grid-item.half, .grid-item.third, .grid-item.quarter { 
                 width: 100%; height: 500px; grid-column: auto; grid-row: auto; 
             }
+            
+            /* Sin padding lateral (Full Bleed) */
             .overlay-section { padding: 100px 0 40px 0; }
             
             /* Textos siempre visibles en móvil */
@@ -689,7 +692,7 @@
                     "./assets/Agujeros_Thumbnail_2.webp", 
                     "./assets/Agujeros_Thumbnail_3.webp", 
                     "./assets/Agujeros_Thumbnail_4.webp"
-                ],
+                ], 
                 size: 'quarter' 
             }
         ];
