@@ -42,12 +42,12 @@
         }
         ::-webkit-scrollbar-thumb:hover { background-color: #fff; }
 
-        /* --- NAVIGATION CON BLUR --- */
+        /* --- NAVIGATION --- */
         nav {
             position: fixed; top: 0; width: 100%; 
             padding: 30px 50px; 
             display: flex; justify-content: space-between; align-items: flex-start;
-            z-index: 500; pointer-events: none; /* Deja pasar clicks fuera de los botones */
+            z-index: 500; pointer-events: none; 
             background: transparent;
             transition: background 0.4s ease, padding 0.4s ease;
         }
@@ -60,8 +60,7 @@
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
         
-        /* Aseguramos que los elementos interactivos sí reciban clicks */
-        .brand, .nav-links a, .lang-toggle, .hamburger { pointer-events: auto; cursor: pointer; }
+        .brand, .nav-links a, .lang-container, .hamburger { pointer-events: auto; cursor: pointer; }
         
         .brand {
             font-size: clamp(1.45rem, 2vw, 2.35rem); 
@@ -79,49 +78,64 @@
             text-transform: uppercase; font-weight: 400;
         }
         
-        /* DESKTOP NAV - MEJORA DE ÁREA DE CLICK */
         .nav-links { 
-            display: flex; 
-            /* Reducimos el gap visual porque el padding rellenará el espacio */
-            gap: 10px; 
-            padding-top: 0; 
-            align-items: center; 
+            display: flex; gap: 10px; padding-top: 0; align-items: center; 
         }
         
-        .nav-links a, .lang-toggle {
+        .nav-links a {
             color: var(--text); text-decoration: none; 
             font-size: 0.75rem;
             text-transform: uppercase; letter-spacing: 1px; opacity: 0.9;
             transition: all 0.3s ease; position: relative;
             text-shadow: 0 2px 10px rgba(0,0,0,0.3);
-            
-            /* --- AQUÍ ESTÁ EL CAMBIO CLAVE --- */
-            display: inline-block;
-            padding: 20px 15px; /* Aumentamos el área clicable invisiblemente */
-            margin: -10px 0; /* Compensamos para que no desplace el header */
+            display: inline-block; padding: 20px 15px; margin: -10px 0;
         }
         
-        .nav-links a:hover, .lang-toggle:hover { 
-            opacity: 1; 
-            transform: translateY(-2px);
-        }
-        
+        .nav-links a:hover { opacity: 1; transform: translateY(-2px); }
         .nav-hidden { opacity: 0 !important; pointer-events: none; transform: translateY(-10px); }
 
-        .lang-toggle {
-            font-weight: 600;
-            /* Ajuste específico para el botón de idioma por tener borde */
+        /* --- LANGUAGE TOGGLE ANIMADO (SLIDING) --- */
+        .lang-container {
+            position: relative;
+            overflow: hidden; /* MÁSCARA */
+            height: 32px; /* Altura fija para el botón */
+            min-width: 44px;
             border: 1px solid rgba(234, 229, 220, 0.3);
-            padding: 8px 15px !important; /* Padding visible + invisible */
-            border-radius: 4px; margin-right: 10px; 
+            border-radius: 4px;
+            margin-right: 10px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .lang-container:hover { border-color: var(--text); }
+
+        .lang-track {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* La magia: movemos el track arriba/abajo */
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); 
         }
 
-        /* --- MOBILE MENU ANIMADO --- */
+        .lang-opt {
+            height: 30px; /* Misma altura que el contenedor (aprox - bordes) */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+        }
+
+        /* Estados de animación */
+        .lang-container.es-active .lang-track {
+            transform: translateY(-30px); /* Mueve el track para mostrar ES */
+        }
+
+        /* --- MOBILE MENU --- */
         .hamburger {
             display: none; 
             font-size: 1.5rem; color: var(--text); z-index: 600;
-            padding: 15px; /* Más área de click también para móvil */
-            margin: -15px;
+            padding: 15px; margin: -15px;
             transition: transform 0.3s ease;
         }
         .hamburger:active { transform: scale(0.9); }
@@ -144,21 +158,25 @@
             text-decoration: none; cursor: pointer;
             opacity: 0; transform: translateY(20px);
             transition: opacity 0.5s ease, transform 0.5s ease;
-            padding: 20px; /* Área de click gigante en móvil */
+            padding: 20px;
         }
         
         #mobile-menu-overlay.open .mobile-links a:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
         #mobile-menu-overlay.open .mobile-links a:nth-child(2) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
         #mobile-menu-overlay.open .mobile-links a:nth-child(3) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
-        #mobile-menu-overlay.open .mobile-links .mobile-lang-btn { transition-delay: 0.4s; opacity: 1; transform: translateY(0); }
+        #mobile-menu-overlay.open .mobile-links .mobile-lang-container { transition-delay: 0.4s; opacity: 1; transform: translateY(0); }
 
-        .mobile-lang-btn {
-            font-family: var(--font-main) !important; font-size: 1rem !important;
-            border: 1px solid var(--text); padding: 10px 20px; border-radius: 50px;
-            display: inline-block; margin-top: 20px; text-transform: uppercase; cursor: pointer;
+        /* Botón móvil adaptado al sliding */
+        .mobile-lang-container {
+            position: relative; overflow: hidden;
+            height: 42px; width: 80px;
+            border: 1px solid var(--text); border-radius: 50px;
+            margin: 20px auto 0; cursor: pointer;
             opacity: 0; transform: translateY(20px);
             transition: all 0.3s ease;
         }
+        .mobile-lang-container .lang-opt { height: 40px; font-size: 1rem; }
+        .mobile-lang-container.es-active .lang-track { transform: translateY(-40px); }
 
         /* --- CAROUSEL --- */
         .carousel { height: 100vh; width: 100vw; position: relative; z-index: 1; }
@@ -226,13 +244,8 @@
         }
 
         .grid-item { 
-            position: relative; 
-            overflow: hidden; 
-            cursor: pointer; 
-            border: none; 
-            width: 100%;
-            height: 100%; 
-            background-color: #0c0c0c; 
+            position: relative; overflow: hidden; cursor: pointer; 
+            border: none; width: 100%; height: 100%; background-color: #0c0c0c; 
         }
         
         .grid-item.half { grid-column: span 6; } 
@@ -242,20 +255,13 @@
         .grid-item.tall { grid-row: span 2; } 
 
         .grid-item img {
-            position: absolute; 
-            top: 0; left: 0;
-            width: 100%; height: 100%; 
-            object-fit: cover; 
-            filter: grayscale(20%);
-            opacity: 0; 
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%; object-fit: cover; 
+            filter: grayscale(20%); opacity: 0; 
             transition: opacity 0.6s ease, transform 0.6s var(--transition-smooth), filter 0.3s ease;
             display: block;
         }
-        
-        .grid-item img.img-loaded {
-            opacity: 1;
-        }
-
+        .grid-item img.img-loaded { opacity: 1; }
         .grid-item:hover img { transform: scale(1.05); filter: grayscale(0%); }
 
         .item-overlay {
@@ -380,7 +386,13 @@
         </div>
         
         <div class="nav-links">
-            <span class="lang-toggle" onclick="toggleLanguage()">ES</span>
+            <div class="lang-container" onclick="toggleLanguage()">
+                <div class="lang-track">
+                    <span class="lang-opt">EN</span>
+                    <span class="lang-opt">ES</span>
+                </div>
+            </div>
+
             <a onclick="openIndex()" id="nav-projects">Projects</a>
             <a onclick="openAbout()" id="nav-about">About</a>
             <a href="mailto:leandrobrunoeditor@gmail.com" id="nav-contact">Contact</a>
@@ -394,7 +406,13 @@
             <a onclick="openIndex(); toggleMobileMenu()" id="mob-nav-projects">Projects</a>
             <a onclick="openAbout(); toggleMobileMenu()" id="mob-nav-about">About</a>
             <a href="mailto:leandrobrunoeditor@gmail.com" id="mob-nav-contact">Contact</a>
-            <span class="mobile-lang-btn" onclick="toggleLanguage()">ES</span>
+            
+            <div class="mobile-lang-container" onclick="toggleLanguage()">
+                <div class="lang-track">
+                    <span class="lang-opt">EN</span>
+                    <span class="lang-opt">ES</span>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -443,8 +461,7 @@
 
         let currentLang = 'en';
 
-        // --- DATA MASTER (CORREGIDO SEGÚN CAPTURAS DE PANTALLA) ---
-        // IMPORTANTE: Se corrigieron typos como "Thumbmail" -> "Thumbnail" y rutas específicas.
+        // --- DATA MASTER ---
         const allProjects = [
             { 
                 title: "Menem", 
@@ -669,9 +686,18 @@
             
             document.getElementById('about-content').innerHTML = t.bio;
             
-            const btnText = currentLang === 'en' ? 'ES' : 'EN';
-            document.querySelector('.lang-toggle').innerText = btnText;
-            document.querySelector('.mobile-lang-btn').innerText = btnText;
+            // --- ACTUALIZACIÓN ANIMADA ---
+            // Simplemente cambiamos la clase del contenedor, el CSS hace el slide
+            const desktopToggle = document.querySelector('.lang-container');
+            const mobileToggle = document.querySelector('.mobile-lang-container');
+            
+            if (currentLang === 'es') {
+                desktopToggle.classList.add('es-active');
+                mobileToggle.classList.add('es-active');
+            } else {
+                desktopToggle.classList.remove('es-active');
+                mobileToggle.classList.remove('es-active');
+            }
         }
 
         function toggleLanguage() {
@@ -768,7 +794,6 @@
                 
                 item.onclick = () => openProject(p);
                 
-                // Se agregó onerror para ocultar imágenes rotas en lugar de romper el layout
                 item.innerHTML = `
                     <img src="${p.image}" alt="${getProjectTitle(p)}" loading="lazy" onload="this.classList.add('img-loaded')" onerror="this.style.display='none'">
                     <div class="item-overlay">
