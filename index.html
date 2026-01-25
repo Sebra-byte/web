@@ -52,7 +52,6 @@
             transition: background 0.4s ease, padding 0.4s ease;
         }
         
-        /* Efecto Vidrio Esmerilado al hacer scroll o abrir secciones */
         nav.solid-bg { 
             background: rgba(117, 124, 113, 0.85); 
             backdrop-filter: blur(12px); 
@@ -90,7 +89,6 @@
             text-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
         
-        /* Micro-interacción: Pequeña subida al hover */
         .nav-links a:hover, .lang-toggle:hover { 
             opacity: 1; 
             transform: translateY(-2px);
@@ -114,7 +112,7 @@
         
         #mobile-menu-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(117, 124, 113, 0.95); /* Más opacidad para el menú móvil */
+            background: rgba(117, 124, 113, 0.95);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
             z-index: 550;
@@ -125,7 +123,6 @@
         
         .mobile-links { display: flex; flex-direction: column; gap: 40px; text-align: center; }
         
-        /* Animación en Cascada (Staggered) para los links */
         .mobile-links a {
             font-family: var(--font-serif); font-size: 2.2rem; color: var(--text);
             text-decoration: none; cursor: pointer;
@@ -133,7 +130,6 @@
             transition: opacity 0.5s ease, transform 0.5s ease;
         }
         
-        /* Cuando el menú se abre, animamos los hijos uno por uno */
         #mobile-menu-overlay.open .mobile-links a:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
         #mobile-menu-overlay.open .mobile-links a:nth-child(2) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
         #mobile-menu-overlay.open .mobile-links a:nth-child(3) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
@@ -201,7 +197,7 @@
         .arrow:hover { color: var(--text); transform: scale(1.2); }
         .controls { display: none; } 
 
-        /* --- GRID SYSTEM (Optimized) --- */
+        /* --- GRID SYSTEM --- */
         .project-grid {
             display: grid;
             grid-template-columns: repeat(12, 1fr);
@@ -219,7 +215,7 @@
             border: none; 
             width: 100%;
             height: 100%; 
-            background-color: #0c0c0c; /* Fondo oscuro mientras carga */
+            background-color: #0c0c0c; 
         }
         
         .grid-item.half { grid-column: span 6; } 
@@ -228,19 +224,17 @@
         .grid-item.quarter { grid-column: span 3; } 
         .grid-item.tall { grid-row: span 2; } 
 
-        /* Smooth Image Fade-In (Optimization UX) */
         .grid-item img {
             position: absolute; 
             top: 0; left: 0;
             width: 100%; height: 100%; 
             object-fit: cover; 
             filter: grayscale(20%);
-            opacity: 0; /* Inicia invisible */
+            opacity: 0; 
             transition: opacity 0.6s ease, transform 0.6s var(--transition-smooth), filter 0.3s ease;
             display: block;
         }
         
-        /* Clase que añade JS cuando la imagen se descarga */
         .grid-item img.img-loaded {
             opacity: 1;
         }
@@ -267,7 +261,7 @@
         }
         .item-meta span { margin-right: 15px; }
 
-        /* --- OVERLAYS & MODAL (Improved Blur) --- */
+        /* --- OVERLAYS & MODAL --- */
         .overlay-section {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--bg); z-index: 400; padding: 120px 40px 60px 40px; 
@@ -296,8 +290,8 @@
 
         #modal-container {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(47, 53, 46, 0.95); /* Semi transparente */
-            backdrop-filter: blur(10px); /* Blur de fondo en modal */
+            background: rgba(47, 53, 46, 0.95); 
+            backdrop-filter: blur(10px); 
             z-index: 2000; display: flex; justify-content: center; align-items: center;
             opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
         }
@@ -432,11 +426,7 @@
 
         let currentLang = 'en';
 
-        /* ATENCIÓN: Si has convertido tus imágenes a WEBP:
-           Haz un "Find & Replace" en tu editor: 
-           buscar ".jpg" y reemplazar por ".webp"
-           buscar ".png" y reemplazar por ".webp"
-        */
+        // --- DATA MASTER (ACTUALIZADO A .WEBP) ---
         const allProjects = [
             { 
                 title: "Menem", 
@@ -445,12 +435,12 @@
                 platform: "Prime Video", 
                 yt: "-2AmqmciWXE", 
                 previewUrl: "./assets/menem_preview.mp4", 
-                image: "./assets/Menem_Thumbnail_1.jpg", 
+                image: "./assets/Menem_Thumbnail_1.webp", 
                 images: [
-                    "./assets/Menem_Thumbnail_1.jpg", 
-                    "./assets/Menem_Thumbnail_2.jpg", 
-                    "./assets/Menem_Thumbnail_4.jpg", 
-                    "./assets/Menem_Thumbnail_5.jpg"
+                    "./assets/Menem_Thumbnail_1.webp", 
+                    "./assets/Menem_Thumbnail_2.webp", 
+                    "./assets/Menem_Thumbnail_4.webp", 
+                    "./assets/Menem_Thumbnail_5.webp"
                 ],
                 featured: true, 
                 size: 'half' 
@@ -462,13 +452,13 @@
                 platform: "Global Campaign", 
                 yt: "7Cllu0Rme74", 
                 previewUrl: "./assets/oreo_preview.mp4", 
-                image: "./assets/Oreo_Thumbnail_4.png", 
+                image: "./assets/Oreo_Thumbnail_4.webp", 
                 images: [
-                    "./assets/Oreo_Thumbnail_4.png", 
-                    "./assets/Oreo_Thumbnail_1.png", 
-                    "./assets/Oreo_Thumbnail_2.png", 
-                    "./assets/Oreo_Thumbnail_3.png", 
-                    "./assets/Oreo_Thumbnail_5.png"
+                    "./assets/Oreo_Thumbnail_4.webp", 
+                    "./assets/Oreo_Thumbnail_1.webp", 
+                    "./assets/Oreo_Thumbnail_2.webp", 
+                    "./assets/Oreo_Thumbnail_3.webp", 
+                    "./assets/Oreo_Thumbnail_5.webp"
                 ],
                 featured: true, 
                 size: 'half' 
@@ -480,13 +470,13 @@
                 platform: "Netflix", 
                 yt: "A0d6wnlMRRk", 
                 previewUrl: "./assets/moscas_preview.mp4", 
-                image: "./assets/Moscas_Thumbnail_2.png", 
+                image: "./assets/Moscas_Thumbnail_2.webp", 
                 images: [
-                    "./assets/Moscas_Thumbnail_2.png", 
-                    "./assets/Moscas_Thumbnail_1.jpg", 
-                    "./assets/Moscas_Thumbnail_3.png", 
-                    "./assets/Moscas_Thumbnail_4.png", 
-                    "./assets/Moscas_Thumbnail_5.png"
+                    "./assets/Moscas_Thumbnail_2.webp", 
+                    "./assets/Moscas_Thumbnail_1.webp", 
+                    "./assets/Moscas_Thumbnail_3.webp", 
+                    "./assets/Moscas_Thumbnail_4.webp", 
+                    "./assets/Moscas_Thumbnail_5.webp"
                 ],
                 featured: true, 
                 size: 'third' 
@@ -498,11 +488,11 @@
                 platform: "Disney+", 
                 yt: "ecr24akKDbs", 
                 previewUrl: "./assets/coppola_preview.mp4", 
-                image: "./assets/Coppola_Thumbnail_4.jpg", 
+                image: "./assets/Coppola_Thumbnail_4.webp", 
                 images: [
-                    "./assets/Coppola_Thumbnail_4.jpg", 
-                    "./assets/Coppola_Thumbnail_3.png", 
-                    "./assets/Coppola_Thumbnail_2.jpg"
+                    "./assets/Coppola_Thumbnail_4.webp", 
+                    "./assets/Coppola_Thumbnail_3.webp", 
+                    "./assets/Coppola_Thumbnail_2.webp"
                 ],
                 featured: true, 
                 size: 'third' 
@@ -513,13 +503,13 @@
                 prod: "Poster", 
                 platform: "Commercial", 
                 yt: "mb2RPesGf7Q", 
-                image: "./assets/Levis_Thumbnail_v01.jpg", 
+                image: "./assets/Levis_Thumbnail_v01.webp", 
                 images: [
-                    "./assets/Levis_Thumbnail_v01.jpg", 
-                    "./assets/Levis_Thumbnail_2.png", 
-                    "./assets/Levis_Thumbnail_3.png", 
-                    "./assets/Levis_Thumbnail_4.png", 
-                    "./assets/Levis_Thumbnail_5.png"
+                    "./assets/Levis_Thumbnail_v01.webp", 
+                    "./assets/Levis_Thumbnail_2.webp", 
+                    "./assets/Levis_Thumbnail_3.webp", 
+                    "./assets/Levis_Thumbnail_4.webp", 
+                    "./assets/Levis_Thumbnail_5.webp"
                 ],
                 size: 'third' 
             },
@@ -529,13 +519,13 @@
                 prod: "Poster", 
                 platform: "Music Video", 
                 yt: "ItX5aqhqsmo", 
-                image: "./assets/Blair_Thumbnail_1.jpg", 
+                image: "./assets/Blair_Thumbnail_1.webp", 
                 images: [
-                    "./assets/Blair_Thumbnail_1.jpg", 
-                    "./assets/Blair_Thumbnail_2.png", 
-                    "./assets/Blair_Thumbnail_3.png", 
-                    "./assets/Blair_Thumbnail_4.png", 
-                    "./assets/Blair_Thumbnail_5.png"
+                    "./assets/Blair_Thumbnail_1.webp", 
+                    "./assets/Blair_Thumbnail_2.webp", 
+                    "./assets/Blair_Thumbnail_3.webp", 
+                    "./assets/Blair_Thumbnail_4.webp", 
+                    "./assets/Blair_Thumbnail_5.webp"
                 ],
                 size: 'half' 
             },
@@ -545,13 +535,13 @@
                 prod: "Poster", 
                 platform: "Music Video", 
                 yt: "", 
-                image: "./assets/RP_Thumbmail_1.png", 
+                image: "./assets/RP_Thumbmail_1.webp", 
                 images: [
-                    "./assets/RP_Thumbmail_1.png", 
-                    "./assets/RP_Thumbmail_2.png", 
-                    "./assets/RP_Thumbmail_3.png", 
-                    "./assets/RP_Thumbmail_4.png", 
-                    "./assets/RP_Thumbmail_5.png"
+                    "./assets/RP_Thumbmail_1.webp", 
+                    "./assets/RP_Thumbmail_2.webp", 
+                    "./assets/RP_Thumbmail_3.webp", 
+                    "./assets/RP_Thumbmail_4.webp", 
+                    "./assets/RP_Thumbmail_5.webp"
                 ], 
                 size: 'half' 
             },
@@ -560,13 +550,13 @@
                 director: "Camila Migliore", 
                 prod: "Calesita Films", 
                 platform: "Short Film", 
-                image: "./assets/MA_Thumbnail_1.png", 
+                image: "./assets/MA_Thumbnail_1.webp", 
                 yt: "", 
                 images: [
-                    "./assets/MA_Thumbnail_1.png", 
-                    "./assets/MA_Thumbnail_3.png", 
-                    "./assets/MA_Thumbnail_4.png", 
-                    "./assets/MA_Thumbnail_5.png"
+                    "./assets/MA_Thumbnail_1.webp", 
+                    "./assets/MA_Thumbnail_3.webp", 
+                    "./assets/MA_Thumbnail_4.webp", 
+                    "./assets/MA_Thumbnail_5.webp"
                 ], 
                 featured: false, 
                 size: 'half' 
@@ -577,13 +567,13 @@
                 prod: "Nevada Cine/Tres esquimales", 
                 platform: "Short Film", 
                 yt: "", 
-                image: "./assets/BB_Thumbnail_1.png", 
+                image: "./assets/BB_Thumbnail_1.webp", 
                 images: [
-                    "./assets/BB_Thumbnail_1.png", 
-                    "./assets/BB_Thumbnail_2.png", 
-                    "./assets/BB_Thumbnail_3.png", 
-                    "./assets/BB_Thumbnail_4.png", 
-                    "./assets/BB_Thumbnail_5.png"
+                    "./assets/BB_Thumbnail_1.webp", 
+                    "./assets/BB_Thumbnail_2.webp", 
+                    "./assets/BB_Thumbnail_3.webp", 
+                    "./assets/BB_Thumbnail_4.webp", 
+                    "./assets/BB_Thumbnail_5.webp"
                 ], 
                 size: 'half' 
             },
@@ -594,11 +584,11 @@
                 prod: "Navajo Films", 
                 platform: "Documentary", 
                 yt: "", 
-                image: "./assets/Marias_Thumbnail_1.png", 
+                image: "./assets/Marias_Thumbnail_1.webp", 
                 images: [
-                    "./assets/Marias_Thumbnail_1.png", 
-                    "./assets/Marias_Thumbnail_2.png", 
-                    "./assets/Marias_Thumbnail_3.png"
+                    "./assets/Marias_Thumbnail_1.webp", 
+                    "./assets/Marias_Thumbnail_2.webp", 
+                    "./assets/Marias_Thumbnail_3.webp"
                 ], 
                 size: 'half tall' 
             },
@@ -608,7 +598,7 @@
                 prod: "Tres Esquimales", 
                 platform: "Documentary", 
                 yt: "", 
-                image: "./assets/Brillar_Thumbnail_1.png", 
+                image: "./assets/Brillar_Thumbnail_1.webp", 
                 size: 'half' 
             },
             { 
@@ -617,8 +607,8 @@
                 prod: "", 
                 platform: "Short Film Documentary", 
                 yt: "", 
-                image: "./assets/TodoLoQueRecuerdo_Thumbnail_1.png", 
-                images: ["./assets/TodoLoQueRecuerdo_Thumbnail_1.png"], 
+                image: "./assets/TodoLoQueRecuerdo_Thumbnail_1.webp", 
+                images: ["./assets/TodoLoQueRecuerdo_Thumbnail_1.webp"], 
                 size: 'quarter' 
             },
             { 
@@ -627,7 +617,7 @@
                 prod: "", 
                 platform: "Fiction", 
                 yt: "", 
-                image: "./assets/Agujeros_Thumbnail_1.png", 
+                image: "./assets/Agujeros_Thumbnail_1.webp", 
                 size: 'quarter' 
             }
         ];
@@ -692,7 +682,7 @@
                 slide.className = `slide ${i === 0 ? 'active' : ''}`;
                 
                 let mediaHTML = p.previewUrl ? 
-                    `<video class="bg-media" loop muted playsinline poster="./assets/placeholder.jpg"><source src="${p.previewUrl}" type="video/mp4"></video>` : 
+                    `<video class="bg-media" loop muted playsinline poster="./assets/placeholder.webp"><source src="${p.previewUrl}" type="video/mp4"></video>` : 
                     `<img class="bg-media" src="${p.image}" alt="${getProjectTitle(p)}">`;
 
                 slide.innerHTML = `
@@ -760,8 +750,6 @@
                 
                 item.onclick = () => openProject(p);
                 
-                // Usamos loading="lazy" para optimización nativa
-                // Añadimos evento onload para la animación suave (fade-in)
                 item.innerHTML = `
                     <img src="${p.image}" alt="${getProjectTitle(p)}" loading="lazy" onload="this.classList.add('img-loaded')">
                     <div class="item-overlay">
@@ -823,7 +811,6 @@
             if (p.yt && p.yt.length > 0) {
                 modalContent.innerHTML = `<div class="video-wrapper"><iframe src="https://www.youtube.com/embed/${p.yt}?autoplay=1&rel=0&controls=1" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>`;
             } else if (p.images && p.images.length > 0) {
-                // Optimización: Lazy load también en galería
                 const imagesHTML = p.images.map(img => `<div class="gallery-item"><img src="${img}" loading="lazy"></div>`).join('');
                 modalContent.innerHTML = `<div class="gallery-wrapper">${imagesHTML}</div><div class="gallery-hint">Scroll Horizontal &#8594;</div>`;
             } else {
