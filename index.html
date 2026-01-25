@@ -94,15 +94,17 @@
         .nav-links a:hover { opacity: 1; transform: translateY(-2px); }
         .nav-hidden { opacity: 0 !important; pointer-events: none; transform: translateY(-10px); }
 
-        /* --- LANGUAGE TOGGLE ANIMADO (SLIDING) --- */
+        /* --- LANGUAGE TOGGLE ANIMADO (ESTABILIZADO) --- */
         .lang-container {
             position: relative;
-            overflow: hidden; /* MÁSCARA */
-            height: 32px; /* Altura fija para el botón */
+            overflow: hidden; 
+            height: 32px; 
             min-width: 44px;
             border: 1px solid rgba(234, 229, 220, 0.3);
             border-radius: 4px;
-            margin-right: 10px;
+            /* Cambiamos el margen para separarlo de los links a su izquierda */
+            margin-left: 25px; 
+            margin-right: 0;
             transition: border-color 0.3s ease;
         }
         
@@ -112,12 +114,11 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            /* La magia: movemos el track arriba/abajo */
             transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); 
         }
 
         .lang-opt {
-            height: 30px; /* Misma altura que el contenedor (aprox - bordes) */
+            height: 30px; 
             display: flex;
             align-items: center;
             justify-content: center;
@@ -126,9 +127,8 @@
             text-transform: uppercase;
         }
 
-        /* Estados de animación */
         .lang-container.es-active .lang-track {
-            transform: translateY(-30px); /* Mueve el track para mostrar ES */
+            transform: translateY(-30px); 
         }
 
         /* --- MOBILE MENU --- */
@@ -166,7 +166,6 @@
         #mobile-menu-overlay.open .mobile-links a:nth-child(3) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
         #mobile-menu-overlay.open .mobile-links .mobile-lang-container { transition-delay: 0.4s; opacity: 1; transform: translateY(0); }
 
-        /* Botón móvil adaptado al sliding */
         .mobile-lang-container {
             position: relative; overflow: hidden;
             height: 42px; width: 80px;
@@ -386,16 +385,16 @@
         </div>
         
         <div class="nav-links">
+            <a onclick="openIndex()" id="nav-projects">Projects</a>
+            <a onclick="openAbout()" id="nav-about">About</a>
+            <a href="mailto:leandrobrunoeditor@gmail.com" id="nav-contact">Contact</a>
+            
             <div class="lang-container" onclick="toggleLanguage()">
                 <div class="lang-track">
                     <span class="lang-opt">EN</span>
                     <span class="lang-opt">ES</span>
                 </div>
             </div>
-
-            <a onclick="openIndex()" id="nav-projects">Projects</a>
-            <a onclick="openAbout()" id="nav-about">About</a>
-            <a href="mailto:leandrobrunoeditor@gmail.com" id="nav-contact">Contact</a>
         </div>
 
         <div class="hamburger" onclick="toggleMobileMenu()">&#9776;</div>
@@ -687,7 +686,6 @@
             document.getElementById('about-content').innerHTML = t.bio;
             
             // --- ACTUALIZACIÓN ANIMADA ---
-            // Simplemente cambiamos la clase del contenedor, el CSS hace el slide
             const desktopToggle = document.querySelector('.lang-container');
             const mobileToggle = document.querySelector('.mobile-lang-container');
             
