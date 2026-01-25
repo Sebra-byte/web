@@ -14,16 +14,13 @@
     
     <style>
         :root {
-            --bg-color: #757c71;
+            --bg-color: #757c71; /* Color Sólido Limpio */
             --text: #eae5dc;
             --accent: rgba(234, 229, 220, 0.8);
             --font-main: 'Inter', sans-serif;
             --font-serif: 'Playfair Display', serif;
             --grid-gap: 0px; 
             --transition-smooth: cubic-bezier(0.22, 1, 0.36, 1);
-            
-            /* TEXTURA DE RUIDO GENERADA POR CÓDIGO (SVG BASE64) */
-            --noise-url: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)" opacity="0.15"/%3E%3C/svg%3E');
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -31,24 +28,14 @@
         body, html {
             height: 100%;
             background-color: var(--bg-color);
-            /* Aplicamos textura al body */
-            background-image: var(--noise-url);
-            background-repeat: repeat;
-            background-blend-mode: overlay;
-            
             color: var(--text);
             font-family: var(--font-main);
             overflow: hidden; 
         }
 
-        /* SCROLLBAR CON TEXTURA */
+        /* SCROLLBAR */
         ::-webkit-scrollbar { width: 10px; }
-        ::-webkit-scrollbar-track { 
-            background-color: var(--bg-color);
-            background-image: var(--noise-url);
-            background-repeat: repeat;
-            background-blend-mode: overlay;
-        }
+        ::-webkit-scrollbar-track { background-color: var(--bg-color); }
         ::-webkit-scrollbar-thumb {
             background-color: var(--text);
             border-radius: 10px;
@@ -69,10 +56,6 @@
         
         nav.solid-bg { 
             background-color: rgba(117, 124, 113, 0.95);
-            background-image: var(--noise-url);
-            background-repeat: repeat;
-            background-blend-mode: overlay;
-            
             backdrop-filter: blur(12px); 
             -webkit-backdrop-filter: blur(12px);
             pointer-events: auto; 
@@ -136,12 +119,7 @@
         
         #mobile-menu-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            
             background-color: rgba(117, 124, 113, 0.98);
-            background-image: var(--noise-url);
-            background-repeat: repeat;
-            background-blend-mode: overlay;
-
             backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
             z-index: 550; display: flex; flex-direction: column; justify-content: center; align-items: center;
             opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
@@ -260,7 +238,7 @@
         .project-grid {
             display: grid; grid-template-columns: repeat(12, 1fr);
             grid-auto-rows: 350px; grid-auto-flow: dense; 
-            gap: var(--grid-gap); /* 0px */
+            gap: var(--grid-gap); 
             max-width: 1800px; margin: 0 auto; padding-bottom: 100px; width: 100%;
         }
 
@@ -298,15 +276,37 @@
         }
         .item-meta span { margin-right: 15px; }
 
+        /* --- BACK TO TOP BTN --- */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            font-size: 2rem;
+            cursor: pointer;
+            z-index: 600; /* Encima de todo */
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease, transform 0.3s ease;
+            color: var(--text);
+            background: rgba(0,0,0,0.2);
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            backdrop-filter: blur(5px);
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            background: rgba(0,0,0,0.4);
+        }
+
         /* --- OVERLAYS & MODAL --- */
         .overlay-section {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            
             background-color: var(--bg-color);
-            background-image: var(--noise-url);
-            background-repeat: repeat;
-            background-blend-mode: overlay;
-
             z-index: 400; padding: 120px 40px 60px 40px; 
             overflow-y: auto; opacity: 0; pointer-events: none;
             transition: opacity 0.5s ease, transform 0.5s var(--transition-smooth); 
@@ -368,13 +368,9 @@
         @media(max-width: 768px) {
             .carousel, body, html { height: 100dvh; } 
             .project-grid { display: flex; flex-direction: column; } 
-            
-            /* Fotos gigantes en móvil */
             .grid-item, .grid-item.half, .grid-item.third, .grid-item.quarter { 
                 width: 100%; height: 500px; grid-column: auto; grid-row: auto; 
             }
-            
-            /* Sin padding lateral (Full Bleed) */
             .overlay-section { padding: 100px 0 40px 0; }
             
             /* Textos siempre visibles en móvil */
@@ -460,6 +456,10 @@
 
     <div id="index-overlay" class="overlay-section">
         <div class="project-grid" id="grid-container"></div>
+        
+        <div class="back-to-top" id="backToTopBtn" onclick="scrollToTop()">
+            &#8593;
+        </div>
     </div>
 
     <div id="about-overlay" class="overlay-section">
@@ -717,6 +717,21 @@
         const uiCurrentDisplay = document.getElementById('ui-current');
         const uiTotalDisplay = document.getElementById('ui-total');
         const uiProgressBar = document.getElementById('ui-progress');
+        
+        // --- BACK TO TOP LOGIC ---
+        const backToTopBtn = document.getElementById('backToTopBtn');
+        indexOverlay.addEventListener('scroll', () => {
+            // Mostrar flecha si bajamos más de 500px
+            if (indexOverlay.scrollTop > 500) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        });
+
+        function scrollToTop() {
+            indexOverlay.scrollTo({ top: 0, behavior: 'smooth' });
+        }
 
         function getProjectTitle(p) {
             return (typeof p.title === 'object') ? p.title[currentLang] : p.title;
