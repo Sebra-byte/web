@@ -139,7 +139,7 @@
         }
         .slide.active .slide-info { opacity: 1; transform: translateY(0); }
 
-        /* SELECTED WORKS LABEL */
+        /* LABEL "SELECTED WORKS" */
         .label-text {
             font-family: var(--font-main);
             font-size: 0.65rem;
@@ -181,7 +181,7 @@
         .project-grid {
             display: grid;
             grid-template-columns: repeat(12, 1fr);
-            auto-rows: 350px; 
+            auto-rows: 350px; /* Altura fija para que el navegador sepa cuanto medir */
             gap: 0; 
             max-width: 1800px; margin: 0 auto; padding-bottom: 100px;
             width: 100%;
@@ -201,6 +201,7 @@
         .grid-item.quarter { grid-column: span 3; } 
         .grid-item.tall { grid-row: span 2; } 
 
+        /* ESTABILIDAD DE IMAGEN (ABSOLUTE) */
         .grid-item img {
             position: absolute; 
             top: 0; left: 0;
