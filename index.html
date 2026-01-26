@@ -253,14 +253,15 @@
             transition: opacity 0.6s ease, transform 0.6s var(--transition-smooth), filter 0.3s ease;
         }
         
-        .grid-item img { 
-            filter: grayscale(20%) brightness(0.9); opacity: 0; z-index: 2;
-        }
+        .grid-item img { filter: grayscale(20%) brightness(0.9); opacity: 0; z-index: 1; }
         .grid-item img.img-loaded { opacity: 1; }
         
         .grid-item video {
-            z-index: 1; opacity: 1; filter: grayscale(10%);
+            z-index: 2; opacity: 0; filter: grayscale(10%); pointer-events: none;
+            transition: opacity 0.5s ease;
         }
+        /* Clase especial cuando el video está reproduciendo */
+        .grid-item video.is-playing { opacity: 1; }
 
         .grid-item:hover img { transform: scale(1.05); filter: grayscale(0%) brightness(1); }
         .grid-item:hover video { transform: scale(1.05); filter: grayscale(0%); }
@@ -285,7 +286,7 @@
         }
         .item-meta span { margin-right: 15px; }
 
-        /* --- BOTTOM FOOTER --- */
+        /* --- BOTTOM FOOTER (Back to Top) --- */
         .grid-footer {
             display: flex; justify-content: center; align-items: center;
             padding: 80px 0;
@@ -318,7 +319,7 @@
         }
         .overlay-section.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
         
-        /* --- PROJECT DETAIL STYLES (3-COLUMN LAYOUT) --- */
+        /* --- PROJECT DETAIL STYLES --- */
         .project-detail-container {
             max-width: 1800px; margin: 0 auto;
             color: var(--text);
@@ -328,66 +329,36 @@
             padding-bottom: 100px;
         }
         
-        .pd-left-col {
-            position: sticky; top: 120px; height: fit-content; text-align: left;
-        }
-        
-        .pd-center-col {
-            display: flex; flex-direction: column; gap: 40px;
-        }
-
-        .pd-right-col {
-            position: sticky; top: 0; height: 100vh;
-            display: flex; align-items: center; justify-content: flex-end;
-        }
+        .pd-left-col { position: sticky; top: 120px; height: fit-content; text-align: left; }
+        .pd-center-col { display: flex; flex-direction: column; gap: 40px; }
+        .pd-right-col { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; justify-content: flex-end; }
 
         .pd-header { margin-bottom: 40px; }
         .pd-title {
-            font-family: var(--font-serif);
-            font-size: clamp(2rem, 3vw, 3.5rem);
+            font-family: var(--font-serif); font-size: clamp(2rem, 3vw, 3.5rem);
             line-height: 1.1; margin-bottom: 15px; font-weight: 400;
         }
         .pd-meta {
             font-family: var(--font-main); font-size: 0.85rem; letter-spacing: 1.5px;
             opacity: 0.7; text-transform: uppercase; color: var(--text);
         }
-
         .pd-synopsis {
             font-family: var(--font-main); font-size: 1rem; line-height: 1.7;
             font-weight: 300; opacity: 0.9; margin-bottom: 40px;
         }
-        
         .pd-credits-list { display: flex; flex-direction: column; gap: 15px; }
         .pd-credit-row { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(232, 230, 225, 0.1); padding-bottom: 8px;}
-        .pd-role {
-            font-family: var(--font-main); text-transform: uppercase;
-            font-size: 0.7rem; letter-spacing: 1px; opacity: 0.6;
-        }
-        .pd-name {
-            font-family: var(--font-main); font-size: 0.85rem; text-align: right; font-weight: 400;
-        }
-
-        .pd-hero {
-            width: 100%; aspect-ratio: 16/9; background: #000; position: relative;
-        }
+        .pd-role { font-family: var(--font-main); text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px; opacity: 0.6; }
+        .pd-name { font-family: var(--font-main); font-size: 0.85rem; text-align: right; font-weight: 400; }
+        .pd-hero { width: 100%; aspect-ratio: 16/9; background: #000; position: relative; }
         .pd-hero iframe, .pd-hero img { width: 100%; height: 100%; object-fit: cover; border: none; }
-
         .pd-gallery { display: flex; flex-direction: column; gap: 40px; }
-        .pd-gallery img {
-            width: 100%; height: auto; object-fit: cover;
-            filter: grayscale(10%); transition: filter 0.3s;
-        }
+        .pd-gallery img { width: 100%; height: auto; object-fit: cover; filter: grayscale(10%); transition: filter 0.3s; }
         .pd-gallery img:hover { filter: grayscale(0%); }
 
-        .pd-nav-btn {
-            text-align: right; cursor: pointer; opacity: 0.5;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
+        .pd-nav-btn { text-align: right; cursor: pointer; opacity: 0.5; transition: opacity 0.3s ease, transform 0.3s ease; }
         .pd-nav-btn:hover { opacity: 1; transform: translateX(5px); }
-        .pd-next-label {
-            display: block; font-family: var(--font-main); font-size: 0.75rem;
-            text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; color: var(--text);
-        }
+        .pd-next-label { display: block; font-family: var(--font-main); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; color: var(--text); }
         .pd-next-title { font-family: var(--font-serif); font-size: 1.2rem; }
 
         /* --- ABOUT & MODAL --- */
@@ -404,8 +375,7 @@
 
         #modal-container {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: var(--bg-color); 
-            z-index: 2000; overflow-y: auto; 
+            background: var(--bg-color); z-index: 2000; overflow-y: auto; 
             opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
         }
         #modal-container.open { opacity: 1; pointer-events: auto; }
@@ -416,41 +386,24 @@
         }
         .modal-close:hover { transform: rotate(90deg); color: var(--text); }
         
-        .modal-content { 
-            width: 100%; min-height: 100%; 
-            display: block; 
-            padding-top: 120px; 
-            padding-left: 40px; padding-right: 40px;
-        }
+        .modal-content { width: 100%; min-height: 100%; display: block; padding-top: 120px; padding-left: 40px; padding-right: 40px; }
 
-        /* --- BREAKPOINTS --- */
         @media (max-width: 1400px) {
             .project-detail-container { grid-template-columns: 300px 1fr; gap: 40px; }
             .pd-right-col { position: static; height: auto; grid-column: 2; margin-top: 40px; justify-content: flex-end; }
         }
-
         @media (max-width: 1200px) {
             .project-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 300px; }
             .grid-item.half, .grid-item.third, .grid-item.three-quarters, .grid-item.quarter { grid-column: span 1; }
             .grid-item.half.tall { grid-row: span 2; }
         }
-
-        /* --- MOBILE STYLES --- */
         @media(max-width: 768px) {
             .carousel, body, html { height: 100dvh; } 
             .project-grid { display: flex; flex-direction: column; } 
-            .grid-item, .grid-item.half, .grid-item.third, .grid-item.quarter { 
-                width: 100%; height: 500px; grid-column: auto; grid-row: auto; 
-            }
+            .grid-item, .grid-item.half, .grid-item.third, .grid-item.quarter { width: 100%; height: 500px; grid-column: auto; grid-row: auto; }
             .overlay-section { padding: 100px 0 0px 0; }
-            
-            .item-overlay {
-                opacity: 1 !important; 
-                background: linear-gradient(to top, rgba(15,15,15,0.95) 0%, transparent 60%); 
-                padding: 20px 30px; 
-            }
+            .item-overlay { opacity: 1 !important; background: linear-gradient(to top, rgba(15,15,15,0.95) 0%, transparent 60%); padding: 20px 30px; }
             .item-title { font-size: 1.8rem; }
-            
             .modal-content { padding: 100px 20px 40px 20px; }
             .project-detail-container { display: flex; flex-direction: column; gap: 40px; }
             .pd-left-col { position: static; }
@@ -458,12 +411,10 @@
             .pd-title { font-size: 2.2rem; }
             .pd-hero { aspect-ratio: 16/9; }
             .pd-nav-btn { text-align: center; }
-
             nav { padding: 20px 30px; align-items: center; }
             .nav-links { display: none; }
             .hamburger { display: block; }
             .brand { font-size: 1.5rem; }
-            
             .slide { padding: 0 30px 100px 30px; justify-content: flex-end; } 
             .slide-info { transform: translateY(0); opacity: 1; max-width: 90%; }
             .project-title { font-size: 2.8rem; border: none; }
@@ -602,7 +553,7 @@
                 year: "2024", genre: "Comedy / Biopic", episodes: {en: "6 Episodes", es: "6 Episodios"},
                 synopsis: { en: "The wild and humorous life of Guillermo Coppola, the legendary manager of Diego Maradona, navigating the excesses of the 90s.", es: "La vida salvaje y humorística de Guillermo Coppola, el legendario manager de Diego Maradona, navegando los excesos de los 90." },
                 credits: { "Director": "Ariel Winograd", "Production": "Pampa Films", "Platform": "Disney+", "Editor": "Leandro Bruno, Andres Quaranta, Dante Perini, Jimena Garcia Molt, Gustavo Macri, Miguel Colombo" },
-                director: "Ariel Winograd", prod: "Pampa/Disney+", platform: "Disney+", yt: "ecr24akKDbs", previewUrl: "./assets/coppola_preview.mp4", 
+                director: "Ariel Winograd", prod: "Pampa/Disney+", platform: "Disney+", yt: "ecr24akKDbs", previewUrl: "./assets/coppola_loop_3seg.mp4", 
                 image: "./assets/Coppola_Thumbnail_4.webp", images: ["./assets/Coppola_Thumbnail_4.webp", "./assets/Coppola_Thumbnail_3.webp", "./assets/Coppola_Thumbnail_2.webp"],
                 featured: true, size: 'third' 
             },
@@ -671,8 +622,7 @@
                 size: 'half' 
             },
             { 
-                title: "Fragilidad",
-                year: "2021", genre: "Short Film",
+                title: "Fragilidad", year: "2021", genre: "Short Film",
                 synopsis: { 
                     en: "After suffering serious abuses, four 11-year-old friends make an extreme decision in order to find their liberation.", 
                     es: "Después de sufrir graves abusos, cuatro amigos de 11 años toman una decisión extrema para encontrar su liberación." 
@@ -794,16 +744,30 @@
         function renderIndex() {
             const gridContainer = document.getElementById('grid-container');
             gridContainer.innerHTML = '';
+            
+            // --- INTERSECTION OBSERVER FOR SMART AUTOPLAY ---
+            const videoObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const video = entry.target;
+                    if (entry.isIntersecting) {
+                        video.play().then(() => video.classList.add('is-playing')).catch(e => {});
+                    } else {
+                        video.pause();
+                        video.classList.remove('is-playing');
+                    }
+                });
+            }, { threshold: 0.5 }); // Play when 50% visible
+
             allProjects.forEach(p => {
                 const item = document.createElement('div');
                 let gridClass = p.size || 'third';
                 item.className = `grid-item ${gridClass}`; 
                 item.onclick = () => openProject(p);
                 
-                // --- VIDEO PREVIEW IN GRID ---
                 let mediaContent = '';
                 if(p.previewUrl) {
-                    mediaContent = `<video src="${p.previewUrl}" autoplay loop muted playsinline style="z-index: 1; opacity: 1;"></video>`;
+                    // Video element with Poster fallback
+                    mediaContent = `<video src="${p.previewUrl}" poster="${p.image}" loop muted playsinline class="grid-video"></video>`;
                 } else {
                     mediaContent = `<img src="${p.image}" alt="${getProjectTitle(p)}" loading="lazy" onload="this.classList.add('img-loaded')" onerror="this.style.display='none'">`;
                 }
@@ -816,6 +780,13 @@
                     </div>`;
                 gridContainer.appendChild(item);
                 
+                // Attach Observer to Video
+                if(p.previewUrl) {
+                    const vid = item.querySelector('video');
+                    if(vid) videoObserver.observe(vid);
+                }
+
+                // Image Carousel on Hover (only if not video)
                 if(!p.previewUrl && p.images && p.images.length > 1) {
                     let hoverInterval; let imgIndex = 0;
                     item.onmouseenter = () => {
@@ -866,7 +837,6 @@
         function resetAutoPlay() { startAutoPlay(); }
         function onPlayerStateChange(event) { if (event.data === 0) { } }
 
-        // --- PROJECT DETAIL LOGIC (3-COLUMN SPLIT) ---
         function openProject(p) {
             pauseHero();
             modalContainer.classList.add('open');
