@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leandro Bruno | Film Editor</title>
     
-    <link rel="icon" type="image/png" href="./assets/favicon.png">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%232f352e'/><text x='50' y='65' font-family='Playfair Display, serif' font-size='50' fill='%23eae5dc' text-anchor='middle'>lb</text></svg>">
     
     <script src="https://www.youtube.com/iframe_api"></script>
     
@@ -14,23 +14,20 @@
     
     <style>
         :root {
-            --bg: #757c71;
+            --bg-color: #757c71; 
             --text: #eae5dc;
             --accent: rgba(234, 229, 220, 0.8);
             --font-main: 'Inter', sans-serif;
             --font-serif: 'Playfair Display', serif;
-            
-            /* --- CAMBIO CLAVE: GAP 0 PARA QUE ESTÉN PEGADOS --- */
             --grid-gap: 0px; 
-            
             --transition-smooth: cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body, html {
-            height: 100%;
-            background: var(--bg);
+            height: 100%; width: 100%;
+            background-color: var(--bg-color);
             color: var(--text);
             font-family: var(--font-main);
             overflow: hidden; 
@@ -38,11 +35,11 @@
 
         /* SCROLLBAR */
         ::-webkit-scrollbar { width: 10px; }
-        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-track { background-color: var(--bg-color); }
         ::-webkit-scrollbar-thumb {
             background-color: var(--text);
             border-radius: 10px;
-            border: 3px solid var(--bg);
+            border: 3px solid var(--bg-color);
             opacity: 0.5;
         }
         ::-webkit-scrollbar-thumb:hover { background-color: #fff; }
@@ -58,7 +55,7 @@
         }
         
         nav.solid-bg { 
-            background: rgba(117, 124, 113, 0.85); 
+            background-color: rgba(117, 124, 113, 0.95);
             backdrop-filter: blur(12px); 
             -webkit-backdrop-filter: blur(12px);
             pointer-events: auto; 
@@ -122,7 +119,7 @@
         
         #mobile-menu-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(117, 124, 113, 0.95);
+            background-color: rgba(117, 124, 113, 0.98);
             backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
             z-index: 550; display: flex; flex-direction: column; justify-content: center; align-items: center;
             opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
@@ -241,8 +238,9 @@
         .project-grid {
             display: grid; grid-template-columns: repeat(12, 1fr);
             grid-auto-rows: 350px; grid-auto-flow: dense; 
-            gap: var(--grid-gap); /* Ahora es 0 */
-            max-width: 1800px; margin: 0 auto; padding-bottom: 100px; width: 100%;
+            gap: var(--grid-gap); 
+            max-width: 1800px; margin: 0 auto; 
+            width: 100%;
         }
 
         .grid-item { position: relative; overflow: hidden; cursor: pointer; background-color: #0c0c0c; }
@@ -279,17 +277,42 @@
         }
         .item-meta span { margin-right: 15px; }
 
+        /* --- BOTTOM FOOTER (Back to Top) --- */
+        .grid-footer {
+            /* IMPORTANTE: No es grid-item, es un bloque flex debajo */
+            display: flex; justify-content: center; align-items: center;
+            padding: 80px 0;
+            width: 100%;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+            background: transparent;
+        }
+        .grid-footer:hover { opacity: 0.7; }
+        
+        .back-to-top-text {
+            font-family: var(--font-main);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text);
+            display: flex; flex-direction: column; align-items: center; gap: 10px;
+        }
+        .back-to-top-text span { font-size: 1.5rem; }
+
         /* --- OVERLAYS & MODAL --- */
         .overlay-section {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg); z-index: 400; padding: 120px 40px 60px 40px; 
+            background-color: var(--bg-color);
+            z-index: 400; 
+            padding: 120px 40px 0px 40px; /* Padding bottom 0 para el footer */
             overflow-y: auto; opacity: 0; pointer-events: none;
             transition: opacity 0.5s ease, transform 0.5s var(--transition-smooth); 
             transform: translateY(30px);
         }
+
         .overlay-section.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
         
-        .about-container { max-width: 800px; margin: 0 auto; padding-top: 100px; text-align: center; }
+        .about-container { max-width: 800px; margin: 0 auto; padding-top: 100px; padding-bottom: 100px; text-align: center; }
         .about-text p { font-family: var(--font-main); font-size: 1.3rem; line-height: 1.6; color: var(--text); margin-bottom: 30px; font-weight: 300; }
         .about-text strong { font-weight: 600; color: var(--text); }
         .imdb-link {
@@ -315,7 +338,6 @@
         
         .modal-content { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
         .video-wrapper { width: 100%; height: 100%; }
-        /* El div del player de Youtube ocupa todo el espacio */
         #player { width: 100%; height: 100%; }
         
         .gallery-wrapper {
@@ -346,9 +368,8 @@
             .grid-item, .grid-item.half, .grid-item.third, .grid-item.quarter { 
                 width: 100%; height: 500px; grid-column: auto; grid-row: auto; 
             }
-            .overlay-section { padding: 100px 0 40px 0; }
+            .overlay-section { padding: 100px 0 0px 0; }
             
-            /* Textos siempre visibles en móvil */
             .item-overlay {
                 opacity: 1 !important; 
                 background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%); 
@@ -430,7 +451,15 @@
     </div>
 
     <div id="index-overlay" class="overlay-section">
-        <div class="project-grid" id="grid-container"></div>
+        <div class="project-grid" id="grid-container">
+            </div>
+        
+        <div class="grid-footer" onclick="scrollToTop()">
+            <div class="back-to-top-text">
+                <span>&#8593;</span>
+                BACK TO TOP
+            </div>
+        </div>
     </div>
 
     <div id="about-overlay" class="overlay-section">
@@ -464,7 +493,7 @@
         };
 
         let currentLang = 'en';
-        let ytPlayer; // Variable global para el reproductor de YouTube
+        let ytPlayer; 
 
         // --- DATA MASTER ---
         const allProjects = [
@@ -688,6 +717,11 @@
         const uiCurrentDisplay = document.getElementById('ui-current');
         const uiTotalDisplay = document.getElementById('ui-total');
         const uiProgressBar = document.getElementById('ui-progress');
+        
+        // --- BACK TO TOP LOGIC ---
+        function scrollToTop() {
+            indexOverlay.scrollTo({ top: 0, behavior: 'smooth' });
+        }
 
         function getProjectTitle(p) {
             return (typeof p.title === 'object') ? p.title[currentLang] : p.title;
@@ -801,7 +835,10 @@
 
         function renderIndex() {
             const gridContainer = document.getElementById('grid-container');
+            // SIMPLIFICADO: Limpiamos TODO el contenedor de la grilla
             gridContainer.innerHTML = '';
+            
+            // Creamos los items uno por uno
             allProjects.forEach(p => {
                 const item = document.createElement('div');
                 let gridClass = p.size || 'third';
