@@ -16,12 +16,15 @@
         :root {
             /* --- PALETA MONOCROMÁTICA --- */
             --bg-color: #0F0F0F; 
-            --text: #E8E6E1;     
+            --text: #E8E6E1;      
             
             --font-main: 'Inter', sans-serif;
             --font-serif: 'Playfair Display', serif;
             --grid-gap: 0px; 
             --transition-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+            
+            /* ICONO TIJERA (SVG Data URI para no depender de archivos externos) */
+            --cursor-scissors: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='%23999999' stroke='none'><path d='M19.45,4.06l-4.7,4.7l-0.58-0.58c0.23-1.03,0.06-2.17-0.63-3.13C12.98,4.28,12.18,3.77,11.3,3.52l2.32,2.32L9.9,9.56L7.15,6.81 C7.09,7.67,7.4,8.55,8.11,9.26c0.99,0.99,2.44,1.15,3.61,0.57l0.56,0.56l-4.99,5c-2.34-0.84-5.06,0.34-6.08,2.83 c-0.63,1.54-0.34,3.22,0.61,4.44c1.17,1.55,3.13,2.06,4.89,1.18l4.81-4.81l4.79,4.79c1.69,1.69,4.43,1.69,6.12,0 c1.69-1.69,1.69-4.43,0-6.12l-4.92-4.92l5.06-5.06L19.45,4.06z M6.43,18.96c-0.35,0.35-0.92,0.35-1.27,0 c-0.35-0.35-0.35-0.92,0-1.27c0.35-0.35,0.92-0.35,1.27,0C6.78,18.04,6.78,18.61,6.43,18.96z M19.06,18.96c-0.35,0.35-0.92,0.35-1.27,0 c-0.35-0.35-0.35-0.92,0-1.27c0.35-0.35,0.92-0.35,1.27,0C19.41,18.04,19.41,18.61,19.06,18.96z'/></svg>") 16 16, pointer;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -32,6 +35,11 @@
             color: var(--text);
             font-family: var(--font-main);
             overflow: hidden; 
+        }
+
+        /* CONFIGURACION DEL CURSOR (POINTER) */
+        a, button, .grid-item, .slide, .arrow, .modal-close, .pd-nav-btn, .scroll-down-btn, .brand, .lang-container, .hamburger, .back-to-top-text {
+            cursor: var(--cursor-scissors) !important;
         }
 
         /* SCROLLBAR */
@@ -61,7 +69,7 @@
             border-bottom: 1px solid rgba(232, 230, 225, 0.05);
         }
         
-        .brand, .nav-links a, .lang-container, .hamburger { pointer-events: auto; cursor: pointer; }
+        .brand, .nav-links a, .lang-container, .hamburger { pointer-events: auto; }
         
         .brand {
             font-size: clamp(1.45rem, 2vw, 2.35rem); 
@@ -765,7 +773,10 @@
             { 
                 title: {en: "All That I Remember", es: "Todo lo que recuerdo"}, 
                 year: "2020", genre: "Short Doc",
-                synopsis: { en: "The journey explores the silent ruins of a town with an uncertain fate. This voyage is a deep immersion into collective and individual memory, seen from the perspective of a citizen clinging to the vestiges of a past life.", es: "El viaje explora las ruinas silentes de un pueblo con un destino incierto. Esta travesía es una inmersión profunda en la memoria colectiva e individual, vista desde el punto de vista de un ciudadano que se aferra a los vestigios de la vida pasada." },
+                synopsis: { 
+                    en: "The journey explores the silent ruins of a town with an uncertain fate. This voyage is a deep immersion into collective and individual memory, seen from the perspective of a citizen clinging to the vestiges of a past life. Premiered at Mar del Plata International Film Festival.", 
+                    es: "El viaje explora las ruinas silentes de un pueblo con un destino incierto. Esta travesía es una inmersión profunda en la memoria colectiva e individual, vista desde el punto de vista de un ciudadano que se aferra a los vestigios de la vida pasada. Estrenado en el Festival Internacional de Cine de Mar del Plata." 
+                },
                 credits: { "Director": "N. Fernandez Melian", "Editor": "Leandro Bruno" },
                 director: "N. Fernandez Melian", prod: "", platform: "Short", yt: "", 
                 image: "./assets/TodoLoQueRecuerdo_Thumbnail_1.webp", 
