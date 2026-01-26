@@ -380,16 +380,75 @@
         }
 
         /* --- ABOUT & MODAL --- */
-        .about-container { max-width: 800px; margin: 0 auto; padding-top: 100px; padding-bottom: 100px; text-align: center; }
-        .about-text p { font-family: var(--font-main); font-size: 1.3rem; line-height: 1.6; color: var(--text); margin-bottom: 30px; font-weight: 300; }
-        .about-text strong { font-weight: 600; color: var(--text); }
-        .imdb-link {
-            display: inline-flex; align-items: center; gap: 5px; justify-content: center;
-            color: var(--text); text-decoration: none; font-weight: 600;
-            border-bottom: 1px solid transparent; transition: border 0.3s;
-            margin-top: 10px; font-size: 0.9rem; letter-spacing: 0.5px;
+        /* Ajuste para que el contenedor del About sea más ancho */
+        .about-container { max-width: 1200px; margin: 0 auto; padding-top: 100px; padding-bottom: 100px; }
+
+        /* --- ABOUT NEW LAYOUT --- */
+        .about-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            text-align: left;
         }
-        .imdb-link:hover { border-bottom: 1px solid var(--text); }
+        .about-img-col {
+            width: 100%;
+            aspect-ratio: 4/5; /* Relación de aspecto retrato */
+            background-color: #1a1a1a; /* Fondo mientras carga */
+            overflow: hidden;
+        }
+        .about-portrait {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%); /* Estilo blanco y negro inicial */
+            transition: filter 0.5s ease;
+        }
+        .about-portrait:hover { filter: grayscale(0%); } /* Color al pasar el mouse */
+
+        .about-text-col h3 {
+            font-family: var(--font-serif);
+            font-size: clamp(2.5rem, 3vw, 3.5rem);
+            margin-bottom: 30px;
+            line-height: 1;
+        }
+        .about-bio-text {
+            font-family: var(--font-main);
+            font-size: 1.1rem;
+            line-height: 1.7;
+            opacity: 0.8;
+            margin-bottom: 25px;
+            font-weight: 300;
+        }
+        .about-bio-text strong { font-weight: 600; color: var(--text); opacity: 1; }
+
+        /* NICE IMDB & CONTACT BUTTONS */
+        .about-buttons {
+            margin-top: 50px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .about-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 30px;
+            border: 1px solid var(--text);
+            color: var(--text);
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            background: transparent;
+        }
+        .about-btn:hover {
+            background: var(--text);
+            color: var(--bg-color);
+        }
+        .about-btn svg { width: 18px; height: 18px; fill: currentColor; }
 
         #modal-container {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
@@ -424,6 +483,12 @@
             .pd-left-col { position: static; height: auto; margin-bottom: 40px; }
             .pd-right-col { grid-column: 1; justify-content: center; margin-top: 60px; align-items: center; }
             .pd-nav-btn { text-align: center; }
+
+            /* Responsive About */
+            .about-container { max-width: 100%; padding: 100px 20px; }
+            .about-split { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+            .about-img-col { max-width: 500px; margin: 0 auto; }
+            .about-buttons { justify-content: center; }
         }
         @media(max-width: 768px) {
             .carousel, body, html { height: 100dvh; } 
@@ -536,11 +601,65 @@
         const translations = {
             en: {
                 nav_projects: "Projects", nav_about: "About", nav_contact: "Contact", home_label: "Selected Works",
-                bio: `<p>Leandro Bruno is a Buenos Aires-based editor specializing in rhythmic storytelling.</p><p>With a portfolio that bridges <strong>narrative fiction and visual media</strong>, he has crafted series for <strong>Netflix, Disney+, and Prime Video</strong>, alongside dynamic work in <strong>advertising and music videos</strong>.</p><p>He brings a distinct cinematic language to every cut, regardless of the format.</p><div style="margin-top: 60px;"><a href="mailto:leandrobrunoeditor@gmail.com" style="text-decoration: none; color: inherit; display: block; margin-bottom: 15px;"><p style="opacity: 1; font-weight: 600; cursor: pointer; margin: 0; font-size: 1rem;">leandrobrunoeditor@gmail.com</p></a><a href="https://www.imdb.com/name/nm11460466/" target="_blank" class="imdb-link">IMDb PROFILE &#8599;</a></div>`
+                bio: `
+                    <div class="about-split">
+                        <div class="about-img-col">
+                            <img src="./assets/placeholder_portrait.webp" alt="Leandro Bruno" class="about-portrait">
+                        </div>
+                        <div class="about-text-col">
+                            <h3>Leandro Bruno</h3>
+                            <p class="about-bio-text">
+                                Leandro Bruno is a Buenos Aires-based film editor.
+                            </p>
+                            <p class="about-bio-text">
+                                With a portfolio that bridges <strong>narrative fiction and dynamic visual media</strong>, he has crafted series for <strong>Netflix, Disney+, and Amazon Prime Video</strong>, alongside work in advertising and music videos.
+                            </p>
+                            <p class="about-bio-text">
+                                He brings a distinct cinematic language and a keen sense for <strong>sound design integration</strong> to every cut, regardless of the format.
+                            </p>
+                            <div class="about-buttons">
+                                <a href="https://www.imdb.com/name/nm11460466/" target="_blank" class="about-btn">
+                                    IMDb Profile
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.414l-9.293 9.293-1.414-1.414L17.586 5H14V3zm-2 12c0-1.103-.897-2-2-2H4c-1.103 0-2 .897-2 2v6c0 1.103.897 2 2 2h6c1.103 0 2-.897 2-2v-6zM4 15h6v6H4v-6zM4 7c0-1.103.897-2 2-2h2v2H6v2h2v2H6v2H4V7zm16 6h-2v2h2v-2zm0 4h-2v2h2v-2zm0 4h-4v-6h4v6z"/></svg>
+                                </a>
+                                <a href="mailto:leandrobrunoeditor@gmail.com" class="about-btn">
+                                    Get in touch
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `
             },
             es: {
                 nav_projects: "Proyectos", nav_about: "Sobre mí", nav_contact: "Contacto", home_label: "Trabajos Seleccionados",
-                bio: `<p>Leandro Bruno es un editor con base en Buenos Aires especializado en narrativa rítmica.</p><p>Con un portfolio que une <strong>ficción narrativa y medios visuales</strong>, ha editado series para <strong>Netflix, Disney+ y Prime Video</strong>, junto con trabajos dinámicos en <strong>publicidad y videos musicales</strong>.</p><p>Aporta un lenguaje cinematográfico distintivo a cada corte, sin importar el formato.</p><div style="margin-top: 60px;"><a href="mailto:leandrobrunoeditor@gmail.com" style="text-decoration: none; color: inherit; display: block; margin-bottom: 15px;"><p style="opacity: 1; font-weight: 600; cursor: pointer; margin: 0; font-size: 1rem;">leandrobrunoeditor@gmail.com</p></a><a href="https://www.imdb.com/name/nm11460466/" target="_blank" class="imdb-link">PERFIL IMDb &#8599;</a></div>`
+                bio: `
+                    <div class="about-split">
+                        <div class="about-img-col">
+                            <img src="./assets/placeholder_portrait.webp" alt="Leandro Bruno" class="about-portrait">
+                        </div>
+                        <div class="about-text-col">
+                            <h3>Leandro Bruno</h3>
+                            <p class="about-bio-text">
+                                Leandro Bruno es un editor de cine y series con base en Buenos Aires.
+                            </p>
+                            <p class="about-bio-text">
+                                Con un portfolio que une <strong>ficción narrativa y medios visuales dinámicos</strong>, ha editado series para <strong>Netflix, Disney+ y Amazon Prime Video</strong>, junto con trabajos en publicidad y videos musicales.
+                            </p>
+                            <p class="about-bio-text">
+                                Aporta un lenguaje cinematográfico distintivo y una marcada sensibilidad por la <strong>integración del diseño sonoro</strong> a cada corte, sin importar el formato.
+                            </p>
+                            <div class="about-buttons">
+                                <a href="https://www.imdb.com/name/nm11460466/" target="_blank" class="about-btn">
+                                    Perfil IMDb
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.414l-9.293 9.293-1.414-1.414L17.586 5H14V3zm-2 12c0-1.103-.897-2-2-2H4c-1.103 0-2 .897-2 2v6c0 1.103.897 2 2 2h6c1.103 0 2-.897 2-2v-6zM4 15h6v6H4v-6zM4 7c0-1.103.897-2 2-2h2v2H6v2h2v2H6v2H4V7zm16 6h-2v2h2v-2zm0 4h-2v2h2v-2zm0 4h-4v-6h4v6z"/></svg>
+                                </a>
+                                <a href="mailto:leandrobrunoeditor@gmail.com" class="about-btn">
+                                    Contacto
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `
             }
         };
 
@@ -553,8 +672,8 @@
                 title: "Menem", 
                 year: "2025", genre: "Serie", episodes: {en: "6 Episodes", es: "6 Episodios"},
                 synopsis: { en: "An in-depth look at the life and legacy of Carlos Menem, exploring the political and personal turmoil of 1990s Argentina, centering on the tragedy of his son's death.", es: "Una mirada profunda a la vida y el legado de Carlos Menem, explorando la agitación política y personal de la Argentina de los años 90, centrándose en la tragedia de la muerte de su hijo." },
-                credits: { "Director": "Matías Gueilburt", "Production": "Claxson, Anima Films", "Platform": "Amazon Prime Video", "Editors": "Leandro Bruno, Andrés Quaranta, Dante Perini" },
-                director: "Ariel Winograd", prod: "Claxson / Amazon Prime Video", platform: "Max", yt: "-2AmqmciWXE", previewUrl: "./assets/menem_preview.mp4", 
+                credits: { "Director": "Ariel Winograd", "Production": "Claxson", "Platform": "Amazon Prime Video", "Editors": "Leandro Bruno, Andrés Quaranta, Dante Perini" },
+                director: "Ariel Winograd", prod: "Claxson", platform: "Amazon Prime Video", yt: "-2AmqmciWXE", previewUrl: "./assets/menem_preview.mp4", 
                 image: "./assets/Menem_Thumbnail_1.webp", images: ["./assets/Menem_Thumbnail_1.webp", "./assets/Menem_Thumbnail_2.webp", "./assets/Menem_Thumbnail_4.webp", "./assets/Menem_Thumbnail_5.webp"],
                 featured: true, size: 'half' 
             },
