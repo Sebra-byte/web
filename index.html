@@ -313,33 +313,27 @@
         .project-detail-container {
             max-width: 1600px; margin: 0 auto;
             color: var(--text);
-            /* Layout de 2 columnas: Info (Sticky) | Media (Scroll) */
             display: grid;
-            grid-template-columns: 1fr 1.5fr;
+            grid-template-columns: 1fr 1.5fr; /* Info | Media */
             gap: 80px;
             padding-bottom: 100px;
         }
         
-        /* Columna Izquierda: Info Fija */
         .pd-left-col {
             position: sticky;
-            top: 120px; /* Ajustar según la altura del navbar */
+            top: 120px;
             height: fit-content;
             text-align: left;
         }
         
-        /* Columna Derecha: Media Scrollable */
         .pd-right-col {
-            display: flex;
-            flex-direction: column;
-            gap: 40px;
+            display: flex; flex-direction: column; gap: 40px;
         }
 
-        /* Header Info */
         .pd-header { margin-bottom: 40px; }
         .pd-title {
             font-family: var(--font-serif);
-            font-size: clamp(2rem, 4vw, 3.5rem); /* Un poco más pequeño y fino */
+            font-size: clamp(2rem, 4vw, 3.5rem);
             line-height: 1.1; margin-bottom: 15px;
             font-weight: 400;
         }
@@ -349,7 +343,6 @@
             opacity: 0.6; text-transform: uppercase;
         }
 
-        /* Synopsis & Credits (Minimal) */
         .pd-synopsis {
             font-family: var(--font-main);
             font-size: 1rem; line-height: 1.7;
@@ -357,13 +350,8 @@
             margin-bottom: 40px;
         }
         
-        .pd-credits-list {
-            display: flex; flex-direction: column; gap: 15px;
-        }
-        .pd-credit-row {
-            display: flex; justify-content: space-between;
-            /* Sin bordes para más minimalismo */
-        }
+        .pd-credits-list { display: flex; flex-direction: column; gap: 15px; }
+        .pd-credit-row { display: flex; justify-content: space-between; }
         .pd-role {
             font-family: var(--font-main); text-transform: uppercase;
             font-size: 0.7rem; letter-spacing: 1px; opacity: 0.5;
@@ -373,44 +361,31 @@
             text-align: right; font-weight: 400;
         }
 
-        /* Hero Media (Video) */
         .pd-hero {
-            width: 100%;
-            aspect-ratio: 16/9; /* Mantiene proporción de video */
-            background: #000;
-            position: relative;
+            width: 100%; aspect-ratio: 16/9;
+            background: #000; position: relative;
         }
-        .pd-hero iframe, .pd-hero img {
-            width: 100%; height: 100%; object-fit: cover; border: none;
-        }
+        .pd-hero iframe, .pd-hero img { width: 100%; height: 100%; object-fit: cover; border: none; }
 
-        /* Detail Gallery (Stacked Vertical) */
-        .pd-gallery {
-            display: flex; flex-direction: column; gap: 40px;
-        }
+        .pd-gallery { display: flex; flex-direction: column; gap: 40px; }
         .pd-gallery img {
             width: 100%; height: auto; object-fit: cover;
             filter: grayscale(10%); transition: filter 0.3s;
         }
         .pd-gallery img:hover { filter: grayscale(0%); }
 
-        /* Navigation Footer (Right Aligned) */
         .pd-nav-right {
-            text-align: right;
-            margin-top: 60px;
-            cursor: pointer;
-            align-self: flex-end;
+            text-align: right; margin-top: 60px;
+            cursor: pointer; align-self: flex-end;
         }
         .pd-nav-right:hover .pd-next-label { opacity: 1; }
         .pd-next-label {
             display: block; font-family: var(--font-main); font-size: 0.75rem;
             text-transform: uppercase; letter-spacing: 2px; opacity: 0.5; margin-bottom: 10px;
         }
-        .pd-next-title {
-            font-family: var(--font-serif); font-size: 1.5rem;
-        }
+        .pd-next-title { font-family: var(--font-serif); font-size: 1.5rem; }
 
-        /* --- ABOUT & MODAL STYLES --- */
+        /* --- ABOUT & MODAL --- */
         .about-container { max-width: 800px; margin: 0 auto; padding-top: 100px; padding-bottom: 100px; text-align: center; }
         .about-text p { font-family: var(--font-main); font-size: 1.3rem; line-height: 1.6; color: var(--text); margin-bottom: 30px; font-weight: 300; }
         .about-text strong { font-weight: 600; color: var(--text); }
@@ -424,8 +399,8 @@
 
         #modal-container {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: var(--bg-color); /* Fondo sólido */
-            z-index: 2000; overflow-y: auto; /* Permite scroll */
+            background: var(--bg-color); 
+            z-index: 2000; overflow-y: auto; 
             opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
         }
         #modal-container.open { opacity: 1; pointer-events: auto; }
@@ -439,7 +414,7 @@
         .modal-content { 
             width: 100%; min-height: 100%; 
             display: block; 
-            padding-top: 120px; /* Espacio para el header fijo */
+            padding-top: 120px; 
             padding-left: 40px; padding-right: 40px;
         }
 
@@ -448,7 +423,7 @@
             .project-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 300px; }
             .grid-item.half, .grid-item.third, .grid-item.three-quarters, .grid-item.quarter { grid-column: span 1; }
             .grid-item.half.tall { grid-row: span 2; }
-            /* Ajuste del layout dividido en tablets */
+            
             .project-detail-container { grid-template-columns: 1fr; gap: 40px; }
             .pd-left-col { position: static; }
             .pd-right-col { gap: 20px; }
@@ -470,7 +445,6 @@
             }
             .item-title { font-size: 1.8rem; }
             
-            /* Ajustes Detalle Proyecto Móvil */
             .modal-content { padding: 100px 20px 40px 20px; }
             .project-detail-container { display: flex; flex-direction: column; gap: 40px; }
             .pd-left-col { position: static; }
@@ -478,7 +452,6 @@
             .pd-hero { aspect-ratio: 16/9; }
             .pd-nav-right { text-align: center; align-self: center; }
 
-            
             nav { padding: 20px 30px; align-items: center; }
             .nav-links { display: none; }
             .hamburger { display: block; }
@@ -597,227 +570,146 @@
         let currentLang = 'en';
         let ytPlayer; 
 
-        // --- DATA MASTER (ACTUALIZADO CON INFO REAL DE "MENEM" IMDb) ---
+        // --- DATA MASTER ---
         const allProjects = [
             { 
                 title: "Menem", 
-                // Metadata oficial de IMDb (tt32840410)
                 year: "2024",
-                genre: "Biography / Drama",
+                genre: "Docuseries",
                 synopsis: {
-                    en: "Follows the life of Carlos Menem, an Argentine lawyer and politician who served as President of Argentina from 1989 to 1999, exploring his rise to power and his complex legacy during the 1990s.",
-                    es: "Sigue la vida de Carlos Menem, abogado y político argentino que fue Presidente de la Nación entre 1989 y 1999, explorando su ascenso al poder y su complejo legado durante la década de los 90."
+                    en: "An in-depth look at the life and legacy of Carlos Menem, exploring the political and personal turmoil of 1990s Argentina, centering on the tragedy of his son's death.",
+                    es: "Una mirada profunda a la vida y el legado de Carlos Menem, explorando la agitación política y personal de la Argentina de los años 90, centrándose en la tragedia de la muerte de su hijo."
                 },
                 credits: {
-                    "Director": "Ariel Winograd",
-                    "Stars": "Leonardo Sbaraglia, Griselda Siciliani",
-                    "Production": "Amazon Prime Video",
-                    "Editor": "Leandro Bruno"
+                    "Director": "Matías Gueilburt",
+                    "Production": "Claxson, Anima Films",
+                    "Platform": "Max Original",
+                    "Editors": "Leandro Bruno, Andrés Quaranta, Dante Perini"
                 },
-                
-                // Datos para el grid (más cortos)
-                director: "Ariel Winograd", 
-                prod: "Prime Video", 
-                platform: "Series", 
+                director: "Matías Gueilburt", 
+                prod: "Claxson / Anima", 
+                platform: "Max", 
                 yt: "-2AmqmciWXE", 
                 previewUrl: "./assets/menem_preview.mp4", 
                 image: "./assets/Menem_Thumbnail_1.webp", 
                 images: [
-                    "./assets/Menem_Thumbnail_1.webp", 
-                    "./assets/Menem_Thumbnail_2.webp", 
-                    "./assets/Menem_Thumbnail_4.webp", 
-                    "./assets/Menem_Thumbnail_5.webp"
+                    "./assets/Menem_Thumbnail_1.webp", "./assets/Menem_Thumbnail_2.webp", 
+                    "./assets/Menem_Thumbnail_4.webp", "./assets/Menem_Thumbnail_5.webp"
                 ],
-                featured: true, 
-                size: 'half' 
+                featured: true, size: 'half' 
             },
             { 
                 title: {en: "Oreo: Keep Playful", es: "Oreo: Sigamos Jugando"}, 
-                director: "Martín Jalfen", 
-                prod: "Pop Studios", 
-                platform: "Global Campaign", 
-                yt: "7Cllu0Rme74", 
-                previewUrl: "./assets/oreo_preview.mp4", 
-                image: "./assets/Oreo_Thumbnail_4.webp", 
-                images: [
-                    "./assets/Oreo_Thumbnail_4.webp", 
-                    "./assets/Oreo_Thumbnail_1.webp", 
-                    "./assets/Oreo_Thumbnail_2.webp", 
-                    "./assets/Oreo_Thumbnail_3.webp", 
-                    "./assets/Oreo_Thumbnail_5.webp"
-                ],
-                featured: true, 
-                size: 'half' 
+                year: "2023", genre: "Commercial",
+                synopsis: {
+                    en: "A global campaign inviting people to stay playful and connected through shared moments.",
+                    es: "Una campaña global que invita a las personas a mantenerse juguetonas y conectadas a través de momentos compartidos."
+                },
+                credits: { "Director": "Martín Jalfen", "Production": "Pop Studios", "Editor": "Leandro Bruno" },
+                director: "Martín Jalfen", prod: "Pop Studios", platform: "Global", 
+                yt: "7Cllu0Rme74", previewUrl: "./assets/oreo_preview.mp4", image: "./assets/Oreo_Thumbnail_4.webp", 
+                images: ["./assets/Oreo_Thumbnail_4.webp", "./assets/Oreo_Thumbnail_1.webp", "./assets/Oreo_Thumbnail_2.webp", "./assets/Oreo_Thumbnail_3.webp", "./assets/Oreo_Thumbnail_5.webp"],
+                featured: true, size: 'half' 
             },
             { 
                 title: {en: "The Time of the Flies", es: "El tiempo de las moscas"}, 
-                director: "B. Naishtat/A.Katz", 
-                prod: "Haddock Films/Netflix", 
-                platform: "Netflix", 
-                yt: "A0d6wnlMRRk", 
-                previewUrl: "./assets/moscas_preview.mp4", 
-                image: "./assets/Moscas_Thumbnail_2.webp", 
-                images: [
-                    "./assets/Moscas_Thumbnail_2.webp", 
-                    "./assets/Moscas_Thumbnail_1.webp", 
-                    "./assets/Moscas_Thumbnail_3.webp", 
-                    "./assets/Moscas_Thumbnail_4.webp", 
-                    "./assets/Moscas_Thumbnail_5.webp"
-                ],
-                featured: true, 
-                size: 'third' 
+                year: "2022", genre: "Fiction",
+                synopsis: { en: "A narrative exploration of time and memory.", es: "Una exploración narrativa sobre el tiempo y la memoria." },
+                credits: { "Director": "Ana Katz / B. Naishtat", "Production": "Haddock Films", "Platform": "Netflix", "Editor": "Leandro Bruno" },
+                director: "B. Naishtat/A.Katz", prod: "Haddock/Netflix", platform: "Netflix", 
+                yt: "A0d6wnlMRRk", previewUrl: "./assets/moscas_preview.mp4", image: "./assets/Moscas_Thumbnail_2.webp", 
+                images: ["./assets/Moscas_Thumbnail_2.webp", "./assets/Moscas_Thumbnail_1.webp", "./assets/Moscas_Thumbnail_3.webp", "./assets/Moscas_Thumbnail_4.webp", "./assets/Moscas_Thumbnail_5.webp"],
+                featured: true, size: 'third' 
             },
             { 
                 title: {en: "Coppola, the Agent", es: "Coppola, el representante"}, 
-                director: "Ariel Winograd", 
-                prod: "Pampa Films/Disney+", 
-                platform: "Disney+", 
-                yt: "ecr24akKDbs", 
-                previewUrl: "./assets/coppola_preview.mp4", 
-                image: "./assets/Coppola_Thumbnail_4.webp", 
-                images: [
-                    "./assets/Coppola_Thumbnail_4.webp", 
-                    "./assets/Coppola_Thumbnail_3.webp", 
-                    "./assets/Coppola_Thumbnail_2.webp"
-                ],
-                featured: true, 
+                year: "2024", genre: "Comedy / Biopic",
+                synopsis: {
+                    en: "The wild and humorous life of Guillermo Coppola, the legendary manager of Diego Maradona, navigating the excesses of the 90s.",
+                    es: "La vida salvaje y humorística de Guillermo Coppola, el legendario manager de Diego Maradona, navegando los excesos de los 90."
+                },
+                credits: { "Director": "Ariel Winograd", "Production": "Pampa Films", "Platform": "Disney+", "Editor": "Leandro Bruno" },
+                director: "Ariel Winograd", prod: "Pampa/Disney+", platform: "Disney+", 
+                yt: "ecr24akKDbs", previewUrl: "./assets/coppola_preview.mp4", image: "./assets/Coppola_Thumbnail_4.webp", 
+                images: ["./assets/Coppola_Thumbnail_4.webp", "./assets/Coppola_Thumbnail_3.webp", "./assets/Coppola_Thumbnail_2.webp"],
+                featured: true, size: 'third' 
+            },
+            { 
+                title: "Levis x Winona Riders", year: "2023", genre: "Commercial",
+                synopsis: { en: "High energy fashion film featuring the Winona Riders.", es: "Fashion film de alta energía con los Winona Riders." },
+                credits: { "Director": "Nico Alarcos", "Production": "Poster", "Client": "Levis", "Editor": "Leandro Bruno" },
+                director: "Nico Alarcos", prod: "Poster", platform: "Commercial", yt: "mb2RPesGf7Q", image: "./assets/Levis_Thumbnail_v01.webp", 
+                images: ["./assets/Levis_Thumbnail_v01.webp", "./assets/Levis_Thumbnail_2.webp", "./assets/Levis_Thumbnail_3.webp", "./assets/Levis_Thumbnail_4.webp", "./assets/Levis_Thumbnail_5.webp"],
                 size: 'third' 
             },
             { 
-                title: "Levis x Winona Riders", 
-                director: "Nico Alarcos", 
-                prod: "Poster", 
-                platform: "Commercial", 
-                yt: "mb2RPesGf7Q", 
-                image: "./assets/Levis_Thumbnail_v01.webp", 
-                images: [
-                    "./assets/Levis_Thumbnail_v01.webp", 
-                    "./assets/Levis_Thumbnail_2.webp", 
-                    "./assets/Levis_Thumbnail_3.webp", 
-                    "./assets/Levis_Thumbnail_4.webp", 
-                    "./assets/Levis_Thumbnail_5.webp"
-                ],
-                size: 'third' 
-            },
-            { 
-                title: "Blair - Todo lo que tengo", 
-                director: "Dana Campanello", 
-                prod: "Poster", 
-                platform: "Music Video", 
-                yt: "ItX5aqhqsmo", 
-                image: "./assets/Blair_Thumbnail_1.webp", 
-                images: [
-                    "./assets/Blair_Thumbnail_1.webp", 
-                    "./assets/Blair_Thumbnail_2.webp", 
-                    "./assets/Blair_Thumbnail_3.webp", 
-                    "./assets/Blair_Thumbnail_4.webp", 
-                    "./assets/Blair_Thumbnail_5.webp"
-                ],
+                title: "Blair - Todo lo que tengo", year: "2023", genre: "Music Video",
+                synopsis: { en: "A visual journey accompanying Blair's hit song.", es: "Un viaje visual acompañando la canción de Blair." },
+                credits: { "Director": "Dana Campanello", "Production": "Poster", "Artist": "Blair", "Editor": "Leandro Bruno" },
+                director: "Dana Campanello", prod: "Poster", platform: "Music Video", yt: "ItX5aqhqsmo", image: "./assets/Blair_Thumbnail_1.webp", 
+                images: ["./assets/Blair_Thumbnail_1.webp", "./assets/Blair_Thumbnail_2.webp", "./assets/Blair_Thumbnail_3.webp", "./assets/Blair_Thumbnail_4.webp", "./assets/Blair_Thumbnail_5.webp"],
                 size: 'half' 
             },
             { 
-                title: "Ratones Paranoicos", 
-                director: "Alex Roux", 
-                prod: "Poster", 
-                platform: "Music Video", 
-                yt: "", 
-                image: "./assets/RP_Thumbnail_1.webp", 
-                images: [
-                    "./assets/RP_Thumbnail_1.webp", 
-                    "./assets/RP_Thumbnail_2.webp", 
-                    "./assets/RP_Thumbnail_3.webp", 
-                    "./assets/RP_Thumbnail_4.webp", 
-                    "./assets/RP_Thumbnail_5.webp"
-                ], 
+                title: "Ratones Paranoicos", year: "2022", genre: "Music Video",
+                synopsis: { en: "Official video for the legendary Argentine rock band.", es: "Video oficial para la legendaria banda de rock argentina." },
+                credits: { "Director": "Alex Roux", "Production": "Poster", "Artist": "Ratones Paranoicos", "Editor": "Leandro Bruno" },
+                director: "Alex Roux", prod: "Poster", platform: "Music Video", yt: "", image: "./assets/RP_Thumbnail_1.webp", 
+                images: ["./assets/RP_Thumbnail_1.webp", "./assets/RP_Thumbnail_2.webp", "./assets/RP_Thumbnail_3.webp", "./assets/RP_Thumbnail_4.webp", "./assets/RP_Thumbnail_5.webp"],
                 size: 'half' 
             },
             { 
                 title: {en: "The Hands of the Grandmother", es: "Las manos de la abuela"}, 
-                director: "Camila Migliore", 
-                prod: "Calesita Films", 
-                platform: "Short Film", 
-                image: "./assets/MA_Thumbnail_1.webp", 
-                yt: "", 
-                images: [
-                    "./assets/MA_Thumbnail_1.webp", 
-                    "./assets/MA_Thumbnail_3.webp", 
-                    "./assets/MA_Thumbnail_4.webp", 
-                    "./assets/MA_Thumbnail_5.webp"
-                ], 
-                featured: false, 
-                size: 'half' 
+                year: "2021", genre: "Short Film",
+                synopsis: { en: "An intimate portrait of family heritage.", es: "Un retrato íntimo sobre la herencia familiar." },
+                credits: { "Director": "Camila Migliore", "Production": "Calesita Films", "Editor": "Leandro Bruno" },
+                director: "Camila Migliore", prod: "Calesita Films", platform: "Short", image: "./assets/MA_Thumbnail_1.webp", yt: "", 
+                images: ["./assets/MA_Thumbnail_1.webp", "./assets/MA_Thumbnail_3.webp", "./assets/MA_Thumbnail_4.webp", "./assets/MA_Thumbnail_5.webp"],
+                featured: false, size: 'half' 
             },
             { 
                 title: {en: "Bewitching Kisses", es: "Besos Brujos"}, 
-                director: "Karina Flonembaum", 
-                prod: "Nevada Cine/Tres esquimales", 
-                platform: "Short Film", 
-                yt: "", 
-                image: "./assets/BB_Thumbnail_1.webp", 
-                images: [
-                    "./assets/BB_Thumbnail_1.webp", 
-                    "./assets/BB_Thumbnail_2.webp", 
-                    "./assets/BB_Thumbnail_3.webp", 
-                    "./assets/BB_Thumbnail_4.webp", 
-                    "./assets/BB_Thumbnail_5.webp"
-                ], 
+                year: "2020", genre: "Short Film",
+                synopsis: { en: "A tale of magic and romance.", es: "Un cuento de magia y romance." },
+                credits: { "Director": "Karina Flonembaum", "Production": "Nevada Cine", "Editor": "Leandro Bruno" },
+                director: "Karina Flonembaum", prod: "Nevada Cine", platform: "Short", yt: "", image: "./assets/BB_Thumbnail_1.webp", 
+                images: ["./assets/BB_Thumbnail_1.webp", "./assets/BB_Thumbnail_2.webp", "./assets/BB_Thumbnail_3.webp", "./assets/BB_Thumbnail_4.webp", "./assets/BB_Thumbnail_5.webp"],
                 size: 'half' 
             },
-            
             { 
                 title: {en: "The Marias", es: "Las Marias"}, 
-                director: "A. Berger Parrado", 
-                prod: "Navajo Films", 
-                platform: "Documentary", 
-                yt: "", 
-                image: "./assets/Marias_Thumbnail_1.webp", 
-                images: [
-                    "./assets/Marias_Thumbnail_1.webp", 
-                    "./assets/Marias_Thumbnail_2.webp", 
-                    "./assets/Marias_Thumbnail_3.webp"
-                ], 
+                year: "2019", genre: "Documentary",
+                synopsis: { en: "Documentary feature.", es: "Largometraje documental." },
+                credits: { "Director": "A. Berger Parrado", "Production": "Navajo Films", "Editor": "Leandro Bruno" },
+                director: "A. Berger Parrado", prod: "Navajo Films", platform: "Doc", yt: "", image: "./assets/Marias_Thumbnail_1.webp", 
+                images: ["./assets/Marias_Thumbnail_1.webp", "./assets/Marias_Thumbnail_2.webp", "./assets/Marias_Thumbnail_3.webp"],
                 size: 'half tall' 
             },
             { 
                 title: {en: "Shining in the Dark", es: "Brillar a oscuras"}, 
-                director: "Karina Flonembaum / Tali Feites", 
-                prod: "Tres Esquimales", 
-                platform: "Documentary", 
-                yt: "", 
-                image: "./assets/Brillar_Thumbnail_1.webp", 
-                images: [
-                    "./assets/Brillar_Thumbnail_1.webp",
-                    "./assets/Brillar_Thumbnail_2.webp",
-                    "./assets/Brillar_Thumbnail_3.webp",
-                    "./assets/Brillar_Thumbnail_4.webp",
-                    "./assets/Brillar_Thumbnail_5.webp",
-                    "./assets/Brillar_Thumbnail_6.webp"
-                ],
+                year: "2021", genre: "Documentary",
+                synopsis: { en: "Shining in the dark places.", es: "Brillando en los lugares oscuros." },
+                credits: { "Director": "K. Flonembaum / T. Feites", "Production": "Tres Esquimales", "Editor": "Leandro Bruno" },
+                director: "K. Flonembaum / T. Feites", prod: "Tres Esquimales", platform: "Doc", yt: "", image: "./assets/Brillar_Thumbnail_1.webp", 
+                images: ["./assets/Brillar_Thumbnail_1.webp", "./assets/Brillar_Thumbnail_2.webp", "./assets/Brillar_Thumbnail_3.webp", "./assets/Brillar_Thumbnail_4.webp", "./assets/Brillar_Thumbnail_5.webp", "./assets/Brillar_Thumbnail_6.webp"],
                 size: 'half' 
             },
             { 
                 title: {en: "All That I Remember", es: "Todo lo que recuerdo"}, 
-                director: "N. Fernandez Melian", 
-                prod: "", 
-                platform: "Short Film Documentary", 
-                yt: "", 
-                image: "./assets/TodoLoQueRecuerdo_Thumbnail_1.webp", 
-                images: ["./assets/TodoLoQueRecuerdo_Thumbnail_1.webp"], 
+                year: "2020", genre: "Short Doc",
+                synopsis: { en: "A journey through memory.", es: "Un viaje a través de la memoria." },
+                credits: { "Director": "N. Fernandez Melian", "Editor": "Leandro Bruno" },
+                director: "N. Fernandez Melian", prod: "", platform: "Short", yt: "", image: "./assets/TodoLoQueRecuerdo_Thumbnail_1.webp", 
+                images: ["./assets/TodoLoQueRecuerdo_Thumbnail_1.webp"],
                 size: 'quarter' 
             },
             { 
                 title: {en: "Black Holes", es: "Agujeros negros"}, 
-                director: "N. Fernandez Melian", 
-                prod: "", 
-                platform: "Fiction", 
-                yt: "", 
-                image: "./assets/Agujeros_Thumbnail_1.webp", 
-                images: [
-                    "./assets/Agujeros_Thumbnail_1.webp", 
-                    "./assets/Agujeros_Thumbnail_2.webp", 
-                    "./assets/Agujeros_Thumbnail_3.webp", 
-                    "./assets/Agujeros_Thumbnail_4.webp"
-                ], 
+                year: "2019", genre: "Fiction",
+                synopsis: { en: "A story about loss and physics.", es: "Una historia sobre la pérdida y la física." },
+                credits: { "Director": "N. Fernandez Melian", "Editor": "Leandro Bruno" },
+                director: "N. Fernandez Melian", prod: "", platform: "Fiction", yt: "", image: "./assets/Agujeros_Thumbnail_1.webp", 
+                images: ["./assets/Agujeros_Thumbnail_1.webp", "./assets/Agujeros_Thumbnail_2.webp", "./assets/Agujeros_Thumbnail_3.webp", "./assets/Agujeros_Thumbnail_4.webp"],
                 size: 'quarter' 
             }
         ];
@@ -1035,23 +927,21 @@
         
         function resetAutoPlay() { startAutoPlay(); }
 
-        // --- YOUTUBE API HANDLER ---
         function onPlayerStateChange(event) {
-            if (event.data === 0) {
-                // Video terminado
-            }
+            if (event.data === 0) { }
         }
 
-        // --- LOGICA DE PROYECTO DETALLADO (MINIMALIST SPLIT VIEW) ---
+        // --- NEW: MINIMALIST PROJECT DETAIL VIEW ---
         function openProject(p) {
             pauseHero();
             modalContainer.classList.add('open');
             
             const title = getProjectTitle(p);
-            const synopsis = p.synopsis ? (p.synopsis[currentLang] || p.synopsis.en || "") : "No synopsis available.";
-            const genre = p.genre || "Film / Series";
-            const year = p.year || "202X";
+            const synopsis = p.synopsis ? (p.synopsis[currentLang] || p.synopsis.en || "") : "";
+            const genre = p.genre || "";
+            const year = p.year || "";
             
+            // Build Credits HTML
             let creditsHTML = '';
             if (p.credits) {
                 for (const [role, name] of Object.entries(p.credits)) {
@@ -1063,13 +953,14 @@
                     `;
                 }
             } else {
+                // Fallback default
                 creditsHTML = `
                     <div class="pd-credit-row"><span class="pd-role">Director</span><span class="pd-name">${p.director}</span></div>
                     <div class="pd-credit-row"><span class="pd-role">Production</span><span class="pd-name">${p.prod}</span></div>
-                    <div class="pd-credit-row"><span class="pd-role">Platform</span><span class="pd-name">${p.platform}</span></div>
                 `;
             }
 
+            // Build Hero
             let heroMedia = '';
             if (p.yt) {
                 heroMedia = `<div class="pd-hero"><div id="player"></div></div>`;
@@ -1077,24 +968,30 @@
                 heroMedia = `<div class="pd-hero"><img src="${p.image}" alt="${title}"></div>`;
             }
 
+            // Build Gallery
             let galleryHTML = '';
             if (p.images && p.images.length > 0) {
                 galleryHTML = p.images.map(src => `<img src="${src}" loading="lazy">`).join('');
             } else {
                 galleryHTML = `<img src="${p.image}" loading="lazy">`;
             }
+            
+            // Calculate Next Project
+            const currentIndex = allProjects.indexOf(p);
+            const nextIndex = (currentIndex + 1) % allProjects.length;
+            const nextProject = allProjects[nextIndex];
 
-            // ESTRUCTURA SPLIT VIEW: Izquierda (Info) | Derecha (Media + Nav)
+            // Render
             const content = `
                 <div class="project-detail-container">
                     <div class="pd-left-col">
                         <div class="pd-header">
-                            <div class="pd-meta">${year} • ${genre}</div>
+                            <div class="pd-meta">${year} ${genre ? '• ' + genre : ''}</div>
                             <h1 class="pd-title">${title}</h1>
                         </div>
-                        <div class="pd-synopsis">
-                            ${synopsis}
-                        </div>
+                        
+                        ${synopsis ? `<div class="pd-synopsis">${synopsis}</div>` : ''}
+                        
                         <div class="pd-credits-list">
                             ${creditsHTML}
                         </div>
@@ -1102,19 +999,23 @@
                     
                     <div class="pd-right-col">
                         ${heroMedia}
+                        
                         <div class="pd-gallery">
                             ${galleryHTML}
                         </div>
                         
-                        <div class="pd-nav-right" onclick="closeModal()">
+                        <div class="pd-nav-right" id="nextProjectBtn">
                             <span class="pd-next-label">Next Project</span>
-                            <div class="pd-next-title">See All Work &#8594;</div>
+                            <div class="pd-next-title">${getProjectTitle(nextProject)} &#8594;</div>
                         </div>
                     </div>
                 </div>
             `;
             
             modalContent.innerHTML = content;
+            
+            // Attach Click Event for Next Project manually to avoid inline object issues
+            document.getElementById('nextProjectBtn').onclick = () => openProject(nextProject);
 
             if (p.yt) {
                 ytPlayer = new YT.Player('player', {
@@ -1140,20 +1041,11 @@
             }
         }
 
-        // --- KEYBOARD NAVIGATION LOGIC ---
         document.addEventListener('keydown', (e) => { 
             if (e.key === "Escape") closeModal(); 
             if (!modalContainer.classList.contains('open')) {
-                if (e.key === "ArrowRight") {
-                    if (!indexOverlay.classList.contains('open') && !aboutOverlay.classList.contains('open')) {
-                        nextSlide();
-                    }
-                }
-                if (e.key === "ArrowLeft") {
-                    if (!indexOverlay.classList.contains('open') && !aboutOverlay.classList.contains('open')) {
-                        prevSlide();
-                    }
-                }
+                if (e.key === "ArrowRight" && !indexOverlay.classList.contains('open') && !aboutOverlay.classList.contains('open')) nextSlide();
+                if (e.key === "ArrowLeft" && !indexOverlay.classList.contains('open') && !aboutOverlay.classList.contains('open')) prevSlide();
             }
         });
 
