@@ -279,7 +279,6 @@
 
         /* --- BOTTOM FOOTER (Back to Top) --- */
         .grid-footer {
-            /* IMPORTANTE: No es grid-item, es un bloque flex debajo */
             display: flex; justify-content: center; align-items: center;
             padding: 80px 0;
             width: 100%;
@@ -299,19 +298,104 @@
         }
         .back-to-top-text span { font-size: 1.5rem; }
 
-        /* --- OVERLAYS & MODAL --- */
+        /* --- OVERLAYS --- */
         .overlay-section {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: var(--bg-color);
             z-index: 400; 
-            padding: 120px 40px 0px 40px; /* Padding bottom 0 para el footer */
+            padding: 120px 40px 0px 40px; 
             overflow-y: auto; opacity: 0; pointer-events: none;
             transition: opacity 0.5s ease, transform 0.5s var(--transition-smooth); 
             transform: translateY(30px);
         }
-
         .overlay-section.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
         
+        /* --- PROJECT DETAIL SPECIFIC STYLES --- */
+        .project-detail-container {
+            max-width: 1400px; margin: 0 auto;
+            color: var(--text);
+            padding-bottom: 100px;
+        }
+        
+        /* Header */
+        .pd-header { margin-bottom: 40px; text-align: left; }
+        .pd-title {
+            font-family: var(--font-serif);
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            line-height: 1; margin-bottom: 10px;
+        }
+        .pd-meta {
+            font-family: var(--font-main);
+            font-size: 0.9rem; letter-spacing: 1px;
+            opacity: 0.7; text-transform: uppercase;
+        }
+
+        /* Hero Media */
+        .pd-hero {
+            width: 100%; height: 60vh; /* O 56.25vw para 16:9 estricto */
+            background: #000; margin-bottom: 60px;
+            position: relative;
+        }
+        .pd-hero iframe, .pd-hero img {
+            width: 100%; height: 100%; object-fit: cover; border: none;
+        }
+
+        /* Info Grid (Synopsis + Credits) */
+        .pd-info-grid {
+            display: grid; grid-template-columns: 1.5fr 1fr; gap: 60px;
+            margin-bottom: 80px; border-top: 1px solid rgba(234, 229, 220, 0.2);
+            padding-top: 40px;
+        }
+        
+        .pd-synopsis {
+            font-family: var(--font-main);
+            font-size: 1.1rem; line-height: 1.6;
+            font-weight: 300; opacity: 0.9;
+        }
+        
+        .pd-credits-list {
+            display: flex; flex-direction: column; gap: 20px;
+        }
+        .pd-credit-row {
+            display: flex; justify-content: space-between;
+            border-bottom: 1px solid rgba(234, 229, 220, 0.1);
+            padding-bottom: 10px;
+        }
+        .pd-role {
+            font-family: var(--font-main); text-transform: uppercase;
+            font-size: 0.75rem; letter-spacing: 1px; opacity: 0.6;
+        }
+        .pd-name {
+            font-family: var(--font-main); font-size: 0.9rem;
+            text-align: right;
+        }
+
+        /* Detail Gallery */
+        .pd-gallery {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;
+            margin-bottom: 80px;
+        }
+        .pd-gallery img {
+            width: 100%; height: auto; object-fit: cover;
+            filter: grayscale(20%); transition: filter 0.3s;
+        }
+        .pd-gallery img:hover { filter: grayscale(0%); }
+
+        /* Navigation Footer */
+        .pd-nav {
+            text-align: center; border-top: 1px solid rgba(234, 229, 220, 0.2);
+            padding-top: 60px; cursor: pointer;
+        }
+        .pd-nav:hover .pd-next-label { opacity: 1; }
+        .pd-next-label {
+            display: block; font-family: var(--font-main); font-size: 0.8rem;
+            text-transform: uppercase; letter-spacing: 2px; opacity: 0.6; margin-bottom: 10px;
+        }
+        .pd-next-title {
+            font-family: var(--font-serif); font-size: 2rem;
+        }
+
+        /* --- ABOUT & MODAL --- */
         .about-container { max-width: 800px; margin: 0 auto; padding-top: 100px; padding-bottom: 100px; text-align: center; }
         .about-text p { font-family: var(--font-main); font-size: 1.3rem; line-height: 1.6; color: var(--text); margin-bottom: 30px; font-weight: 300; }
         .about-text strong { font-weight: 600; color: var(--text); }
@@ -325,33 +409,23 @@
 
         #modal-container {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(47, 53, 46, 0.95); backdrop-filter: blur(10px); 
-            z-index: 2000; display: flex; justify-content: center; align-items: center;
+            background: var(--bg-color); /* Fondo sólido */
+            z-index: 2000; overflow-y: auto; /* Permite scroll en el detalle */
             opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
         }
         #modal-container.open { opacity: 1; pointer-events: auto; }
+        
         .modal-close {
-            position: absolute; top: 40px; right: 40px; color: var(--text);
+            position: fixed; top: 40px; right: 40px; color: var(--text);
             font-size: 2rem; cursor: pointer; z-index: 2005; transition: transform 0.3s ease;
         }
         .modal-close:hover { transform: rotate(90deg); }
         
-        .modal-content { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
-        .video-wrapper { width: 100%; height: 100%; }
-        #player { width: 100%; height: 100%; }
-        
-        .gallery-wrapper {
-            width: 100%; height: 100%; display: flex; overflow-x: auto;
-            scroll-snap-type: x mandatory; align-items: center; scroll-behavior: smooth;
-        }
-        .gallery-item {
-            min-width: 100vw; height: 100vh; scroll-snap-align: center;
-            display: flex; justify-content: center; align-items: center; padding: 60px;
-        }
-        .gallery-item img { max-width: 100%; max-height: 90%; box-shadow: 0 20px 50px rgba(0,0,0,0.5); border-radius: 4px; }
-        .gallery-hint {
-            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
-            color: var(--text); opacity: 0.5; font-size: 0.8rem; text-transform: uppercase;
+        .modal-content { 
+            width: 100%; min-height: 100%; 
+            /* Quitamos flex center para permitir layout de página completa */
+            display: block; 
+            padding-top: 100px; /* Espacio para el header fijo/close */
         }
 
         /* --- BREAKPOINTS --- */
@@ -376,6 +450,15 @@
                 padding: 20px 30px; 
             }
             .item-title { font-size: 1.8rem; }
+            
+            /* Ajustes Detalle Proyecto Móvil */
+            .pd-header { padding: 0 20px; }
+            .pd-title { font-size: 2.5rem; }
+            .pd-hero { height: 40vh; margin-bottom: 40px; }
+            .pd-info-grid { 
+                grid-template-columns: 1fr; gap: 40px; padding: 40px 20px; 
+            }
+            .pd-gallery { grid-template-columns: 1fr; gap: 10px; }
             
             nav { padding: 20px 30px; align-items: center; }
             .nav-links { display: none; }
@@ -495,11 +578,25 @@
         let currentLang = 'en';
         let ytPlayer; 
 
-        // --- DATA MASTER ---
+        // --- DATA MASTER (ACTUALIZADO CON INFO DETALLADA PARA "MENEM") ---
         const allProjects = [
             { 
                 title: "Menem", 
-                director: "Ariel Winograd", 
+                // Metadata extendida para la vista de detalle
+                year: "2024",
+                genre: "Docuseries",
+                synopsis: {
+                    en: "This documentary series delves into one of Argentina's most controversial political decades. Through exclusive access and archival footage, it explores the rise and complex legacy of President Carlos Menem, focusing on the mysterious death of his son. A gripping investigation into power, family, and tragedy.",
+                    es: "Esta serie documental se adentra en una de las décadas políticas más controvertidas de Argentina. A través de acceso exclusivo y material de archivo, explora el ascenso y el complejo legado del presidente Carlos Menem, centrándose en la misteriosa muerte de su hijo. Una investigación apasionante sobre el poder, la familia y la tragedia."
+                },
+                credits: {
+                    "Director": "Matías Gueilburt",
+                    "Production": "Anima Films",
+                    "Platform": "Max Original",
+                    "Editor": "Leandro Bruno"
+                },
+                
+                director: "Ariel Winograd", // Dato corto para el grid
                 prod: "Claxson/Prime Video", 
                 platform: "Prime Video", 
                 yt: "-2AmqmciWXE", 
@@ -726,7 +823,6 @@
         const uiTotalDisplay = document.getElementById('ui-total');
         const uiProgressBar = document.getElementById('ui-progress');
         
-        // --- BACK TO TOP LOGIC ---
         function scrollToTop() {
             indexOverlay.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -743,7 +839,6 @@
             document.getElementById('mob-nav-projects').innerText = t.nav_projects;
             document.getElementById('mob-nav-about').innerText = t.nav_about;
             document.getElementById('mob-nav-contact').innerText = t.nav_contact;
-            
             document.getElementById('about-content').innerHTML = t.bio;
             
             const desktopToggle = document.querySelector('.lang-container');
@@ -843,10 +938,8 @@
 
         function renderIndex() {
             const gridContainer = document.getElementById('grid-container');
-            // SIMPLIFICADO: Limpiamos TODO el contenedor de la grilla
             gridContainer.innerHTML = '';
             
-            // Creamos los items uno por uno
             allProjects.forEach(p => {
                 const item = document.createElement('div');
                 let gridClass = p.size || 'third';
@@ -924,53 +1017,109 @@
 
         // --- YOUTUBE API HANDLER ---
         function onPlayerStateChange(event) {
-            // Si el video termina (Estado 0), cerrar modal automáticamente
             if (event.data === 0) {
-                closeModal();
+                // Si el video termina, no cerramos todo el overlay, solo salimos de fullscreen si lo hubiera
             }
         }
 
+        // --- LOGICA DE PROYECTO DETALLADO (ESTILO EDITORIAL) ---
         function openProject(p) {
             pauseHero();
             modalContainer.classList.add('open');
             
-            if (p.yt && p.yt.length > 0) {
-                // Inyectamos el div para la API
-                modalContent.innerHTML = `<div class="video-wrapper"><div id="player"></div></div>`;
-                
-                // Creamos el player de YouTube
+            // Datos por defecto si faltan en el objeto
+            const title = getProjectTitle(p);
+            const synopsis = p.synopsis ? (p.synopsis[currentLang] || p.synopsis.en || "") : "No synopsis available.";
+            const genre = p.genre || "Film / Series";
+            const year = p.year || "202X";
+            
+            // Construcción del HTML Complejo (Editorial Layout)
+            let creditsHTML = '';
+            if (p.credits) {
+                for (const [role, name] of Object.entries(p.credits)) {
+                    creditsHTML += `
+                        <div class="pd-credit-row">
+                            <span class="pd-role">${role}</span>
+                            <span class="pd-name">${name}</span>
+                        </div>
+                    `;
+                }
+            } else {
+                // Fallback a los datos básicos
+                creditsHTML = `
+                    <div class="pd-credit-row"><span class="pd-role">Director</span><span class="pd-name">${p.director}</span></div>
+                    <div class="pd-credit-row"><span class="pd-role">Production</span><span class="pd-name">${p.prod}</span></div>
+                    <div class="pd-credit-row"><span class="pd-role">Platform</span><span class="pd-name">${p.platform}</span></div>
+                `;
+            }
+
+            // Hero Media (Video o Imagen principal)
+            let heroMedia = '';
+            if (p.yt) {
+                heroMedia = `<div id="player"></div>`; // Div para insertar YouTube API
+            } else {
+                heroMedia = `<img src="${p.image}" alt="${title}">`;
+            }
+
+            // Galería de imágenes (Grid)
+            let galleryHTML = '';
+            if (p.images && p.images.length > 0) {
+                galleryHTML = p.images.map(src => `<img src="${src}" loading="lazy">`).join('');
+            } else {
+                galleryHTML = `<img src="${p.image}" loading="lazy">`;
+            }
+
+            const content = `
+                <div class="project-detail-container">
+                    <div class="pd-header">
+                        <div class="pd-meta">${year} • ${genre}</div>
+                        <h1 class="pd-title">${title}</h1>
+                    </div>
+                    
+                    <div class="pd-hero">
+                        ${heroMedia}
+                    </div>
+                    
+                    <div class="pd-info-grid">
+                        <div class="pd-synopsis">
+                            ${synopsis}
+                        </div>
+                        <div class="pd-credits-list">
+                            ${creditsHTML}
+                        </div>
+                    </div>
+                    
+                    <div class="pd-gallery">
+                        ${galleryHTML}
+                    </div>
+                    
+                    <div class="pd-nav" onclick="closeModal()">
+                        <span class="pd-next-label">Next Project</span>
+                        <div class="pd-next-title">See All Work &#8594;</div>
+                    </div>
+                </div>
+            `;
+            
+            modalContent.innerHTML = content;
+
+            // Iniciar YouTube si existe
+            if (p.yt) {
                 ytPlayer = new YT.Player('player', {
                     height: '100%',
                     width: '100%',
                     videoId: p.yt,
-                    playerVars: {
-                        'autoplay': 1,
-                        'rel': 0,
-                        'controls': 1,
-                        'fs': 1
-                    },
-                    events: {
-                        'onStateChange': onPlayerStateChange
-                    }
+                    playerVars: { 'autoplay': 0, 'rel': 0, 'controls': 1 },
+                    events: { 'onStateChange': onPlayerStateChange }
                 });
-
-            } else if (p.images && p.images.length > 0) {
-                const imagesHTML = p.images.map(img => `<div class="gallery-item"><img src="${img}" loading="lazy" onerror="this.style.display='none'"></div>`).join('');
-                modalContent.innerHTML = `<div class="gallery-wrapper">${imagesHTML}</div><div class="gallery-hint">Use Arrows &#8596;</div>`;
-            } else {
-                modalContent.innerHTML = `<img src="${p.image}" style="max-height:90vh; max-width:90vw;">`;
             }
         }
 
         function closeModal() {
             modalContainer.classList.remove('open');
-            
-            // Destruir player para cortar audio
             if(ytPlayer && typeof ytPlayer.destroy === 'function') {
                 ytPlayer.destroy();
                 ytPlayer = null;
             }
-            
             setTimeout(() => { modalContent.innerHTML = ''; }, 300);
             if(!indexOverlay.classList.contains('open') && !aboutOverlay.classList.contains('open')) {
                 playActiveVideo();
@@ -981,28 +1130,17 @@
         // --- KEYBOARD NAVIGATION LOGIC ---
         document.addEventListener('keydown', (e) => { 
             if (e.key === "Escape") closeModal(); 
-            
-            if (e.key === "ArrowRight") {
-                // Caso 1: Galería de fotos abierta (Modal)
-                if (modalContainer.classList.contains('open')) {
-                    const wrapper = document.querySelector('.gallery-wrapper');
-                    if(wrapper) wrapper.scrollBy({ left: window.innerWidth, behavior: 'smooth' });
-                } 
-                // Caso 2: Navegación Home (solo si no hay overlays)
-                else if (!indexOverlay.classList.contains('open') && !aboutOverlay.classList.contains('open')) {
-                    nextSlide();
+            // Si el modal está abierto, no permitir navegación del slider de fondo
+            if (!modalContainer.classList.contains('open')) {
+                if (e.key === "ArrowRight") {
+                    if (!indexOverlay.classList.contains('open') && !aboutOverlay.classList.contains('open')) {
+                        nextSlide();
+                    }
                 }
-            }
-            
-            if (e.key === "ArrowLeft") {
-                // Caso 1: Galería de fotos abierta (Modal)
-                if (modalContainer.classList.contains('open')) {
-                    const wrapper = document.querySelector('.gallery-wrapper');
-                    if(wrapper) wrapper.scrollBy({ left: -window.innerWidth, behavior: 'smooth' });
-                } 
-                // Caso 2: Navegación Home
-                else if (!indexOverlay.classList.contains('open') && !aboutOverlay.classList.contains('open')) {
-                    prevSlide();
+                if (e.key === "ArrowLeft") {
+                    if (!indexOverlay.classList.contains('open') && !aboutOverlay.classList.contains('open')) {
+                        prevSlide();
+                    }
                 }
             }
         });
