@@ -14,9 +14,9 @@
     
     <style>
         :root {
-            /* --- PALETA MONOCROMÁTICA (Sin Acento) --- */
-            --bg-color: #0F0F0F; /* Negro cálido profundo */
-            --text: #E8E6E1;     /* Hueso */
+            /* --- PALETA MONOCROMÁTICA --- */
+            --bg-color: #0F0F0F; 
+            --text: #E8E6E1;     
             
             --font-main: 'Inter', sans-serif;
             --font-serif: 'Playfair Display', serif;
@@ -58,7 +58,6 @@
             backdrop-filter: blur(12px); 
             -webkit-backdrop-filter: blur(12px);
             pointer-events: auto; 
-            /* Borde eliminado o muy sutil si prefieres */
             border-bottom: 1px solid rgba(232, 230, 225, 0.05);
         }
         
@@ -145,7 +144,7 @@
         .mobile-lang-container .lang-opt { height: 40px; font-size: 1rem; }
         .mobile-lang-container.es-active .lang-track { transform: translateY(-40px); }
 
-        /* --- CAROUSEL (HERO) --- */
+        /* --- CAROUSEL --- */
         .carousel { height: 100vh; width: 100vw; position: relative; z-index: 1; }
         .slide {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -233,7 +232,7 @@
             60% {transform: translateY(-5px);}
         }
 
-        /* --- GRID SYSTEM (UPDATED FOR VIDEO PREVIEWS) --- */
+        /* --- GRID SYSTEM --- */
         .project-grid {
             display: grid; grid-template-columns: repeat(12, 1fr);
             grid-auto-rows: 350px; grid-auto-flow: dense; 
@@ -263,7 +262,6 @@
             z-index: 1; opacity: 1; filter: grayscale(10%);
         }
 
-        /* Hover effects */
         .grid-item:hover img { transform: scale(1.05); filter: grayscale(0%) brightness(1); }
         .grid-item:hover video { transform: scale(1.05); filter: grayscale(0%); }
 
@@ -287,7 +285,7 @@
         }
         .item-meta span { margin-right: 15px; }
 
-        /* --- BOTTOM FOOTER (Back to Top) --- */
+        /* --- BOTTOM FOOTER --- */
         .grid-footer {
             display: flex; justify-content: center; align-items: center;
             padding: 80px 0;
@@ -295,7 +293,6 @@
             cursor: pointer;
             transition: opacity 0.3s ease;
             background: transparent;
-            /* Borde eliminado */
         }
         .grid-footer:hover { opacity: 0.7; }
         
@@ -674,6 +671,19 @@
                 size: 'half' 
             },
             { 
+                title: "Fragilidad",
+                year: "2021", genre: "Short Film",
+                synopsis: { 
+                    en: "After suffering serious abuses, four 11-year-old friends make an extreme decision in order to find their liberation.", 
+                    es: "Después de sufrir graves abusos, cuatro amigos de 11 años toman una decisión extrema para encontrar su liberación." 
+                },
+                credits: { "Director": "Nico Herrera", "Production": "Rever Films", "Writer": "Nico Herrera", "Editor": "Leandro Bruno" },
+                director: "Nico Herrera", prod: "Rever Films", platform: "Short", yt: "", 
+                image: "./assets/Fragilidad_Thumbnail_1.webp", 
+                images: ["./assets/Fragilidad_Thumbnail_1.webp", "./assets/Fragilidad_Thumbnail_2.webp", "./assets/Fragilidad_Thumbnail_3.webp"],
+                size: 'quarter' 
+            },
+            { 
                 title: {en: "Black Holes", es: "Agujeros negros"}, 
                 year: "2020", genre: "Fiction",
                 synopsis: { en: "Based on a short story, it tells the tale of a disappearance in a hospital, featuring time jumps.", es: "Basado en un cuento, cuenta la historia de una desaparición en un hospital, salto de tiempos." },
@@ -790,7 +800,7 @@
                 item.className = `grid-item ${gridClass}`; 
                 item.onclick = () => openProject(p);
                 
-                // --- NEW LOGIC: VIDEO PREVIEW IN GRID ---
+                // --- VIDEO PREVIEW IN GRID ---
                 let mediaContent = '';
                 if(p.previewUrl) {
                     mediaContent = `<video src="${p.previewUrl}" autoplay loop muted playsinline style="z-index: 1; opacity: 1;"></video>`;
@@ -806,7 +816,6 @@
                     </div>`;
                 gridContainer.appendChild(item);
                 
-                // Hover effect for images only (video handles itself)
                 if(!p.previewUrl && p.images && p.images.length > 1) {
                     let hoverInterval; let imgIndex = 0;
                     item.onmouseenter = () => {
