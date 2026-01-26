@@ -14,9 +14,11 @@
     
     <style>
         :root {
-            --bg-color: #000000; 
+            /* --- FONDO NEGRO --- */
+            --bg-color: #050505; 
+            
             --text: #eae5dc;
-            --accent: rgba(234, 229, 220, 0.8);
+            --accent: rgba(234, 229, 220, 0.6);
             --font-main: 'Inter', sans-serif;
             --font-serif: 'Playfair Display', serif;
             --grid-gap: 0px; 
@@ -33,15 +35,14 @@
             overflow: hidden; 
         }
 
-        /* SCROLLBAR */
+        /* SCROLLBAR DARK */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background-color: var(--bg-color); }
         ::-webkit-scrollbar-thumb {
-            background-color: var(--text);
+            background-color: #333;
             border-radius: 4px;
-            opacity: 0.3;
         }
-        ::-webkit-scrollbar-thumb:hover { opacity: 0.8; }
+        ::-webkit-scrollbar-thumb:hover { background-color: #555; }
 
         /* --- NAVIGATION --- */
         nav {
@@ -54,7 +55,7 @@
         }
         
         nav.solid-bg { 
-            background-color: rgba(117, 124, 113, 0.95);
+            background-color: rgba(5, 5, 5, 0.90); /* Fondo negro semitransparente */
             backdrop-filter: blur(12px); 
             -webkit-backdrop-filter: blur(12px);
             pointer-events: auto; 
@@ -67,7 +68,6 @@
             font-size: clamp(1.45rem, 2vw, 2.35rem); 
             font-weight: 600; letter-spacing: -0.5px; text-transform: lowercase;
             line-height: 1; font-family: var(--font-serif); color: var(--text);
-            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
             z-index: 501; position: relative;
             transition: transform 0.3s ease;
         }
@@ -84,9 +84,8 @@
         .nav-links a {
             color: var(--text); text-decoration: none; 
             font-size: 0.75rem;
-            text-transform: uppercase; letter-spacing: 1px; opacity: 0.9;
+            text-transform: uppercase; letter-spacing: 1px; opacity: 0.7;
             transition: all 0.3s ease; position: relative;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
             display: inline-block; padding: 20px 15px; margin: -10px 0;
         }
         
@@ -118,7 +117,7 @@
         
         #mobile-menu-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(117, 124, 113, 0.98);
+            background-color: rgba(5, 5, 5, 0.98); /* Fondo negro */
             backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
             z-index: 550; display: flex; flex-direction: column; justify-content: center; align-items: center;
             opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
@@ -159,6 +158,7 @@
             position: absolute; top: 50%; left: 50%; width: 100%; height: 100%;
             object-fit: cover; transform: translate(-50%, -50%) scale(1.08);
             transition: transform 7s ease-out; z-index: 0;
+            opacity: 0.8; /* Un poco más oscuro en el home para que el texto resalte */
         }
         .slide.active .bg-media { transform: translate(-50%, -50%) scale(1); }
         
@@ -172,18 +172,18 @@
         .label-text {
             font-family: var(--font-main); font-size: 0.65rem; text-transform: uppercase;
             letter-spacing: 2px; color: var(--text); opacity: 0.7; margin-bottom: 15px;
-            display: block; text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            display: block; text-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
 
         .project-title {
             font-family: var(--font-serif); font-size: clamp(2.5rem, 4vw, 4rem); 
             margin-bottom: 15px; letter-spacing: -1px; line-height: 0.9; color: var(--text);
-            text-shadow: 0 2px 20px rgba(0,0,0,0.5); display: block; font-weight: 400;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.8); display: block; font-weight: 400;
         }
         .credits {
             display: flex; gap: 20px; font-size: 0.75rem; text-transform: uppercase;
             letter-spacing: 1px; margin-top: 10px; color: var(--accent);
-            text-shadow: 0 1px 5px rgba(0,0,0,0.5); font-family: var(--font-main);
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8); font-family: var(--font-main);
         }
         .credits span b { color: var(--text); margin-right: 5px; font-weight: 400; text-transform: lowercase; }
         
@@ -194,7 +194,7 @@
             pointer-events: none; 
         }
         .arrow {
-            color: rgba(234, 229, 220, 0.4); font-size: 1.5rem; cursor: pointer;
+            color: rgba(234, 229, 220, 0.3); font-size: 1.5rem; cursor: pointer;
             pointer-events: auto; transition: all 0.3s ease; padding: 20px;
         }
         .arrow:hover { color: var(--text); transform: scale(1.2); }
@@ -251,15 +251,15 @@
 
         .grid-item img {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; 
-            filter: grayscale(20%); opacity: 0; 
+            filter: grayscale(20%) brightness(0.9); opacity: 0; 
             transition: opacity 0.6s ease, transform 0.6s var(--transition-smooth), filter 0.3s ease;
         }
         .grid-item img.img-loaded { opacity: 1; }
-        .grid-item:hover img { transform: scale(1.05); filter: grayscale(0%); }
+        .grid-item:hover img { transform: scale(1.05); filter: grayscale(0%) brightness(1); }
 
         .item-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%);
             opacity: 0; transition: opacity 0.3s ease;
             display: flex; flex-direction: column; justify-content: flex-end; padding: 30px; pointer-events: none; 
         }
@@ -309,31 +309,44 @@
         }
         .overlay-section.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
         
-        /* --- PROJECT DETAIL STYLES (MINIMALIST SPLIT) --- */
+        /* --- PROJECT DETAIL STYLES (3-COLUMN LAYOUT) --- */
         .project-detail-container {
-            max-width: 1600px; margin: 0 auto;
+            max-width: 1800px; margin: 0 auto;
             color: var(--text);
             display: grid;
-            grid-template-columns: 1fr 1.5fr; /* Info | Media */
-            gap: 80px;
+            /* Columnas: Info (Sticky) | Contenido Scrollable | Nav (Sticky) */
+            grid-template-columns: 350px 1fr 200px; 
+            gap: 60px;
             padding-bottom: 100px;
         }
         
+        /* Columna 1: Info Fija */
         .pd-left-col {
             position: sticky;
-            top: 120px;
+            top: 120px; /* Debajo del nav */
             height: fit-content;
             text-align: left;
         }
         
-        .pd-right-col {
+        /* Columna 2: Contenido Scrollable */
+        .pd-center-col {
             display: flex; flex-direction: column; gap: 40px;
+        }
+
+        /* Columna 3: Navegación Fija */
+        .pd-right-col {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center; /* Centrado vertical */
+            justify-content: flex-end;
         }
 
         .pd-header { margin-bottom: 40px; }
         .pd-title {
             font-family: var(--font-serif);
-            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-size: clamp(2rem, 3vw, 3.5rem);
             line-height: 1.1; margin-bottom: 15px;
             font-weight: 400;
         }
@@ -351,7 +364,7 @@
         }
         
         .pd-credits-list { display: flex; flex-direction: column; gap: 15px; }
-        .pd-credit-row { display: flex; justify-content: space-between; }
+        .pd-credit-row { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;}
         .pd-role {
             font-family: var(--font-main); text-transform: uppercase;
             font-size: 0.7rem; letter-spacing: 1px; opacity: 0.5;
@@ -374,16 +387,19 @@
         }
         .pd-gallery img:hover { filter: grayscale(0%); }
 
-        .pd-nav-right {
-            text-align: right; margin-top: 60px;
-            cursor: pointer; align-self: flex-end;
+        /* Botón Next Project */
+        .pd-nav-btn {
+            text-align: right;
+            cursor: pointer;
+            opacity: 0.5;
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
-        .pd-nav-right:hover .pd-next-label { opacity: 1; }
+        .pd-nav-btn:hover { opacity: 1; transform: translateX(5px); }
         .pd-next-label {
             display: block; font-family: var(--font-main); font-size: 0.75rem;
-            text-transform: uppercase; letter-spacing: 2px; opacity: 0.5; margin-bottom: 10px;
+            text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px;
         }
-        .pd-next-title { font-family: var(--font-serif); font-size: 1.5rem; }
+        .pd-next-title { font-family: var(--font-serif); font-size: 1.2rem; }
 
         /* --- ABOUT & MODAL --- */
         .about-container { max-width: 800px; margin: 0 auto; padding-top: 100px; padding-bottom: 100px; text-align: center; }
@@ -419,14 +435,22 @@
         }
 
         /* --- BREAKPOINTS --- */
+        @media (max-width: 1400px) {
+            .project-detail-container { 
+                grid-template-columns: 300px 1fr; /* 2 columnas en pantallas medianas */
+                gap: 40px; 
+            }
+            .pd-right-col { 
+                /* El nav pasa abajo en pantallas medianas */
+                position: static; height: auto; 
+                grid-column: 2; margin-top: 40px; justify-content: flex-end; 
+            }
+        }
+
         @media (max-width: 1200px) {
             .project-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 300px; }
             .grid-item.half, .grid-item.third, .grid-item.three-quarters, .grid-item.quarter { grid-column: span 1; }
             .grid-item.half.tall { grid-row: span 2; }
-            
-            .project-detail-container { grid-template-columns: 1fr; gap: 40px; }
-            .pd-left-col { position: static; }
-            .pd-right-col { gap: 20px; }
         }
 
         /* --- MOBILE STYLES --- */
@@ -445,12 +469,14 @@
             }
             .item-title { font-size: 1.8rem; }
             
+            /* Ajustes Detalle Proyecto Móvil */
             .modal-content { padding: 100px 20px 40px 20px; }
             .project-detail-container { display: flex; flex-direction: column; gap: 40px; }
             .pd-left-col { position: static; }
+            .pd-right-col { position: static; height: auto; justify-content: center; }
             .pd-title { font-size: 2.2rem; }
             .pd-hero { aspect-ratio: 16/9; }
-            .pd-nav-right { text-align: center; align-self: center; }
+            .pd-nav-btn { text-align: center; }
 
             nav { padding: 20px 30px; align-items: center; }
             .nav-links { display: none; }
@@ -567,7 +593,7 @@
                 title: "Menem", 
                 year: "2025", genre: "Serie", episodes: {en: "6 Episodes", es: "6 Episodios"},
                 synopsis: { en: "An in-depth look at the life and legacy of Carlos Menem, exploring the political and personal turmoil of 1990s Argentina, centering on the tragedy of his son's death.", es: "Una mirada profunda a la vida y el legado de Carlos Menem, explorando la agitación política y personal de la Argentina de los años 90, centrándose en la tragedia de la muerte de su hijo." },
-                credits: { "Director": "Ariel Winograd", "Production": "Claxson, Amazon Prime Video", "Platform": "Amazon Prime Video", "Editors": "Leandro Bruno, Andrés Quaranta, Dante Perini" },
+                credits: { "Director": "Matías Gueilburt", "Production": "Claxson, Anima Films", "Platform": "Amazon Prime Video", "Editors": "Leandro Bruno, Andrés Quaranta, Dante Perini" },
                 director: "Ariel Winograd", prod: "Claxson / Amazon Prime Video", platform: "Max", yt: "-2AmqmciWXE", previewUrl: "./assets/menem_preview.mp4", 
                 image: "./assets/Menem_Thumbnail_1.webp", images: ["./assets/Menem_Thumbnail_1.webp", "./assets/Menem_Thumbnail_2.webp", "./assets/Menem_Thumbnail_4.webp", "./assets/Menem_Thumbnail_5.webp"],
                 featured: true, size: 'half' 
@@ -585,7 +611,7 @@
                 title: {en: "The Time of the Flies", es: "El tiempo de las moscas"}, 
                 year: "2026", genre: "Fiction", episodes: {en: "6 Episodes", es: "6 Episodios"},
                 synopsis: { en: "Based on Claudia Piñeiro's novel and adapted by Netflix, it tells the story of Inés, who seeks social reintegration after 15 years in prison. Together with La Manca, a friend from prison, they start a fumigation and investigation business, facing new social dynamics, feminism, and a dangerous criminal proposal.", es: "El tiempo de las moscas, novela de Claudia Piñeiro y adaptada por Netflix, narra la historia de Inés, quien tras 15 años de prisión por matar a la amante de su exmarido, busca reinsertarse socialmente. Junto a La Manca, una amiga del penal, inician un negocio de fumigación e investigación, enfrentando nuevas dinámicas sociales, feminismo y una peligrosa propuesta delictiva" },
-                credits: { "Director": "Ana Katz / B. Naishtat", "Production": "Haddock Films, Netflix, Zona Audiovisual", "Platform": "Netflix", "Editor": "Maria Austraskas, Andres Quaranta, Leandro Bruno" },
+                credits: { "Director": "Ana Katz / B. Naishtat", "Production": "Haddock Films", "Platform": "Netflix", "Editor": "Maria Austraskas, Andres Quaranta, Leandro Bruno" },
                 director: "B. Naishtat/A.Katz", prod: "Haddock/Zona Audiovisual/Netflix", platform: "Netflix", yt: "A0d6wnlMRRk", previewUrl: "./assets/moscas_preview.mp4", 
                 image: "./assets/Moscas_Thumbnail_2.webp", images: ["./assets/Moscas_Thumbnail_2.webp", "./assets/Moscas_Thumbnail_1.webp", "./assets/Moscas_Thumbnail_3.webp", "./assets/Moscas_Thumbnail_4.webp", "./assets/Moscas_Thumbnail_5.webp"],
                 featured: true, size: 'third' 
@@ -894,10 +920,13 @@
                         <div class="pd-credits-list">${creditsHTML}</div>
                     </div>
                     
-                    <div class="pd-right-col">
+                    <div class="pd-center-col">
                         ${heroMedia}
                         <div class="pd-gallery">${galleryHTML}</div>
-                        <div class="pd-nav-right" id="nextProjectBtn">
+                    </div>
+
+                    <div class="pd-right-col">
+                        <div class="pd-nav-btn" id="nextProjectBtn">
                             <span class="pd-next-label">Next Project</span>
                             <div class="pd-next-title">${getProjectTitle(nextProject)} &#8594;</div>
                         </div>
