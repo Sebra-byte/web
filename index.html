@@ -250,15 +250,17 @@
 
         .grid-item img, .grid-item video {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; 
-            transition: opacity 0.6s ease, transform 0.6s var(--transition-smooth), filter 0.3s ease;
+            transition: opacity 0.4s ease, transform 0.6s var(--transition-smooth);
         }
         
-        .grid-item img { filter: grayscale(20%) brightness(0.9); opacity: 0; z-index: 1; }
+        .grid-item img { 
+            filter: grayscale(20%) brightness(0.9); opacity: 0; z-index: 1; 
+        }
         .grid-item img.img-loaded { opacity: 1; }
         
         .grid-item video {
             z-index: 2; opacity: 0; filter: grayscale(10%); pointer-events: none;
-            transition: opacity 0.5s ease;
+            /* Eliminado transition de opacity para respuesta inmediata */
         }
         .grid-item video.is-playing { opacity: 1; }
 
@@ -334,7 +336,8 @@
 
         .pd-header { margin-bottom: 40px; }
         .pd-title {
-            font-family: var(--font-serif); font-size: clamp(2rem, 3vw, 3.5rem);
+            font-family: var(--font-serif);
+            font-size: clamp(2rem, 3vw, 3.5rem);
             line-height: 1.1; margin-bottom: 15px; font-weight: 400;
         }
         .pd-meta {
@@ -621,8 +624,7 @@
                 size: 'half' 
             },
             { 
-                title: "Fragilidad",
-                year: "2021", genre: "Short Film",
+                title: "Fragilidad", year: "2021", genre: "Short Film",
                 synopsis: { 
                     en: "After suffering serious abuses, four 11-year-old friends make an extreme decision in order to find their liberation.", 
                     es: "Después de sufrir graves abusos, cuatro amigos de 11 años toman una decisión extrema para encontrar su liberación." 
@@ -764,7 +766,7 @@
                         video.classList.remove('is-playing');
                     }
                 });
-            }, { threshold: 0.5 }); // Play when 50% visible
+            }, { threshold: 0.15 }); // Fast trigger
 
             allProjects.forEach(p => {
                 const item = document.createElement('div');
@@ -774,8 +776,8 @@
                 
                 let mediaContent = '';
                 if(p.previewUrl) {
-                    // Video element with Poster fallback
-                    mediaContent = `<video src="${p.previewUrl}" poster="${p.image}" loop muted playsinline class="grid-video"></video>`;
+                    // Video element with Poster fallback and preload="auto"
+                    mediaContent = `<video src="${p.previewUrl}" poster="${p.image}" preload="auto" loop muted playsinline class="grid-video"></video>`;
                 } else {
                     mediaContent = `<img src="${p.image}" alt="${getProjectTitle(p)}" loading="lazy" onload="this.classList.add('img-loaded')" onerror="this.style.display='none'">`;
                 }
@@ -903,10 +905,13 @@
                         <div class="pd-credits-list">${creditsHTML}</div>
                     </div>
                     
-                    <div class="pd-right-col">
+                    <div class="pd-center-col">
                         ${heroMedia}
                         <div class="pd-gallery">${galleryHTML}</div>
-                        <div class="pd-nav-right" id="nextProjectBtn">
+                    </div>
+
+                    <div class="pd-right-col">
+                        <div class="pd-nav-btn" id="nextProjectBtn">
                             <span class="pd-next-label">Next Project</span>
                             <div class="pd-next-title">${getProjectTitle(nextProject)} &#8594;</div>
                         </div>
@@ -915,6 +920,7 @@
             `;
             
             modalContent.innerHTML = content;
+            document.getElementById('modal-container').scrollTop = 0; 
             document.getElementById('nextProjectBtn').onclick = () => openProject(nextProject);
 
             if (p.yt) {
