@@ -260,7 +260,6 @@
             z-index: 2; opacity: 0; filter: grayscale(10%); pointer-events: none;
             transition: opacity 0.5s ease;
         }
-        /* Clase especial cuando el video está reproduciendo */
         .grid-item video.is-playing { opacity: 1; }
 
         .grid-item:hover img { transform: scale(1.05); filter: grayscale(0%) brightness(1); }
@@ -622,7 +621,8 @@
                 size: 'half' 
             },
             { 
-                title: "Fragilidad", year: "2021", genre: "Short Film",
+                title: "Fragilidad",
+                year: "2021", genre: "Short Film",
                 synopsis: { 
                     en: "After suffering serious abuses, four 11-year-old friends make an extreme decision in order to find their liberation.", 
                     es: "Después de sufrir graves abusos, cuatro amigos de 11 años toman una decisión extrema para encontrar su liberación." 
@@ -648,7 +648,15 @@
                 synopsis: { en: "The journey explores the silent ruins of a town with an uncertain fate. This voyage is a deep immersion into collective and individual memory, seen from the perspective of a citizen clinging to the vestiges of a past life.", es: "El viaje explora las ruinas silentes de un pueblo con un destino incierto. Esta travesía es una inmersión profunda en la memoria colectiva e individual, vista desde el punto de vista de un ciudadano que se aferra a los vestigios de la vida pasada." },
                 credits: { "Director": "N. Fernandez Melian", "Editor": "Leandro Bruno" },
                 director: "N. Fernandez Melian", prod: "", platform: "Short", yt: "", 
-                image: "./assets/TodoLoQueRecuerdo_Thumbnail_1.webp", images: ["./assets/TodoLoQueRecuerdo_Thumbnail_1.webp"],
+                image: "./assets/TodoLoQueRecuerdo_Thumbnail_1.webp", 
+                images: [
+                    "./assets/TodoLoQueRecuerdo_Thumbnail_1.webp", 
+                    "./assets/TodoLoQueRecuerdo_Thumbnail_2.webp", 
+                    "./assets/TodoLoQueRecuerdo_Thumbnail_3.webp", 
+                    "./assets/TodoLoQueRecuerdo_Thumbnail_4.webp", 
+                    "./assets/TodoLoQueRecuerdo_Thumbnail_5.webp", 
+                    "./assets/TodoLoQueRecuerdo_Thumbnail_6.webp"
+                ],
                 size: 'quarter' 
             }
         ];
@@ -837,6 +845,7 @@
         function resetAutoPlay() { startAutoPlay(); }
         function onPlayerStateChange(event) { if (event.data === 0) { } }
 
+        // --- NEW: SMART PROJECT DETAIL LOGIC (NO DUPLICATES) ---
         function openProject(p) {
             pauseHero();
             modalContainer.classList.add('open');
@@ -857,17 +866,20 @@
                                <div class="pd-credit-row"><span class="pd-role">Production</span><span class="pd-name">${p.prod}</span></div>`;
             }
 
+            // SMART MEDIA LOGIC
             let heroMedia = '';
             let galleryImages = [];
 
             if (p.yt) {
+                // If video exists: Hero = Video, Gallery = All images
                 heroMedia = `<div class="pd-hero"><div id="player"></div></div>`;
                 galleryImages = p.images || (p.image ? [p.image] : []);
             } else {
+                // If NO video: Hero = Image 1, Gallery = Remaining images (sliced)
                 const allImages = p.images || (p.image ? [p.image] : []);
                 if (allImages.length > 0) {
                     heroMedia = `<div class="pd-hero"><img src="${allImages[0]}" alt="${title}"></div>`;
-                    galleryImages = allImages.slice(1); 
+                    galleryImages = allImages.slice(1); // Skip the first one
                 }
             }
 
@@ -891,13 +903,10 @@
                         <div class="pd-credits-list">${creditsHTML}</div>
                     </div>
                     
-                    <div class="pd-center-col">
+                    <div class="pd-right-col">
                         ${heroMedia}
                         <div class="pd-gallery">${galleryHTML}</div>
-                    </div>
-
-                    <div class="pd-right-col">
-                        <div class="pd-nav-btn" id="nextProjectBtn">
+                        <div class="pd-nav-right" id="nextProjectBtn">
                             <span class="pd-next-label">Next Project</span>
                             <div class="pd-next-title">${getProjectTitle(nextProject)} &#8594;</div>
                         </div>
@@ -906,7 +915,6 @@
             `;
             
             modalContent.innerHTML = content;
-            document.getElementById('modal-container').scrollTop = 0; 
             document.getElementById('nextProjectBtn').onclick = () => openProject(nextProject);
 
             if (p.yt) {
