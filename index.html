@@ -250,17 +250,18 @@
 
         .grid-item img, .grid-item video {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; 
-            transition: opacity 0.6s ease, transform 0.6s var(--transition-smooth), filter 0.3s ease;
+            transition: opacity 0.4s ease, transform 0.6s var(--transition-smooth);
         }
         
-        .grid-item img { filter: grayscale(20%) brightness(0.9); opacity: 0; z-index: 1; }
+        .grid-item img { 
+            filter: grayscale(20%) brightness(0.9); opacity: 0; z-index: 1; 
+        }
         .grid-item img.img-loaded { opacity: 1; }
         
         .grid-item video {
             z-index: 2; opacity: 0; filter: grayscale(10%); pointer-events: none;
-            transition: opacity 0.5s ease;
+            /* Eliminado transition de opacity para respuesta inmediata */
         }
-        /* Clase especial cuando el video está reproduciendo */
         .grid-item video.is-playing { opacity: 1; }
 
         .grid-item:hover img { transform: scale(1.05); filter: grayscale(0%) brightness(1); }
@@ -335,7 +336,8 @@
 
         .pd-header { margin-bottom: 40px; }
         .pd-title {
-            font-family: var(--font-serif); font-size: clamp(2rem, 3vw, 3.5rem);
+            font-family: var(--font-serif);
+            font-size: clamp(2rem, 3vw, 3.5rem);
             line-height: 1.1; margin-bottom: 15px; font-weight: 400;
         }
         .pd-meta {
@@ -648,7 +650,15 @@
                 synopsis: { en: "The journey explores the silent ruins of a town with an uncertain fate. This voyage is a deep immersion into collective and individual memory, seen from the perspective of a citizen clinging to the vestiges of a past life.", es: "El viaje explora las ruinas silentes de un pueblo con un destino incierto. Esta travesía es una inmersión profunda en la memoria colectiva e individual, vista desde el punto de vista de un ciudadano que se aferra a los vestigios de la vida pasada." },
                 credits: { "Director": "N. Fernandez Melian", "Editor": "Leandro Bruno" },
                 director: "N. Fernandez Melian", prod: "", platform: "Short", yt: "", 
-                image: "./assets/TodoLoQueRecuerdo_Thumbnail_1.webp", images: ["./assets/TodoLoQueRecuerdo_Thumbnail_1.webp"],
+                image: "./assets/TodoLoQueRecuerdo_Thumbnail_1.webp", 
+                images: [
+                    "./assets/TodoLoQueRecuerdo_Thumbnail_1.webp", 
+                    "./assets/TodoLoQueRecuerdo_Thumbnail_2.webp", 
+                    "./assets/TodoLoQueRecuerdo_Thumbnail_3.webp", 
+                    "./assets/TodoLoQueRecuerdo_Thumbnail_4.webp", 
+                    "./assets/TodoLoQueRecuerdo_Thumbnail_5.webp", 
+                    "./assets/TodoLoQueRecuerdo_Thumbnail_6.webp"
+                ],
                 size: 'quarter' 
             }
         ];
@@ -756,7 +766,7 @@
                         video.classList.remove('is-playing');
                     }
                 });
-            }, { threshold: 0.5 }); // Play when 50% visible
+            }, { threshold: 0.15 }); // Fast trigger
 
             allProjects.forEach(p => {
                 const item = document.createElement('div');
@@ -766,8 +776,8 @@
                 
                 let mediaContent = '';
                 if(p.previewUrl) {
-                    // Video element with Poster fallback
-                    mediaContent = `<video src="${p.previewUrl}" poster="${p.image}" loop muted playsinline class="grid-video"></video>`;
+                    // Video element with Poster fallback and preload="auto"
+                    mediaContent = `<video src="${p.previewUrl}" poster="${p.image}" preload="auto" loop muted playsinline class="grid-video"></video>`;
                 } else {
                     mediaContent = `<img src="${p.image}" alt="${getProjectTitle(p)}" loading="lazy" onload="this.classList.add('img-loaded')" onerror="this.style.display='none'">`;
                 }
@@ -837,6 +847,7 @@
         function resetAutoPlay() { startAutoPlay(); }
         function onPlayerStateChange(event) { if (event.data === 0) { } }
 
+        // --- NEW: SMART PROJECT DETAIL LOGIC (NO DUPLICATES) ---
         function openProject(p) {
             pauseHero();
             modalContainer.classList.add('open');
@@ -857,17 +868,20 @@
                                <div class="pd-credit-row"><span class="pd-role">Production</span><span class="pd-name">${p.prod}</span></div>`;
             }
 
+            // SMART MEDIA LOGIC
             let heroMedia = '';
             let galleryImages = [];
 
             if (p.yt) {
+                // If video exists: Hero = Video, Gallery = All images
                 heroMedia = `<div class="pd-hero"><div id="player"></div></div>`;
                 galleryImages = p.images || (p.image ? [p.image] : []);
             } else {
+                // If NO video: Hero = Image 1, Gallery = Remaining images (sliced)
                 const allImages = p.images || (p.image ? [p.image] : []);
                 if (allImages.length > 0) {
                     heroMedia = `<div class="pd-hero"><img src="${allImages[0]}" alt="${title}"></div>`;
-                    galleryImages = allImages.slice(1); 
+                    galleryImages = allImages.slice(1); // Skip the first one
                 }
             }
 
