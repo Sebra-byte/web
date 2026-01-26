@@ -565,7 +565,7 @@
         const allProjects = [
             { 
                 title: "Menem", 
-                year: "2025", genre: "Serie",
+                year: "2025", genre: "Serie", episodes: {en: "6 Episodes", es: "6 Episodios"},
                 synopsis: { en: "An in-depth look at the life and legacy of Carlos Menem, exploring the political and personal turmoil of 1990s Argentina, centering on the tragedy of his son's death.", es: "Una mirada profunda a la vida y el legado de Carlos Menem, explorando la agitación política y personal de la Argentina de los años 90, centrándose en la tragedia de la muerte de su hijo." },
                 credits: { "Director": "Matías Gueilburt", "Production": "Claxson, Anima Films", "Platform": "Amazon Prime Video", "Editors": "Leandro Bruno, Andrés Quaranta, Dante Perini" },
                 director: "Ariel Winograd", prod: "Claxson / Amazon Prime Video", platform: "Max", yt: "-2AmqmciWXE", previewUrl: "./assets/menem_preview.mp4", 
@@ -583,16 +583,16 @@
             },
             { 
                 title: {en: "The Time of the Flies", es: "El tiempo de las moscas"}, 
-                year: "2026", genre: "Fiction",
+                year: "2026", genre: "Fiction", episodes: {en: "6 Episodes", es: "6 Episodios"},
                 synopsis: { en: "Based on Claudia Piñeiro's novel and adapted by Netflix, it tells the story of Inés, who seeks social reintegration after 15 years in prison. Together with La Manca, a friend from prison, they start a fumigation and investigation business, facing new social dynamics, feminism, and a dangerous criminal proposal.", es: "El tiempo de las moscas, novela de Claudia Piñeiro y adaptada por Netflix, narra la historia de Inés, quien tras 15 años de prisión por matar a la amante de su exmarido, busca reinsertarse socialmente. Junto a La Manca, una amiga del penal, inician un negocio de fumigación e investigación, enfrentando nuevas dinámicas sociales, feminismo y una peligrosa propuesta delictiva" },
-                credits: { "Director": "Ana Katz / B. Naishtat", "Production": "Haddock Films", "Platform": "Netflix", "Editor": "Maria Austraskas, Andres Quaranta, Leandro Bruno" },
+                credits: { "Director": "Ana Katz / B. Naishtat", "Production": "Haddock Films", "Platform": "Netflix", "Editor": "Maria Austraskas, Leandro Bruno, Leandro Bruno" },
                 director: "B. Naishtat/A.Katz", prod: "Haddock/Zona Audiovisual/Netflix", platform: "Netflix", yt: "A0d6wnlMRRk", previewUrl: "./assets/moscas_preview.mp4", 
                 image: "./assets/Moscas_Thumbnail_2.webp", images: ["./assets/Moscas_Thumbnail_2.webp", "./assets/Moscas_Thumbnail_1.webp", "./assets/Moscas_Thumbnail_3.webp", "./assets/Moscas_Thumbnail_4.webp", "./assets/Moscas_Thumbnail_5.webp"],
                 featured: true, size: 'third' 
             },
             { 
                 title: {en: "Coppola, the Agent", es: "Coppola, el representante"}, 
-                year: "2024", genre: "Comedy / Biopic",
+                year: "2024", genre: "Comedy / Biopic", episodes: {en: "6 Episodes", es: "6 Episodios"},
                 synopsis: { en: "The wild and humorous life of Guillermo Coppola, the legendary manager of Diego Maradona, navigating the excesses of the 90s.", es: "La vida salvaje y humorística de Guillermo Coppola, el legendario manager de Diego Maradona, navegando los excesos de los 90." },
                 credits: { "Director": "Ariel Winograd", "Production": "Pampa Films", "Platform": "Disney+", "Editor": "Leandro Bruno, Andres Quaranta, Dante Perini, Jimena Garcia Molt, Gustavo Macri, Miguel Colombo" },
                 director: "Ariel Winograd", prod: "Pampa/Disney+", platform: "Disney+", yt: "ecr24akKDbs", previewUrl: "./assets/coppola_preview.mp4", 
@@ -845,6 +845,7 @@
             const synopsis = p.synopsis ? (p.synopsis[currentLang] || p.synopsis.en || "") : "";
             const genre = p.genre || "";
             const year = p.year || "";
+            const episodes = p.episodes ? (p.episodes[currentLang] || p.episodes.en || "") : "";
             
             let creditsHTML = '';
             if (p.credits) {
@@ -886,7 +887,7 @@
                 <div class="project-detail-container">
                     <div class="pd-left-col">
                         <div class="pd-header">
-                            <div class="pd-meta">${year} ${genre ? '• ' + genre : ''}</div>
+                            <div class="pd-meta">${year} ${genre ? '• ' + genre : ''} ${episodes ? '• ' + episodes : ''}</div>
                             <h1 class="pd-title">${title}</h1>
                         </div>
                         ${synopsis ? `<div class="pd-synopsis">${synopsis}</div>` : ''}
