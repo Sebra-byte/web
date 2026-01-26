@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leandro Bruno | Film Editor</title>
     
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%232f352e'/><text x='50' y='65' font-family='Playfair Display, serif' font-size='50' fill='%23eae5dc' text-anchor='middle'>lb</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230F0F0F'/><text x='50' y='65' font-family='Playfair Display, serif' font-size='50' fill='%23E8E6E1' text-anchor='middle'>lb</text></svg>">
     
     <script src="https://www.youtube.com/iframe_api"></script>
     
@@ -14,11 +14,11 @@
     
     <style>
         :root {
-            /* --- FONDO NEGRO --- */
-            --bg-color: #050505; 
+            /* --- NUEVO ESQUEMA DE COLOR --- */
+            --bg-color: #0F0F0F; /* Negro cálido profundo */
+            --text: #E8E6E1;     /* Hueso */
+            --accent: #4A6741;   /* Verde Bosque Vibrante */
             
-            --text: #eae5dc;
-            --accent: rgba(234, 229, 220, 0.6);
             --font-main: 'Inter', sans-serif;
             --font-serif: 'Playfair Display', serif;
             --grid-gap: 0px; 
@@ -35,14 +35,14 @@
             overflow: hidden; 
         }
 
-        /* SCROLLBAR DARK */
+        /* SCROLLBAR */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background-color: var(--bg-color); }
         ::-webkit-scrollbar-thumb {
-            background-color: #333;
+            background-color: #2a2a2a; /* Un gris oscuro cálido */
             border-radius: 4px;
         }
-        ::-webkit-scrollbar-thumb:hover { background-color: #555; }
+        ::-webkit-scrollbar-thumb:hover { background-color: var(--accent); }
 
         /* --- NAVIGATION --- */
         nav {
@@ -55,11 +55,11 @@
         }
         
         nav.solid-bg { 
-            background-color: rgba(5, 5, 5, 0.90); /* Fondo negro semitransparente */
+            background-color: rgba(15, 15, 15, 0.95); /* #0F0F0F con transparencia */
             backdrop-filter: blur(12px); 
             -webkit-backdrop-filter: blur(12px);
             pointer-events: auto; 
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(232, 230, 225, 0.05);
         }
         
         .brand, .nav-links a, .lang-container, .hamburger { pointer-events: auto; cursor: pointer; }
@@ -84,21 +84,21 @@
         .nav-links a {
             color: var(--text); text-decoration: none; 
             font-size: 0.75rem;
-            text-transform: uppercase; letter-spacing: 1px; opacity: 0.7;
+            text-transform: uppercase; letter-spacing: 1px; opacity: 0.8;
             transition: all 0.3s ease; position: relative;
             display: inline-block; padding: 20px 15px; margin: -10px 0;
         }
         
-        .nav-links a:hover { opacity: 1; transform: translateY(-2px); }
+        .nav-links a:hover { opacity: 1; transform: translateY(-2px); color: var(--accent); }
         .nav-hidden { opacity: 0 !important; pointer-events: none; transform: translateY(-10px); }
 
         /* --- LANGUAGE TOGGLE --- */
         .lang-container {
             position: relative; overflow: hidden; height: 32px; min-width: 44px;
-            border: 1px solid rgba(234, 229, 220, 0.3); border-radius: 4px;
+            border: 1px solid rgba(232, 230, 225, 0.3); border-radius: 4px;
             margin-left: 25px; margin-right: 0; transition: border-color 0.3s ease;
         }
-        .lang-container:hover { border-color: var(--text); }
+        .lang-container:hover { border-color: var(--accent); }
         .lang-track {
             display: flex; flex-direction: column; align-items: center;
             transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); 
@@ -117,7 +117,7 @@
         
         #mobile-menu-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(5, 5, 5, 0.98); /* Fondo negro */
+            background-color: rgba(15, 15, 15, 0.98);
             backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
             z-index: 550; display: flex; flex-direction: column; justify-content: center; align-items: center;
             opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
@@ -158,7 +158,7 @@
             position: absolute; top: 50%; left: 50%; width: 100%; height: 100%;
             object-fit: cover; transform: translate(-50%, -50%) scale(1.08);
             transition: transform 7s ease-out; z-index: 0;
-            opacity: 0.8; /* Un poco más oscuro en el home para que el texto resalte */
+            opacity: 0.85; /* Ajuste para el fondo negro cálido */
         }
         .slide.active .bg-media { transform: translate(-50%, -50%) scale(1); }
         
@@ -171,7 +171,7 @@
 
         .label-text {
             font-family: var(--font-main); font-size: 0.65rem; text-transform: uppercase;
-            letter-spacing: 2px; color: var(--text); opacity: 0.7; margin-bottom: 15px;
+            letter-spacing: 2px; color: var(--accent); opacity: 1; margin-bottom: 15px;
             display: block; text-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
 
@@ -182,10 +182,10 @@
         }
         .credits {
             display: flex; gap: 20px; font-size: 0.75rem; text-transform: uppercase;
-            letter-spacing: 1px; margin-top: 10px; color: var(--accent);
+            letter-spacing: 1px; margin-top: 10px; color: var(--text); opacity: 0.8;
             text-shadow: 0 2px 10px rgba(0,0,0,0.8); font-family: var(--font-main);
         }
-        .credits span b { color: var(--text); margin-right: 5px; font-weight: 400; text-transform: lowercase; }
+        .credits span b { color: var(--accent); margin-right: 5px; font-weight: 600; text-transform: lowercase; }
         
         /* FLECHAS DESKTOP */
         .carousel-arrows {
@@ -194,10 +194,10 @@
             pointer-events: none; 
         }
         .arrow {
-            color: rgba(234, 229, 220, 0.3); font-size: 1.5rem; cursor: pointer;
+            color: rgba(232, 230, 225, 0.2); font-size: 1.5rem; cursor: pointer;
             pointer-events: auto; transition: all 0.3s ease; padding: 20px;
         }
-        .arrow:hover { color: var(--text); transform: scale(1.2); }
+        .arrow:hover { color: var(--accent); transform: scale(1.2); }
         
         /* --- A24 UI --- */
         .a24-ui {
@@ -213,13 +213,13 @@
         }
         
         .progress-container {
-            width: 100%; height: 2px; background: rgba(255,255,255,0.2);
+            width: 100%; height: 2px; background: rgba(232, 230, 225, 0.1);
             margin-bottom: 25px; position: relative; width: 60px;
         }
         
         .progress-bar {
-            height: 100%; background: var(--text); width: 0%;
-            transition: width 0.1s linear; box-shadow: 0 0 10px rgba(255,255,255,0.5);
+            height: 100%; background: var(--accent); width: 0%;
+            transition: width 0.1s linear; box-shadow: 0 0 10px rgba(74, 103, 65, 0.5);
         }
         
         .scroll-down-btn {
@@ -251,7 +251,7 @@
 
         .grid-item img {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; 
-            filter: grayscale(20%) brightness(0.9); opacity: 0; 
+            filter: grayscale(20%) brightness(0.85); opacity: 0; 
             transition: opacity 0.6s ease, transform 0.6s var(--transition-smooth), filter 0.3s ease;
         }
         .grid-item img.img-loaded { opacity: 1; }
@@ -259,7 +259,7 @@
 
         .item-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%);
+            background: linear-gradient(to top, rgba(15, 15, 15, 0.9) 0%, transparent 60%);
             opacity: 0; transition: opacity 0.3s ease;
             display: flex; flex-direction: column; justify-content: flex-end; padding: 30px; pointer-events: none; 
         }
@@ -268,7 +268,7 @@
         .item-title {
             font-family: var(--font-serif); font-size: 1.4rem; color: var(--text);
             margin-bottom: 8px; line-height: 1.1; display: inline-block;
-            border-bottom: 1px solid rgba(234, 229, 220, 0.6); padding-bottom: 4px;
+            border-bottom: 1px solid rgba(232, 230, 225, 0.2); padding-bottom: 4px;
         }
         .item-meta {
             font-family: var(--font-main); font-size: 0.7rem; color: var(--accent);
@@ -295,7 +295,7 @@
             color: var(--text);
             display: flex; flex-direction: column; align-items: center; gap: 10px;
         }
-        .back-to-top-text span { font-size: 1.5rem; }
+        .back-to-top-text span { font-size: 1.5rem; color: var(--accent); }
 
         /* --- OVERLAYS --- */
         .overlay-section {
@@ -314,32 +314,28 @@
             max-width: 1800px; margin: 0 auto;
             color: var(--text);
             display: grid;
-            /* Columnas: Info (Sticky) | Contenido Scrollable | Nav (Sticky) */
             grid-template-columns: 350px 1fr 200px; 
             gap: 60px;
             padding-bottom: 100px;
         }
         
-        /* Columna 1: Info Fija */
         .pd-left-col {
             position: sticky;
-            top: 120px; /* Debajo del nav */
+            top: 120px; 
             height: fit-content;
             text-align: left;
         }
         
-        /* Columna 2: Contenido Scrollable */
         .pd-center-col {
             display: flex; flex-direction: column; gap: 40px;
         }
 
-        /* Columna 3: Navegación Fija */
         .pd-right-col {
             position: sticky;
             top: 0;
             height: 100vh;
             display: flex;
-            align-items: center; /* Centrado vertical */
+            align-items: center; 
             justify-content: flex-end;
         }
 
@@ -353,21 +349,21 @@
         .pd-meta {
             font-family: var(--font-main);
             font-size: 0.85rem; letter-spacing: 1.5px;
-            opacity: 0.6; text-transform: uppercase;
+            opacity: 0.7; text-transform: uppercase; color: var(--accent);
         }
 
         .pd-synopsis {
             font-family: var(--font-main);
             font-size: 1rem; line-height: 1.7;
-            font-weight: 300; opacity: 0.8;
+            font-weight: 300; opacity: 0.9;
             margin-bottom: 40px;
         }
         
         .pd-credits-list { display: flex; flex-direction: column; gap: 15px; }
-        .pd-credit-row { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;}
+        .pd-credit-row { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(232, 230, 225, 0.1); padding-bottom: 8px;}
         .pd-role {
             font-family: var(--font-main); text-transform: uppercase;
-            font-size: 0.7rem; letter-spacing: 1px; opacity: 0.5;
+            font-size: 0.7rem; letter-spacing: 1px; opacity: 0.6;
         }
         .pd-name {
             font-family: var(--font-main); font-size: 0.85rem;
@@ -387,17 +383,14 @@
         }
         .pd-gallery img:hover { filter: grayscale(0%); }
 
-        /* Botón Next Project */
         .pd-nav-btn {
-            text-align: right;
-            cursor: pointer;
-            opacity: 0.5;
+            text-align: right; cursor: pointer; opacity: 0.5;
             transition: opacity 0.3s ease, transform 0.3s ease;
         }
         .pd-nav-btn:hover { opacity: 1; transform: translateX(5px); }
         .pd-next-label {
             display: block; font-family: var(--font-main); font-size: 0.75rem;
-            text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px;
+            text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; color: var(--accent);
         }
         .pd-next-title { font-family: var(--font-serif); font-size: 1.2rem; }
 
@@ -407,11 +400,11 @@
         .about-text strong { font-weight: 600; color: var(--text); }
         .imdb-link {
             display: inline-flex; align-items: center; gap: 5px; justify-content: center;
-            color: var(--text); text-decoration: none; font-weight: 600;
+            color: var(--accent); text-decoration: none; font-weight: 600;
             border-bottom: 1px solid transparent; transition: border 0.3s;
             margin-top: 10px; font-size: 0.9rem; letter-spacing: 0.5px;
         }
-        .imdb-link:hover { border-bottom: 1px solid var(--text); }
+        .imdb-link:hover { border-bottom: 1px solid var(--accent); }
 
         #modal-container {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
@@ -425,7 +418,7 @@
             position: fixed; top: 30px; right: 40px; color: var(--text);
             font-size: 2rem; cursor: pointer; z-index: 2005; transition: transform 0.3s ease;
         }
-        .modal-close:hover { transform: rotate(90deg); }
+        .modal-close:hover { transform: rotate(90deg); color: var(--accent); }
         
         .modal-content { 
             width: 100%; min-height: 100%; 
@@ -437,11 +430,10 @@
         /* --- BREAKPOINTS --- */
         @media (max-width: 1400px) {
             .project-detail-container { 
-                grid-template-columns: 300px 1fr; /* 2 columnas en pantallas medianas */
+                grid-template-columns: 300px 1fr; 
                 gap: 40px; 
             }
             .pd-right-col { 
-                /* El nav pasa abajo en pantallas medianas */
                 position: static; height: auto; 
                 grid-column: 2; margin-top: 40px; justify-content: flex-end; 
             }
@@ -464,12 +456,11 @@
             
             .item-overlay {
                 opacity: 1 !important; 
-                background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%); 
+                background: linear-gradient(to top, rgba(15,15,15,0.95) 0%, transparent 60%); 
                 padding: 20px 30px; 
             }
             .item-title { font-size: 1.8rem; }
             
-            /* Ajustes Detalle Proyecto Móvil */
             .modal-content { padding: 100px 20px 40px 20px; }
             .project-detail-container { display: flex; flex-direction: column; gap: 40px; }
             .pd-left-col { position: static; }
@@ -690,21 +681,21 @@
                 size: 'half' 
             },
             { 
-                title: {en: "All That I Remember", es: "Todo lo que recuerdo"}, 
-                year: "2020", genre: "Short Doc",
-                synopsis: { en: "The journey explores the silent ruins of a town with an uncertain fate. This voyage is a deep immersion into collective and individual memory, seen from the perspective of a citizen clinging to the vestiges of a past life.", es: "El viaje explora las ruinas silentes de un pueblo con un destino incierto. Esta travesía es una inmersión profunda en la memoria colectiva e individual, vista desde el punto de vista de un ciudadano que se aferra a los vestigios de la vida pasada." },
-                credits: { "Director": "N. Fernandez Melian", "Editor": "Leandro Bruno" },
-                director: "N. Fernandez Melian", prod: "", platform: "Short", yt: "", 
-                image: "./assets/TodoLoQueRecuerdo_Thumbnail_1.webp", images: ["./assets/TodoLoQueRecuerdo_Thumbnail_1.webp"],
-                size: 'quarter' 
-            },
-            { 
                 title: {en: "Black Holes", es: "Agujeros negros"}, 
                 year: "2020", genre: "Fiction",
                 synopsis: { en: "Based on a short story, it tells the tale of a disappearance in a hospital, featuring time jumps.", es: "Basado en un cuento, cuenta la historia de una desaparición en un hospital, salto de tiempos." },
                 credits: { "Director": "N. Fernandez Melian", "Editor": "Leandro Bruno" },
                 director: "N. Fernandez Melian", prod: "", platform: "Fiction", yt: "", 
                 image: "./assets/Agujeros_Thumbnail_1.webp", images: ["./assets/Agujeros_Thumbnail_1.webp", "./assets/Agujeros_Thumbnail_2.webp", "./assets/Agujeros_Thumbnail_3.webp", "./assets/Agujeros_Thumbnail_4.webp"],
+                size: 'quarter' 
+            },
+            { 
+                title: {en: "All That I Remember", es: "Todo lo que recuerdo"}, 
+                year: "2020", genre: "Short Doc",
+                synopsis: { en: "The journey explores the silent ruins of a town with an uncertain fate. This voyage is a deep immersion into collective and individual memory, seen from the perspective of a citizen clinging to the vestiges of a past life.", es: "El viaje explora las ruinas silentes de un pueblo con un destino incierto. Esta travesía es una inmersión profunda en la memoria colectiva e individual, vista desde el punto de vista de un ciudadano que se aferra a los vestigios de la vida pasada." },
+                credits: { "Director": "N. Fernandez Melian", "Editor": "Leandro Bruno" },
+                director: "N. Fernandez Melian", prod: "", platform: "Short", yt: "", 
+                image: "./assets/TodoLoQueRecuerdo_Thumbnail_1.webp", images: ["./assets/TodoLoQueRecuerdo_Thumbnail_1.webp"],
                 size: 'quarter' 
             }
         ];
@@ -935,6 +926,10 @@
             `;
             
             modalContent.innerHTML = content;
+            
+            // --- SCROLL TO TOP FIX ---
+            document.getElementById('modal-container').scrollTop = 0; // Ensures the next project starts at the top
+            
             document.getElementById('nextProjectBtn').onclick = () => openProject(nextProject);
 
             if (p.yt) {
