@@ -250,12 +250,10 @@
 
         .grid-item img, .grid-item video {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; 
-            transition: opacity 0.4s ease, transform 0.6s var(--transition-smooth);
+            transition: opacity 0.6s ease, transform 0.6s var(--transition-smooth), filter 0.3s ease;
         }
         
-        .grid-item img { 
-            filter: grayscale(20%) brightness(0.9); opacity: 0; z-index: 1; 
-        }
+        .grid-item img { filter: grayscale(20%) brightness(0.9); opacity: 0; z-index: 1; }
         .grid-item img.img-loaded { opacity: 1; }
         
         .grid-item video {
@@ -320,19 +318,18 @@
         }
         .overlay-section.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
         
-        /* --- PROJECT DETAIL STYLES --- */
+        /* --- PROJECT DETAIL STYLES (2-COLUMN LAYOUT) --- */
         .project-detail-container {
             max-width: 1800px; margin: 0 auto;
             color: var(--text);
             display: grid;
-            grid-template-columns: 350px 1fr 200px; 
+            grid-template-columns: 350px 1fr; /* INFO | MEDIA */
             gap: 60px;
             padding-bottom: 100px;
         }
         
         .pd-left-col { position: sticky; top: 120px; height: fit-content; text-align: left; }
-        .pd-center-col { display: flex; flex-direction: column; gap: 40px; }
-        .pd-right-col { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; justify-content: flex-end; }
+        .pd-right-col { display: flex; flex-direction: column; gap: 40px; }
 
         .pd-header { margin-bottom: 40px; }
         .pd-title {
@@ -352,13 +349,22 @@
         .pd-credit-row { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(232, 230, 225, 0.1); padding-bottom: 8px;}
         .pd-role { font-family: var(--font-main); text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px; opacity: 0.6; }
         .pd-name { font-family: var(--font-main); font-size: 0.85rem; text-align: right; font-weight: 400; }
-        .pd-hero { width: 100%; aspect-ratio: 16/9; background: #000; position: relative; }
+        
+        .pd-hero { 
+            width: 100%; aspect-ratio: 16/9; background: #000; position: relative; 
+            /* Fix for responsive video */
+            display: flex; justify-content: center; align-items: center;
+        }
         .pd-hero iframe, .pd-hero img { width: 100%; height: 100%; object-fit: cover; border: none; }
+        
         .pd-gallery { display: flex; flex-direction: column; gap: 40px; }
         .pd-gallery img { width: 100%; height: auto; object-fit: cover; filter: grayscale(10%); transition: filter 0.3s; }
         .pd-gallery img:hover { filter: grayscale(0%); }
 
-        .pd-nav-btn { text-align: right; cursor: pointer; opacity: 0.5; transition: opacity 0.3s ease, transform 0.3s ease; }
+        .pd-nav-btn { 
+            text-align: right; cursor: pointer; opacity: 0.5; transition: opacity 0.3s ease, transform 0.3s ease; 
+            margin-top: 60px; /* Separacion extra abajo */
+        }
         .pd-nav-btn:hover { opacity: 1; transform: translateX(5px); }
         .pd-next-label { display: block; font-family: var(--font-main); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; color: var(--text); }
         .pd-next-title { font-family: var(--font-serif); font-size: 1.2rem; }
@@ -392,12 +398,15 @@
 
         @media (max-width: 1400px) {
             .project-detail-container { grid-template-columns: 300px 1fr; gap: 40px; }
-            .pd-right-col { position: static; height: auto; grid-column: 2; margin-top: 40px; justify-content: flex-end; }
         }
         @media (max-width: 1200px) {
             .project-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 300px; }
             .grid-item.half, .grid-item.third, .grid-item.three-quarters, .grid-item.quarter { grid-column: span 1; }
             .grid-item.half.tall { grid-row: span 2; }
+            
+            /* Responsive Modal */
+            .project-detail-container { grid-template-columns: 1fr; }
+            .pd-left-col { position: static; height: auto; margin-bottom: 40px; }
         }
         @media(max-width: 768px) {
             .carousel, body, html { height: 100dvh; } 
@@ -409,7 +418,6 @@
             .modal-content { padding: 100px 20px 40px 20px; }
             .project-detail-container { display: flex; flex-direction: column; gap: 40px; }
             .pd-left-col { position: static; }
-            .pd-right-col { position: static; height: auto; justify-content: center; }
             .pd-title { font-size: 2.2rem; }
             .pd-hero { aspect-ratio: 16/9; }
             .pd-nav-btn { text-align: center; }
@@ -766,7 +774,7 @@
                         video.classList.remove('is-playing');
                     }
                 });
-            }, { threshold: 0.15 }); // Fast trigger
+            }, { threshold: 0.15 });
 
             allProjects.forEach(p => {
                 const item = document.createElement('div');
@@ -776,7 +784,6 @@
                 
                 let mediaContent = '';
                 if(p.previewUrl) {
-                    // Video element with Poster fallback and preload="auto"
                     mediaContent = `<video src="${p.previewUrl}" poster="${p.image}" preload="auto" loop muted playsinline class="grid-video"></video>`;
                 } else {
                     mediaContent = `<img src="${p.image}" alt="${getProjectTitle(p)}" loading="lazy" onload="this.classList.add('img-loaded')" onerror="this.style.display='none'">`;
@@ -790,13 +797,11 @@
                     </div>`;
                 gridContainer.appendChild(item);
                 
-                // Attach Observer to Video
                 if(p.previewUrl) {
                     const vid = item.querySelector('video');
                     if(vid) videoObserver.observe(vid);
                 }
 
-                // Image Carousel on Hover (only if not video)
                 if(!p.previewUrl && p.images && p.images.length > 1) {
                     let hoverInterval; let imgIndex = 0;
                     item.onmouseenter = () => {
@@ -847,7 +852,7 @@
         function resetAutoPlay() { startAutoPlay(); }
         function onPlayerStateChange(event) { if (event.data === 0) { } }
 
-        // --- NEW: SMART PROJECT DETAIL LOGIC (NO DUPLICATES) ---
+        // --- NEW: PROJECT DETAIL LOGIC (2-COLUMN LAYOUT) ---
         function openProject(p) {
             pauseHero();
             modalContainer.classList.add('open');
@@ -868,20 +873,17 @@
                                <div class="pd-credit-row"><span class="pd-role">Production</span><span class="pd-name">${p.prod}</span></div>`;
             }
 
-            // SMART MEDIA LOGIC
             let heroMedia = '';
             let galleryImages = [];
 
             if (p.yt) {
-                // If video exists: Hero = Video, Gallery = All images
                 heroMedia = `<div class="pd-hero"><div id="player"></div></div>`;
                 galleryImages = p.images || (p.image ? [p.image] : []);
             } else {
-                // If NO video: Hero = Image 1, Gallery = Remaining images (sliced)
                 const allImages = p.images || (p.image ? [p.image] : []);
                 if (allImages.length > 0) {
                     heroMedia = `<div class="pd-hero"><img src="${allImages[0]}" alt="${title}"></div>`;
-                    galleryImages = allImages.slice(1); // Skip the first one
+                    galleryImages = allImages.slice(1); 
                 }
             }
 
@@ -905,12 +907,9 @@
                         <div class="pd-credits-list">${creditsHTML}</div>
                     </div>
                     
-                    <div class="pd-center-col">
+                    <div class="pd-right-col">
                         ${heroMedia}
                         <div class="pd-gallery">${galleryHTML}</div>
-                    </div>
-
-                    <div class="pd-right-col">
                         <div class="pd-nav-btn" id="nextProjectBtn">
                             <span class="pd-next-label">Next Project</span>
                             <div class="pd-next-title">${getProjectTitle(nextProject)} &#8594;</div>
