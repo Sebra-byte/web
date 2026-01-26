@@ -317,7 +317,7 @@
         }
         .overlay-section.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
         
-        /* --- PROJECT DETAIL STYLES (3-COLUMN LAYOUT RESTORED) --- */
+        /* --- PROJECT DETAIL STYLES (3-COLUMN LAYOUT) --- */
         .project-detail-container {
             max-width: 1800px; margin: 0 auto;
             color: var(--text);
@@ -329,7 +329,16 @@
         
         .pd-left-col { position: sticky; top: 120px; height: fit-content; text-align: left; }
         .pd-center-col { display: flex; flex-direction: column; gap: 40px; }
-        .pd-right-col { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; justify-content: flex-end; }
+        
+        /* Modificado para que el botón esté abajo a la derecha */
+        .pd-right-col { 
+            position: sticky; top: 0; height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: flex-end; /* Alinea al fondo */
+            align-items: flex-end; /* Alinea a la derecha */
+            padding-bottom: 120px; /* Margen inferior */
+        }
 
         .pd-header { margin-bottom: 40px; }
         .pd-title {
@@ -378,7 +387,7 @@
 
         #modal-container {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: var(--bg-color); z-index: 2000; overflow-y: auto; 
+            background: var(--bg-color); z-index: 2000; overflow-y: auto; 
             opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
         }
         #modal-container.open { opacity: 1; pointer-events: auto; }
@@ -393,7 +402,12 @@
 
         @media (max-width: 1400px) {
             .project-detail-container { grid-template-columns: 300px 1fr; gap: 40px; }
-            .pd-right-col { position: static; height: auto; grid-column: 2; margin-top: 40px; justify-content: flex-end; }
+            .pd-right-col { 
+                position: static; height: auto; 
+                grid-column: 2; margin-top: 40px; 
+                /* En pantallas medianas vuelve al flujo normal */
+                justify-content: flex-end; padding-bottom: 0; 
+            }
         }
         @media (max-width: 1200px) {
             .project-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 300px; }
@@ -403,12 +417,12 @@
             /* Responsive Modal */
             .project-detail-container { grid-template-columns: 1fr; }
             .pd-left-col { position: static; height: auto; margin-bottom: 40px; }
-            .pd-right-col { grid-column: 1; justify-content: center; margin-top: 60px; }
+            .pd-right-col { grid-column: 1; justify-content: center; margin-top: 60px; align-items: center; }
             .pd-nav-btn { text-align: center; }
         }
         @media(max-width: 768px) {
-            .carousel, body, html { height: 100dvh; } 
-            .project-grid { display: flex; flex-direction: column; } 
+            .carousel, body, html { height: 100dvh; } 
+            .project-grid { display: flex; flex-direction: column; } 
             .grid-item, .grid-item.half, .grid-item.third, .grid-item.quarter { width: 100%; height: 500px; grid-column: auto; grid-row: auto; }
             .overlay-section { padding: 100px 0 0px 0; }
             .item-overlay { opacity: 1 !important; background: linear-gradient(to top, rgba(15,15,15,0.95) 0%, transparent 60%); padding: 20px 30px; }
@@ -416,7 +430,7 @@
             .modal-content { padding: 100px 20px 40px 20px; }
             .project-detail-container { display: flex; flex-direction: column; gap: 40px; }
             .pd-left-col { position: static; }
-            .pd-right-col { position: static; height: auto; justify-content: center; }
+            .pd-right-col { position: static; height: auto; justify-content: center; align-items: center; }
             .pd-title { font-size: 2.2rem; }
             .pd-hero { aspect-ratio: 16/9; }
             .pd-nav-btn { text-align: center; }
@@ -424,7 +438,7 @@
             .nav-links { display: none; }
             .hamburger { display: block; }
             .brand { font-size: 1.5rem; }
-            .slide { padding: 0 30px 100px 30px; justify-content: flex-end; } 
+            .slide { padding: 0 30px 100px 30px; justify-content: flex-end; } 
             .slide-info { transform: translateY(0); opacity: 1; max-width: 90%; }
             .project-title { font-size: 2.8rem; border: none; }
             .credits { display: none; }
@@ -717,9 +731,9 @@
         function toggleMobileMenu() {
             const ham = document.querySelector('.hamburger');
             if (mobileMenu.classList.contains('open')) {
-                mobileMenu.classList.remove('open'); ham.innerHTML = '&#9776;'; 
+                mobileMenu.classList.remove('open'); ham.innerHTML = '&#9776;'; 
             } else {
-                mobileMenu.classList.add('open'); ham.innerHTML = '&times;'; 
+                mobileMenu.classList.add('open'); ham.innerHTML = '&times;'; 
             }
         }
 
@@ -730,8 +744,8 @@
             featuredProjects.forEach((p, i) => {
                 const slide = document.createElement('div');
                 slide.className = `slide ${i === 0 ? 'active' : ''}`;
-                let mediaHTML = p.previewUrl ? 
-                    `<video class="bg-media" loop muted playsinline poster="./assets/placeholder.webp"><source src="${p.previewUrl}" type="video/mp4"></video>` : 
+                let mediaHTML = p.previewUrl ? 
+                    `<video class="bg-media" loop muted playsinline poster="./assets/placeholder.webp"><source src="${p.previewUrl}" type="video/mp4"></video>` : 
                     `<img class="bg-media" src="${p.image}" alt="${getProjectTitle(p)}">`;
                 slide.innerHTML = `
                     ${mediaHTML}
@@ -761,7 +775,7 @@
         function renderIndex() {
             const gridContainer = document.getElementById('grid-container');
             gridContainer.innerHTML = '';
-            
+             
             // --- INTERSECTION OBSERVER FOR SMART AUTOPLAY ---
             const videoObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -778,9 +792,9 @@
             allProjects.forEach(p => {
                 const item = document.createElement('div');
                 let gridClass = p.size || 'third';
-                item.className = `grid-item ${gridClass}`; 
+                item.className = `grid-item ${gridClass}`; 
                 item.onclick = () => openProject(p);
-                
+                 
                 let mediaContent = '';
                 if(p.previewUrl) {
                     mediaContent = `<video src="${p.previewUrl}" poster="${p.image}" preload="auto" loop muted playsinline class="grid-video"></video>`;
@@ -795,7 +809,7 @@
                         <div class="item-meta"><span>d: ${p.director}</span><span>p: ${p.prod}</span></div>
                     </div>`;
                 gridContainer.appendChild(item);
-                
+                 
                 if(p.previewUrl) {
                     const vid = item.querySelector('video');
                     if(vid) videoObserver.observe(vid);
@@ -832,7 +846,7 @@
         function goToSlide(index) { currentSlide = index; updateCarousel(); resetAutoPlay(); }
         function nextSlide() { currentSlide = (currentSlide + 1) % featuredProjects.length; updateCarousel(); resetAutoPlay(); }
         function prevSlide() { currentSlide = (currentSlide - 1 + featuredProjects.length) % featuredProjects.length; updateCarousel(); resetAutoPlay(); }
-        
+         
         function animateProgressBar() {
             const now = Date.now();
             const elapsed = now - progressStartTime;
@@ -841,12 +855,12 @@
             if (percentage < 100) { progressInterval = requestAnimationFrame(animateProgressBar); }
         }
 
-        function startAutoPlay() { 
+        function startAutoPlay() { 
             clearInterval(autoPlayInterval);
             cancelAnimationFrame(progressInterval);
             progressStartTime = Date.now();
-            animateProgressBar(); 
-            autoPlayInterval = setInterval(() => { nextSlide(); }, SLIDE_DURATION); 
+            animateProgressBar(); 
+            autoPlayInterval = setInterval(() => { nextSlide(); }, SLIDE_DURATION); 
         }
         function resetAutoPlay() { startAutoPlay(); }
         function onPlayerStateChange(event) { if (event.data === 0) { } }
@@ -855,13 +869,13 @@
         function openProject(p) {
             pauseHero();
             modalContainer.classList.add('open');
-            
+             
             const title = getProjectTitle(p);
             const synopsis = p.synopsis ? (p.synopsis[currentLang] || p.synopsis.en || "") : "";
             const genre = p.genre || "";
             const year = p.year || "";
             const episodes = p.episodes ? (p.episodes[currentLang] || p.episodes.en || "") : "";
-            
+             
             let creditsHTML = '';
             if (p.credits) {
                 for (const [role, name] of Object.entries(p.credits)) {
@@ -882,7 +896,7 @@
                 const allImages = p.images || (p.image ? [p.image] : []);
                 if (allImages.length > 0) {
                     heroMedia = `<div class="pd-hero"><img src="${allImages[0]}" alt="${title}"></div>`;
-                    galleryImages = allImages.slice(1); 
+                    galleryImages = allImages.slice(1); 
                 }
             }
 
@@ -890,7 +904,7 @@
             if (galleryImages.length > 0) {
                 galleryHTML = galleryImages.map(src => `<img src="${src}" loading="lazy">`).join('');
             }
-            
+             
             const currentIndex = allProjects.indexOf(p);
             const nextIndex = (currentIndex + 1) % allProjects.length;
             const nextProject = allProjects[nextIndex];
@@ -905,7 +919,7 @@
                         ${synopsis ? `<div class="pd-synopsis">${synopsis}</div>` : ''}
                         <div class="pd-credits-list">${creditsHTML}</div>
                     </div>
-                    
+                     
                     <div class="pd-center-col">
                         ${heroMedia}
                         <div class="pd-gallery">${galleryHTML}</div>
@@ -919,9 +933,9 @@
                     </div>
                 </div>
             `;
-            
+             
             modalContent.innerHTML = content;
-            document.getElementById('modal-container').scrollTop = 0; 
+            document.getElementById('modal-container').scrollTop = 0; 
             document.getElementById('nextProjectBtn').onclick = () => openProject(nextProject);
 
             if (p.yt) {
@@ -940,8 +954,8 @@
             if(!indexOverlay.classList.contains('open') && !aboutOverlay.classList.contains('open')) { playActiveVideo(); startAutoPlay(); }
         }
 
-        document.addEventListener('keydown', (e) => { 
-            if (e.key === "Escape") closeModal(); 
+        document.addEventListener('keydown', (e) => { 
+            if (e.key === "Escape") closeModal(); 
             if (!modalContainer.classList.contains('open')) {
                 if (e.key === "ArrowRight" && !indexOverlay.classList.contains('open') && !aboutOverlay.classList.contains('open')) nextSlide();
                 if (e.key === "ArrowLeft" && !indexOverlay.classList.contains('open') && !aboutOverlay.classList.contains('open')) prevSlide();
