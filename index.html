@@ -23,8 +23,9 @@
             --grid-gap: 0px; 
             --transition-smooth: cubic-bezier(0.22, 1, 0.36, 1);
             
-            /* ICONO TIJERA "LINDA" (Minimalista y Sólida) - 22px */
-            --cursor-scissors: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24' fill='%23E8E6E1'><path d='M19.1 4.9C17.2 3 14.1 3 12.2 4.9L12 5.1l-.2-.2C9.9 3 6.8 3 4.9 4.9 3 6.8 3 9.9 4.9 11.8l6.4 6.4L5.6 24h2.8l4.9-4.9 4.9 4.9h2.8l-5.7-5.7 6.4-6.4c1.9-1.9 1.9-5 0-6.9zm-2.8 5.5l-4.3-4.3c1.1-1.1 3.1-1.1 4.3 0 1.2 1.2 1.2 3.2 0 4.3zM7.7 10.4c-1.2 1.2-3.2 1.2-4.3 0-1.2-1.2-1.2-3.2 0-4.3 1.2-1.2 3.2-1.2 4.3 0L12 10.4l-4.3 0z'/></svg>") 11 11, pointer;
+            /* ICONO TIJERA (Extraído de tu archivo Opcion1) */
+            /* Es el diseño de lineas y circulos, ajustado al color de tu web */
+            --cursor-scissors: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23E8E6E1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><line x1="20" y1="4" x2="8.12" y2="15.88"></line><line x1="14.47" y1="14.48" x2="20" y2="20"></line><line x1="8.12" y1="8.12" x2="12" y2="12"></line></svg>') 12 12, auto;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -35,9 +36,11 @@
             color: var(--text);
             font-family: var(--font-main);
             overflow: hidden; 
+            /* Aplicamos la tijera a toda la web globalmente */
+            cursor: var(--cursor-scissors) !important;
         }
 
-        /* CONFIGURACION DEL CURSOR */
+        /* Forzamos la tijera en elementos interactivos para que no cambie a la "mano" */
         a, button, .grid-item, .slide, .arrow, .modal-close, .pd-nav-btn, .scroll-down-btn, .brand, .lang-container, .hamburger, .back-to-top-text, .mobile-close-btn, .mobile-lang-container, .about-btn, .about-portrait, #modal-container, .project-detail-container {
             cursor: var(--cursor-scissors) !important;
         }
@@ -120,7 +123,6 @@
         .hamburger {
             display: none; font-size: 1.5rem; color: var(--text); z-index: 600;
             padding: 15px; margin: -15px; transition: transform 0.3s ease;
-            cursor: pointer;
         }
         
         #mobile-menu-overlay {
@@ -722,7 +724,7 @@
                 title: "Levis x Winona Riders", year: "2024", genre: "Commercial",
                 synopsis: { en: "High energy fashion film featuring the Winona Riders.", es: "Fashion film de alta energía con los Winona Riders." },
                 credits: { "Director": "Nico Alarcos", "Production": "Poster", "Client": "Levis", "Editor": "Leandro Bruno" },
-                director: "Nico Alarcos", prod: "Poster", platform: "Commercial", yt: "mb2RPesGf7Q", 
+                director: "Nico Alarcos", prod: "Poster", platform: "Commercial", yt: "mb2RPesGf7Q", previewUrl: "./assets/levis_preview.mp4",  
                 image: "./assets/Levis_Thumbnail_v01.webp", images: ["./assets/Levis_Thumbnail_v01.webp", "./assets/Levis_Thumbnail_2.webp", "./assets/Levis_Thumbnail_3.webp", "./assets/Levis_Thumbnail_4.webp", "./assets/Levis_Thumbnail_5.webp"],
                 size: 'third' 
             },
@@ -730,19 +732,19 @@
                 title: "Blair - Todo lo que tengo", year: "2025", genre: "Music Video",
                 synopsis: { en: "A visual journey accompanying Blair's hit song.", es: "Un viaje visual acompañando la canción de Blair." },
                 credits: { "Director": "Dana Campanello", "Production": "Poster", "Artist": "Blair", "Editor": "Leandro Bruno" },
-                director: "Dana Campanello", prod: "Poster", platform: "Music Video", yt: "ItX5aqhqsmo", 
+                director: "Dana Campanello", prod: "Poster", platform: "Music Video", yt: "ItX5aqhqsmo", previewUrl: "./assets/blair_preview.mp4",  
                 image: "./assets/Blair_Thumbnail_1.webp", images: ["./assets/Blair_Thumbnail_1.webp", "./assets/Blair_Thumbnail_2.webp", "./assets/Blair_Thumbnail_3.webp", "./assets/Blair_Thumbnail_4.webp", "./assets/Blair_Thumbnail_5.webp"],
                 previewUrl: "./assets/blair_preview.mp4",
-                size: 'half' 
+                size: 'half tall' 
             },
             { 
                 title: "Ratones Paranoicos", year: "2024", genre: "Music Video",
                 synopsis: { en: "Intro video for the 2025 tour of the legendary Argentine rock band.", es: "Video intro para el tour 2025 para la legendaria banda de rock argentina." },
                 credits: { "Director": "Alex Roux", "Production": "Poster", "Artist": "Ratones Paranoicos", "Editor": "Leandro Bruno" },
-                director: "Alex Roux", prod: "Poster", platform: "Music Video", yt: "", 
+                director: "Alex Roux", prod: "Poster", platform: "Music Video", yt: "", previewUrl: "./assets/rp_preview.mp4",  
                 image: "./assets/RP_Thumbnail_1.webp", images: ["./assets/RP_Thumbnail_1.webp", "./assets/RP_Thumbnail_2.webp", "./assets/RP_Thumbnail_3.webp", "./assets/RP_Thumbnail_4.webp", "./assets/RP_Thumbnail_5.webp"],
                 previewUrl: "./assets/RP_preview.mp4",
-                size: 'half' 
+                size: 'half tall' 
             },
             { 
                 title: {en: "The Hands of the Grandmother", es: "Las manos de la abuela"}, 
@@ -780,9 +782,10 @@
                 year: "2024", genre: "Documentary",
                 synopsis: { en: "An immersive and rhythmic documentary telling the story of the Las Marías yerba mate company.", es: "Documental inmersivo y rítmico que narra la historia de la yerbatera Las Marías." },
                 credits: { "Director": "A. Berger Parrado", "Production": "Navajo Films", "Editor": "Leandro Bruno" },
-                director: "A. Berger Parrado", prod: "Navajo Films", platform: "Doc", yt: "", 
+                director: "A. Berger Parrado", prod: "Navajo Films", platform: "Doc", yt: "", previewUrl: "./assets/marias_preview.mp4",  
                 image: "./assets/Marias_Thumbnail_1.webp", images: ["./assets/Marias_Thumbnail_1.webp", "./assets/Marias_Thumbnail_2.webp", "./assets/Marias_Thumbnail_3.webp"],
                 previewUrl: "./assets/marias_preview.mp4",
+                hoverPreview: true,
                 size: 'half tall' 
             },
             { 
@@ -793,7 +796,7 @@
                     es: "El viaje explora las ruinas silentes de un pueblo con un destino incierto. Esta travesía es una inmersión profunda en la memoria colectiva e individual, vista desde el punto de vista de un ciudadano que se aferra a los vestigios de la vida pasada. Estrenado en el Festival Internacional de Cine de Mar del Plata." 
                 },
                 credits: { "Director": "N. Fernandez Melian", "Editor": "Leandro Bruno" },
-                director: "N. Fernandez Melian", prod: "Manuel Gaitan", platform: "Short", yt: "", 
+                director: "N. Fernandez Melian", prod: "M. Gaitan", platform: "Short", yt: "", 
                 image: "./assets/TodoLoQueRecuerdo_Thumbnail_1.webp", 
                 images: [
                     "./assets/TodoLoQueRecuerdo_Thumbnail_1.webp", 
@@ -970,10 +973,13 @@
                 let mediaContent = '';
                 // APPLY HOVER EFFECT TO ALL PROJECTS WITH VIDEO PREVIEW
                 if(p.previewUrl) {
+                     // FIX: Add onload to this image too!
                      mediaContent = `
                         <img src="${p.image}" alt="${getProjectTitle(p)}" class="grid-poster" style="z-index: 1;" onload="this.classList.add('img-loaded')">
                         <video src="${p.previewUrl}" loop muted playsinline preload="auto" class="grid-video-hover" style="opacity: 0; z-index: 2; transition: opacity 0.4s ease;"></video>
                     `;
+                } else if(p.previewUrl) {
+                    mediaContent = `<video src="${p.previewUrl}" poster="${p.image}" preload="auto" loop muted playsinline class="grid-video"></video>`;
                 } else {
                     mediaContent = `<img src="${p.image}" alt="${getProjectTitle(p)}" loading="lazy" onload="this.classList.add('img-loaded')" onerror="this.style.display='none'">`;
                 }
@@ -986,23 +992,25 @@
                     </div>`;
                 gridContainer.appendChild(item);
                 
-                if(p.previewUrl) {
+                if(p.hoverPreview || p.previewUrl) {
                     const vid = item.querySelector('.grid-video-hover');
-                    item.onmouseenter = () => { 
-                        vid.currentTime = 0;
-                        let playPromise = vid.play();
-                        if (playPromise !== undefined) {
-                            playPromise.then(() => {
-                                vid.style.opacity = '1';
-                            }).catch(error => {
-                                console.log("Autoplay prevented");
-                            });
-                        }
-                    };
-                    item.onmouseleave = () => { vid.style.opacity = '0'; vid.pause(); vid.currentTime = 0; };
+                    if (vid) {
+                        item.onmouseenter = () => { 
+                            vid.currentTime = 0;
+                            let playPromise = vid.play();
+                            if (playPromise !== undefined) {
+                                playPromise.then(() => {
+                                    vid.style.opacity = '1';
+                                }).catch(error => {
+                                    console.log("Autoplay prevented");
+                                });
+                            }
+                        };
+                        item.onmouseleave = () => { vid.style.opacity = '0'; vid.pause(); vid.currentTime = 0; };
+                    }
                 } 
 
-                if(!p.previewUrl && p.images && p.images.length > 1) {
+                if(!p.previewUrl && !p.hoverPreview && p.images && p.images.length > 1) {
                     let hoverInterval; let imgIndex = 0;
                     item.onmouseenter = () => {
                         const img = item.querySelector('img');
