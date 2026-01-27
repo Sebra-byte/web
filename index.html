@@ -112,7 +112,6 @@
         .hamburger {
             display: none; font-size: 1.5rem; color: var(--text); z-index: 600;
             padding: 15px; margin: -15px; transition: transform 0.3s ease;
-            cursor: pointer;
         }
         
         #mobile-menu-overlay {
@@ -267,10 +266,11 @@
         .grid-item img { filter: grayscale(20%) brightness(0.9); opacity: 0; z-index: 1; }
         .grid-item img.img-loaded { opacity: 1; }
         
+        /* Video por defecto oculto para el hover */
         .grid-item video {
             z-index: 2; opacity: 0; filter: grayscale(10%); pointer-events: none;
+            transition: opacity 0.4s ease;
         }
-        .grid-item video.is-playing { opacity: 1; }
 
         .grid-item:hover img { transform: scale(1.05); filter: grayscale(0%) brightness(1); }
         .grid-item:hover video { transform: scale(1.05); filter: grayscale(0%); }
@@ -772,7 +772,6 @@
                 director: "A. Berger Parrado", prod: "Navajo Films", platform: "Doc", yt: "", 
                 image: "./assets/Marias_Thumbnail_1.webp", images: ["./assets/Marias_Thumbnail_1.webp", "./assets/Marias_Thumbnail_2.webp", "./assets/Marias_Thumbnail_3.webp"],
                 previewUrl: "./assets/marias_preview.mp4",
-                hoverPreview: true,
                 size: 'half tall' 
             },
             { 
@@ -783,7 +782,7 @@
                     es: "El viaje explora las ruinas silentes de un pueblo con un destino incierto. Esta travesía es una inmersión profunda en la memoria colectiva e individual, vista desde el punto de vista de un ciudadano que se aferra a los vestigios de la vida pasada. Estrenado en el Festival Internacional de Cine de Mar del Plata." 
                 },
                 credits: { "Director": "N. Fernandez Melian", "Editor": "Leandro Bruno" },
-                director: "N. Fernandez Melian", prod: "", platform: "Short", yt: "", 
+                director: "N. Fernandez Melian", prod: "Manuel Gaitan", platform: "Short", yt: "", 
                 image: "./assets/TodoLoQueRecuerdo_Thumbnail_1.webp", 
                 images: [
                     "./assets/TodoLoQueRecuerdo_Thumbnail_1.webp", 
@@ -812,7 +811,7 @@
                 year: "2020", genre: "Fiction",
                 synopsis: { en: "Based on a short story, it tells the tale of a disappearance in a hospital, featuring time jumps.", es: "Basado en un cuento, cuenta la historia de una desaparición en un hospital, salto de tiempos." },
                 credits: { "Director": "N. Fernandez Melian", "Editor": "Leandro Bruno" },
-                director: "N. Fernandez Melian", prod: "", platform: "Fiction", yt: "", 
+                director: "N. Fernandez Melian", prod: "Maximiliano Di Napoli", platform: "Fiction", yt: "", 
                 image: "./assets/Agujeros_Thumbnail_1.webp", images: ["./assets/Agujeros_Thumbnail_1.webp", "./assets/Agujeros_Thumbnail_2.webp", "./assets/Agujeros_Thumbnail_3.webp", "./assets/Agujeros_Thumbnail_4.webp"],
                 size: 'quarter' 
             }
@@ -958,14 +957,12 @@
                 };
                 
                 let mediaContent = '';
-                if(p.hoverPreview) {
-                     // FIX: Add onload to this image too!
+                // APPLY HOVER EFFECT TO ALL PROJECTS WITH VIDEO PREVIEW
+                if(p.previewUrl) {
                      mediaContent = `
                         <img src="${p.image}" alt="${getProjectTitle(p)}" class="grid-poster" style="z-index: 1;" onload="this.classList.add('img-loaded')">
-                        <video src="${p.previewUrl}" loop muted playsinline class="grid-video-hover" style="opacity: 0; z-index: 2; transition: opacity 0.4s ease;"></video>
+                        <video src="${p.previewUrl}" loop muted playsinline preload="auto" class="grid-video-hover" style="opacity: 0; z-index: 2; transition: opacity 0.4s ease;"></video>
                     `;
-                } else if(p.previewUrl) {
-                    mediaContent = `<video src="${p.previewUrl}" poster="${p.image}" preload="auto" loop muted playsinline class="grid-video"></video>`;
                 } else {
                     mediaContent = `<img src="${p.image}" alt="${getProjectTitle(p)}" loading="lazy" onload="this.classList.add('img-loaded')" onerror="this.style.display='none'">`;
                 }
@@ -978,16 +975,23 @@
                     </div>`;
                 gridContainer.appendChild(item);
                 
-                if(p.hoverPreview) {
+                if(p.previewUrl) {
                     const vid = item.querySelector('.grid-video-hover');
-                    item.onmouseenter = () => { vid.play(); vid.style.opacity = '1'; };
+                    item.onmouseenter = () => { 
+                        vid.currentTime = 0;
+                        let playPromise = vid.play();
+                        if (playPromise !== undefined) {
+                            playPromise.then(() => {
+                                vid.style.opacity = '1';
+                            }).catch(error => {
+                                console.log("Autoplay prevented");
+                            });
+                        }
+                    };
                     item.onmouseleave = () => { vid.style.opacity = '0'; vid.pause(); vid.currentTime = 0; };
-                } else if(p.previewUrl) {
-                    const vid = item.querySelector('video');
-                    if(vid) videoObserver.observe(vid);
-                }
+                } 
 
-                if(!p.previewUrl && !p.hoverPreview && p.images && p.images.length > 1) {
+                if(!p.previewUrl && p.images && p.images.length > 1) {
                     let hoverInterval; let imgIndex = 0;
                     item.onmouseenter = () => {
                         const img = item.querySelector('img');
