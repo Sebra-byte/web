@@ -7,7 +7,7 @@
     
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230F0F0F'/><text x='50' y='65' font-family='Playfair Display, serif' font-size='50' fill='%23E8E6E1' text-anchor='middle'>lb</text></svg>">
     
-    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="https://www.youtube.com/iframe_api" defer></script>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
@@ -35,7 +35,6 @@
             color: var(--text);
             font-family: var(--font-main);
             overflow: hidden; 
-            /* Aplicamos la tijera a toda la web globalmente */
             cursor: var(--cursor-scissors) !important;
         }
 
@@ -176,6 +175,7 @@
             opacity: 0; transition: opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1);
             overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end;
             padding: 0 0 60px 60px; cursor: pointer;
+            will-change: opacity; /* Optimización GPU */
         }
         .slide.active { opacity: 1; z-index: 1; }
         .bg-media {
@@ -183,6 +183,7 @@
             object-fit: cover; transform: translate(-50%, -50%) scale(1.08);
             transition: transform 7s ease-out; z-index: 0;
             opacity: 0.85; 
+            will-change: transform; /* Optimización GPU */
         }
         .slide.active .bg-media { transform: translate(-50%, -50%) scale(1); }
         
@@ -242,6 +243,7 @@
         .progress-bar {
             height: 100%; background: var(--text); width: 0%;
             transition: width 0.1s linear; box-shadow: 0 0 10px rgba(255,255,255,0.3);
+            will-change: width;
         }
         .scroll-down-btn {
             font-size: 1.5rem; cursor: pointer; pointer-events: auto;
@@ -272,6 +274,7 @@
         .grid-item img, .grid-item video {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; 
             transition: opacity 0.6s ease, transform 0.6s var(--transition-smooth), filter 0.3s ease;
+            will-change: transform, opacity;
         }
         
         .grid-item img { filter: grayscale(20%) brightness(0.9); opacity: 0; z-index: 1; }
@@ -336,6 +339,7 @@
             overflow-y: auto; opacity: 0; pointer-events: none;
             transition: opacity 0.5s ease, transform 0.5s var(--transition-smooth); 
             transform: translateY(30px);
+            will-change: transform, opacity;
         }
         .overlay-section.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
         
@@ -973,11 +977,12 @@
                 let mediaContent = '';
                 // APPLY HOVER EFFECT TO ALL PROJECTS WITH VIDEO PREVIEW
                 const positionStyle = p.imgAlign ? `object-position: ${p.imgAlign};` : '';
+                
                 if(p.previewUrl) {
                      // FIX: Add onload to this image too!
                      mediaContent = `
-                        <img src="${p.image}" alt="${getProjectTitle(p)}" class="grid-poster" style="z-index: 1; ${positionStyle}" onload="this.classList.add('img-loaded')">
-                        <video src="${p.previewUrl}" loop muted playsinline preload="auto" class="grid-video-hover" style="opacity: 0; z-index: 2; transition: opacity 0.4s ease; ${positionStyle}"></video>
+                        <img src="${p.image}" alt="${getProjectTitle(p)}" class="grid-poster" style="z-index: 1; ${positionStyle}" onload="this.classList.add('img-loaded')" loading="lazy">
+                        <video src="${p.previewUrl}" loop muted playsinline class="grid-video-hover" style="opacity: 0; z-index: 2; transition: opacity 0.4s ease; ${positionStyle}" preload="none"></video>
                     `;
                 } else {
                     mediaContent = `<img src="${p.image}" alt="${getProjectTitle(p)}" style="${positionStyle}" loading="lazy" onload="this.classList.add('img-loaded')" onerror="this.style.display='none'">`;
@@ -993,18 +998,33 @@
                 
                 if(p.previewUrl) {
                     const vid = item.querySelector('.grid-video-hover');
-                    item.onmouseenter = () => { 
-                        vid.currentTime = 0;
-                        let playPromise = vid.play();
-                        if (playPromise !== undefined) {
-                            playPromise.then(() => {
-                                vid.style.opacity = '1';
-                            }).catch(error => {
-                                console.log("Autoplay prevented");
-                            });
-                        }
-                    };
-                    item.onmouseleave = () => { vid.style.opacity = '0'; vid.pause(); vid.currentTime = 0; };
+                    
+                    // Intersection Observer for preloading
+                    const observer = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                vid.preload = "metadata"; // Start buffering when in view
+                            } else {
+                                vid.preload = "none"; // Stop buffering when out of view
+                            }
+                        });
+                    }, { rootMargin: "200px" }); // Preload a bit before it enters screen
+                    observer.observe(vid);
+
+                    if (vid) {
+                        item.onmouseenter = () => { 
+                            vid.currentTime = 0;
+                            let playPromise = vid.play();
+                            if (playPromise !== undefined) {
+                                playPromise.then(() => {
+                                    vid.style.opacity = '1';
+                                }).catch(error => {
+                                    console.log("Autoplay prevented");
+                                });
+                            }
+                        };
+                        item.onmouseleave = () => { vid.style.opacity = '0'; vid.pause(); vid.currentTime = 0; };
+                    }
                 } 
 
                 if(!p.previewUrl && p.images && p.images.length > 1) {
