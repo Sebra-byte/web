@@ -23,8 +23,8 @@
             --grid-gap: 0px; 
             --transition-smooth: cubic-bezier(0.22, 1, 0.36, 1);
             
-            /* ICONO TIJERA (Extraído de tu archivo Opcion1) */
-            /* Se ajustó el color %23FFFFE4 (crema) a %23E8E6E1 (tu web) */
+            /* ICONO TIJERA (Extraído de tu archivo Opcion1 - Estilo Lineal) */
+            /* Color ajustado a %23E8E6E1 para coincidir con el tema */
             --cursor-scissors: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23E8E6E1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><line x1="20" y1="4" x2="8.12" y2="15.88"></line><line x1="14.47" y1="14.48" x2="20" y2="20"></line><line x1="8.12" y1="8.12" x2="12" y2="12"></line></svg>') 12 12, auto;
         }
 
@@ -36,11 +36,11 @@
             color: var(--text);
             font-family: var(--font-main);
             overflow: hidden; 
-            /* Cursor personalizado en toda la web */
+            /* Aplicamos la tijera a toda la web globalmente */
             cursor: var(--cursor-scissors) !important;
         }
 
-        /* Aseguramos la tijera en elementos interactivos */
+        /* Forzamos la tijera en elementos interactivos */
         a, button, .grid-item, .slide, .arrow, .modal-close, .pd-nav-btn, .scroll-down-btn, .brand, .lang-container, .hamburger, .back-to-top-text, .mobile-close-btn, .mobile-lang-container, .about-btn, .about-portrait, #modal-container, .project-detail-container {
             cursor: var(--cursor-scissors) !important;
         }
@@ -731,8 +731,8 @@
                 synopsis: { en: "High energy fashion film featuring the Winona Riders.", es: "Fashion film de alta energía con los Winona Riders." },
                 credits: { "Director": "Nico Alarcos", "Production": "Poster", "Client": "Levis", "Editor": "Leandro Bruno" },
                 director: "Nico Alarcos", prod: "Poster", platform: "Commercial", yt: "mb2RPesGf7Q", 
-                previewUrl: "./assets/levis_preview.mp4",
                 image: "./assets/Levis_Thumbnail_v01.webp", images: ["./assets/Levis_Thumbnail_v01.webp", "./assets/Levis_Thumbnail_2.webp", "./assets/Levis_Thumbnail_3.webp", "./assets/Levis_Thumbnail_4.webp", "./assets/Levis_Thumbnail_5.webp"],
+                previewUrl: "./assets/levis_preview.mp4",
                 size: 'third' 
             },
             { 
@@ -751,7 +751,7 @@
                 credits: { "Director": "Alex Roux", "Production": "Poster", "Artist": "Ratones Paranoicos", "Editor": "Leandro Bruno" },
                 director: "Alex Roux", prod: "Poster", platform: "Music Video", yt: "", 
                 image: "./assets/RP_Thumbnail_1.webp", images: ["./assets/RP_Thumbnail_1.webp", "./assets/RP_Thumbnail_2.webp", "./assets/RP_Thumbnail_3.webp", "./assets/RP_Thumbnail_4.webp", "./assets/RP_Thumbnail_5.webp"],
-                previewUrl: "./assets/rp_preview.mp4",
+                previewUrl: "./assets/RP_preview.mp4",
                 size: 'half tall' 
             },
             { 
@@ -767,8 +767,8 @@
                 title: {en: "Bewitching Kisses", es: "Besos Brujos"}, 
                 year: "2024", genre: "Short Film",
                 synopsis: { en: "It tells the story of unfaithful love and desire. Following the success of this short film, a feature film is being made, set to premiere in 2026.", es: "Cuenta la historia de un amor infiel y el deseo. Luego del exito de este cortometraje, se esta realizando el largometraje a estrenar en 2026" },
-                credits: { "Director": "Karina Flomenbaum", "Production": "Nevada Cine", "Editor": "Leandro Bruno" },
-                director: "Karina Flomenbaum", prod: "Nevada Cine", platform: "Short", yt: "", 
+                credits: { "Director": "Karina Flonembaum", "Production": "Nevada Cine", "Editor": "Leandro Bruno" },
+                director: "Karina Flonembaum", prod: "Nevada Cine", platform: "Short", yt: "", 
                 image: "./assets/BB_Thumbnail_1.webp", images: ["./assets/BB_Thumbnail_1.webp", "./assets/BB_Thumbnail_2.webp", "./assets/BB_Thumbnail_3.webp", "./assets/BB_Thumbnail_4.webp", "./assets/BB_Thumbnail_5.webp"],
                 size: 'third' 
             },
