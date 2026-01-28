@@ -22,6 +22,10 @@
             --font-serif: 'Playfair Display', serif;
             --grid-gap: 0px; 
             --transition-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+            
+            /* ICONO TIJERA (Extraído de tu archivo Opcion1) */
+            /* Se ajustó el color %23FFFFE4 (crema) a %23E8E6E1 (tu web) */
+            --cursor-scissors: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23E8E6E1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><line x1="20" y1="4" x2="8.12" y2="15.88"></line><line x1="14.47" y1="14.48" x2="20" y2="20"></line><line x1="8.12" y1="8.12" x2="12" y2="12"></line></svg>') 12 12, auto;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -32,13 +36,13 @@
             color: var(--text);
             font-family: var(--font-main);
             overflow: hidden; 
-            /* Cursor estandar */
-            cursor: auto;
+            /* Cursor personalizado en toda la web */
+            cursor: var(--cursor-scissors) !important;
         }
 
-        /* CURSOR POINTER ESTANDAR PARA INTERACTIVOS */
+        /* Aseguramos la tijera en elementos interactivos */
         a, button, .grid-item, .slide, .arrow, .modal-close, .pd-nav-btn, .scroll-down-btn, .brand, .lang-container, .hamburger, .back-to-top-text, .mobile-close-btn, .mobile-lang-container, .about-btn, .about-portrait, #modal-container, .project-detail-container {
-            cursor: pointer;
+            cursor: var(--cursor-scissors) !important;
         }
 
         /* SCROLLBAR */
@@ -727,8 +731,8 @@
                 synopsis: { en: "High energy fashion film featuring the Winona Riders.", es: "Fashion film de alta energía con los Winona Riders." },
                 credits: { "Director": "Nico Alarcos", "Production": "Poster", "Client": "Levis", "Editor": "Leandro Bruno" },
                 director: "Nico Alarcos", prod: "Poster", platform: "Commercial", yt: "mb2RPesGf7Q", 
-                image: "./assets/Levis_Thumbnail_v01.webp", images: ["./assets/Levis_Thumbnail_v01.webp", "./assets/Levis_Thumbnail_2.webp", "./assets/Levis_Thumbnail_3.webp", "./assets/Levis_Thumbnail_4.webp", "./assets/Levis_Thumbnail_5.webp"],
                 previewUrl: "./assets/levis_preview.mp4",
+                image: "./assets/Levis_Thumbnail_v01.webp", images: ["./assets/Levis_Thumbnail_v01.webp", "./assets/Levis_Thumbnail_2.webp", "./assets/Levis_Thumbnail_3.webp", "./assets/Levis_Thumbnail_4.webp", "./assets/Levis_Thumbnail_5.webp"],
                 size: 'third' 
             },
             { 
