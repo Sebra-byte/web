@@ -23,7 +23,7 @@
             --grid-gap: 0px; 
             --transition-smooth: cubic-bezier(0.22, 1, 0.36, 1);
             
-            /* ICONO TIJERA (Extraído de tu archivo, ajustado al color de tu web) */
+            /* ICONO TIJERA (Extraído de tu archivo Opcion1) */
             --cursor-scissors: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23E8E6E1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><line x1="20" y1="4" x2="8.12" y2="15.88"></line><line x1="14.47" y1="14.48" x2="20" y2="20"></line><line x1="8.12" y1="8.12" x2="12" y2="12"></line></svg>') 12 12, auto;
         }
 
@@ -175,7 +175,7 @@
             opacity: 0; transition: opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1);
             overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end;
             padding: 0 0 60px 60px; cursor: pointer;
-            will-change: opacity; /* Optimización GPU */
+            will-change: opacity;
         }
         .slide.active { opacity: 1; z-index: 1; }
         .bg-media {
@@ -183,7 +183,7 @@
             object-fit: cover; transform: translate(-50%, -50%) scale(1.08);
             transition: transform 7s ease-out; z-index: 0;
             opacity: 0.85; 
-            will-change: transform; /* Optimización GPU */
+            will-change: transform;
         }
         .slide.active .bg-media { transform: translate(-50%, -50%) scale(1); }
         
@@ -718,7 +718,7 @@
             { 
                 title: {en: "Coppola, the Agent", es: "Coppola, el representante"}, 
                 year: "2024", genre: "Comedy / Biopic", episodes: {en: "6 Episodes", es: "6 Episodios"},
-                synopsis: { en: "The wild and humorous life of Guillermo Coppola, the legendary manager of Diego Maradona, navigating the excesses of the 90s.", es: "La vida salvaje y humorística de Guillermo Coppola, el legendario manager de Diego Maradona, navegando los excesos de los 90." },
+                synopsis: { en: "The wild and humorous life of Guillermo Coppola, the legendary manager of Diego Maradona, navigating the excesses of the90s.", es: "La vida salvaje y humorística de Guillermo Coppola, el legendario manager de Diego Maradona, navegando los excesos de los 90." },
                 credits: { "Director": "Ariel Winograd", "Production": "Pampa Films", "Platform": "Disney+", "Editor": "Leandro Bruno, Andres Quaranta, Dante Perini, Jimena Garcia Molt, Gustavo Macri, Miguel Colombo" },
                 director: "Ariel Winograd", prod: "Pampa/Disney+", platform: "Disney+", yt: "ecr24akKDbs", previewUrl: "./assets/coppola_preview.mp4", 
                 image: "./assets/Coppola_Thumbnail_1.webp", images: ["./assets/Coppola_Thumbnail_1.webp", "./assets/Coppola_Thumbnail_2.webp", "./assets/Coppola_Thumbnail_3.webp", "./assets/Coppola_Thumbnail_4.webp", "./assets/Coppola_Thumbnail_5.webp", "./assets/Coppola_Thumbnail_6.webp", "./assets/Coppola_Thumbnail_7.webp"],
@@ -730,6 +730,7 @@
                 credits: { "Director": "Nico Alarcos", "Production": "Poster", "Client": "Levis", "Editor": "Leandro Bruno" },
                 director: "Nico Alarcos", prod: "Poster", platform: "Commercial", yt: "mb2RPesGf7Q", 
                 image: "./assets/Levis_Thumbnail_v01.webp", images: ["./assets/Levis_Thumbnail_v01.webp", "./assets/Levis_Thumbnail_2.webp", "./assets/Levis_Thumbnail_3.webp", "./assets/Levis_Thumbnail_4.webp", "./assets/Levis_Thumbnail_5.webp"],
+                previewUrl: "./assets/levis_preview.mp4",
                 size: 'third' 
             },
             { 
@@ -748,7 +749,7 @@
                 credits: { "Director": "Alex Roux", "Production": "Poster", "Artist": "Ratones Paranoicos", "Editor": "Leandro Bruno" },
                 director: "Alex Roux", prod: "Poster", platform: "Music Video", yt: "", 
                 image: "./assets/RP_Thumbnail_1.webp", images: ["./assets/RP_Thumbnail_1.webp", "./assets/RP_Thumbnail_2.webp", "./assets/RP_Thumbnail_3.webp", "./assets/RP_Thumbnail_4.webp", "./assets/RP_Thumbnail_5.webp"],
-                previewUrl: "./assets/RP_preview.mp4",
+                previewUrl: "./assets/rp_preview.mp4",
                 size: 'half tall' 
             },
             { 
@@ -764,8 +765,8 @@
                 title: {en: "Bewitching Kisses", es: "Besos Brujos"}, 
                 year: "2024", genre: "Short Film",
                 synopsis: { en: "It tells the story of unfaithful love and desire. Following the success of this short film, a feature film is being made, set to premiere in 2026.", es: "Cuenta la historia de un amor infiel y el deseo. Luego del exito de este cortometraje, se esta realizando el largometraje a estrenar en 2026" },
-                credits: { "Director": "Karina Flonembaum", "Production": "Nevada Cine", "Editor": "Leandro Bruno" },
-                director: "Karina Flonembaum", prod: "Nevada Cine", platform: "Short", yt: "", 
+                credits: { "Director": "Karina Flomenbaum", "Production": "Nevada Cine", "Editor": "Leandro Bruno" },
+                director: "Karina Flomenbaum", prod: "Nevada Cine", platform: "Short", yt: "", 
                 image: "./assets/BB_Thumbnail_1.webp", images: ["./assets/BB_Thumbnail_1.webp", "./assets/BB_Thumbnail_2.webp", "./assets/BB_Thumbnail_3.webp", "./assets/BB_Thumbnail_4.webp", "./assets/BB_Thumbnail_5.webp"],
                 size: 'third' 
             },
@@ -773,8 +774,8 @@
                 title: {en: "Shining in the Dark", es: "Brillar a oscuras"}, 
                 year: "2026", genre: "Documentary",
                 synopsis: { en: "The documentary tells the inspiring story of a blind man who pushes his limits to become a triathlete. Scheduled for release in 2026.", es: "El documental narra la inspiradora historia de un hombre ciego que supera sus límites para convertirse en triatlonista. Su estreno está programado para el año 2026." },
-                credits: { "Director": "K. Flonembaum / T. Feites", "Production": "Tres Esquimales", "Editor": "Leandro Bruno" },
-                director: "K. Flonembaum / T. Feites", prod: "Tres Esquimales", platform: "Doc", yt: "", 
+                credits: { "Director": "K. Flomenbaum / T. Jeifetz", "Production": "Tres Esquimales", "Editor": "Leandro Bruno" },
+                director: "K. Flomenbaum / T. Jeifetz", prod: "Tres Esquimales", platform: "Doc", yt: "", 
                 image: "./assets/Brillar_Thumbnail_1.webp", 
                 images: [
                     "./assets/Brillar_Thumbnail_1.webp", "./assets/Brillar_Thumbnail_2.webp", "./assets/Brillar_Thumbnail_3.webp", 
@@ -800,7 +801,7 @@
                     es: "El viaje explora las ruinas silentes de un pueblo con un destino incierto. Esta travesía es una inmersión profunda en la memoria colectiva e individual, vista desde el punto de vista de un ciudadano que se aferra a los vestigios de la vida pasada. Estrenado en el Festival Internacional de Cine de Mar del Plata." 
                 },
                 credits: { "Director": "N. Fernandez Melian", "Editor": "Leandro Bruno" },
-                director: "N. Fernandez Melian", prod: "Manuel Gaitan", platform: "Short", yt: "", 
+                director: "N. Fernandez Melian", prod: "M. Gaitan", platform: "Short", yt: "", 
                 image: "./assets/TodoLoQueRecuerdo_Thumbnail_1.webp", 
                 images: [
                     "./assets/TodoLoQueRecuerdo_Thumbnail_1.webp", 
@@ -820,8 +821,8 @@
                 },
                 credits: { "Director": "Nico Herrera", "Production": "Rever Films", "Writer": "Nico Herrera", "Editor": "Leandro Bruno" },
                 director: "Nico Herrera", prod: "Rever Films", platform: "Short", yt: "", 
-                image: "./assets/Fragilidad_Thumbnail_1.webp", 
-                images: ["./assets/Fragilidad_Thumbnail_1.webp", "./assets/Fragilidad_Thumbnail_2.webp", "./assets/Fragilidad_Thumbnail_3.webp"],
+                image: "./assets/Fragilidad_Thumbnail_2.webp", // Updated thumbnail
+                images: ["./assets/Fragilidad_Thumbnail_2.webp", "./assets/Fragilidad_Thumbnail_1.webp", "./assets/Fragilidad_Thumbnail_3.webp"],
                 size: 'quarter' 
             },
             { 
@@ -829,7 +830,7 @@
                 year: "2020", genre: "Fiction",
                 synopsis: { en: "Based on a short story, it tells the tale of a disappearance in a hospital, featuring time jumps.", es: "Basado en un cuento, cuenta la historia de una desaparición en un hospital, salto de tiempos." },
                 credits: { "Director": "N. Fernandez Melian", "Editor": "Leandro Bruno" },
-                director: "N. Fernandez Melian", prod: "Maximiliano Di Napoli", platform: "Fiction", yt: "", 
+                director: "N. Fernandez Melian", prod: "M. Di Napoli", platform: "Fiction", yt: "", 
                 image: "./assets/Agujeros_Thumbnail_1.webp", images: ["./assets/Agujeros_Thumbnail_1.webp", "./assets/Agujeros_Thumbnail_2.webp", "./assets/Agujeros_Thumbnail_3.webp", "./assets/Agujeros_Thumbnail_4.webp"],
                 size: 'quarter' 
             }
@@ -976,16 +977,17 @@
                 
                 let mediaContent = '';
                 // APPLY HOVER EFFECT TO ALL PROJECTS WITH VIDEO PREVIEW
-                const positionStyle = p.imgAlign ? `object-position: ${p.imgAlign};` : '';
+                // imgAlign only applied to image, not video
+                const imgPositionStyle = p.imgAlign ? `object-position: ${p.imgAlign};` : '';
                 
                 if(p.previewUrl) {
                      // FIX: Add onload to this image too!
                      mediaContent = `
-                        <img src="${p.image}" alt="${getProjectTitle(p)}" class="grid-poster" style="z-index: 1; ${positionStyle}" onload="this.classList.add('img-loaded')" loading="lazy">
-                        <video src="${p.previewUrl}" loop muted playsinline class="grid-video-hover" style="opacity: 0; z-index: 2; transition: opacity 0.4s ease; ${positionStyle}" preload="none"></video>
+                        <img src="${p.image}" alt="${getProjectTitle(p)}" class="grid-poster" style="z-index: 1; ${imgPositionStyle}" onload="this.classList.add('img-loaded')" loading="lazy">
+                        <video src="${p.previewUrl}" loop muted playsinline class="grid-video-hover" style="opacity: 0; z-index: 2; transition: opacity 0.4s ease;" preload="none"></video>
                     `;
                 } else {
-                    mediaContent = `<img src="${p.image}" alt="${getProjectTitle(p)}" style="${positionStyle}" loading="lazy" onload="this.classList.add('img-loaded')" onerror="this.style.display='none'">`;
+                    mediaContent = `<img src="${p.image}" alt="${getProjectTitle(p)}" style="${imgPositionStyle}" loading="lazy" onload="this.classList.add('img-loaded')" onerror="this.style.display='none'">`;
                 }
 
                 item.innerHTML = `
