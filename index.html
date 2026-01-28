@@ -717,14 +717,14 @@
                 synopsis: { en: "The wild and humorous life of Guillermo Coppola, the legendary manager of Diego Maradona, navigating the excesses of the 90s.", es: "La vida salvaje y humorística de Guillermo Coppola, el legendario manager de Diego Maradona, navegando los excesos de los 90." },
                 credits: { "Director": "Ariel Winograd", "Production": "Pampa Films", "Platform": "Disney+", "Editor": "Leandro Bruno, Andres Quaranta, Dante Perini, Jimena Garcia Molt, Gustavo Macri, Miguel Colombo" },
                 director: "Ariel Winograd", prod: "Pampa/Disney+", platform: "Disney+", yt: "ecr24akKDbs", previewUrl: "./assets/coppola_preview.mp4", 
-                image: "./assets/Coppola_Thumbnail_1.webp", images: ["./assets/Coppola_Thumbnail_2.webp", "./assets/Coppola_Thumbnail_1.webp", "./assets/Coppola_Thumbnail_3.webp", "./assets/Coppola_Thumbnail_4.webp", "./assets/Coppola_Thumbnail_5.webp", "./assets/Coppola_Thumbnail_6.webp"],
+                image: "./assets/Coppola_Thumbnail_1.webp", images: ["./assets/Coppola_Thumbnail_1.webp", "./assets/Coppola_Thumbnail_2.webp", "./assets/Coppola_Thumbnail_3.webp", "./assets/Coppola_Thumbnail_4.webp", "./assets/Coppola_Thumbnail_5.webp", "./assets/Coppola_Thumbnail_6.webp", "./assets/Coppola_Thumbnail_7.webp"],
                 featured: true, size: 'third' 
             },
             { 
                 title: "Levis x Winona Riders", year: "2024", genre: "Commercial",
                 synopsis: { en: "High energy fashion film featuring the Winona Riders.", es: "Fashion film de alta energía con los Winona Riders." },
                 credits: { "Director": "Nico Alarcos", "Production": "Poster", "Client": "Levis", "Editor": "Leandro Bruno" },
-                director: "Nico Alarcos", prod: "Poster", platform: "Commercial", yt: "mb2RPesGf7Q", previewUrl: "./assets/levis_preview.mp4", 
+                director: "Nico Alarcos", prod: "Poster", platform: "Commercial", yt: "mb2RPesGf7Q", 
                 image: "./assets/Levis_Thumbnail_v01.webp", images: ["./assets/Levis_Thumbnail_v01.webp", "./assets/Levis_Thumbnail_2.webp", "./assets/Levis_Thumbnail_3.webp", "./assets/Levis_Thumbnail_4.webp", "./assets/Levis_Thumbnail_5.webp"],
                 size: 'third' 
             },
@@ -735,7 +735,8 @@
                 director: "Dana Campanello", prod: "Poster", platform: "Music Video", yt: "ItX5aqhqsmo", 
                 image: "./assets/Blair_Thumbnail_1.webp", images: ["./assets/Blair_Thumbnail_1.webp", "./assets/Blair_Thumbnail_2.webp", "./assets/Blair_Thumbnail_3.webp", "./assets/Blair_Thumbnail_4.webp", "./assets/Blair_Thumbnail_5.webp"],
                 previewUrl: "./assets/blair_preview.mp4",
-                size: 'half tall' 
+                size: 'half tall',
+                imgAlign: '25% center' // Shifts thumbnail focus to show face on the left
             },
             { 
                 title: "Ratones Paranoicos", year: "2024", genre: "Music Video",
@@ -971,14 +972,15 @@
                 
                 let mediaContent = '';
                 // APPLY HOVER EFFECT TO ALL PROJECTS WITH VIDEO PREVIEW
+                const positionStyle = p.imgAlign ? `object-position: ${p.imgAlign};` : '';
                 if(p.previewUrl) {
                      // FIX: Add onload to this image too!
                      mediaContent = `
-                        <img src="${p.image}" alt="${getProjectTitle(p)}" class="grid-poster" style="z-index: 1;" onload="this.classList.add('img-loaded')">
-                        <video src="${p.previewUrl}" loop muted playsinline preload="auto" class="grid-video-hover" style="opacity: 0; z-index: 2; transition: opacity 0.4s ease;"></video>
+                        <img src="${p.image}" alt="${getProjectTitle(p)}" class="grid-poster" style="z-index: 1; ${positionStyle}" onload="this.classList.add('img-loaded')">
+                        <video src="${p.previewUrl}" loop muted playsinline preload="auto" class="grid-video-hover" style="opacity: 0; z-index: 2; transition: opacity 0.4s ease; ${positionStyle}"></video>
                     `;
                 } else {
-                    mediaContent = `<img src="${p.image}" alt="${getProjectTitle(p)}" loading="lazy" onload="this.classList.add('img-loaded')" onerror="this.style.display='none'">`;
+                    mediaContent = `<img src="${p.image}" alt="${getProjectTitle(p)}" style="${positionStyle}" loading="lazy" onload="this.classList.add('img-loaded')" onerror="this.style.display='none'">`;
                 }
 
                 item.innerHTML = `
