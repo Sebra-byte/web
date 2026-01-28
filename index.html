@@ -7,7 +7,7 @@
     
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230F0F0F'/><text x='50' y='65' font-family='Playfair Display, serif' font-size='50' fill='%23E8E6E1' text-anchor='middle'>lb</text></svg>">
     
-    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="https://www.youtube.com/iframe_api" defer></script>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
@@ -23,8 +23,7 @@
             --grid-gap: 0px; 
             --transition-smooth: cubic-bezier(0.22, 1, 0.36, 1);
             
-            /* ICONO TIJERA (Extraído de tu archivo Opcion1) */
-            /* Es el diseño de lineas y circulos, ajustado al color de tu web */
+            /* ICONO TIJERA (Diseño lineal de Opcion1, color ajustado) */
             --cursor-scissors: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23E8E6E1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><line x1="20" y1="4" x2="8.12" y2="15.88"></line><line x1="14.47" y1="14.48" x2="20" y2="20"></line><line x1="8.12" y1="8.12" x2="12" y2="12"></line></svg>') 12 12, auto;
         }
 
@@ -36,11 +35,10 @@
             color: var(--text);
             font-family: var(--font-main);
             overflow: hidden; 
-            /* Aplicamos la tijera a toda la web globalmente */
             cursor: var(--cursor-scissors) !important;
         }
 
-        /* Forzamos la tijera en elementos interactivos para que no cambie a la "mano" */
+        /* Cursor forzado en interactivos */
         a, button, .grid-item, .slide, .arrow, .modal-close, .pd-nav-btn, .scroll-down-btn, .brand, .lang-container, .hamburger, .back-to-top-text, .mobile-close-btn, .mobile-lang-container, .about-btn, .about-portrait, #modal-container, .project-detail-container {
             cursor: var(--cursor-scissors) !important;
         }
@@ -123,6 +121,7 @@
         .hamburger {
             display: none; font-size: 1.5rem; color: var(--text); z-index: 600;
             padding: 15px; margin: -15px; transition: transform 0.3s ease;
+            cursor: pointer;
         }
         
         #mobile-menu-overlay {
@@ -176,6 +175,7 @@
             opacity: 0; transition: opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1);
             overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end;
             padding: 0 0 60px 60px; cursor: pointer;
+            will-change: opacity;
         }
         .slide.active { opacity: 1; z-index: 1; }
         .bg-media {
@@ -183,6 +183,7 @@
             object-fit: cover; transform: translate(-50%, -50%) scale(1.08);
             transition: transform 7s ease-out; z-index: 0;
             opacity: 0.85; 
+            will-change: transform;
         }
         .slide.active .bg-media { transform: translate(-50%, -50%) scale(1); }
         
@@ -242,6 +243,7 @@
         .progress-bar {
             height: 100%; background: var(--text); width: 0%;
             transition: width 0.1s linear; box-shadow: 0 0 10px rgba(255,255,255,0.3);
+            will-change: width;
         }
         .scroll-down-btn {
             font-size: 1.5rem; cursor: pointer; pointer-events: auto;
@@ -272,6 +274,7 @@
         .grid-item img, .grid-item video {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; 
             transition: opacity 0.6s ease, transform 0.6s var(--transition-smooth), filter 0.3s ease;
+            will-change: transform, opacity;
         }
         
         .grid-item img { filter: grayscale(20%) brightness(0.9); opacity: 0; z-index: 1; }
@@ -336,6 +339,7 @@
             overflow-y: auto; opacity: 0; pointer-events: none;
             transition: opacity 0.5s ease, transform 0.5s var(--transition-smooth); 
             transform: translateY(30px);
+            will-change: transform, opacity;
         }
         .overlay-section.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
         
@@ -724,24 +728,26 @@
                 title: "Levis x Winona Riders", year: "2024", genre: "Commercial",
                 synopsis: { en: "High energy fashion film featuring the Winona Riders.", es: "Fashion film de alta energía con los Winona Riders." },
                 credits: { "Director": "Nico Alarcos", "Production": "Poster", "Client": "Levis", "Editor": "Leandro Bruno" },
-                director: "Nico Alarcos", prod: "Poster", platform: "Commercial", yt: "mb2RPesGf7Q", previewUrl: "./assets/levis_preview.mp4",  
+                director: "Nico Alarcos", prod: "Poster", platform: "Commercial", yt: "mb2RPesGf7Q", 
                 image: "./assets/Levis_Thumbnail_v01.webp", images: ["./assets/Levis_Thumbnail_v01.webp", "./assets/Levis_Thumbnail_2.webp", "./assets/Levis_Thumbnail_3.webp", "./assets/Levis_Thumbnail_4.webp", "./assets/Levis_Thumbnail_5.webp"],
+                previewUrl: "./assets/levis_preview.mp4",
                 size: 'third' 
             },
             { 
                 title: "Blair - Todo lo que tengo", year: "2025", genre: "Music Video",
                 synopsis: { en: "A visual journey accompanying Blair's hit song.", es: "Un viaje visual acompañando la canción de Blair." },
                 credits: { "Director": "Dana Campanello", "Production": "Poster", "Artist": "Blair", "Editor": "Leandro Bruno" },
-                director: "Dana Campanello", prod: "Poster", platform: "Music Video", yt: "ItX5aqhqsmo", previewUrl: "./assets/blair_preview.mp4",  
+                director: "Dana Campanello", prod: "Poster", platform: "Music Video", yt: "ItX5aqhqsmo", 
                 image: "./assets/Blair_Thumbnail_1.webp", images: ["./assets/Blair_Thumbnail_1.webp", "./assets/Blair_Thumbnail_2.webp", "./assets/Blair_Thumbnail_3.webp", "./assets/Blair_Thumbnail_4.webp", "./assets/Blair_Thumbnail_5.webp"],
                 previewUrl: "./assets/blair_preview.mp4",
-                size: 'half tall' 
+                size: 'half tall',
+                imgAlign: '25% center' // Fix face position
             },
             { 
                 title: "Ratones Paranoicos", year: "2024", genre: "Music Video",
                 synopsis: { en: "Intro video for the 2025 tour of the legendary Argentine rock band.", es: "Video intro para el tour 2025 para la legendaria banda de rock argentina." },
                 credits: { "Director": "Alex Roux", "Production": "Poster", "Artist": "Ratones Paranoicos", "Editor": "Leandro Bruno" },
-                director: "Alex Roux", prod: "Poster", platform: "Music Video", yt: "", previewUrl: "./assets/rp_preview.mp4",  
+                director: "Alex Roux", prod: "Poster", platform: "Music Video", yt: "", 
                 image: "./assets/RP_Thumbnail_1.webp", images: ["./assets/RP_Thumbnail_1.webp", "./assets/RP_Thumbnail_2.webp", "./assets/RP_Thumbnail_3.webp", "./assets/RP_Thumbnail_4.webp", "./assets/RP_Thumbnail_5.webp"],
                 previewUrl: "./assets/RP_preview.mp4",
                 size: 'half tall' 
@@ -768,8 +774,8 @@
                 title: {en: "Shining in the Dark", es: "Brillar a oscuras"}, 
                 year: "2026", genre: "Documentary",
                 synopsis: { en: "The documentary tells the inspiring story of a blind man who pushes his limits to become a triathlete. Scheduled for release in 2026.", es: "El documental narra la inspiradora historia de un hombre ciego que supera sus límites para convertirse en triatlonista. Su estreno está programado para el año 2026." },
-                credits: { "Director": "K. Flonembaum / T. Feites", "Production": "Tres Esquimales", "Editor": "Leandro Bruno" },
-                director: "K. Flonembaum / T. Feites", prod: "Tres Esquimales", platform: "Doc", yt: "", 
+                credits: { "Director": "K. Flomenbaum / T. Jeifetz", "Production": "Tres Esquimales", "Editor": "Leandro Bruno" },
+                director: "K. Flomenbaum / T. Jeifetz", prod: "Tres Esquimales", platform: "Doc", yt: "", 
                 image: "./assets/Brillar_Thumbnail_1.webp", 
                 images: [
                     "./assets/Brillar_Thumbnail_1.webp", "./assets/Brillar_Thumbnail_2.webp", "./assets/Brillar_Thumbnail_3.webp", 
@@ -782,10 +788,9 @@
                 year: "2024", genre: "Documentary",
                 synopsis: { en: "An immersive and rhythmic documentary telling the story of the Las Marías yerba mate company.", es: "Documental inmersivo y rítmico que narra la historia de la yerbatera Las Marías." },
                 credits: { "Director": "A. Berger Parrado", "Production": "Navajo Films", "Editor": "Leandro Bruno" },
-                director: "A. Berger Parrado", prod: "Navajo Films", platform: "Doc", yt: "", previewUrl: "./assets/marias_preview.mp4",  
+                director: "A. Berger Parrado", prod: "Navajo Films", platform: "Doc", yt: "", 
                 image: "./assets/Marias_Thumbnail_1.webp", images: ["./assets/Marias_Thumbnail_1.webp", "./assets/Marias_Thumbnail_2.webp", "./assets/Marias_Thumbnail_3.webp"],
                 previewUrl: "./assets/marias_preview.mp4",
-                hoverPreview: true,
                 size: 'half tall' 
             },
             { 
@@ -796,7 +801,7 @@
                     es: "El viaje explora las ruinas silentes de un pueblo con un destino incierto. Esta travesía es una inmersión profunda en la memoria colectiva e individual, vista desde el punto de vista de un ciudadano que se aferra a los vestigios de la vida pasada. Estrenado en el Festival Internacional de Cine de Mar del Plata." 
                 },
                 credits: { "Director": "N. Fernandez Melian", "Editor": "Leandro Bruno" },
-                director: "N. Fernandez Melian", prod: "M. Gaitan", platform: "Short", yt: "", 
+                director: "N. Fernandez Melian", prod: "Manuel Gaitan", platform: "Short", yt: "", 
                 image: "./assets/TodoLoQueRecuerdo_Thumbnail_1.webp", 
                 images: [
                     "./assets/TodoLoQueRecuerdo_Thumbnail_1.webp", 
@@ -816,8 +821,8 @@
                 },
                 credits: { "Director": "Nico Herrera", "Production": "Rever Films", "Writer": "Nico Herrera", "Editor": "Leandro Bruno" },
                 director: "Nico Herrera", prod: "Rever Films", platform: "Short", yt: "", 
-                image: "./assets/Fragilidad_Thumbnail_1.webp", 
-                images: ["./assets/Fragilidad_Thumbnail_1.webp", "./assets/Fragilidad_Thumbnail_2.webp", "./assets/Fragilidad_Thumbnail_3.webp"],
+                image: "./assets/Fragilidad_Thumbnail_2.webp", // Updated thumbnail
+                images: ["./assets/Fragilidad_Thumbnail_2.webp", "./assets/Fragilidad_Thumbnail_1.webp", "./assets/Fragilidad_Thumbnail_3.webp"],
                 size: 'quarter' 
             },
             { 
@@ -945,21 +950,18 @@
             const gridContainer = document.getElementById('grid-container');
             gridContainer.innerHTML = '';
             
-            // --- INTERSECTION OBSERVER FOR SMART AUTOPLAY ---
+            // --- SMART PRELOADING (Intersection Observer) ---
             const videoObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     const video = entry.target;
-                    // Don't auto-play videos that are meant for hover preview
-                    if (video.classList.contains('grid-video-hover')) return;
-                    
+                    // Preload only when element is nearly visible (200px margin)
                     if (entry.isIntersecting) {
-                        video.play().then(() => video.classList.add('is-playing')).catch(e => {});
+                        video.preload = "auto"; 
                     } else {
-                        video.pause();
-                        video.classList.remove('is-playing');
+                        video.preload = "none";
                     }
                 });
-            }, { threshold: 0.15 });
+            }, { rootMargin: "0px 0px 200px 0px" });
 
             allProjects.forEach(p => {
                 const item = document.createElement('div');
@@ -971,17 +973,16 @@
                 };
                 
                 let mediaContent = '';
-                // APPLY HOVER EFFECT TO ALL PROJECTS WITH VIDEO PREVIEW
+                // Only align image, not video (as requested)
+                const imgAlign = p.imgAlign ? `object-position: ${p.imgAlign};` : '';
+                
                 if(p.previewUrl) {
-                     // FIX: Add onload to this image too!
                      mediaContent = `
-                        <img src="${p.image}" alt="${getProjectTitle(p)}" class="grid-poster" style="z-index: 1;" onload="this.classList.add('img-loaded')">
-                        <video src="${p.previewUrl}" loop muted playsinline preload="auto" class="grid-video-hover" style="opacity: 0; z-index: 2; transition: opacity 0.4s ease;"></video>
+                        <img src="${p.image}" alt="${getProjectTitle(p)}" class="grid-poster" style="z-index: 1; ${imgAlign}" onload="this.classList.add('img-loaded')" loading="lazy">
+                        <video src="${p.previewUrl}" loop muted playsinline class="grid-video-hover" style="opacity: 0; z-index: 2; transition: opacity 0.3s ease;" preload="none"></video>
                     `;
-                } else if(p.previewUrl) {
-                    mediaContent = `<video src="${p.previewUrl}" poster="${p.image}" preload="auto" loop muted playsinline class="grid-video"></video>`;
                 } else {
-                    mediaContent = `<img src="${p.image}" alt="${getProjectTitle(p)}" loading="lazy" onload="this.classList.add('img-loaded')" onerror="this.style.display='none'">`;
+                    mediaContent = `<img src="${p.image}" alt="${getProjectTitle(p)}" style="${imgAlign}" loading="lazy" onload="this.classList.add('img-loaded')" onerror="this.style.display='none'">`;
                 }
 
                 item.innerHTML = `
@@ -992,25 +993,27 @@
                     </div>`;
                 gridContainer.appendChild(item);
                 
-                if(p.hoverPreview || p.previewUrl) {
+                if(p.previewUrl) {
                     const vid = item.querySelector('.grid-video-hover');
-                    if (vid) {
-                        item.onmouseenter = () => { 
-                            vid.currentTime = 0;
-                            let playPromise = vid.play();
-                            if (playPromise !== undefined) {
-                                playPromise.then(() => {
-                                    vid.style.opacity = '1';
-                                }).catch(error => {
-                                    console.log("Autoplay prevented");
-                                });
-                            }
-                        };
-                        item.onmouseleave = () => { vid.style.opacity = '0'; vid.pause(); vid.currentTime = 0; };
-                    }
+                    videoObserver.observe(vid);
+
+                    item.onmouseenter = () => { 
+                        // Instant play check
+                        if (vid.readyState >= 3) {
+                            vid.play();
+                            vid.style.opacity = '1';
+                        } else {
+                            vid.play().then(() => vid.style.opacity = '1').catch(e => {});
+                        }
+                    };
+                    item.onmouseleave = () => { 
+                        vid.style.opacity = '0'; 
+                        vid.pause(); 
+                        vid.currentTime = 0; 
+                    };
                 } 
 
-                if(!p.previewUrl && !p.hoverPreview && p.images && p.images.length > 1) {
+                if(!p.previewUrl && p.images && p.images.length > 1) {
                     let hoverInterval; let imgIndex = 0;
                     item.onmouseenter = () => {
                         const img = item.querySelector('img');
@@ -1060,11 +1063,9 @@
         function resetAutoPlay() { startAutoPlay(); }
         function onPlayerStateChange(event) { if (event.data === 0) { } }
 
-        // --- NEW: SMART PROJECT DETAIL LOGIC (3-COLUMN SPLIT) ---
         function openProject(p) {
             pauseHero();
             modalContainer.classList.add('open');
-            
             const title = getProjectTitle(p);
             const synopsis = p.synopsis ? (p.synopsis[currentLang] || p.synopsis.en || "") : "";
             const genre = p.genre || "";
@@ -1081,20 +1082,17 @@
                                <div class="pd-credit-row"><span class="pd-role">Production</span><span class="pd-name">${p.prod}</span></div>`;
             }
 
-            // SMART MEDIA LOGIC
             let heroMedia = '';
             let galleryImages = [];
 
             if (p.yt) {
-                // If video exists: Hero = Video, Gallery = All images
                 heroMedia = `<div class="pd-hero"><div id="player"></div></div>`;
                 galleryImages = p.images || (p.image ? [p.image] : []);
             } else {
-                // If NO video: Hero = Image 1, Gallery = Remaining images (sliced)
                 const allImages = p.images || (p.image ? [p.image] : []);
                 if (allImages.length > 0) {
                     heroMedia = `<div class="pd-hero"><img src="${allImages[0]}" alt="${title}"></div>`;
-                    galleryImages = allImages.slice(1); // Skip the first one
+                    galleryImages = allImages.slice(1);
                 }
             }
 
@@ -1117,12 +1115,7 @@
                         ${synopsis ? `<div class="pd-synopsis">${synopsis}</div>` : ''}
                         <div class="pd-credits-list">${creditsHTML}</div>
                     </div>
-                    
-                    <div class="pd-center-col">
-                        ${heroMedia}
-                        <div class="pd-gallery">${galleryHTML}</div>
-                    </div>
-
+                    <div class="pd-center-col">${heroMedia}<div class="pd-gallery">${galleryHTML}</div></div>
                     <div class="pd-right-col">
                         <div class="pd-nav-btn" id="nextProjectBtn">
                             <span class="pd-next-label">NEXT PROJECT &#8594;</span>
@@ -1148,17 +1141,7 @@
             modalContainer.classList.remove('open');
             if(ytPlayer && typeof ytPlayer.destroy === 'function') { ytPlayer.destroy(); ytPlayer = null; }
             setTimeout(() => { modalContent.innerHTML = ''; }, 300);
-            
-            // Check origin to resume correct view
-            if (projectOrigin === 'home') {
-                closeAllOverlays(true);
-            } else {
-                // If came from grid, ensure grid overlay is open and active
-                if (!indexOverlay.classList.contains('open')) {
-                    indexOverlay.classList.add('open');
-                    nav.classList.add('solid-bg');
-                }
-            }
+            if (projectOrigin === 'home') { closeAllOverlays(true); } else { if (!indexOverlay.classList.contains('open')) { indexOverlay.classList.add('open'); nav.classList.add('solid-bg'); } }
         }
 
         document.addEventListener('keydown', (e) => { 
