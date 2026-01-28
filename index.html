@@ -155,9 +155,16 @@
         .mobile-lang-container .lang-opt { height: 40px; font-size: 1rem; }
         .mobile-lang-container.es-active .lang-track { transform: translateY(-40px); }
 
+        /* Close Button in Mobile Menu */
         .mobile-close-btn {
-            font-size: 2.5rem; color: var(--text); cursor: pointer; margin-top: 50px;
-            opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; line-height: 1;
+            font-size: 2.5rem;
+            color: var(--text);
+            cursor: pointer;
+            margin-top: 50px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            line-height: 1;
         }
         .mobile-close-btn:hover { opacity: 0.7; }
 
@@ -264,19 +271,19 @@
         .grid-item.quarter { grid-column: span 3; } 
         .grid-item.tall { grid-row: span 2; } 
 
-        /* Animaciones aceleradas por hardware */
         .grid-item img, .grid-item video {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; 
-            transition: opacity 0.4s ease, transform 0.6s var(--transition-smooth), filter 0.3s ease;
-            will-change: opacity, transform;
+            transition: opacity 0.6s ease, transform 0.6s var(--transition-smooth), filter 0.3s ease;
+            will-change: transform, opacity;
         }
         
         .grid-item img { filter: grayscale(20%) brightness(0.9); opacity: 0; z-index: 1; }
         .grid-item img.img-loaded { opacity: 1; }
         
-        /* Video oculto por defecto, acelerado */
+        /* Video por defecto oculto para el hover */
         .grid-item video {
-            z-index: 2; opacity: 0; filter: grayscale(0%); pointer-events: none;
+            z-index: 2; opacity: 0; filter: grayscale(10%); pointer-events: none;
+            transition: opacity 0.4s ease;
         }
 
         .grid-item:hover img { transform: scale(1.05); filter: grayscale(0%) brightness(1); }
@@ -336,23 +343,32 @@
         }
         .overlay-section.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
         
-        /* --- PROJECT DETAIL --- */
+        /* --- PROJECT DETAIL STYLES (3-COLUMN LAYOUT) --- */
         .project-detail-container {
-            max-width: 1800px; margin: 0 auto; color: var(--text);
-            display: grid; grid-template-columns: 350px 1fr 200px; gap: 60px;
+            max-width: 1800px; margin: 0 auto;
+            color: var(--text);
+            display: grid;
+            grid-template-columns: 350px 1fr 200px; /* INFO | MEDIA | NAV */
+            gap: 60px;
             padding-bottom: 100px;
         }
+        
         .pd-left-col { position: sticky; top: 120px; height: fit-content; text-align: left; }
         .pd-center-col { display: flex; flex-direction: column; gap: 40px; }
+        
+        /* 3ra Columna para el Botón Siguiente */
         .pd-right-col { 
             position: sticky; top: 0; height: 100vh; 
-            display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-end; 
-            padding-bottom: 80px; 
+            display: flex; flex-direction: column;
+            justify-content: flex-end; /* Botón abajo */
+            align-items: flex-end; /* Alineado a la derecha */
+            padding-bottom: 80px; /* Espacio desde el fondo */
         }
 
         .pd-header { margin-bottom: 40px; }
         .pd-title {
-            font-family: var(--font-serif); font-size: clamp(2rem, 3vw, 3.5rem);
+            font-family: var(--font-serif);
+            font-size: clamp(2rem, 3vw, 3.5rem);
             line-height: 1.1; margin-bottom: 15px; font-weight: 400;
         }
         .pd-meta {
@@ -377,40 +393,80 @@
         .pd-gallery img { width: 100%; height: auto; object-fit: cover; filter: grayscale(10%); transition: filter 0.3s; }
         .pd-gallery img:hover { filter: grayscale(0%); }
 
-        .pd-nav-btn { text-align: right; cursor: pointer; opacity: 0.5; transition: opacity 0.3s ease, transform 0.3s ease; }
+        .pd-nav-btn { 
+            text-align: right; cursor: pointer; opacity: 0.5; 
+            transition: opacity 0.3s ease, transform 0.3s ease; 
+        }
         .pd-nav-btn:hover { opacity: 1; transform: translateX(5px); }
+        
         .pd-next-label { 
             display: block; font-family: var(--font-main); font-size: 0.9rem; 
-            text-transform: uppercase; letter-spacing: 2px; color: var(--text); font-weight: 600; 
+            text-transform: uppercase; letter-spacing: 2px; color: var(--text); 
+            font-weight: 600; 
         }
 
-        /* --- ABOUT --- */
+        /* --- ABOUT & MODAL --- */
+        /* Ajuste para que el contenedor del About sea más ancho */
         .about-container { max-width: 1200px; margin: 0 auto; padding-top: 100px; padding-bottom: 100px; }
+
+        /* --- ABOUT NEW LAYOUT --- */
         .about-split {
-            display: grid; grid-template-columns: 350px 1fr; gap: 60px;
-            align-items: start; text-align: left;
+            display: grid;
+            grid-template-columns: 350px 1fr; /* Fija el ancho de la foto */
+            gap: 60px;
+            align-items: start; /* Alinea foto y texto arriba */
+            text-align: left;
         }
-        .about-img-col { width: 100%; overflow: hidden; }
+        .about-img-col {
+            width: 100%;
+            overflow: hidden;
+        }
         .about-portrait {
-            width: 100%; height: auto; max-height: 450px; object-fit: cover;
-            filter: grayscale(100%); transition: filter 0.5s ease;
+            width: 100%;
+            height: auto; /* Altura automática según la imagen */
+            max-height: 450px; /* Límite de altura para equilibrar con el texto */
+            object-fit: cover;
+            filter: grayscale(100%);
+            transition: filter 0.5s ease;
         }
         .about-portrait:hover { filter: grayscale(0%); }
 
         .about-bio-text {
-            font-family: var(--font-main); font-size: 1.1rem; line-height: 1.7;
-            opacity: 0.8; margin-bottom: 25px; font-weight: 300;
+            font-family: var(--font-main);
+            font-size: 1.1rem;
+            line-height: 1.7;
+            opacity: 0.8;
+            margin-bottom: 25px;
+            font-weight: 300;
         }
         .about-bio-text strong { font-weight: 600; color: var(--text); opacity: 1; }
 
-        .about-buttons { margin-top: 50px; display: flex; gap: 20px; flex-wrap: wrap; }
-        .about-btn {
-            display: inline-flex; align-items: center; gap: 10px; padding: 15px 30px;
-            border: 1px solid var(--text); color: var(--text); text-decoration: none;
-            text-transform: uppercase; font-size: 0.85rem; letter-spacing: 2px;
-            font-weight: 600; transition: all 0.3s ease; background: transparent;
+        /* NICE IMDB & CONTACT BUTTONS */
+        .about-buttons {
+            margin-top: 50px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
         }
-        .about-btn:hover { background: var(--text); color: var(--bg-color); }
+        .about-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 30px;
+            border: 1px solid var(--text);
+            color: var(--text);
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            background: transparent;
+        }
+        .about-btn:hover {
+            background: var(--text);
+            color: var(--bg-color);
+        }
         .about-btn svg { width: 18px; height: 18px; fill: currentColor; }
 
         #modal-container {
@@ -425,23 +481,32 @@
             font-size: 2rem; cursor: pointer; z-index: 2005; transition: transform 0.3s ease;
         }
         .modal-close:hover { transform: rotate(90deg); color: var(--text); }
+        
         .modal-content { width: 100%; min-height: 100%; display: block; padding-top: 120px; padding-left: 40px; padding-right: 40px; }
 
         @media (max-width: 1400px) {
             .project-detail-container { grid-template-columns: 300px 1fr; gap: 40px; }
-            .pd-right-col { position: static; height: auto; grid-column: 2; margin-top: 40px; justify-content: flex-end; padding-bottom: 0; }
+            .pd-right-col { 
+                position: static; height: auto; 
+                grid-column: 2; margin-top: 40px; 
+                justify-content: flex-end; padding-bottom: 0; 
+            }
         }
         @media (max-width: 1200px) {
             .project-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 300px; }
             .grid-item.half, .grid-item.third, .grid-item.three-quarters, .grid-item.quarter { grid-column: span 1; }
             .grid-item.half.tall { grid-row: span 2; }
+            
+            /* Responsive Modal */
             .project-detail-container { grid-template-columns: 1fr; }
             .pd-left-col { position: static; height: auto; margin-bottom: 40px; }
             .pd-right-col { grid-column: 1; justify-content: center; margin-top: 60px; align-items: center; }
             .pd-nav-btn { text-align: center; }
+
+            /* Responsive About */
             .about-container { max-width: 100%; padding: 100px 20px; }
             .about-split { grid-template-columns: 1fr; gap: 40px; text-align: center; }
-            .about-img-col { max-width: 300px; margin: 0 auto 30px auto; }
+            .about-img-col { max-width: 300px; margin: 0 auto 30px auto; } /* Foto más chica en mobile */
             .about-buttons { justify-content: center; }
         }
         @media(max-width: 768px) {
@@ -563,15 +628,27 @@
                             <img src="./assets/placeholder_portrait.webp" alt="Leandro Bruno" class="about-portrait">
                         </div>
                         <div class="about-text-col">
-                            <p class="about-bio-text">Leandro Bruno is a Buenos Aires-based film editor.</p>
-                            <p class="about-bio-text">With a portfolio that bridges <strong>narrative fiction and dynamic visual media</strong>, he has crafted series for <strong>Netflix, Disney+, and Amazon Prime Video</strong>, alongside work in advertising and music videos.</p>
-                            <p class="about-bio-text">He brings a distinct cinematic language and a keen sense for <strong>sound design integration</strong> to every cut, regardless of the format.</p>
+                            <p class="about-bio-text">
+                                Leandro Bruno is a Buenos Aires-based film editor.
+                            </p>
+                            <p class="about-bio-text">
+                                With a portfolio that bridges <strong>narrative fiction and dynamic visual media</strong>, he has crafted series for <strong>Netflix, Disney+, and Amazon Prime Video</strong>, alongside work in advertising and music videos.
+                            </p>
+                            <p class="about-bio-text">
+                                He brings a distinct cinematic language and a keen sense for <strong>sound design integration</strong> to every cut, regardless of the format.
+                            </p>
                             <div class="about-buttons">
-                                <a href="https://www.imdb.com/name/nm11460466/" target="_blank" class="about-btn">IMDb Profile<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.414l-9.293 9.293-1.414-1.414L17.586 5H14V3zm-2 12c0-1.103-.897-2-2-2H4c-1.103 0-2 .897-2 2v6c0 1.103.897 2 2 2h6c1.103 0 2-.897 2-2v-6zM4 15h6v6H4v-6zM4 7c0-1.103.897-2 2-2h2v2H6v2h2v2H6v2H4V7zm16 6h-2v2h2v-2zm0 4h-2v2h2v-2zm0 4h-4v-6h4v6z"/></svg></a>
-                                <a href="mailto:leandrobrunoeditor@gmail.com" class="about-btn">Get in touch</a>
+                                <a href="https://www.imdb.com/name/nm11460466/" target="_blank" class="about-btn">
+                                    IMDb Profile
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.414l-9.293 9.293-1.414-1.414L17.586 5H14V3zm-2 12c0-1.103-.897-2-2-2H4c-1.103 0-2 .897-2 2v6c0 1.103.897 2 2 2h6c1.103 0 2-.897 2-2v-6zM4 15h6v6H4v-6zM4 7c0-1.103.897-2 2-2h2v2H6v2h2v2H6v2H4V7zm16 6h-2v2h2v-2zm0 4h-2v2h2v-2zm0 4h-4v-6h4v6z"/></svg>
+                                </a>
+                                <a href="mailto:leandrobrunoeditor@gmail.com" class="about-btn">
+                                    Get in touch
+                                </a>
                             </div>
                         </div>
-                    </div>`
+                    </div>
+                `
             },
             es: {
                 nav_projects: "Proyectos", nav_about: "Sobre mí", nav_contact: "Contacto", home_label: "Trabajos Seleccionados",
@@ -581,20 +658,32 @@
                             <img src="./assets/placeholder_portrait.webp" alt="Leandro Bruno" class="about-portrait">
                         </div>
                         <div class="about-text-col">
-                            <p class="about-bio-text">Leandro Bruno es un editor de cine y series con base en Buenos Aires.</p>
-                            <p class="about-bio-text">Con un portfolio que une <strong>ficción narrativa y medios visuales dinámicos</strong>, ha editado series para <strong>Netflix, Disney+ y Amazon Prime Video</strong>, junto con trabajos en publicidad y videos musicales.</p>
-                            <p class="about-bio-text">Aporta un lenguaje cinematográfico distintivo y una marcada sensibilidad por la <strong>integración del diseño sonoro</strong> a cada corte, sin importar el formato.</p>
+                            <p class="about-bio-text">
+                                Leandro Bruno es un editor de cine y series con base en Buenos Aires.
+                            </p>
+                            <p class="about-bio-text">
+                                Con un portfolio que une <strong>ficción narrativa y medios visuales dinámicos</strong>, ha editado series para <strong>Netflix, Disney+ y Amazon Prime Video</strong>, junto con trabajos en publicidad y videos musicales.
+                            </p>
+                            <p class="about-bio-text">
+                                Aporta un lenguaje cinematográfico distintivo y una marcada sensibilidad por la <strong>integración del diseño sonoro</strong> a cada corte, sin importar el formato.
+                            </p>
                             <div class="about-buttons">
-                                <a href="https://www.imdb.com/name/nm11460466/" target="_blank" class="about-btn">Perfil IMDb<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.414l-9.293 9.293-1.414-1.414L17.586 5H14V3zm-2 12c0-1.103-.897-2-2-2H4c-1.103 0-2 .897-2 2v6c0 1.103.897 2 2 2h6c1.103 0 2-.897 2-2v-6zM4 15h6v6H4v-6zM4 7c0-1.103.897-2 2-2h2v2H6v2h2v2H6v2H4V7zm16 6h-2v2h2v-2zm0 4h-2v2h2v-2zm0 4h-4v-6h4v6z"/></svg></a>
-                                <a href="mailto:leandrobrunoeditor@gmail.com" class="about-btn">Contacto</a>
+                                <a href="https://www.imdb.com/name/nm11460466/" target="_blank" class="about-btn">
+                                    Perfil IMDb
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.414l-9.293 9.293-1.414-1.414L17.586 5H14V3zm-2 12c0-1.103-.897-2-2-2H4c-1.103 0-2 .897-2 2v6c0 1.103.897 2 2 2h6c1.103 0 2-.897 2-2v-6zM4 15h6v6H4v-6zM4 7c0-1.103.897-2 2-2h2v2H6v2h2v2H6v2H4V7zm16 6h-2v2h2v-2zm0 4h-2v2h2v-2zm0 4h-4v-6h4v6z"/></svg>
+                                </a>
+                                <a href="mailto:leandrobrunoeditor@gmail.com" class="about-btn">
+                                    Contacto
+                                </a>
                             </div>
                         </div>
-                    </div>`
+                    </div>
+                `
             }
         };
 
         let currentLang = 'en';
-        let projectOrigin = 'home';
+        let projectOrigin = 'home'; // Tracks if user came from 'home' or 'grid'
         let ytPlayer; 
 
         // --- DATA MASTER ---
@@ -602,7 +691,7 @@
             { 
                 title: "Menem", 
                 year: "2025", genre: "Serie", episodes: {en: "6 Episodes", es: "6 Episodios"},
-                synopsis: { en: "An in-depth look at the life and legacy of Carlos Menem...", es: "Una mirada profunda a la vida y el legado de Carlos Menem..." },
+                synopsis: { en: "An in-depth look at the life and legacy of Carlos Menem, exploring the political and personal turmoil of 1990s Argentina, centering on the tragedy of his son's death.", es: "Una mirada profunda a la vida y el legado de Carlos Menem, explorando la agitación política y personal de la Argentina de los años 90, centrándose en la tragedia de la muerte de su hijo." },
                 credits: { "Director": "Ariel Winograd", "Production": "Claxson", "Platform": "Amazon Prime Video", "Editors": "Leandro Bruno, Andrés Quaranta, Dante Perini" },
                 director: "Ariel Winograd", prod: "Claxson", platform: "Amazon Prime Video", yt: "-2AmqmciWXE", previewUrl: "./assets/menem_preview.mp4", 
                 image: "./assets/Menem_Thumbnail_1.webp", images: ["./assets/Menem_Thumbnail_1.webp", "./assets/Menem_Thumbnail_2.webp", "./assets/Menem_Thumbnail_4.webp", "./assets/Menem_Thumbnail_5.webp"],
@@ -611,7 +700,7 @@
             { 
                 title: {en: "Oreo: Keep Playful", es: "Oreo: Sigamos Jugando"}, 
                 year: "2025", genre: "Commercial",
-                synopsis: { en: "A global campaign inviting people to stay playful...", es: "Una campaña global que invita a las personas a mantenerse juguetonas..." },
+                synopsis: { en: "A global campaign inviting people to stay playful and connected through shared moments.", es: "Una campaña global que invita a las personas a mantenerse juguetonas y conectadas a través de momentos compartidos." },
                 credits: { "Director": "Martín Jalfen", "Production": "Pop Studios", "Editor": "Leandro Bruno, Miguel Colombo" },
                 director: "Martín Jalfen", prod: "Pop Studios", platform: "Global", yt: "7Cllu0Rme74", previewUrl: "./assets/oreo_preview.mp4", 
                 image: "./assets/Oreo_Thumbnail_4.webp", images: ["./assets/Oreo_Thumbnail_4.webp", "./assets/Oreo_Thumbnail_1.webp", "./assets/Oreo_Thumbnail_2.webp", "./assets/Oreo_Thumbnail_3.webp", "./assets/Oreo_Thumbnail_5.webp"],
@@ -620,7 +709,7 @@
             { 
                 title: {en: "The Time of the Flies", es: "El tiempo de las moscas"}, 
                 year: "2026", genre: "Fiction", episodes: {en: "6 Episodes", es: "6 Episodios"},
-                synopsis: { en: "Based on Claudia Piñeiro's novel...", es: "El tiempo de las moscas, novela de Claudia Piñeiro..." },
+                synopsis: { en: "Based on Claudia Piñeiro's novel and adapted by Netflix, it tells the story of Inés, who seeks social reintegration after 15 years in prison. Together with La Manca, a friend from prison, they start a fumigation and investigation business, facing new social dynamics, feminism, and a dangerous criminal proposal.", es: "El tiempo de las moscas, novela de Claudia Piñeiro y adaptada por Netflix, narra la historia de Inés, quien tras 15 años de prisión por matar a la amante de su exmarido, busca reinsertarse socialmente. Junto a La Manca, una amiga del penal, inician un negocio de fumigación e investigación, enfrentando nuevas dinámicas sociales, feminismo y una peligrosa propuesta delictiva" },
                 credits: { "Director": "Ana Katz / B. Naishtat", "Production": "Haddock Films", "Platform": "Netflix", "Editor": "Maria Austraskas, Andres Quaranta, Leandro Bruno" },
                 director: "B. Naishtat/A.Katz", prod: "Haddock/Zona Audiovisual/Netflix", platform: "Netflix", yt: "A0d6wnlMRRk", previewUrl: "./assets/moscas_preview.mp4", 
                 image: "./assets/Moscas_Thumbnail_2.webp", images: ["./assets/Moscas_Thumbnail_2.webp", "./assets/Moscas_Thumbnail_1.webp", "./assets/Moscas_Thumbnail_3.webp", "./assets/Moscas_Thumbnail_4.webp", "./assets/Moscas_Thumbnail_5.webp"],
@@ -629,7 +718,7 @@
             { 
                 title: {en: "Coppola, the Agent", es: "Coppola, el representante"}, 
                 year: "2024", genre: "Comedy / Biopic", episodes: {en: "6 Episodes", es: "6 Episodios"},
-                synopsis: { en: "The wild and humorous life of Guillermo Coppola...", es: "La vida salvaje y humorística de Guillermo Coppola..." },
+                synopsis: { en: "The wild and humorous life of Guillermo Coppola, the legendary manager of Diego Maradona, navigating the excesses of the 90s.", es: "La vida salvaje y humorística de Guillermo Coppola, el legendario manager de Diego Maradona, navegando los excesos de los 90." },
                 credits: { "Director": "Ariel Winograd", "Production": "Pampa Films", "Platform": "Disney+", "Editor": "Leandro Bruno, Andres Quaranta, Dante Perini, Jimena Garcia Molt, Gustavo Macri, Miguel Colombo" },
                 director: "Ariel Winograd", prod: "Pampa/Disney+", platform: "Disney+", yt: "ecr24akKDbs", previewUrl: "./assets/coppola_preview.mp4", 
                 image: "./assets/Coppola_Thumbnail_1.webp", images: ["./assets/Coppola_Thumbnail_1.webp", "./assets/Coppola_Thumbnail_2.webp", "./assets/Coppola_Thumbnail_3.webp", "./assets/Coppola_Thumbnail_4.webp", "./assets/Coppola_Thumbnail_5.webp", "./assets/Coppola_Thumbnail_6.webp", "./assets/Coppola_Thumbnail_7.webp"],
@@ -640,8 +729,8 @@
                 synopsis: { en: "High energy fashion film featuring the Winona Riders.", es: "Fashion film de alta energía con los Winona Riders." },
                 credits: { "Director": "Nico Alarcos", "Production": "Poster", "Client": "Levis", "Editor": "Leandro Bruno" },
                 director: "Nico Alarcos", prod: "Poster", platform: "Commercial", yt: "mb2RPesGf7Q", 
-                previewUrl: "./assets/levis_preview.mp4",
                 image: "./assets/Levis_Thumbnail_v01.webp", images: ["./assets/Levis_Thumbnail_v01.webp", "./assets/Levis_Thumbnail_2.webp", "./assets/Levis_Thumbnail_3.webp", "./assets/Levis_Thumbnail_4.webp", "./assets/Levis_Thumbnail_5.webp"],
+                previewUrl: "./assets/levis_preview.mp4",
                 size: 'third' 
             },
             { 
@@ -656,7 +745,7 @@
             },
             { 
                 title: "Ratones Paranoicos", year: "2024", genre: "Music Video",
-                synopsis: { en: "Intro video for the 2025 tour...", es: "Video intro para el tour 2025..." },
+                synopsis: { en: "Intro video for the 2025 tour of the legendary Argentine rock band.", es: "Video intro para el tour 2025 para la legendaria banda de rock argentina." },
                 credits: { "Director": "Alex Roux", "Production": "Poster", "Artist": "Ratones Paranoicos", "Editor": "Leandro Bruno" },
                 director: "Alex Roux", prod: "Poster", platform: "Music Video", yt: "", 
                 image: "./assets/RP_Thumbnail_1.webp", images: ["./assets/RP_Thumbnail_1.webp", "./assets/RP_Thumbnail_2.webp", "./assets/RP_Thumbnail_3.webp", "./assets/RP_Thumbnail_4.webp", "./assets/RP_Thumbnail_5.webp"],
@@ -666,7 +755,7 @@
             { 
                 title: {en: "The Hands of the Grandmother", es: "Las manos de la abuela"}, 
                 year: "2026", genre: "Short Film",
-                synopsis: { en: "An intimate portrait of family heritage...", es: "Un retrato íntimo sobre la herencia familiar..." },
+                synopsis: { en: "An intimate portrait of family heritage. How an adolescent realizes the importance of inherited values and the significance of family.", es: "Un retrato íntimo sobre la herencia familiar. Como una adolescente se da cuenta de la importancia de los valores heredados y la importancia de la familia." },
                 credits: { "Director": "Camila Migliore", "Production": "Calesita Films", "Editor": "Leandro Bruno" },
                 director: "Camila Migliore", prod: "Calesita Films", platform: "Short", yt: "", 
                 image: "./assets/MA_Thumbnail_1.webp", images: ["./assets/MA_Thumbnail_1.webp", "./assets/MA_Thumbnail_3.webp", "./assets/MA_Thumbnail_4.webp", "./assets/MA_Thumbnail_5.webp"],
@@ -675,26 +764,29 @@
             { 
                 title: {en: "Bewitching Kisses", es: "Besos Brujos"}, 
                 year: "2024", genre: "Short Film",
-                synopsis: { en: "It tells the story of unfaithful love...", es: "Cuenta la historia de un amor infiel..." },
-                credits: { "Director": "Karina Flomenbaum", "Production": "Nevada Cine", "Editor": "Leandro Bruno" },
-                director: "Karina Flomenbaum", prod: "Nevada Cine", platform: "Short", yt: "", 
+                synopsis: { en: "It tells the story of unfaithful love and desire. Following the success of this short film, a feature film is being made, set to premiere in 2026.", es: "Cuenta la historia de un amor infiel y el deseo. Luego del exito de este cortometraje, se esta realizando el largometraje a estrenar en 2026" },
+                credits: { "Director": "Karina Flonembaum", "Production": "Nevada Cine", "Editor": "Leandro Bruno" },
+                director: "Karina Flonembaum", prod: "Nevada Cine", platform: "Short", yt: "", 
                 image: "./assets/BB_Thumbnail_1.webp", images: ["./assets/BB_Thumbnail_1.webp", "./assets/BB_Thumbnail_2.webp", "./assets/BB_Thumbnail_3.webp", "./assets/BB_Thumbnail_4.webp", "./assets/BB_Thumbnail_5.webp"],
                 size: 'third' 
             },
             { 
                 title: {en: "Shining in the Dark", es: "Brillar a oscuras"}, 
                 year: "2026", genre: "Documentary",
-                synopsis: { en: "The documentary tells the inspiring story...", es: "El documental narra la inspiradora historia..." },
+                synopsis: { en: "The documentary tells the inspiring story of a blind man who pushes his limits to become a triathlete. Scheduled for release in 2026.", es: "El documental narra la inspiradora historia de un hombre ciego que supera sus límites para convertirse en triatlonista. Su estreno está programado para el año 2026." },
                 credits: { "Director": "K. Flomenbaum / T. Jeifetz", "Production": "Tres Esquimales", "Editor": "Leandro Bruno" },
                 director: "K. Flomenbaum / T. Jeifetz", prod: "Tres Esquimales", platform: "Doc", yt: "", 
                 image: "./assets/Brillar_Thumbnail_1.webp", 
-                images: ["./assets/Brillar_Thumbnail_1.webp", "./assets/Brillar_Thumbnail_2.webp", "./assets/Brillar_Thumbnail_3.webp", "./assets/Brillar_Thumbnail_4.webp", "./assets/Brillar_Thumbnail_5.webp", "./assets/Brillar_Thumbnail_6.webp"],
+                images: [
+                    "./assets/Brillar_Thumbnail_1.webp", "./assets/Brillar_Thumbnail_2.webp", "./assets/Brillar_Thumbnail_3.webp", 
+                    "./assets/Brillar_Thumbnail_4.webp", "./assets/Brillar_Thumbnail_5.webp", "./assets/Brillar_Thumbnail_6.webp"
+                ],
                 size: 'third' 
             },
             { 
                 title: {en: "The Marias", es: "Las Marias"}, 
                 year: "2024", genre: "Documentary",
-                synopsis: { en: "An immersive and rhythmic documentary...", es: "Documental inmersivo y rítmico..." },
+                synopsis: { en: "An immersive and rhythmic documentary telling the story of the Las Marías yerba mate company.", es: "Documental inmersivo y rítmico que narra la historia de la yerbatera Las Marías." },
                 credits: { "Director": "A. Berger Parrado", "Production": "Navajo Films", "Editor": "Leandro Bruno" },
                 director: "A. Berger Parrado", prod: "Navajo Films", platform: "Doc", yt: "", 
                 image: "./assets/Marias_Thumbnail_1.webp", images: ["./assets/Marias_Thumbnail_1.webp", "./assets/Marias_Thumbnail_2.webp", "./assets/Marias_Thumbnail_3.webp"],
@@ -704,34 +796,47 @@
             { 
                 title: {en: "All That I Remember", es: "Todo lo que recuerdo"}, 
                 year: "2020", genre: "Short Doc",
-                synopsis: { en: "The journey explores the silent ruins...", es: "El viaje explora las ruinas silentes..." },
+                synopsis: { 
+                    en: "The journey explores the silent ruins of a town with an uncertain fate. This voyage is a deep immersion into collective and individual memory, seen from the perspective of a citizen clinging to the vestiges of a past life. Premiered at Mar del Plata International Film Festival.", 
+                    es: "El viaje explora las ruinas silentes de un pueblo con un destino incierto. Esta travesía es una inmersión profunda en la memoria colectiva e individual, vista desde el punto de vista de un ciudadano que se aferra a los vestigios de la vida pasada. Estrenado en el Festival Internacional de Cine de Mar del Plata." 
+                },
                 credits: { "Director": "N. Fernandez Melian", "Editor": "Leandro Bruno" },
-                director: "N. Fernandez Melian", prod: "M. Gaitan", platform: "Short", yt: "", 
+                director: "N. Fernandez Melian", prod: "Manuel Gaitan", platform: "Short", yt: "", 
                 image: "./assets/TodoLoQueRecuerdo_Thumbnail_1.webp", 
-                images: ["./assets/TodoLoQueRecuerdo_Thumbnail_1.webp", "./assets/TodoLoQueRecuerdo_Thumbnail_2.webp", "./assets/TodoLoQueRecuerdo_Thumbnail_3.webp", "./assets/TodoLoQueRecuerdo_Thumbnail_4.webp", "./assets/TodoLoQueRecuerdo_Thumbnail_5.webp", "./assets/TodoLoQueRecuerdo_Thumbnail_6.webp"],
+                images: [
+                    "./assets/TodoLoQueRecuerdo_Thumbnail_1.webp", 
+                    "./assets/TodoLoQueRecuerdo_Thumbnail_2.webp", 
+                    "./assets/TodoLoQueRecuerdo_Thumbnail_3.webp", 
+                    "./assets/TodoLoQueRecuerdo_Thumbnail_4.webp", 
+                    "./assets/TodoLoQueRecuerdo_Thumbnail_5.webp", 
+                    "./assets/TodoLoQueRecuerdo_Thumbnail_6.webp"
+                ],
                 size: 'half' 
             },
              { 
                 title: "Fragilidad", year: "2021", genre: "Short Film",
-                synopsis: { en: "After suffering serious abuses...", es: "Después de sufrir graves abusos..." },
+                synopsis: { 
+                    en: "After suffering serious abuses, four 11-year-old friends make an extreme decision in order to find their liberation.", 
+                    es: "Después de sufrir graves abusos, cuatro amigos de 11 años toman una decisión extrema para encontrar su liberación." 
+                },
                 credits: { "Director": "Nico Herrera", "Production": "Rever Films", "Writer": "Nico Herrera", "Editor": "Leandro Bruno" },
                 director: "Nico Herrera", prod: "Rever Films", platform: "Short", yt: "", 
-                image: "./assets/Fragilidad_Thumbnail_2.webp", 
+                image: "./assets/Fragilidad_Thumbnail_2.webp", // Updated thumbnail
                 images: ["./assets/Fragilidad_Thumbnail_2.webp", "./assets/Fragilidad_Thumbnail_1.webp", "./assets/Fragilidad_Thumbnail_3.webp"],
                 size: 'quarter' 
             },
             { 
                 title: {en: "Black Holes", es: "Agujeros negros"}, 
                 year: "2020", genre: "Fiction",
-                synopsis: { en: "Based on a short story...", es: "Basado en un cuento..." },
+                synopsis: { en: "Based on a short story, it tells the tale of a disappearance in a hospital, featuring time jumps.", es: "Basado en un cuento, cuenta la historia de una desaparición en un hospital, salto de tiempos." },
                 credits: { "Director": "N. Fernandez Melian", "Editor": "Leandro Bruno" },
-                director: "N. Fernandez Melian", prod: "M. Di Napoli", platform: "Fiction", yt: "", 
+                director: "N. Fernandez Melian", prod: "Maximiliano Di Napoli", platform: "Fiction", yt: "", 
                 image: "./assets/Agujeros_Thumbnail_1.webp", images: ["./assets/Agujeros_Thumbnail_1.webp", "./assets/Agujeros_Thumbnail_2.webp", "./assets/Agujeros_Thumbnail_3.webp", "./assets/Agujeros_Thumbnail_4.webp"],
                 size: 'quarter' 
             }
         ];
 
-        // --- LOGIC ---
+        // --- CORE LOGIC ---
         const featuredProjects = allProjects.filter(p => p.featured);
         let currentSlide = 0;
         let autoPlayInterval;
@@ -745,11 +850,13 @@
         const nav = document.getElementById('navbar');
         const modalContainer = document.getElementById('modal-container');
         const modalContent = document.getElementById('modal-content-area');
+        const bodyMain = document.getElementById('body-main');
         const mobileMenu = document.getElementById('mobile-menu-overlay');
         const uiCurrentDisplay = document.getElementById('ui-current');
         const uiTotalDisplay = document.getElementById('ui-total');
         const uiProgressBar = document.getElementById('ui-progress');
 
+        // Touch Swipe Variables
         let touchstartX = 0;
         let touchendX = 0;
         
@@ -810,8 +917,14 @@
                 carouselContainer.appendChild(slide);
             });
 
-            carouselContainer.addEventListener('touchstart', e => { touchstartX = e.changedTouches[0].screenX; });
-            carouselContainer.addEventListener('touchend', e => { touchendX = e.changedTouches[0].screenX; handleGesture(); });
+            // Swipe logic
+            carouselContainer.addEventListener('touchstart', e => {
+                touchstartX = e.changedTouches[0].screenX;
+            });
+            carouselContainer.addEventListener('touchend', e => {
+                touchendX = e.changedTouches[0].screenX;
+                handleGesture();
+            });
 
             playActiveVideo();
             startAutoPlay();
