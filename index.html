@@ -22,9 +22,6 @@
             --font-serif: 'Playfair Display', serif;
             --grid-gap: 0px; 
             --transition-smooth: cubic-bezier(0.22, 1, 0.36, 1);
-            
-            /* ICONO TIJERA (Extraído de tu archivo Opcion1) */
-            --cursor-scissors: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23E8E6E1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><line x1="20" y1="4" x2="8.12" y2="15.88"></line><line x1="14.47" y1="14.48" x2="20" y2="20"></line><line x1="8.12" y1="8.12" x2="12" y2="12"></line></svg>') 12 12, auto;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -35,12 +32,13 @@
             color: var(--text);
             font-family: var(--font-main);
             overflow: hidden; 
-            cursor: var(--cursor-scissors) !important;
+            /* Cursor estandar */
+            cursor: auto;
         }
 
-        /* Forzamos la tijera en elementos interactivos */
+        /* CURSOR POINTER ESTANDAR PARA INTERACTIVOS */
         a, button, .grid-item, .slide, .arrow, .modal-close, .pd-nav-btn, .scroll-down-btn, .brand, .lang-container, .hamburger, .back-to-top-text, .mobile-close-btn, .mobile-lang-container, .about-btn, .about-portrait, #modal-container, .project-detail-container {
-            cursor: var(--cursor-scissors) !important;
+            cursor: pointer;
         }
 
         /* SCROLLBAR */
@@ -718,7 +716,7 @@
             { 
                 title: {en: "Coppola, the Agent", es: "Coppola, el representante"}, 
                 year: "2024", genre: "Comedy / Biopic", episodes: {en: "6 Episodes", es: "6 Episodios"},
-                synopsis: { en: "The wild and humorous life of Guillermo Coppola, the legendary manager of Diego Maradona, navigating the excesses of the90s.", es: "La vida salvaje y humorística de Guillermo Coppola, el legendario manager de Diego Maradona, navegando los excesos de los 90." },
+                synopsis: { en: "The wild and humorous life of Guillermo Coppola, the legendary manager of Diego Maradona, navigating the excesses of the 90s.", es: "La vida salvaje y humorística de Guillermo Coppola, el legendario manager de Diego Maradona, navegando los excesos de los 90." },
                 credits: { "Director": "Ariel Winograd", "Production": "Pampa Films", "Platform": "Disney+", "Editor": "Leandro Bruno, Andres Quaranta, Dante Perini, Jimena Garcia Molt, Gustavo Macri, Miguel Colombo" },
                 director: "Ariel Winograd", prod: "Pampa/Disney+", platform: "Disney+", yt: "ecr24akKDbs", previewUrl: "./assets/coppola_preview.mp4", 
                 image: "./assets/Coppola_Thumbnail_1.webp", images: ["./assets/Coppola_Thumbnail_1.webp", "./assets/Coppola_Thumbnail_2.webp", "./assets/Coppola_Thumbnail_3.webp", "./assets/Coppola_Thumbnail_4.webp", "./assets/Coppola_Thumbnail_5.webp", "./assets/Coppola_Thumbnail_6.webp", "./assets/Coppola_Thumbnail_7.webp"],
@@ -977,11 +975,11 @@
                 
                 let mediaContent = '';
                 // APPLY HOVER EFFECT TO ALL PROJECTS WITH VIDEO PREVIEW
-                // imgAlign only applied to image, not video
                 const imgPositionStyle = p.imgAlign ? `object-position: ${p.imgAlign};` : '';
                 
                 if(p.previewUrl) {
                      // FIX: Add onload to this image too!
+                     // NOTE: We only apply imgPositionStyle to the image, not the video (as requested)
                      mediaContent = `
                         <img src="${p.image}" alt="${getProjectTitle(p)}" class="grid-poster" style="z-index: 1; ${imgPositionStyle}" onload="this.classList.add('img-loaded')" loading="lazy">
                         <video src="${p.previewUrl}" loop muted playsinline class="grid-video-hover" style="opacity: 0; z-index: 2; transition: opacity 0.4s ease;" preload="none"></video>
@@ -1005,12 +1003,12 @@
                     const observer = new IntersectionObserver((entries) => {
                         entries.forEach(entry => {
                             if (entry.isIntersecting) {
-                                vid.preload = "metadata"; // Start buffering when in view
+                                vid.preload = "auto"; // Changed to 'auto' for aggressive buffering
                             } else {
                                 vid.preload = "none"; // Stop buffering when out of view
                             }
                         });
-                    }, { rootMargin: "200px" }); // Preload a bit before it enters screen
+                    }, { rootMargin: "0px 0px 200px 0px" }); // Preload a bit before it enters screen
                     observer.observe(vid);
 
                     if (vid) {
