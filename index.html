@@ -207,6 +207,7 @@
             transition: transform 7s ease-out; z-index: 0;
             opacity: 0.85; 
             will-change: transform;
+            background-color: #0F0F0F;
         }
         .slide.active .bg-media { transform: translate(-50%, -50%) scale(1); }
         
@@ -307,6 +308,7 @@
         .grid-item video {
             z-index: 2; opacity: 0; filter: grayscale(10%); pointer-events: none;
             transition: opacity 0.4s ease;
+            background-color: #0F0F0F;
         }
 
         .grid-item:hover img { transform: scale(1.05); filter: grayscale(0%) brightness(1); }
@@ -939,9 +941,11 @@
                 const slide = document.createElement('div');
                 slide.className = `slide ${i === 0 ? 'active' : ''}`;
                 
-                // --- FIX: MOBILE BLACK SCREEN (CAROUSEL) ---
+                // --- FIX: MOBILE BLACK SCREEN (CAROUSEL) + OPTIMIZED LOAD ---
                 let mediaHTML = p.previewUrl ? 
-                    `<video class="bg-media" loop muted playsinline webkit-playsinline poster="${p.previewPoster || './assets/placeholder.webp'}" preload="metadata">
+                    `<video class="bg-media" loop muted playsinline webkit-playsinline 
+                        poster="${p.previewPoster || './assets/placeholder.webp'}" 
+                        preload="metadata" style="background-color: #0F0F0F;">
                         <source src="${p.previewUrl}" type="video/mp4">
                     </video>` : 
                     `<img class="bg-media" src="${p.image}" alt="${getProjectTitle(p)}">`;
@@ -969,7 +973,9 @@
                 handleGesture();
             });
 
-            playActiveVideo();
+            window.addEventListener('load', () => {
+                playActiveVideo();
+            });
             startAutoPlay();
             renderIndex();
         }
@@ -1017,11 +1023,11 @@
                 let mediaContent = '';
                 const imgAlign = p.imgAlign ? `object-position: ${p.imgAlign};` : '';
                 
-                // --- FIX: MOBILE BLACK SCREEN (GRID) ---
+                // --- FIX: MOBILE BLACK SCREEN (GRID) + OPTIMIZED LOAD ---
                 if(p.previewUrl) {
                      mediaContent = `
                         <img src="${p.image}" alt="${getProjectTitle(p)}" class="grid-poster" style="z-index: 1; ${imgAlign}" onload="this.classList.add('img-loaded')" loading="lazy">
-                        <video src="${p.previewUrl}" loop muted playsinline webkit-playsinline poster="${p.previewPoster || ''}" class="grid-video-hover" style="opacity: 0; z-index: 2; transition: opacity 0.3s ease;" preload="none"></video>
+                        <video src="${p.previewUrl}" loop muted playsinline webkit-playsinline poster="${p.previewPoster || ''}" class="grid-video-hover" style="opacity: 0; z-index: 2; transition: opacity 0.3s ease; background-color: #0F0F0F;" preload="none"></video>
                     `;
                 } else {
                     mediaContent = `<img src="${p.image}" alt="${getProjectTitle(p)}" style="${imgAlign}" loading="lazy" onload="this.classList.add('img-loaded')" onerror="this.style.display='none'">`;
@@ -1040,6 +1046,7 @@
                     videoObserver.observe(vid);
 
                     item.onmouseenter = () => { 
+                        vid.muted = true; // Force muted before play
                         if (vid.readyState >= 3) {
                             vid.play();
                             vid.style.opacity = '1';
@@ -1071,7 +1078,16 @@
             const slides = document.querySelectorAll('.slide');
             if(slides.length > 0) {
                 const video = slides[currentSlide].querySelector('video');
-                if(video) { video.currentTime = 0; video.play().catch(e => {}); }
+                if(video) { 
+                    video.muted = true; // Ensure muted for mobile autoplay
+                    video.currentTime = 0;
+                    let playPromise = video.play();
+                    if (playPromise !== undefined) {
+                        playPromise.catch(error => {
+                            console.log("Autoplay inhibited, poster remains visible.");
+                        });
+                    }
+                }
             }
         }
 
