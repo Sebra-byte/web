@@ -941,7 +941,7 @@
                 const slide = document.createElement('div');
                 slide.className = `slide ${i === 0 ? 'active' : ''}`;
                 
-                // --- FIX: MOBILE BLACK SCREEN (CAROUSEL) + OPTIMIZED LOAD ---
+                // --- FIX: MOBILE BLACK SCREEN + WEBKIT-PLAYSINLINE + OPTIMIZED LOAD ---
                 let mediaHTML = p.previewUrl ? 
                     `<video class="bg-media" loop muted playsinline webkit-playsinline 
                         poster="${p.previewPoster || './assets/placeholder.webp'}" 
@@ -1023,7 +1023,7 @@
                 let mediaContent = '';
                 const imgAlign = p.imgAlign ? `object-position: ${p.imgAlign};` : '';
                 
-                // --- FIX: MOBILE BLACK SCREEN (GRID) + OPTIMIZED LOAD ---
+                // --- FIX: MOBILE BLACK SCREEN + WEBKIT-PLAYSINLINE + OPTIMIZED LOAD ---
                 if(p.previewUrl) {
                      mediaContent = `
                         <img src="${p.image}" alt="${getProjectTitle(p)}" class="grid-poster" style="z-index: 1; ${imgAlign}" onload="this.classList.add('img-loaded')" loading="lazy">
@@ -1046,7 +1046,7 @@
                     videoObserver.observe(vid);
 
                     item.onmouseenter = () => { 
-                        vid.muted = true; // Force muted before play
+                        vid.muted = true; // Force muted
                         if (vid.readyState >= 3) {
                             vid.play();
                             vid.style.opacity = '1';
@@ -1079,12 +1079,12 @@
             if(slides.length > 0) {
                 const video = slides[currentSlide].querySelector('video');
                 if(video) { 
-                    video.muted = true; // Ensure muted for mobile autoplay
+                    video.muted = true; // Force muted for iOS autoplay
                     video.currentTime = 0;
                     let playPromise = video.play();
                     if (playPromise !== undefined) {
                         playPromise.catch(error => {
-                            console.log("Autoplay inhibited, poster remains visible.");
+                            console.log("Autoplay inhibited by system.");
                         });
                     }
                 }
