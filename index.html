@@ -56,6 +56,16 @@
             cursor: var(--cursor-scissors) !important;
         }
 
+        /* Estilo para el cartel de "Copiado" */
+        .copy-toast {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            background: var(--text); color: var(--bg-color); padding: 10px 20px;
+            font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;
+            font-weight: 600; border-radius: 4px; opacity: 0; pointer-events: none;
+            transition: opacity 0.3s ease; z-index: 3000;
+        }
+        .copy-toast.show { opacity: 1; }
+
         /* SCROLLBAR */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background-color: var(--bg-color); }
@@ -552,6 +562,8 @@
 </head>
 <body id="body-main">
 
+    <div id="copy-toast" class="copy-toast">Email copied!</div>
+
     <nav id="navbar">
         <div class="brand" onclick="goHome()">
             leandro bruno
@@ -632,6 +644,17 @@
     </div>
 
     <script>
+        // Función de copiado al portapapeles
+        function copyEmail() {
+            const email = "leandrobrunoeditor@gmail.com";
+            navigator.clipboard.writeText(email).then(() => {
+                const toast = document.getElementById('copy-toast');
+                toast.innerText = currentLang === 'en' ? "Email copied!" : "¡Email copiado!";
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 2000);
+            });
+        }
+
         const translations = {
             en: {
                 nav_projects: "Projects", nav_about: "About", nav_contact: "Contact", home_label: "Selected Works",
@@ -642,19 +665,19 @@
                         </div>
                         <div class="about-text-col">
                             <p class="about-bio-text">
-                                Leandro Bruno is a Buenos Aires-based film editor.
+                                Leandro Bruno is a Buenos Aires-based film editor specialized in narrative fiction and dynamic visual media.
                             </p>
                             <p class="about-bio-text">
-                                With a portfolio that bridges <strong>narrative fiction and dynamic visual media</strong>, he has crafted series for <strong>Netflix, Disney+, and Amazon Prime Video</strong>, alongside work in advertising and music videos.
+                                With a portfolio that bridges <strong>fiction and cinema</strong>, he has crafted series for <strong>Netflix, Disney+, and Amazon Prime Video</strong>, alongside work in advertising and music videos.
                             </p>
                             <p class="about-bio-text">
-                                He brings a distinct cinematic language and a keen sense for <strong>sound design integration</strong> to every cut, regardless of the format.
+                                He brings a distinct cinematic language and a keen sense for <strong>sound design integration</strong> to every cut.
                             </p>
                             <div class="about-buttons">
                                 <a href="https://www.imdb.com/name/nm11460466/" target="_blank" class="about-btn">
                                     IMDb Profile
                                 </a>
-                                <a href="mailto:leandrobrunoeditor@gmail.com" class="about-btn">
+                                <a href="mailto:leandrobrunoeditor@gmail.com" onclick="copyEmail()" class="about-btn">
                                     leandrobrunoeditor@gmail.com
                                 </a>
                             </div>
@@ -671,19 +694,19 @@
                         </div>
                         <div class="about-text-col">
                             <p class="about-bio-text">
-                                Leandro Bruno es un editor de cine y series con base en Buenos Aires.
+                                Leandro Bruno es un editor de cine radicado en Buenos Aires, especializado en ficción y narrativa visual de alto impacto.
                             </p>
                             <p class="about-bio-text">
-                                Con un portfolio que une <strong>ficción narrativa y medios visuales dinámicos</strong>, ha editado series para <strong>Netflix, Disney+ y Amazon Prime Video</strong>, junto con trabajos en publicidad y videos musicales.
+                                Ha editado series originales para <strong>Netflix, Disney+ y Amazon Prime Video</strong>, además de piezas publicitarias y videos musicales.
                             </p>
                             <p class="about-bio-text">
-                                Aporta un lenguaje cinematográfico distintivo y una marcada sensibilidad por la <strong>integración del diseño sonoro</strong> a cada corte, sin importar el formato.
+                                Aporta un lenguaje cinematográfico distintivo y una marcada sensibilidad por la <strong>integración del diseño sonoro</strong> a cada corte.
                             </p>
                             <div class="about-buttons">
                                 <a href="https://www.imdb.com/name/nm11460466/" target="_blank" class="about-btn">
                                     Perfil IMDb
                                 </a>
-                                <a href="mailto:leandrobrunoeditor@gmail.com" class="about-btn">
+                                <a href="mailto:leandrobrunoeditor@gmail.com" onclick="copyEmail()" class="about-btn">
                                     leandrobrunoeditor@gmail.com
                                 </a>
                             </div>
