@@ -650,7 +650,7 @@
             </div>
         </div>
         <div class="mini-footer">
-            <a href="mailto:leandrobrunoeditor@gmail.com" onclick="copyEmail()">leandrobrunoeditor@gmail.com</a>
+            <a href="mailto:leandrobrunoeditor@gmail.com" onclick="copyEmail(event)">leandrobrunoeditor@gmail.com</a>
         </div>
     </div>
 
@@ -659,7 +659,7 @@
             <div class="about-text" id="about-content"></div>
         </div>
         <div class="mini-footer">
-            <a href="mailto:leandrobrunoeditor@gmail.com" onclick="copyEmail()">leandrobrunoeditor@gmail.com</a>
+            <a href="mailto:leandrobrunoeditor@gmail.com" onclick="copyEmail(event)">leandrobrunoeditor@gmail.com</a>
         </div>
     </div>
 
@@ -670,7 +670,8 @@
 
     <script>
         // Función de copiado al portapapeles
-        function copyEmail() {
+        function copyEmail(e) {
+            if(e) e.preventDefault(); // EVITA QUE SE ABRA EL MAIL
             const email = "leandrobrunoeditor@gmail.com";
             navigator.clipboard.writeText(email).then(() => {
                 const toast = document.getElementById('copy-toast');
@@ -702,7 +703,7 @@
                                 <a href="https://www.imdb.com/name/nm11460466/" target="_blank" class="about-btn">
                                     IMDb Profile
                                 </a>
-                                <a href="mailto:leandrobrunoeditor@gmail.com" onclick="copyEmail()" class="about-btn">
+                                <a href="mailto:leandrobrunoeditor@gmail.com" onclick="copyEmail(event)" class="about-btn">
                                     leandrobrunoeditor@gmail.com
                                 </a>
                             </div>
@@ -731,7 +732,7 @@
                                 <a href="https://www.imdb.com/name/nm11460466/" target="_blank" class="about-btn">
                                     Perfil IMDb
                                 </a>
-                                <a href="mailto:leandrobrunoeditor@gmail.com" onclick="copyEmail()" class="about-btn">
+                                <a href="mailto:leandrobrunoeditor@gmail.com" onclick="copyEmail(event)" class="about-btn">
                                     leandrobrunoeditor@gmail.com
                                 </a>
                             </div>
@@ -899,7 +900,6 @@
             }
         ];
 
-        // --- CORE LOGIC ---
         const featuredProjects = allProjects.filter(p => p.featured);
         let currentSlide = 0;
         let autoPlayInterval;
@@ -1202,7 +1202,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="mini-footer" style="padding-top:0"><a href="mailto:leandrobrunoeditor@gmail.com" onclick="copyEmail()">leandrobrunoeditor@gmail.com</a></div>
+                <div class="mini-footer" style="padding-top:0"><a href="mailto:leandrobrunoeditor@gmail.com" onclick="copyEmail(event)">leandrobrunoeditor@gmail.com</a></div>
             `;
             
             modalContent.innerHTML = content;
