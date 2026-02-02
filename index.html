@@ -658,9 +658,6 @@
         <div class="about-container">
             <div class="about-text" id="about-content"></div>
         </div>
-        <div class="mini-footer">
-            <a href="mailto:leandrobrunoeditor@gmail.com" onclick="copyEmail(event)">leandrobrunoeditor@gmail.com</a>
-        </div>
     </div>
 
     <div id="modal-container">
@@ -900,6 +897,7 @@
             }
         ];
 
+        // --- CORE LOGIC ---
         const featuredProjects = allProjects.filter(p => p.featured);
         let currentSlide = 0;
         let autoPlayInterval;
