@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <title>Leandro Bruno | Film Editor</title>
 
     <meta name="description" content="Portfolio profesional de Leandro Bruno, Editor de Cine y Director. Especializado en narrativa visual, videoclips y postproducción de alto impacto.">
@@ -17,11 +16,9 @@
     <meta property="og:image" content="https://leandrobruno.com/assets/Menem_Thumbnail_1.webp">
 
     <link rel="canonical" href="https://leandrobruno.com">
-
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230F0F0F'/><text x='50' y='65' font-family='Playfair Display, serif' font-size='50' fill='%23E8E6E1' text-anchor='middle'>lb</text></svg>">
     
     <script src="https://www.youtube.com/iframe_api" defer></script>
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     
@@ -52,7 +49,7 @@
         }
 
         /* Cursor forzado en interactivos */
-        a, button, .grid-item, .slide, .arrow, .modal-close, .pd-nav-btn, .scroll-down-btn, .brand, .lang-container, .hamburger, .back-to-top-text, .mobile-close-btn, .mobile-lang-container, .about-btn, .about-portrait, #modal-container, .project-detail-container {
+        a, button, .grid-item, .slide, .arrow, .modal-close, .pd-nav-btn, .scroll-down-btn, .brand, .lang-container, .hamburger, .back-to-top-text, .mobile-close-btn, .mobile-lang-container, .about-btn, .about-portrait, #modal-container, .project-detail-container, .mini-footer a {
             cursor: var(--cursor-scissors) !important;
         }
 
@@ -65,6 +62,26 @@
             transition: opacity 0.3s ease; z-index: 3000;
         }
         .copy-toast.show { opacity: 1; }
+
+        /* --- MINI FOOTER STYLE (NUEVO) --- */
+        .mini-footer {
+            width: 100%;
+            padding: 20px 0 60px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0.5;
+            transition: opacity 0.3s ease;
+        }
+        .mini-footer:hover { opacity: 1; }
+        .mini-footer a {
+            color: var(--text);
+            text-decoration: none;
+            font-family: var(--font-main);
+            font-size: 0.75rem;
+            letter-spacing: 1.5px;
+            text-transform: lowercase;
+        }
 
         /* SCROLLBAR */
         ::-webkit-scrollbar { width: 8px; }
@@ -337,7 +354,7 @@
         /* --- BOTTOM FOOTER --- */
         .grid-footer {
             display: flex; justify-content: center; align-items: center;
-            padding: 80px 0;
+            padding: 80px 0 20px 0; /* Ajuste para el mail abajo */
             width: 100%;
             cursor: pointer;
             transition: opacity 0.3s ease;
@@ -375,7 +392,7 @@
             display: grid;
             grid-template-columns: 350px 1fr 200px; /* INFO | MEDIA | NAV */
             gap: 60px;
-            padding-bottom: 100px;
+            padding-bottom: 60px;
         }
         
         .pd-left-col { position: sticky; top: 120px; height: fit-content; text-align: left; }
@@ -432,7 +449,7 @@
 
         /* --- ABOUT & MODAL --- */
         /* Ajuste para que el contenedor del About sea más ancho */
-        .about-container { max-width: 1200px; margin: 0 auto; padding-top: 100px; padding-bottom: 100px; }
+        .about-container { max-width: 1200px; margin: 0 auto; padding-top: 100px; padding-bottom: 60px; }
 
         /* --- ABOUT NEW LAYOUT --- */
         .about-split {
@@ -632,11 +649,17 @@
                 BACK TO TOP
             </div>
         </div>
+        <div class="mini-footer">
+            <a href="mailto:leandrobrunoeditor@gmail.com" onclick="copyEmail()">leandrobrunoeditor@gmail.com</a>
+        </div>
     </div>
 
     <div id="about-overlay" class="overlay-section">
         <div class="about-container">
             <div class="about-text" id="about-content"></div>
+        </div>
+        <div class="mini-footer">
+            <a href="mailto:leandrobrunoeditor@gmail.com" onclick="copyEmail()">leandrobrunoeditor@gmail.com</a>
         </div>
     </div>
 
@@ -941,7 +964,7 @@
                 const slide = document.createElement('div');
                 slide.className = `slide ${i === 0 ? 'active' : ''}`;
                 
-                // --- FIX: MOBILE BLACK SCREEN + WEBKIT-PLAYSINLINE + OPTIMIZED LOAD ---
+                // --- FIX: MOBILE BLACK SCREEN (CAROUSEL) + OPTIMIZED LOAD ---
                 let mediaHTML = p.previewUrl ? 
                     `<video class="bg-media" loop muted playsinline webkit-playsinline 
                         poster="${p.previewPoster || './assets/placeholder.webp'}" 
@@ -1023,7 +1046,7 @@
                 let mediaContent = '';
                 const imgAlign = p.imgAlign ? `object-position: ${p.imgAlign};` : '';
                 
-                // --- FIX: MOBILE BLACK SCREEN + WEBKIT-PLAYSINLINE + OPTIMIZED LOAD ---
+                // --- FIX: MOBILE BLACK SCREEN (GRID) + OPTIMIZED LOAD ---
                 if(p.previewUrl) {
                      mediaContent = `
                         <img src="${p.image}" alt="${getProjectTitle(p)}" class="grid-poster" style="z-index: 1; ${imgAlign}" onload="this.classList.add('img-loaded')" loading="lazy">
@@ -1046,7 +1069,7 @@
                     videoObserver.observe(vid);
 
                     item.onmouseenter = () => { 
-                        vid.muted = true; // Force muted
+                        vid.muted = true; // Force muted before play
                         if (vid.readyState >= 3) {
                             vid.play();
                             vid.style.opacity = '1';
@@ -1079,12 +1102,12 @@
             if(slides.length > 0) {
                 const video = slides[currentSlide].querySelector('video');
                 if(video) { 
-                    video.muted = true; // Force muted for iOS autoplay
+                    video.muted = true; // Ensure muted for mobile autoplay
                     video.currentTime = 0;
                     let playPromise = video.play();
                     if (playPromise !== undefined) {
                         playPromise.catch(error => {
-                            console.log("Autoplay inhibited by system.");
+                            console.log("Autoplay inhibited, poster remains visible.");
                         });
                     }
                 }
@@ -1179,6 +1202,7 @@
                         </div>
                     </div>
                 </div>
+                <div class="mini-footer" style="padding-top:0"><a href="mailto:leandrobrunoeditor@gmail.com" onclick="copyEmail()">leandrobrunoeditor@gmail.com</a></div>
             `;
             
             modalContent.innerHTML = content;
