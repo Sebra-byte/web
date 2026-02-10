@@ -4,11 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leandro Bruno | Film Editor</title>
-    
+
+    <meta name="description" content="Portfolio profesional de Leandro Bruno, Editor especializado en narrativa visual, videoclips y postproducción de alto impacto.">
+    <meta name="keywords" content="Leandro Bruno, Film Editor, Editor de video, Postproducción, Buenos Aires, Portfolio">
+    <meta name="author" content="Leandro Bruno">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Leandro Bruno | Film Editor">
+    <meta property="og:description" content="Explora mis últimos proyectos de edición  cinematográfica.">
+    <meta property="og:url" content="https://leandrobruno.com">
+    <meta property="og:image" content="https://leandrobruno.com/assets/Menem_Thumbnail_1.webp">
+
+    <link rel="canonical" href="https://leandrobruno.com">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230F0F0F'/><text x='50' y='65' font-family='Playfair Display, serif' font-size='50' fill='%23E8E6E1' text-anchor='middle'>lb</text></svg>">
     
     <script src="https://www.youtube.com/iframe_api" defer></script>
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     
@@ -39,8 +49,38 @@
         }
 
         /* Cursor forzado en interactivos */
-        a, button, .grid-item, .slide, .arrow, .modal-close, .pd-nav-btn, .scroll-down-btn, .brand, .lang-container, .hamburger, .back-to-top-text, .mobile-close-btn, .mobile-lang-container, .about-btn, .about-portrait, #modal-container, .project-detail-container {
+        a, button, .grid-item, .slide, .arrow, .modal-close, .pd-nav-btn, .scroll-down-btn, .brand, .lang-container, .hamburger, .back-to-top-text, .mobile-close-btn, .mobile-lang-container, .about-btn, .about-portrait, #modal-container, .project-detail-container, .mini-footer a {
             cursor: var(--cursor-scissors) !important;
+        }
+
+        /* Estilo para el cartel de "Copiado" */
+        .copy-toast {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            background: var(--text); color: var(--bg-color); padding: 10px 20px;
+            font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;
+            font-weight: 600; border-radius: 4px; opacity: 0; pointer-events: none;
+            transition: opacity 0.3s ease; z-index: 3000;
+        }
+        .copy-toast.show { opacity: 1; }
+
+        /* --- MINI FOOTER STYLE (NUEVO) --- */
+        .mini-footer {
+            width: 100%;
+            padding: 20px 0 60px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0.5;
+            transition: opacity 0.3s ease;
+        }
+        .mini-footer:hover { opacity: 1; }
+        .mini-footer a {
+            color: var(--text);
+            text-decoration: none;
+            font-family: var(--font-main);
+            font-size: 0.75rem;
+            letter-spacing: 1.5px;
+            text-transform: lowercase;
         }
 
         /* SCROLLBAR */
@@ -184,6 +224,7 @@
             transition: transform 7s ease-out; z-index: 0;
             opacity: 0.85; 
             will-change: transform;
+            background-color: #0F0F0F;
         }
         .slide.active .bg-media { transform: translate(-50%, -50%) scale(1); }
         
@@ -284,6 +325,7 @@
         .grid-item video {
             z-index: 2; opacity: 0; filter: grayscale(10%); pointer-events: none;
             transition: opacity 0.4s ease;
+            background-color: #0F0F0F;
         }
 
         .grid-item:hover img { transform: scale(1.05); filter: grayscale(0%) brightness(1); }
@@ -312,7 +354,8 @@
         /* --- BOTTOM FOOTER --- */
         .grid-footer {
             display: flex; justify-content: center; align-items: center;
-            padding: 80px 0;
+            /* PADDING REDUCIDO A 40px ARRIBA (50% menos que antes) */
+            padding: 40px 0 20px 0; 
             width: 100%;
             cursor: pointer;
             transition: opacity 0.3s ease;
@@ -328,6 +371,7 @@
             color: var(--text);
             display: flex; flex-direction: column; align-items: center; gap: 10px;
         }
+        /* SOLO FLECHA, TEXTO BORRADO */
         .back-to-top-text span { font-size: 1.5rem; color: var(--text); }
 
         /* --- OVERLAYS --- */
@@ -350,7 +394,7 @@
             display: grid;
             grid-template-columns: 350px 1fr 200px; /* INFO | MEDIA | NAV */
             gap: 60px;
-            padding-bottom: 100px;
+            padding-bottom: 60px;
         }
         
         .pd-left-col { position: sticky; top: 120px; height: fit-content; text-align: left; }
@@ -407,7 +451,7 @@
 
         /* --- ABOUT & MODAL --- */
         /* Ajuste para que el contenedor del About sea más ancho */
-        .about-container { max-width: 1200px; margin: 0 auto; padding-top: 100px; padding-bottom: 100px; }
+        .about-container { max-width: 1200px; margin: 0 auto; padding-top: 100px; padding-bottom: 60px; }
 
         /* --- ABOUT NEW LAYOUT --- */
         .about-split {
@@ -456,7 +500,7 @@
             border: 1px solid var(--text);
             color: var(--text);
             text-decoration: none;
-            text-transform: uppercase;
+            text-transform: lowercase;
             font-size: 0.85rem;
             letter-spacing: 2px;
             font-weight: 600;
@@ -539,6 +583,8 @@
 </head>
 <body id="body-main">
 
+    <div id="copy-toast" class="copy-toast">Email copied!</div>
+
     <nav id="navbar">
         <div class="brand" onclick="goHome()">
             leandro bruno
@@ -602,8 +648,10 @@
         <div class="grid-footer" onclick="scrollToTop()">
             <div class="back-to-top-text">
                 <span>&#8593;</span>
-                BACK TO TOP
             </div>
+        </div>
+        <div class="mini-footer">
+            <a href="mailto:leandrobrunoeditor@gmail.com" onclick="copyEmail(event)">leandrobrunoeditor@gmail.com</a>
         </div>
     </div>
 
@@ -619,6 +667,18 @@
     </div>
 
     <script>
+        // Función de copiado al portapapeles
+        function copyEmail(e) {
+            if(e) e.preventDefault(); // EVITA QUE SE ABRA EL MAIL
+            const email = "leandrobrunoeditor@gmail.com";
+            navigator.clipboard.writeText(email).then(() => {
+                const toast = document.getElementById('copy-toast');
+                toast.innerText = currentLang === 'en' ? "Email copied!" : "¡Email copiado!";
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 2000);
+            });
+        }
+
         const translations = {
             en: {
                 nav_projects: "Projects", nav_about: "About", nav_contact: "Contact", home_label: "Selected Works",
@@ -629,21 +689,20 @@
                         </div>
                         <div class="about-text-col">
                             <p class="about-bio-text">
-                                Leandro Bruno is a Buenos Aires-based film editor.
+                                Leandro Bruno is a Buenos Aires-based film editor specialized in narrative fiction and dynamic visual media.
                             </p>
                             <p class="about-bio-text">
-                                With a portfolio that bridges <strong>narrative fiction and dynamic visual media</strong>, he has crafted series for <strong>Netflix, Disney+, and Amazon Prime Video</strong>, alongside work in advertising and music videos.
+                                With a portfolio that bridges <strong>fiction and cinema</strong>, he has crafted series for <strong>Netflix, Disney+, and Amazon Prime Video</strong>, alongside work in advertising and music videos.
                             </p>
                             <p class="about-bio-text">
-                                He brings a distinct cinematic language and a keen sense for <strong>sound design integration</strong> to every cut, regardless of the format.
+                                He brings a distinct cinematic language and a keen sense for <strong>sound design integration</strong> to every cut.
                             </p>
                             <div class="about-buttons">
                                 <a href="https://www.imdb.com/name/nm11460466/" target="_blank" class="about-btn">
                                     IMDb Profile
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.414l-9.293 9.293-1.414-1.414L17.586 5H14V3zm-2 12c0-1.103-.897-2-2-2H4c-1.103 0-2 .897-2 2v6c0 1.103.897 2 2 2h6c1.103 0 2-.897 2-2v-6zM4 15h6v6H4v-6zM4 7c0-1.103.897-2 2-2h2v2H6v2h2v2H6v2H4V7zm16 6h-2v2h2v-2zm0 4h-2v2h2v-2zm0 4h-4v-6h4v6z"/></svg>
                                 </a>
-                                <a href="mailto:leandrobrunoeditor@gmail.com" class="about-btn">
-                                    Get in touch
+                                <a href="mailto:leandrobrunoeditor@gmail.com" onclick="copyEmail(event)" class="about-btn">
+                                    leandrobrunoeditor@gmail.com
                                 </a>
                             </div>
                         </div>
@@ -659,21 +718,20 @@
                         </div>
                         <div class="about-text-col">
                             <p class="about-bio-text">
-                                Leandro Bruno es un editor de cine y series con base en Buenos Aires.
+                                Leandro Bruno es un editor de cine radicado en Buenos Aires, especializado en ficción y narrativa visual de alto impacto.
                             </p>
                             <p class="about-bio-text">
-                                Con un portfolio que une <strong>ficción narrativa y medios visuales dinámicos</strong>, ha editado series para <strong>Netflix, Disney+ y Amazon Prime Video</strong>, junto con trabajos en publicidad y videos musicales.
+                                Ha editado series originales para <strong>Netflix, Disney+ y Amazon Prime Video</strong>, además de piezas publicitarias y videos musicales.
                             </p>
                             <p class="about-bio-text">
-                                Aporta un lenguaje cinematográfico distintivo y una marcada sensibilidad por la <strong>integración del diseño sonoro</strong> a cada corte, sin importar el formato.
+                                Aporta un lenguaje cinematográfico distintivo y una marcada sensibilidad por la <strong>integración del diseño sonoro</strong> a cada corte.
                             </p>
                             <div class="about-buttons">
                                 <a href="https://www.imdb.com/name/nm11460466/" target="_blank" class="about-btn">
                                     Perfil IMDb
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.414l-9.293 9.293-1.414-1.414L17.586 5H14V3zm-2 12c0-1.103-.897-2-2-2H4c-1.103 0-2 .897-2 2v6c0 1.103.897 2 2 2h6c1.103 0 2-.897 2-2v-6zM4 15h6v6H4v-6zM4 7c0-1.103.897-2 2-2h2v2H6v2h2v2H6v2H4V7zm16 6h-2v2h2v-2zm0 4h-2v2h2v-2zm0 4h-4v-6h4v6z"/></svg>
                                 </a>
-                                <a href="mailto:leandrobrunoeditor@gmail.com" class="about-btn">
-                                    Contacto
+                                <a href="mailto:leandrobrunoeditor@gmail.com" onclick="copyEmail(event)" class="about-btn">
+                                    leandrobrunoeditor@gmail.com
                                 </a>
                             </div>
                         </div>
@@ -694,6 +752,7 @@
                 synopsis: { en: "An in-depth look at the life and legacy of Carlos Menem, exploring the political and personal turmoil of 1990s Argentina, centering on the tragedy of his son's death.", es: "Una mirada profunda a la vida y el legado de Carlos Menem, explorando la agitación política y personal de la Argentina de los años 90, centrándose en la tragedia de la muerte de su hijo." },
                 credits: { "Director": "Ariel Winograd", "Production": "Claxson", "Platform": "Amazon Prime Video", "Editors": "Leandro Bruno, Andrés Quaranta, Dante Perini" },
                 director: "Ariel Winograd", prod: "Claxson", platform: "Amazon Prime Video", yt: "-2AmqmciWXE", previewUrl: "./assets/menem_preview.mp4", 
+                previewPoster: "./assets/menem_thumbnail_preview.jpg", // NEW FALLBACK
                 image: "./assets/Menem_Thumbnail_1.webp", images: ["./assets/Menem_Thumbnail_1.webp", "./assets/Menem_Thumbnail_2.webp", "./assets/Menem_Thumbnail_4.webp", "./assets/Menem_Thumbnail_5.webp"],
                 featured: true, size: 'half' 
             },
@@ -703,6 +762,7 @@
                 synopsis: { en: "A global campaign inviting people to stay playful and connected through shared moments.", es: "Una campaña global que invita a las personas a mantenerse juguetonas y conectadas a través de momentos compartidos." },
                 credits: { "Director": "Martín Jalfen", "Production": "Pop Studios", "Editor": "Leandro Bruno, Miguel Colombo" },
                 director: "Martín Jalfen", prod: "Pop Studios", platform: "Global", yt: "7Cllu0Rme74", previewUrl: "./assets/oreo_preview.mp4", 
+                previewPoster: "./assets/oreo_thumbnail_preview.jpg", // NEW FALLBACK
                 image: "./assets/Oreo_Thumbnail_4.webp", images: ["./assets/Oreo_Thumbnail_4.webp", "./assets/Oreo_Thumbnail_1.webp", "./assets/Oreo_Thumbnail_2.webp", "./assets/Oreo_Thumbnail_3.webp", "./assets/Oreo_Thumbnail_5.webp"],
                 featured: true, size: 'half' 
             },
@@ -712,6 +772,7 @@
                 synopsis: { en: "Based on Claudia Piñeiro's novel and adapted by Netflix, it tells the story of Inés, who seeks social reintegration after 15 years in prison. Together with La Manca, a friend from prison, they start a fumigation and investigation business, facing new social dynamics, feminism, and a dangerous criminal proposal.", es: "El tiempo de las moscas, novela de Claudia Piñeiro y adaptada por Netflix, narra la historia de Inés, quien tras 15 años de prisión por matar a la amante de su exmarido, busca reinsertarse socialmente. Junto a La Manca, una amiga del penal, inician un negocio de fumigación e investigación, enfrentando nuevas dinámicas sociales, feminismo y una peligrosa propuesta delictiva" },
                 credits: { "Director": "Ana Katz / B. Naishtat", "Production": "Haddock Films", "Platform": "Netflix", "Editor": "Maria Austraskas, Andres Quaranta, Leandro Bruno" },
                 director: "B. Naishtat/A.Katz", prod: "Haddock/Zona Audiovisual/Netflix", platform: "Netflix", yt: "A0d6wnlMRRk", previewUrl: "./assets/moscas_preview.mp4", 
+                previewPoster: "./assets/moscas_thumbnail_preview.jpg", // NEW FALLBACK
                 image: "./assets/Moscas_Thumbnail_2.webp", images: ["./assets/Moscas_Thumbnail_2.webp", "./assets/Moscas_Thumbnail_1.webp", "./assets/Moscas_Thumbnail_3.webp", "./assets/Moscas_Thumbnail_4.webp", "./assets/Moscas_Thumbnail_5.webp"],
                 featured: true, size: 'third' 
             },
@@ -721,6 +782,7 @@
                 synopsis: { en: "The wild and humorous life of Guillermo Coppola, the legendary manager of Diego Maradona, navigating the excesses of the 90s.", es: "La vida salvaje y humorística de Guillermo Coppola, el legendario manager de Diego Maradona, navegando los excesos de los 90." },
                 credits: { "Director": "Ariel Winograd", "Production": "Pampa Films", "Platform": "Disney+", "Editor": "Leandro Bruno, Andres Quaranta, Dante Perini, Jimena Garcia Molt, Gustavo Macri, Miguel Colombo" },
                 director: "Ariel Winograd", prod: "Pampa/Disney+", platform: "Disney+", yt: "ecr24akKDbs", previewUrl: "./assets/coppola_preview.mp4", 
+                previewPoster: "./assets/coppola_thumbnail_preview.jpg", // NEW FALLBACK
                 image: "./assets/Coppola_Thumbnail_1.webp", images: ["./assets/Coppola_Thumbnail_1.webp", "./assets/Coppola_Thumbnail_2.webp", "./assets/Coppola_Thumbnail_3.webp", "./assets/Coppola_Thumbnail_4.webp", "./assets/Coppola_Thumbnail_5.webp", "./assets/Coppola_Thumbnail_6.webp"],
                 featured: true, size: 'third' 
             },
@@ -900,9 +962,16 @@
             featuredProjects.forEach((p, i) => {
                 const slide = document.createElement('div');
                 slide.className = `slide ${i === 0 ? 'active' : ''}`;
+                
+                // --- FIX: MOBILE BLACK SCREEN (CAROUSEL) + OPTIMIZED LOAD ---
                 let mediaHTML = p.previewUrl ? 
-                    `<video class="bg-media" loop muted playsinline poster="./assets/placeholder.webp"><source src="${p.previewUrl}" type="video/mp4"></video>` : 
+                    `<video class="bg-media" loop muted playsinline webkit-playsinline 
+                        poster="${p.previewPoster || './assets/placeholder.webp'}" 
+                        preload="metadata" style="background-color: #0F0F0F;">
+                        <source src="${p.previewUrl}" type="video/mp4">
+                    </video>` : 
                     `<img class="bg-media" src="${p.image}" alt="${getProjectTitle(p)}">`;
+
                 slide.innerHTML = `
                     ${mediaHTML}
                     <div class="slide-info">
@@ -926,7 +995,9 @@
                 handleGesture();
             });
 
-            playActiveVideo();
+            window.addEventListener('load', () => {
+                playActiveVideo();
+            });
             startAutoPlay();
             renderIndex();
         }
@@ -954,7 +1025,6 @@
             const videoObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     const video = entry.target;
-                    // Preload only when element is nearly visible (200px margin)
                     if (entry.isIntersecting) {
                         video.preload = "auto"; 
                     } else {
@@ -973,13 +1043,13 @@
                 };
                 
                 let mediaContent = '';
-                // Only align image, not video (as requested)
                 const imgAlign = p.imgAlign ? `object-position: ${p.imgAlign};` : '';
                 
+                // --- FIX: MOBILE BLACK SCREEN (GRID) + OPTIMIZED LOAD ---
                 if(p.previewUrl) {
                      mediaContent = `
                         <img src="${p.image}" alt="${getProjectTitle(p)}" class="grid-poster" style="z-index: 1; ${imgAlign}" onload="this.classList.add('img-loaded')" loading="lazy">
-                        <video src="${p.previewUrl}" loop muted playsinline class="grid-video-hover" style="opacity: 0; z-index: 2; transition: opacity 0.3s ease;" preload="none"></video>
+                        <video src="${p.previewUrl}" loop muted playsinline webkit-playsinline poster="${p.previewPoster || ''}" class="grid-video-hover" style="opacity: 0; z-index: 2; transition: opacity 0.3s ease; background-color: #0F0F0F;" preload="none"></video>
                     `;
                 } else {
                     mediaContent = `<img src="${p.image}" alt="${getProjectTitle(p)}" style="${imgAlign}" loading="lazy" onload="this.classList.add('img-loaded')" onerror="this.style.display='none'">`;
@@ -998,7 +1068,7 @@
                     videoObserver.observe(vid);
 
                     item.onmouseenter = () => { 
-                        // Instant play check
+                        vid.muted = true; // Force muted before play
                         if (vid.readyState >= 3) {
                             vid.play();
                             vid.style.opacity = '1';
@@ -1030,7 +1100,16 @@
             const slides = document.querySelectorAll('.slide');
             if(slides.length > 0) {
                 const video = slides[currentSlide].querySelector('video');
-                if(video) { video.currentTime = 0; video.play().catch(e => {}); }
+                if(video) { 
+                    video.muted = true; // Ensure muted for mobile autoplay
+                    video.currentTime = 0;
+                    let playPromise = video.play();
+                    if (playPromise !== undefined) {
+                        playPromise.catch(error => {
+                            console.log("Autoplay inhibited, poster remains visible.");
+                        });
+                    }
+                }
             }
         }
 
@@ -1122,6 +1201,7 @@
                         </div>
                     </div>
                 </div>
+                <div class="mini-footer" style="padding-top:0"><a href="mailto:leandrobrunoeditor@gmail.com" onclick="copyEmail(event)">leandrobrunoeditor@gmail.com</a></div>
             `;
             
             modalContent.innerHTML = content;
